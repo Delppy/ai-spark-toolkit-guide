@@ -5,6 +5,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserPreferencesProvider } from "@/contexts/UserPreferencesContext";
+import { TransitionProvider } from "@/contexts/TransitionContext";
 import Index from "./pages/Index";
 import Tools from "./pages/Tools";
 import Prompts from "./pages/Prompts";
@@ -28,21 +29,23 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/tools" element={<Tools />} />
-            <Route path="/prompts" element={<Prompts />} />
-            <Route path="/school" element={<CategorySchool />} />
-            <Route path="/content" element={<CategoryContent />} />
-            <Route path="/business" element={<CategoryBusiness />} />
-            <Route path="/career" element={<CategoryCareer />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/help" element={<Help />} />
-            <Route path="/about" element={<About />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <TransitionProvider>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/tools" element={<Tools />} />
+              <Route path="/prompts" element={<Prompts />} />
+              <Route path="/school" element={<CategorySchool />} />
+              <Route path="/content" element={<CategoryContent />} />
+              <Route path="/business" element={<CategoryBusiness />} />
+              <Route path="/career" element={<CategoryCareer />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/help" element={<Help />} />
+              <Route path="/about" element={<About />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </TransitionProvider>
         </BrowserRouter>
       </TooltipProvider>
     </UserPreferencesProvider>
