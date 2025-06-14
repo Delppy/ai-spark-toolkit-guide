@@ -3,8 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { languages } from "@/utils/languages";
-import { useTheme } from "next-themes";
-import { useEffect } from "react";
 
 type ProfilePreferencesProps = {
   preferences: {
@@ -16,22 +14,6 @@ type ProfilePreferencesProps = {
 };
 
 const ProfilePreferences: React.FC<ProfilePreferencesProps> = ({ preferences, setPreferences }) => {
-  const { theme, setTheme } = useTheme();
-
-  // Sync theme with preferences
-  useEffect(() => {
-    if (preferences.darkMode && theme !== 'dark') {
-      setTheme('dark');
-    } else if (!preferences.darkMode && theme !== 'light') {
-      setTheme('light');
-    }
-  }, [preferences.darkMode, theme, setTheme]);
-
-  const handleDarkModeToggle = (checked: boolean) => {
-    setPreferences({ ...preferences, darkMode: checked });
-    setTheme(checked ? 'dark' : 'light');
-  };
-
   return (
     <Card className="w-full animate-fade-in">
       <CardHeader>
@@ -49,7 +31,7 @@ const ProfilePreferences: React.FC<ProfilePreferencesProps> = ({ preferences, se
           <span>Dark mode</span>
           <Switch
             checked={preferences.darkMode}
-            onCheckedChange={handleDarkModeToggle}
+            onCheckedChange={v => setPreferences({ ...preferences, darkMode: v })}
           />
         </div>
         <div>
