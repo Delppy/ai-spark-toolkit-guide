@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Sparkles } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
@@ -86,7 +87,6 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               <ul className="space-y-2 text-slate-400">
                 <li><Link to="/tools" className="hover:text-white transition-colors">AI Tools</Link></li>
                 <li><Link to="/prompts" className="hover:text-white transition-colors">Prompt Packs</Link></li>
-                <li><Link to="/tutorials" className="hover:text-white transition-colors">Tutorials</Link></li>
                 <li><Link to="/pricing" className="hover:text-white transition-colors">Pricing</Link></li>
               </ul>
             </div>
