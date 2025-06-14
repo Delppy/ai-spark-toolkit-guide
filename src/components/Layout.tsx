@@ -1,24 +1,67 @@
 
 import { Button } from "@/components/ui/button";
 import AnimatedButton from "@/components/ui/animated-button";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Sparkles } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import PageTransition from "./PageTransition";
+import type { Tables } from "@/integrations/supabase/types";
+
+type ProfileRow = Tables<"profiles">;
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
   const [user, setUser] = useState<any>(null);
+  const [profile, setProfile] = useState<ProfileRow | null>(null);
 
   useEffect(() => {
     let ignore = false;
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!ignore) setUser(session?.user ?? null);
+    
+    const getSessionAndProfile = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!ignore) {
+        setUser(session?.user ?? null);
+        
+        if (session?.user) {
+          // Fetch profile data including photo_url
+          const { data: profileData } = await supabase
+            .from("profiles")
+            .select("*")
+            .eq("id", session.user.id)
+            .maybeSingle();
+          
+          if (!ignore && profileData) {
+            setProfile(profileData);
+          }
+        }
+      }
+    };
+
+    getSessionAndProfile();
+
+    const { data: listener } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (!ignore) {
+        setUser(session?.user ?? null);
+        
+        if (session?.user) {
+          // Fetch profile data when auth state changes
+          const { data: profileData } = await supabase
+            .from("profiles")
+            .select("*")
+            .eq("id", session.user.id)
+            .maybeSingle();
+          
+          if (!ignore && profileData) {
+            setProfile(profileData);
+          }
+        } else {
+          setProfile(null);
+        }
+      }
     });
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (!ignore) setUser(session?.user ?? null);
-    });
+
     return () => {
       ignore = true;
       listener?.subscription.unsubscribe();
@@ -49,8 +92,21 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 </AnimatedButton>
               )}
               {!!user && location.pathname !== "/profile" && (
-                <AnimatedButton asChild variant="ghost" size="sm">
-                  <Link to="/profile">Profile</Link>
+                <AnimatedButton asChild variant="ghost" size="sm" className="p-1">
+                  <Link to="/profile" className="flex items-center space-x-2">
+                    <Avatar className="w-8 h-8">
+                      <AvatarImage 
+                        src={profile?.photo_url || ""} 
+                        alt={profile?.name || user?.email || "Profile"} 
+                      />
+                      <AvatarFallback className="bg-gradient-to-br from-purple-500 to-blue-600 text-white text-sm">
+                        {profile?.name 
+                          ? profile.name.charAt(0).toUpperCase()
+                          : user?.email?.charAt(0).toUpperCase() || "U"
+                        }
+                      </AvatarFallback>
+                    </Avatar>
+                  </Link>
                 </AnimatedButton>
               )}
               <AnimatedButton size="sm" className="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700">
