@@ -100,58 +100,106 @@ export const enhancedSchoolPromptPacks: PromptPack[] = [
   }
 ];
 
-// Content Creation Prompt Packs
+// Content Creation Prompt Packs - UPDATED WITH 50 NEW PROMPTS
 export const contentPromptPacks: PromptPack[] = [
   {
-    id: "social-media-captions",
-    title: "Social Media Captions",
-    description: "Engaging captions for Instagram, TikTok, and other platforms",
-    prompts: 40,
-    category: "Social Media",
+    id: "hook-script-creation",
+    title: "🎥 Hook & Script Creation",
+    description: "Create compelling hooks and scripts for video content",
+    prompts: 10,
+    category: "Scripting",
     isPro: false,
     examples: [
-      "Create 5 Instagram captions for [PRODUCT/SERVICE] that encourage engagement. Include: attention-grabbing hook, value proposition, call-to-action, and relevant hashtags",
-      "Write a viral TikTok caption for [TREND/TOPIC] that includes: trending hook, relatable content, question for engagement, and 5-10 relevant hashtags",
-      "Generate 3 LinkedIn post captions for [PROFESSIONAL_TOPIC] that spark discussion. Include: industry insight, personal experience, thoughtful question, and professional tone"
+      "Generate 3 scroll-stopping hooks for a TikTok video about [topic]. Perfect for grabbing attention in the first 3 seconds.",
+      "Write a 60-second script for a product review of [insert product]. Makes recording faster and clearer.",
+      "Act like a YouTube creator. Give me a complete script outline for a video on [topic]. Helps structure long-form content.",
+      "Turn this blog post into a short Instagram Reel script. [paste text] Repurposing content made easy.",
+      "Write a funny voiceover script for this 15-second video clip. [describe or link] Boosts engagement with humor.",
+      "Summarize this YouTube video into bullet points for a carousel post. [link] Converts long-form into digestible bites.",
+      "Create a storytelling-style post about a personal experience with [theme]. Builds trust and relatability.",
+      "Write a CTA (call to action) for the end of this video: [describe video]. Encourages likes, shares, and follows.",
+      "Suggest a list of trending audios I can use for a video about [niche]. Helps content stay relevant.",
+      "Build a 3-part content series idea on [topic]. Encourages followers to keep watching."
     ]
   },
   {
-    id: "content-ideas-generator",
-    title: "Content Ideas Generator", 
-    description: "Fresh content ideas for videos, posts, and stories",
-    prompts: 35,
-    category: "Ideas",
+    id: "social-media-optimization",
+    title: "📱 Social Media Optimization",
+    description: "Optimize your content for maximum engagement across platforms",
+    prompts: 10,
+    category: "Optimization",
     isPro: false,
     examples: [
-      "Generate 10 YouTube video ideas for [NICHE] that will get high engagement. Include: catchy titles, brief descriptions, target audience, and why each would perform well",
-      "Create a month's worth of Instagram story ideas for [BRAND/TOPIC]. Include: behind-the-scenes, educational, interactive polls, Q&As, and trending formats",
-      "Suggest 5 trending content formats for [PLATFORM] in [INDUSTRY]. Explain why each format works and provide specific examples"
+      "Write an engaging Instagram caption using emojis for a post about [topic]. Boosts relatability and reach.",
+      "Suggest 10 SEO-friendly YouTube titles for a video on [subject]. Improves click-through rate.",
+      "Generate 5 bio ideas for a TikTok account focused on [niche]. Makes your profile stand out.",
+      "Create a hashtag strategy for a content creator in [niche]. Increases discoverability.",
+      "What are the best times to post on TikTok, Instagram, and YouTube for [region]? Maximizes reach.",
+      "Write a short pinned comment to boost engagement on this post: [describe post]. Gets the convo started.",
+      "Turn this tweet into a LinkedIn-style post with a more professional tone. [paste tweet] Cross-platform style guide.",
+      "Suggest 5 carousel post ideas for Instagram on [topic]. Great for educational or storytelling content.",
+      "Write a video hook, main point, and CTA in less than 150 characters each. Topic: [insert] Optimized for short-form attention.",
+      "Analyze this caption and suggest 3 ways to make it more engaging. [paste caption] Helps improve performance."
     ]
   },
   {
-    id: "video-script-templates",
-    title: "Video Script Templates",
-    description: "Complete video scripts for different content types",
-    prompts: 25,
-    category: "Video",
+    id: "content-brainstorming-planning",
+    title: "🧠 Content Brainstorming & Planning",
+    description: "Generate fresh content ideas and strategic planning",
+    prompts: 10,
+    category: "Planning",
+    isPro: false,
+    examples: [
+      "I'm stuck. Give me 10 content ideas for [niche] that are educational but fun. For creators facing burnout.",
+      "Create a 7-day content calendar for a creator in [niche]. Mix formats. Keeps posting consistent.",
+      "Give me a content idea that can go viral using this trend: [describe trend]. Trend jacking simplified.",
+      "Break this big idea into 5 smaller video topics. Topic: [input] Turns one idea into multiple pieces.",
+      "Suggest 3 unique series ideas I can use every week (e.g., Mondays = Myths). Keeps content fresh & structured.",
+      "Create a niche content angle I can explore if I'm tired of the usual topics. Helps you stand out.",
+      "Help me turn this conversation or DM into a content idea. [paste message] Real life = relatable content.",
+      "List 5 underrated but interesting sub-topics in the [industry] space. Niche down and dominate.",
+      "Generate a monthly content theme and slogan for my page. Niche: [insert] For cohesive campaigns.",
+      "What are the top 5 content mistakes creators make in [platform]? Learn and improve fast."
+    ]
+  },
+  {
+    id: "copywriting-emails-captions",
+    title: "✍️ Copywriting, Emails & Captions",
+    description: "Craft compelling copy for various platforms and purposes",
+    prompts: 10,
+    category: "Copywriting",
     isPro: true,
     examples: [
-      "Write a 60-second TikTok script about [TOPIC] with: hook (first 3 seconds), main content with visual cues, engagement elements, and strong call-to-action",
-      "Create a YouTube intro script for [CHANNEL_TYPE] that builds anticipation. Include: channel introduction, what viewers will learn, why they should subscribe",
-      "Generate a product demo script for [PRODUCT] highlighting key benefits. Include: problem introduction, solution reveal, feature demonstrations, and purchase call-to-action"
+      "Write a promotional caption for my new digital product about [insert topic]. For launches or product pushes.",
+      "Turn this Instagram caption into a LinkedIn version with more authority. [paste] Adjust tone by platform.",
+      "Create 3 email subject lines for my free content guide download. Get more opens.",
+      "Write a thank-you email to my followers for hitting [milestone]. Build loyalty and gratitude.",
+      "Draft a pitch message I can send to a brand I want to work with. Land collabs.",
+      "Write 3 value-packed tweet threads for creators who teach [topic]. Get bookmarked & shared.",
+      "Create a text post for Threads or Twitter that sparks engagement on [topic]. Encourages replies.",
+      "Write a short post that hooks readers in the first 2 lines. Topic: [input] Scroll-stopping intros.",
+      "List 5 CTAs I can use for a carousel post on [topic]. Drive action.",
+      "Suggest a mini-story I can use to start a blog about [niche]. Storytelling that builds emotion."
     ]
   },
   {
-    id: "blog-writing-prompts",
-    title: "Blog Writing & SEO",
-    description: "Blog post ideas and SEO-optimized content prompts",
-    prompts: 30,
-    category: "Blogging",
-    isPro: false,
+    id: "analytics-strategy-monetization",
+    title: "🎯 Analytics, Strategy & Monetization",
+    description: "Turn your content into a profitable business",
+    prompts: 10,
+    category: "Strategy",
+    isPro: true,
     examples: [
-      "Write a 1500-word blog post titled '[TITLE]' optimized for SEO. Include: keyword-rich introduction, H2/H3 subheadings, bullet points, and conclusion with CTA",
-      "Create 10 blog post titles for [NICHE] that would rank well on Google. Make them compelling, include target keywords, and explain search intent for each",
-      "Generate a blog post outline for '[TOPIC]' including: SEO title, meta description, introduction hook, main sections with subheadings, and conclusion"
+      "What content types are performing best on [platform] this month? Stay updated.",
+      "Give me 5 monetization strategies for a creator with under 10K followers. Early-stage income streams.",
+      "How do I turn my top-performing content into a paid product? Content-to-cash plan.",
+      "Create a basic media kit outline I can send to brands. Looks pro, gets deals.",
+      "Suggest KPIs I should be tracking as a content creator. Grow with intention.",
+      "Break down what content repurposing looks like across 4 platforms. Work once, post everywhere.",
+      "Analyze this video performance and tell me how to improve it: [paste stats or context] Data-driven decisions.",
+      "How can I use affiliate links or referral programs in my niche? Passive income starter.",
+      "Give me a 5-step content strategy for growing to 100K followers in [niche]. Long-term planning.",
+      "Write a hook + CTA for promoting my paid community or course. Builds conversions and trust."
     ]
   }
 ];
