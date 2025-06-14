@@ -1,12 +1,13 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Mail, Lock, LogIn } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const validateEmail = (email: string) =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -18,8 +19,20 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string; confirm?: string }>({});
   const { toast } = useToast();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Redirect if already signed in
+  useEffect(() => {
+    let ignore = false;
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!ignore && session) navigate("/");
+    });
+    return () => {
+      ignore = true;
+    };
+  }, [navigate]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({});
     let hasError = false;
@@ -49,17 +62,42 @@ const Signup = () => {
     }
 
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    // Redirect URL required for Supabase confirmation emails!
+    const redirectUrl = `${window.location.origin}/`;
+
+    const { error: signupErr } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        emailRedirectTo: redirectUrl,
+      },
+    });
+
+    setLoading(false);
+
+    if (signupErr) {
+      setErrors({ email: signupErr.message });
       toast({
-        title: "Signup successful!",
-        description: "Your account has been created.",
-        variant: "default",
+        title: "Signup failed",
+        description: signupErr.message,
+        variant: "destructive",
       });
-      setEmail("");
-      setPassword("");
-      setConfirm("");
-    }, 1200);
+      return;
+    }
+
+    toast({
+      title: "Signup successful!",
+      description:
+        "Your account has been created. Please check your email to confirm your account before logging in.",
+      variant: "default",
+    });
+    setEmail("");
+    setPassword("");
+    setConfirm("");
+    // Optionally redirect to login page after a short pause
+    setTimeout(() => {
+      navigate("/login");
+    }, 1000);
   };
 
   return (

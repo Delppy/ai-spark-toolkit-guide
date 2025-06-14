@@ -1,12 +1,13 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Mail, Lock, UserPlus } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const validateEmail = (email: string) =>
   /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -17,8 +18,20 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Redirect if already logged in
+  useEffect(() => {
+    let ignore = false;
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!ignore && session) navigate("/");
+    });
+    return () => {
+      ignore = true;
+    };
+  }, [navigate]);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
@@ -41,8 +54,21 @@ const Login = () => {
       return;
     }
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    const { error: loginErr } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+    setLoading(false);
+
+    if (loginErr) {
+      setError(loginErr.message);
+      toast({
+        title: "Login failed",
+        description: loginErr.message,
+        variant: "destructive",
+      });
+      return;
+    } else {
       toast({
         title: "Login successful!",
         description: "Welcome back to AiToUse.",
@@ -50,7 +76,11 @@ const Login = () => {
       });
       setEmail("");
       setPassword("");
-    }, 1100);
+      // Redirect after successful login
+      setTimeout(() => {
+        navigate("/");
+      }, 400);
+    }
   };
 
   return (
