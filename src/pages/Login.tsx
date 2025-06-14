@@ -23,9 +23,21 @@ const Login = () => {
   // Redirect if already logged in
   useEffect(() => {
     let ignore = false;
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!ignore && session) navigate("/");
-    });
+    
+    const checkSession = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!ignore && session) {
+          console.log("User already logged in, redirecting to home");
+          navigate("/", { replace: true });
+        }
+      } catch (error) {
+        console.error("Error checking session:", error);
+      }
+    };
+
+    checkSession();
+    
     return () => {
       ignore = true;
     };
@@ -34,52 +46,77 @@ const Login = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-
-    if (!validateEmail(email)) {
-      setError("Please enter a valid email address.");
-      toast({
-        title: "Login failed",
-        description: "Please enter a valid email address.",
-        variant: "destructive",
-      });
-      return;
-    }
-    if (!password || password.length < 6) {
-      setError("Password must be at least 6 characters.");
-      toast({
-        title: "Login failed",
-        description: "Please enter a valid password.",
-        variant: "destructive",
-      });
-      return;
-    }
     setLoading(true);
-    const { error: loginErr } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-    setLoading(false);
 
-    if (loginErr) {
-      setError(loginErr.message);
+    console.log("Attempting login with email:", email);
+
+    // Validation
+    if (!validateEmail(email)) {
+      const errorMsg = "Please enter a valid email address.";
+      setError(errorMsg);
       toast({
         title: "Login failed",
-        description: loginErr.message,
+        description: errorMsg,
         variant: "destructive",
       });
+      setLoading(false);
       return;
-    } else {
+    }
+
+    if (!password || password.length < 6) {
+      const errorMsg = "Password must be at least 6 characters.";
+      setError(errorMsg);
       toast({
-        title: "Login successful!",
-        description: "Welcome back to AiToUse.",
-        variant: "default",
+        title: "Login failed",
+        description: errorMsg,
+        variant: "destructive",
       });
-      setEmail("");
-      setPassword("");
-      // Redirect after successful login
-      setTimeout(() => {
-        navigate("/");
-      }, 400);
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const { data, error: loginErr } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password,
+      });
+
+      console.log("Login response:", { data, error: loginErr });
+
+      if (loginErr) {
+        console.error("Login error:", loginErr);
+        setError(loginErr.message);
+        toast({
+          title: "Login failed",
+          description: loginErr.message,
+          variant: "destructive",
+        });
+      } else if (data.user) {
+        console.log("Login successful for user:", data.user.id);
+        toast({
+          title: "Login successful!",
+          description: "Welcome back to AiToUse.",
+          variant: "default",
+        });
+        
+        // Clear form
+        setEmail("");
+        setPassword("");
+        
+        // Navigate to home page
+        navigate("/", { replace: true });
+      }
+    } catch (err) {
+      console.error("Unexpected error during login:", err);
+      const errorMsg = "An unexpected error occurred. Please try again.";
+      setError(errorMsg);
+      toast({
+        title: "Login failed",
+        description: errorMsg,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -140,6 +177,14 @@ const Login = () => {
                   </div>
                 )}
               </div>
+              
+              {/* General error display */}
+              {error && !error.toLowerCase().includes("email") && !error.toLowerCase().includes("password") && (
+                <div className="text-sm text-red-600 mt-1 p-2 bg-red-50 rounded" role="alert">
+                  {error}
+                </div>
+              )}
+              
               <Button
                 type="submit"
                 className="w-full bg-gradient-to-r from-purple-500 to-blue-600 text-lg focus-visible:ring-2 focus-visible:ring-blue-500"
