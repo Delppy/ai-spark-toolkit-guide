@@ -11,10 +11,13 @@ export type Database = {
     Tables: {
       profiles: {
         Row: {
+          bio: string | null
+          country: string | null
           created_at: string
           email: string | null
           favorites: Json | null
           id: string
+          name: string | null
           photo_url: string | null
           prompt_usage_history: Json | null
           resources: Json | null
@@ -22,10 +25,13 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          bio?: string | null
+          country?: string | null
           created_at?: string
           email?: string | null
           favorites?: Json | null
           id: string
+          name?: string | null
           photo_url?: string | null
           prompt_usage_history?: Json | null
           resources?: Json | null
@@ -33,10 +39,13 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          bio?: string | null
+          country?: string | null
           created_at?: string
           email?: string | null
           favorites?: Json | null
           id?: string
+          name?: string | null
           photo_url?: string | null
           prompt_usage_history?: Json | null
           resources?: Json | null
