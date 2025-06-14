@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -109,11 +110,11 @@ const Index = () => {
             From school projects to business tasks, find the perfect AI tools and prompts to boost your productivity.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" className="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 text-lg px-8 py-6">
-              Explore AI Tools
+            <Button asChild size="lg" className="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 text-lg px-8 py-6">
+              <Link to="/school">Explore AI Tools</Link>
             </Button>
-            <Button variant="outline" size="lg" className="text-lg px-8 py-6 border-2">
-              Browse Prompt Packs
+            <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6 border-2">
+              <Link to="/school">Browse Prompt Packs</Link>
             </Button>
           </div>
         </div>
