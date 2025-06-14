@@ -21,42 +21,38 @@ export const useTransition = () => {
 };
 
 const getTransitionDirection = (from: string, to: string): TransitionDirection => {
-  // Home → Category: slide right
-  if (from === '/' && ['/school', '/business', '/content', '/career'].includes(to)) {
+  // Home → Deeper pages
+  if (from === '/' && ['/school', '/business', '/content', '/career', '/tools', '/prompts'].includes(to)) {
     return 'slide-right';
   }
   
-  // Category → Back to Home: slide left
-  if (['/school', '/business', '/content', '/career'].includes(from) && to === '/') {
+  // Back to Home from deeper pages
+  if (['/school', '/business', '/content', '/career', '/tools', '/prompts'].includes(from) && to === '/') {
     return 'slide-left';
   }
   
-  // Profile related: fade
-  if (to === '/profile' || from === '/profile') {
+  // Auth pages (e.g., from anywhere to login)
+  if (['/login', '/signup'].includes(to)) {
+    return 'slide-up';
+  }
+  
+  // From auth back to app
+  if (['/login', '/signup'].includes(from)) {
     return 'fade';
   }
   
-  // About, Help: fade
-  if (['/about', '/help'].includes(to) || ['/about', '/help'].includes(from)) {
+  // Profile, settings, and informational pages often use a fade
+  if (['/profile', '/about', '/help', '/contact', '/privacy'].includes(to) || ['/profile', '/about', '/help', '/contact', '/privacy'].includes(from)) {
     return 'fade';
   }
   
-  // Tools, Prompts: slide right
-  if (from === '/' && ['/tools', '/prompts'].includes(to)) {
-    return 'slide-right';
-  }
-  
-  // Back from Tools, Prompts: slide left
-  if (['/tools', '/prompts'].includes(from) && to === '/') {
-    return 'slide-left';
-  }
-  
-  return 'none';
+  // Default transition for any other unhandled case
+  return 'fade';
 };
 
 export const TransitionProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const [direction, setDirection] = useState<TransitionDirection>('none');
+  const [isTransitioning, setIsTransitioning] = useState(true); // Start with transition for initial load
+  const [direction, setDirection] = useState<TransitionDirection>('fade'); // Initial load is a fade-in
   const [previousPath, setPreviousPath] = useState<string>('');
   const location = useLocation();
 
@@ -66,14 +62,23 @@ export const TransitionProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       setDirection(newDirection);
       setIsTransitioning(true);
       
-      // Reset transition state after animation completes
+      const timer = setTimeout(() => {
+        setIsTransitioning(false);
+      }, 300); // This duration must match the CSS transition duration
+      
+      return () => clearTimeout(timer);
+    } else if (previousPath === '') {
+      // Handles the initial page load animation
       const timer = setTimeout(() => {
         setIsTransitioning(false);
       }, 300);
       
       return () => clearTimeout(timer);
     }
-    setPreviousPath(location.pathname);
+    
+    if (previousPath !== location.pathname) {
+      setPreviousPath(location.pathname);
+    }
   }, [location.pathname, previousPath]);
 
   const setTransition = (newDirection: TransitionDirection) => {
