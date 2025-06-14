@@ -135,7 +135,7 @@ export const useToolFiltering = (tools: AITool[]) => {
     totalResults: filteredAndSortedTools.length,
     hasActiveFilters: Object.values(filters).some(value => 
       Array.isArray(value) ? value.length > 0 : 
-      typeof value === 'object' ? value.min > 0 || value.max < 5 :
+      typeof value === 'object' && value !== null ? value.min > 0 || value.max < 5 :
       value !== null && value !== ''
     )
   };
