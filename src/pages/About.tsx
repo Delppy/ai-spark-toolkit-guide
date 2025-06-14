@@ -1,4 +1,3 @@
-
 import Layout from "@/components/Layout";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -50,7 +49,7 @@ const About = () => {
                 </div>
                 <div className="bg-gradient-to-r from-purple-50 to-blue-50 p-6 rounded-lg">
                   <p className="text-slate-700 leading-relaxed">
-                    AiToUse is your shortcut to getting value from AI — fast.
+                    AiToUse is your shortcut to getting value from AI fast.
                     Whether you're a student, content creator, freelancer, or professional, 
                     AiToUse gives you ready-made, actionable AI prompts that help you do more, 
                     think less, and create faster.
