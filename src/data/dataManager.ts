@@ -1,17 +1,17 @@
 
 import { AITool, PromptPack } from './aiTools';
 import { 
-  schoolAITools, 
-  contentAITools, 
-  businessAITools, 
-  careerAITools 
-} from './aiTools';
+  expandedSchoolAITools,
+  expandedContentAITools, 
+  expandedBusinessAITools, 
+  expandedCareerAITools 
+} from './expandedAITools';
 import {
-  schoolPromptPacks,
+  enhancedSchoolPromptPacks,
   contentPromptPacks, 
   businessPromptPacks,
   careerPromptPacks
-} from './promptPacks';
+} from './expandedPromptPacks';
 
 export type CategoryType = 'school' | 'content' | 'business' | 'career';
 
@@ -27,19 +27,19 @@ export class DataManager {
   private constructor() {
     this.data = {
       school: {
-        aiTools: schoolAITools,
-        promptPacks: schoolPromptPacks
+        aiTools: expandedSchoolAITools,
+        promptPacks: enhancedSchoolPromptPacks
       },
       content: {
-        aiTools: contentAITools,
+        aiTools: expandedContentAITools,
         promptPacks: contentPromptPacks
       },
       business: {
-        aiTools: businessAITools,
+        aiTools: expandedBusinessAITools,
         promptPacks: businessPromptPacks
       },
       career: {
-        aiTools: careerAITools,
+        aiTools: expandedCareerAITools,
         promptPacks: careerPromptPacks
       }
     };
