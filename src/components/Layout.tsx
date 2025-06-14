@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import AnimatedButton from "@/components/ui/animated-button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -98,9 +99,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                   </Link>
                 </AnimatedButton>
               )}
-              <AnimatedButton size="sm" className="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700">
-                Get Pro
-              </AnimatedButton>
+              {/* Only show Get Pro button if user is logged in */}
+              {user && (
+                <AnimatedButton size="sm" className="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700">
+                  Get Pro
+                </AnimatedButton>
+              )}
             </div>
           </div>
         </div>
@@ -164,3 +168,4 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 };
 
 export default Layout;
+
