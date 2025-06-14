@@ -6,18 +6,60 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Mail, Lock, LogIn } from "lucide-react";
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
+import { useToast } from "@/hooks/use-toast";
+
+const validateEmail = (email: string) =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
 const Signup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<{ email?: string; password?: string; confirm?: string }>({});
+  const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    setErrors({});
+    let hasError = false;
+    let nextErrors: typeof errors = {};
+
+    if (!validateEmail(email)) {
+      nextErrors.email = "Please enter a valid email address.";
+      hasError = true;
+    }
+    if (password.length < 6) {
+      nextErrors.password = "Password must be at least 6 characters.";
+      hasError = true;
+    }
+    if (confirm !== password) {
+      nextErrors.confirm = "Passwords do not match.";
+      hasError = true;
+    }
+
+    if (hasError) {
+      setErrors(nextErrors);
+      toast({
+        title: "Signup failed",
+        description: "Please fix the errors in the form.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setLoading(true);
-    // Handle signup logic here...
-    setTimeout(() => setLoading(false), 1000);
+    setTimeout(() => {
+      setLoading(false);
+      toast({
+        title: "Signup successful!",
+        description: "Your account has been created.",
+        variant: "default",
+      });
+      setEmail("");
+      setPassword("");
+      setConfirm("");
+    }, 1200);
   };
 
   return (
@@ -28,12 +70,13 @@ const Signup = () => {
             <CardTitle className="text-2xl md:text-3xl text-center font-bold">Sign Up for AiToUse</CardTitle>
           </CardHeader>
           <CardContent>
-            {/* Email Signup Form */}
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-5" aria-label="signup form">
               <div>
-                <label className="block font-medium mb-1" htmlFor="email">Email</label>
+                <label className="block font-medium mb-1" htmlFor="email">
+                  Email
+                </label>
                 <div className="flex items-center gap-2">
-                  <Mail className="w-5 h-5 text-slate-400" />
+                  <Mail className="w-5 h-5 text-slate-400" aria-hidden="true" />
                   <Input
                     id="email"
                     type="email"
@@ -42,28 +85,47 @@ const Signup = () => {
                     placeholder="you@email.com"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
+                    aria-invalid={!!errors.email}
+                    aria-describedby={errors.email ? "email-err" : undefined}
                   />
                 </div>
+                {errors.email && (
+                  <div className="text-sm text-red-600 mt-1" id="email-err" role="alert">
+                    {errors.email}
+                  </div>
+                )}
               </div>
               <div>
-                <label className="block font-medium mb-1" htmlFor="password">Password</label>
+                <label className="block font-medium mb-1" htmlFor="password">
+                  Password
+                </label>
                 <div className="flex items-center gap-2">
-                  <Lock className="w-5 h-5 text-slate-400" />
+                  <Lock className="w-5 h-5 text-slate-400" aria-hidden="true" />
                   <Input
                     id="password"
                     type="password"
                     autoComplete="new-password"
                     required
+                    minLength={6}
                     placeholder="Create a password"
                     value={password}
                     onChange={e => setPassword(e.target.value)}
+                    aria-invalid={!!errors.password}
+                    aria-describedby={errors.password ? "pass-err" : undefined}
                   />
                 </div>
+                {errors.password && (
+                  <div className="text-sm text-red-600 mt-1" id="pass-err" role="alert">
+                    {errors.password}
+                  </div>
+                )}
               </div>
               <div>
-                <label className="block font-medium mb-1" htmlFor="confirm">Confirm Password</label>
+                <label className="block font-medium mb-1" htmlFor="confirm">
+                  Confirm Password
+                </label>
                 <div className="flex items-center gap-2">
-                  <Lock className="w-5 h-5 text-slate-400" />
+                  <Lock className="w-5 h-5 text-slate-400" aria-hidden="true" />
                   <Input
                     id="confirm"
                     type="password"
@@ -72,16 +134,30 @@ const Signup = () => {
                     placeholder="Confirm your password"
                     value={confirm}
                     onChange={e => setConfirm(e.target.value)}
+                    aria-invalid={!!errors.confirm}
+                    aria-describedby={errors.confirm ? "confirm-err" : undefined}
                   />
                 </div>
+                {errors.confirm && (
+                  <div className="text-sm text-red-600 mt-1" id="confirm-err" role="alert">
+                    {errors.confirm}
+                  </div>
+                )}
               </div>
-              <Button type="submit" className="w-full bg-gradient-to-r from-purple-500 to-blue-600 text-lg" disabled={loading}>
+              <Button
+                type="submit"
+                className="w-full bg-gradient-to-r from-purple-500 to-blue-600 text-lg focus-visible:ring-2 focus-visible:ring-blue-500"
+                disabled={loading}
+              >
                 {loading ? "Signing up..." : "Sign Up"}
               </Button>
             </form>
             <div className="mt-6 text-center text-sm text-slate-500">
               Already have an account?{" "}
-              <Link to="/login" className="text-blue-600 font-semibold hover:underline inline-flex items-center gap-1">
+              <Link
+                to="/login"
+                className="text-blue-600 font-semibold hover:underline inline-flex items-center gap-1 focus-visible:outline focus-visible:ring-2 focus-visible:ring-blue-500"
+              >
                 <LogIn className="w-4 h-4" /> Login
               </Link>
             </div>
