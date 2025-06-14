@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 
 type ProfileSettingsTabProps = {
-  setActiveSheet: (sheet: "preferences" | null) => void;
+  setActiveSheet: (sheet: "preferences" | "help" | null) => void;
 };
 
 const ProfileSettingsTab = ({ setActiveSheet }: ProfileSettingsTabProps) => {
@@ -31,6 +31,13 @@ const ProfileSettingsTab = ({ setActiveSheet }: ProfileSettingsTabProps) => {
         variant="outline"
       >
         Preferences
+      </Button>
+      <Button
+        onClick={() => setActiveSheet("help")}
+        className="w-full"
+        variant="outline"
+      >
+        Help Center
       </Button>
       <div className="mt-8 border-t pt-6">
         <div className="font-semibold mb-3">Subscription</div>

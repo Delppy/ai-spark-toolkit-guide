@@ -5,6 +5,7 @@ import ProfileModal from "@/components/ProfileModal";
 import ProfileFavorites from "@/components/ProfileFavorites";
 import ProfileActivity from "@/components/ProfileActivity";
 import ProfilePreferences from "@/components/ProfilePreferences";
+import ProfileHelpCenter from "@/components/ProfileHelpCenter";
 import ProfileMainTab from "@/components/ProfileMainTab";
 import ProfileSettingsTab from "@/components/ProfileSettingsTab";
 import ProfileAccountTab from "@/components/ProfileAccountTab";
@@ -50,7 +51,7 @@ const ProfileTabs = ({
   prefs,
   handlePrefsChange,
 }: ProfileTabsProps) => {
-  const [activeSheet, setActiveSheet] = useState<null | "favorites" | "activity" | "preferences">(null);
+  const [activeSheet, setActiveSheet] = useState<null | "favorites" | "activity" | "preferences" | "help">(null);
 
   return (
     <>
@@ -101,6 +102,9 @@ const ProfileTabs = ({
       </ProfileModal>
       <ProfileModal open={activeSheet === "preferences"} setOpen={o => setActiveSheet(o ? "preferences" : null)}>
         <ProfilePreferences preferences={prefs} setPreferences={handlePrefsChange} />
+      </ProfileModal>
+      <ProfileModal open={activeSheet === "help"} setOpen={o => setActiveSheet(o ? "help" : null)}>
+        <ProfileHelpCenter />
       </ProfileModal>
     </>
   );
