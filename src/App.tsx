@@ -6,6 +6,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { UserPreferencesProvider } from "@/contexts/UserPreferencesContext";
 import Index from "./pages/Index";
+import Tools from "./pages/Tools";
+import Prompts from "./pages/Prompts";
 import CategorySchool from "./pages/CategorySchool";
 import CategoryContent from "./pages/CategoryContent";
 import CategoryBusiness from "./pages/CategoryBusiness";
@@ -23,6 +25,8 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/tools" element={<Tools />} />
+            <Route path="/prompts" element={<Prompts />} />
             <Route path="/school" element={<CategorySchool />} />
             <Route path="/content" element={<CategoryContent />} />
             <Route path="/business" element={<CategoryBusiness />} />
