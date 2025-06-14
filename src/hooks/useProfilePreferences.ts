@@ -4,7 +4,7 @@ import { useTheme } from "next-themes";
 
 const defaultPrefs = {
   notifications: true,
-  darkMode: false,
+  darkMode: true,
   language: "English",
 };
 
@@ -12,7 +12,7 @@ export const useProfilePreferences = () => {
   const { theme } = useTheme();
   const [prefs, setPrefs] = useState({
     ...defaultPrefs,
-    darkMode: theme === 'dark'
+    darkMode: theme === 'dark' || defaultPrefs.darkMode
   });
 
   const handlePrefsChange = (p: typeof prefs) => {
