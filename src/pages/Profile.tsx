@@ -7,12 +7,9 @@ import Layout from "@/components/Layout";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import ProfilePhotoUploader from "@/components/ProfilePhotoUploader";
+import type { Tables } from "@/integrations/supabase/types";
 
-type ProfileRow = {
-  id: string;
-  email: string | null;
-  photo_url: string | null;
-};
+type ProfileRow = Tables<"profiles">;
 
 const Profile = () => {
   const [user, setUser] = useState<any>(null);
@@ -41,7 +38,7 @@ const Profile = () => {
           .eq("id", session.user.id)
           .single();
         if (!ignore && !error && data) {
-          setProfile(data);
+          setProfile(data as ProfileRow);
         }
       }
     });
@@ -57,7 +54,7 @@ const Profile = () => {
       .select("*")
       .eq("id", user.id)
       .single();
-    if (!error && data) setProfile(data);
+    if (!error && data) setProfile(data as ProfileRow);
   };
 
   const handleLogout = async () => {
