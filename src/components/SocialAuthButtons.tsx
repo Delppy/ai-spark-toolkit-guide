@@ -9,18 +9,10 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 console.log("Supabase env check:", { supabaseUrl, supabaseAnonKey });
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error(
-    [
-      "Supabase environment variables are missing.",
-      `supabaseUrl: ${supabaseUrl}`,
-      `supabaseAnonKey: ${supabaseAnonKey}`,
-      "Please ensure your Lovable project is connected to Supabase and the integration is active.",
-    ].join("\n")
-  );
-}
-
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// Only create supabase if env vars exist
+const supabase = (supabaseUrl && supabaseAnonKey)
+  ? createClient(supabaseUrl, supabaseAnonKey)
+  : null;
 
 // Google SVG icon as a React component
 const GoogleIcon = (props: React.ComponentProps<"svg">) => (
@@ -69,6 +61,10 @@ const providers = [
 
 const SocialAuthButtons = () => {
   const handleSocial = async (provider: string) => {
+    if (!supabase) {
+      alert("Supabase environment variables are missing. Please contact support.");
+      return;
+    }
     await supabase.auth.signInWithOAuth({
       provider: provider as any,
       options: {
@@ -76,6 +72,19 @@ const SocialAuthButtons = () => {
       },
     });
   };
+
+  // Show a clearly visible warning if misconfigured
+  if (!supabase) {
+    return (
+      <div className="my-4 p-4 bg-red-100 border border-red-300 rounded text-red-700 text-center text-sm">
+        <strong>Social Login Unavailable</strong>
+        <div className="mt-2">
+          Supabase environment variables are missing. Social auth cannot be used.<br />
+          Please ensure your project is connected to Supabase and the integration is active.
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-3 mb-8">
