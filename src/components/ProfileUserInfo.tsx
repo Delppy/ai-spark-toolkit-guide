@@ -2,7 +2,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import ProfilePhotoUploader from "@/components/ProfilePhotoUploader";
+import { countries } from "@/utils/countries";
 import React from "react";
 
 type ProfileUserInfoProps = {
@@ -30,12 +32,6 @@ type ProfileUserInfoProps = {
   setBio: (s: string) => void;
   setCountry: (s: string) => void;
 };
-
-const countries = [
-  "",
-  "United States", "Canada", "United Kingdom", "Germany", "France", "India", "Australia", "Nigeria",
-  "Brazil", "China", "Japan", "South Africa", "Other"
-];
 
 const ProfileUserInfo: React.FC<ProfileUserInfoProps> = ({
   profile,
@@ -113,17 +109,31 @@ const ProfileUserInfo: React.FC<ProfileUserInfoProps> = ({
           <label htmlFor="profile-country" className="block font-medium mb-1">
             Country
           </label>
-          <select
-            id="profile-country"
-            value={country}
-            onChange={e => setCountry(e.target.value)}
-            disabled={!editing}
-            className={`border rounded px-2 py-1 w-full ${!editing ? "bg-gray-100" : ""}`}
-          >
-            {countries.map(option => (
-              <option key={option} value={option}>{option === "" ? "Select country" : option}</option>
-            ))}
-          </select>
+          {editing ? (
+            <Select
+              value={country}
+              onValueChange={setCountry}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select country" />
+              </SelectTrigger>
+              <SelectContent className="max-h-60">
+                {countries.map(option => (
+                  <SelectItem key={option} value={option}>
+                    {option === "" ? "Select country" : option}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          ) : (
+            <Input
+              id="profile-country"
+              type="text"
+              value={country || "Not selected"}
+              disabled={true}
+              className="bg-gray-100"
+            />
+          )}
         </div>
         <div className="flex gap-2 mt-4">
           {!editing ? (

@@ -1,7 +1,8 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
-import { useState } from "react";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { languages } from "@/utils/languages";
 
 type ProfilePreferencesProps = {
   preferences: {
@@ -11,8 +12,6 @@ type ProfilePreferencesProps = {
   };
   setPreferences: (prefs: any) => void;
 };
-
-const languages = ["English", "Español", "Deutsch", "Français"];
 
 const ProfilePreferences: React.FC<ProfilePreferencesProps> = ({ preferences, setPreferences }) => {
   return (
@@ -37,15 +36,21 @@ const ProfilePreferences: React.FC<ProfilePreferencesProps> = ({ preferences, se
         </div>
         <div>
           <label className="block font-medium mb-1">Language</label>
-          <select
-            className="border rounded px-2 py-1 w-full"
+          <Select
             value={preferences.language}
-            onChange={e => setPreferences({ ...preferences, language: e.target.value })}
+            onValueChange={value => setPreferences({ ...preferences, language: value })}
           >
-            {languages.map(lang => (
-              <option value={lang} key={lang}>{lang}</option>
-            ))}
-          </select>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select a language" />
+            </SelectTrigger>
+            <SelectContent className="max-h-60">
+              {languages.map(lang => (
+                <SelectItem value={lang} key={lang}>
+                  {lang}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </CardContent>
     </Card>
