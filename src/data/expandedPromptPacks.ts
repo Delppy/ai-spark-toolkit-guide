@@ -100,5 +100,218 @@ export const enhancedSchoolPromptPacks: PromptPack[] = [
   }
 ];
 
-// Re-export content, business, and career prompt packs from original file
-export { contentPromptPacks, businessPromptPacks, careerPromptPacks } from './promptPacks';
+// Content Creation Prompt Packs
+export const contentPromptPacks: PromptPack[] = [
+  {
+    id: "social-media-captions",
+    title: "Social Media Captions",
+    description: "Engaging captions for Instagram, TikTok, and other platforms",
+    prompts: 40,
+    category: "Social Media",
+    isPro: false,
+    examples: [
+      "Create 5 Instagram captions for [PRODUCT/SERVICE] that encourage engagement. Include: attention-grabbing hook, value proposition, call-to-action, and relevant hashtags",
+      "Write a viral TikTok caption for [TREND/TOPIC] that includes: trending hook, relatable content, question for engagement, and 5-10 relevant hashtags",
+      "Generate 3 LinkedIn post captions for [PROFESSIONAL_TOPIC] that spark discussion. Include: industry insight, personal experience, thoughtful question, and professional tone"
+    ]
+  },
+  {
+    id: "content-ideas-generator",
+    title: "Content Ideas Generator", 
+    description: "Fresh content ideas for videos, posts, and stories",
+    prompts: 35,
+    category: "Ideas",
+    isPro: false,
+    examples: [
+      "Generate 10 YouTube video ideas for [NICHE] that will get high engagement. Include: catchy titles, brief descriptions, target audience, and why each would perform well",
+      "Create a month's worth of Instagram story ideas for [BRAND/TOPIC]. Include: behind-the-scenes, educational, interactive polls, Q&As, and trending formats",
+      "Suggest 5 trending content formats for [PLATFORM] in [INDUSTRY]. Explain why each format works and provide specific examples"
+    ]
+  },
+  {
+    id: "video-script-templates",
+    title: "Video Script Templates",
+    description: "Complete video scripts for different content types",
+    prompts: 25,
+    category: "Video",
+    isPro: true,
+    examples: [
+      "Write a 60-second TikTok script about [TOPIC] with: hook (first 3 seconds), main content with visual cues, engagement elements, and strong call-to-action",
+      "Create a YouTube intro script for [CHANNEL_TYPE] that builds anticipation. Include: channel introduction, what viewers will learn, why they should subscribe",
+      "Generate a product demo script for [PRODUCT] highlighting key benefits. Include: problem introduction, solution reveal, feature demonstrations, and purchase call-to-action"
+    ]
+  },
+  {
+    id: "blog-writing-prompts",
+    title: "Blog Writing & SEO",
+    description: "Blog post ideas and SEO-optimized content prompts",
+    prompts: 30,
+    category: "Blogging",
+    isPro: false,
+    examples: [
+      "Write a 1500-word blog post titled '[TITLE]' optimized for SEO. Include: keyword-rich introduction, H2/H3 subheadings, bullet points, and conclusion with CTA",
+      "Create 10 blog post titles for [NICHE] that would rank well on Google. Make them compelling, include target keywords, and explain search intent for each",
+      "Generate a blog post outline for '[TOPIC]' including: SEO title, meta description, introduction hook, main sections with subheadings, and conclusion"
+    ]
+  }
+];
+
+// Business Prompt Packs - EXPANDED WITH 50 NEW PROMPTS
+export const businessPromptPacks: PromptPack[] = [
+  {
+    id: "business-strategy-planning",
+    title: "🧠 Business Strategy & Planning",
+    description: "Strategic planning and business development prompts",
+    prompts: 10,
+    category: "Strategy",
+    isPro: false,
+    examples: [
+      "Act like a business consultant and give me a simple business plan outline for a [type of business]. Ideal for first-time entrepreneurs figuring out where to start.",
+      "I want to launch a side hustle. Suggest 3 low-cost business ideas based on trending markets. Great for users exploring online income.",
+      "What are the key steps to validating a new product idea without spending too much? Risk-free strategy planning.",
+      "Help me write a SWOT analysis for my startup idea: [brief description]. Helps identify strengths, weaknesses, opportunities, and threats.",
+      "Give me a 30-day growth strategy to promote my small business online. Actionable plan to go from unknown to visible.",
+      "Write a one-page executive summary for my business plan. Here's what I do: [input]. Useful for presentations or investor decks.",
+      "What metrics should I track if I run a service-based business? Teaches users to monitor real results.",
+      "Generate a competitor analysis for my business. I sell [product/service]. Critical for finding your edge in a saturated market.",
+      "List 5 cost-saving tools I can use to manage a small remote team. Especially useful for freelancers and startup founders.",
+      "Act as a mentor and tell me the biggest mistakes to avoid when launching a business in [industry]. Learn from others' failures before making your own."
+    ]
+  },
+  {
+    id: "marketing-branding",
+    title: "📢 Marketing & Branding",
+    description: "Marketing strategies and brand development prompts",
+    prompts: 10,
+    category: "Marketing",
+    isPro: false,
+    examples: [
+      "Write 3 catchy Instagram bios for a business that does [insert service]. Instant social appeal.",
+      "Create a content calendar for a business that sells [product] — I want 10 post ideas. Saves time and keeps content flowing.",
+      "Act like a brand strategist. What's a good brand voice for a business targeting [audience]? Useful when you're defining your vibe.",
+      "Suggest 5 marketing strategies I can use to promote my product with zero budget. Ideal for startups with tight wallets.",
+      "Turn my product features into benefit-driven sales copy. Features: [paste list]. Converts features into compelling messaging.",
+      "Write an elevator pitch for my business that I can say in under 60 seconds. Perfect for networking and pitching.",
+      "Suggest hashtags and keywords to promote [product/service] on Instagram and TikTok. Boosts organic visibility.",
+      "Turn this client testimonial into a compelling Instagram caption. [paste testimonial] Shows proof + connection.",
+      "Write an email newsletter promoting my latest product launch. Details: [paste info] For email marketing and customer retention.",
+      "Create a basic lead magnet idea I can offer to attract customers in [industry]. Grows your mailing list and brand authority."
+    ]
+  },
+  {
+    id: "operations-docs-productivity",
+    title: "🗾️ Operations, Docs & Productivity",
+    description: "Operational efficiency and documentation prompts",
+    prompts: 10,
+    category: "Operations",
+    isPro: false,
+    examples: [
+      "Draft a professional invoice template for my freelance work as a [job]. Saves time creating recurring docs.",
+      "Help me write a partnership proposal email to collaborate with [type of company]. Opens doors to brand deals.",
+      "Generate a standard operating procedure (SOP) for onboarding new employees. Essential for scaling teams.",
+      "Summarize this 10-page PDF business report into a bullet-point brief. Makes long reads digestible.",
+      "Rewrite this job description to sound more exciting and clear: [paste] Attracts better applicants.",
+      "Turn this messy meeting note into an organized minutes document. [paste notes] Helps teams stay aligned.",
+      "Create a daily task planner for a digital marketer managing 3 clients. Boosts time management.",
+      "What's the best way to automate tasks for a solo entrepreneur running an online store? Introduces productivity hacks.",
+      "Suggest tools to manage customer service for a growing ecommerce brand. Keeps customers happy as you scale.",
+      "Help me write an SOP for handling refund requests in my business. Smoothens operations and reduces conflicts."
+    ]
+  },
+  {
+    id: "communication-work-culture",
+    title: "🤝 Communication & Work Culture",
+    description: "Professional communication and team culture prompts",
+    prompts: 10,
+    category: "Communication",
+    isPro: false,
+    examples: [
+      "Write a professional email to apologize to a client for a delay. Preserves business relationships.",
+      "How do I give constructive feedback to my employee without hurting their morale? Supports positive team culture.",
+      "Turn this long email into a short and clear message: [paste email] Polishes your communication.",
+      "Draft a Slack message welcoming a new intern to the team. Makes remote work more human.",
+      "Help me write a polite but firm follow-up email for an unpaid invoice. Encourages payment while maintaining professionalism.",
+      "What should I say in a 1-on-1 check-in with a remote team member? Encourages deeper team connection.",
+      "Generate an icebreaker activity for my virtual team meeting. Builds morale in hybrid workspaces.",
+      "Create a response template to customer complaints about late delivery. Helps teams respond quickly and consistently.",
+      "What are 3 ways to motivate a burned-out remote employee? Fosters mental wellness at work.",
+      "Write a short appreciation message I can send to a team member who's been doing great. Small praise, big impact."
+    ]
+  },
+  {
+    id: "personal-growth-career",
+    title: "📈 Personal Growth & Career Upskilling",
+    description: "Professional development and career advancement prompts",
+    prompts: 10,
+    category: "Career Growth",
+    isPro: true,
+    examples: [
+      "Build a personalized learning path to become a digital marketer in 90 days. Perfect for workers pivoting careers.",
+      "What online certifications will make me stand out as a project manager? Resume-boosting advice.",
+      "Act like a career coach and tell me how to grow in my current role at a startup. For people feeling stuck or stagnant.",
+      "Suggest 3 side income ideas I can do after work with just a laptop. Encourages productivity outside 9–5.",
+      "Help me structure a cold DM to a professional I want to network with on LinkedIn. Boosts networking confidence.",
+      "What's the best way to document my achievements for a future promotion? Helps with performance reviews.",
+      "List daily habits of successful entrepreneurs I can start practicing today. Mindset + structure.",
+      "Give me a confidence-boosting affirmation for tough work days. Encourages emotional resilience.",
+      "Write a script for asking my manager for mentorship. Career growth conversation starter.",
+      "Suggest 3 books that can help me become a better leader at work — and tell me why each matters. Builds emotional intelligence and leadership skills."
+    ]
+  }
+];
+
+// Career Prompt Packs
+export const careerPromptPacks: PromptPack[] = [
+  {
+    id: "resume-optimization",
+    title: "Resume Optimization",
+    description: "Create compelling resumes that get past ATS and impress recruiters",
+    prompts: 26,
+    category: "Resume",
+    isPro: false,
+    examples: [
+      "Optimize this resume bullet point for [JOB_TITLE]: [CURRENT_BULLET]. Make it quantifiable, action-oriented, and keyword-rich for ATS systems",
+      "Write a professional summary for [CAREER_LEVEL] in [INDUSTRY] with [X] years of experience. Highlight key achievements, skills, and career goals in 3-4 lines",
+      "Create 5 resume bullet points for [JOB_ROLE] that showcase achievements using the STAR method (Situation, Task, Action, Result) with specific metrics"
+    ]
+  },
+  {
+    id: "interview-preparation",
+    title: "Interview Preparation",
+    description: "Master job interviews with practice questions and strategies",
+    prompts: 30,
+    category: "Interview",
+    isPro: false,
+    examples: [
+      "Prepare answers for these common interview questions for [JOB_TITLE]: Tell me about yourself, Why do you want this role?, What are your strengths/weaknesses?, Where do you see yourself in 5 years?",
+      "Create 10 behavioral interview questions with STAR method answers for [INDUSTRY]. Focus on leadership, problem-solving, teamwork, and conflict resolution scenarios",
+      "Develop thoughtful questions to ask the interviewer for [JOB_TITLE] at [COMPANY_TYPE]. Show genuine interest in role, company culture, growth opportunities, and team dynamics"
+    ]
+  },
+  {
+    id: "cover-letters",
+    title: "Cover Letter Templates",
+    description: "Personalized cover letters that stand out from the crowd",
+    prompts: 20,
+    category: "Applications",
+    isPro: true,
+    examples: [
+      "Write a compelling cover letter for [JOB_TITLE] at [COMPANY]. Include: attention-grabbing opening, relevant experience alignment, company research insights, and strong closing",
+      "Create a career change cover letter explaining transition from [OLD_FIELD] to [NEW_FIELD]. Address transferable skills, motivation for change, and value proposition",
+      "Generate a cold outreach cover letter for [DREAM_COMPANY] in [INDUSTRY]. Show knowledge of company, propose value addition, and request informational interview"
+    ]
+  },
+  {
+    id: "linkedin-optimization",
+    title: "LinkedIn Profile Optimization",
+    description: "Optimize your LinkedIn profile to attract recruiters and opportunities",
+    prompts: 24,
+    category: "LinkedIn",
+    isPro: false,
+    examples: [
+      "Write a compelling LinkedIn headline for [JOB_TITLE] that goes beyond job title. Include key skills, value proposition, and target audience in 120 characters",
+      "Create a LinkedIn summary for [PROFESSION] with [X] years of experience. Tell your professional story, highlight achievements, and include a call-to-action",
+      "Generate 10 LinkedIn post ideas for [INDUSTRY] professionals to build thought leadership. Include industry insights, personal experiences, and engagement questions"
+    ]
+  }
+];
