@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -69,9 +68,14 @@ export const ToolCard: React.FC<ToolCardProps> = ({
     }
   };
 
+  const stopPropagation = (e: React.MouseEvent) => e.stopPropagation();
+
   return (
     <TooltipProvider>
-      <Card className="group cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+      <Card 
+        className="group cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col"
+        onClick={() => onToolClick(tool.id, tool.url)}
+      >
         <CardHeader className="pb-4">
           <div className="flex items-start justify-between">
             <div className="flex-1">
@@ -84,11 +88,11 @@ export const ToolCard: React.FC<ToolCardProps> = ({
                 )}
                 <HoverCard>
                   <HoverCardTrigger asChild>
-                    <Button variant="ghost" size="sm" className="ml-2 p-0 h-auto">
+                    <Button variant="ghost" size="sm" className="ml-2 p-0 h-auto" onClick={stopPropagation}>
                       <Info className="w-4 h-4 text-slate-400" />
                     </Button>
                   </HoverCardTrigger>
-                  <HoverCardContent className="w-80">
+                  <HoverCardContent className="w-80" onClick={stopPropagation}>
                     <div className="space-y-2">
                       <h4 className="text-sm font-semibold">{tool.name}</h4>
                       <p className="text-sm text-slate-600">{tool.description}</p>
@@ -128,13 +132,13 @@ export const ToolCard: React.FC<ToolCardProps> = ({
                   )}
                 </Button>
               </TooltipTrigger>
-              <TooltipContent>
+              <TooltipContent onClick={stopPropagation}>
                 <p>{isFavorite(tool.id) ? 'Remove from favorites' : 'Add to favorites'}</p>
               </TooltipContent>
             </Tooltip>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex flex-col flex-grow">
           <CardDescription className="mb-4 text-slate-600">
             {tool.description}
           </CardDescription>
@@ -161,11 +165,11 @@ export const ToolCard: React.FC<ToolCardProps> = ({
             {tool.features.length > 3 && (
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Badge variant="outline" className="text-xs cursor-help">
+                  <Badge variant="outline" className="text-xs cursor-help" onClick={stopPropagation}>
                     +{tool.features.length - 3} more
                   </Badge>
                 </TooltipTrigger>
-                <TooltipContent>
+                <TooltipContent onClick={stopPropagation}>
                   <div className="space-y-1">
                     {tool.features.slice(3).map((feature, idx) => (
                       <p key={idx} className="text-xs">{feature}</p>
@@ -176,38 +180,43 @@ export const ToolCard: React.FC<ToolCardProps> = ({
             )}
           </div>
 
-          <div className="flex items-center justify-between text-sm text-slate-500 mb-4">
+          <div className="flex items-center justify-between text-sm text-slate-500">
             <Tooltip>
               <TooltipTrigger asChild>
-                <div className="flex items-center space-x-1 cursor-help">
+                <div className="flex items-center space-x-1 cursor-help" onClick={stopPropagation}>
                   <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
                   <span>{tool.rating}</span>
                 </div>
               </TooltipTrigger>
-              <TooltipContent>
+              <TooltipContent onClick={stopPropagation}>
                 <p>Average user rating</p>
               </TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <div className="flex items-center space-x-1 cursor-help">
+                <div className="flex items-center space-x-1 cursor-help" onClick={stopPropagation}>
                   <Users className="w-4 h-4" />
                   <span>{tool.users}</span>
                 </div>
               </TooltipTrigger>
-              <TooltipContent>
+              <TooltipContent onClick={stopPropagation}>
                 <p>Total users</p>
               </TooltipContent>
             </Tooltip>
           </div>
 
-          <Button 
-            className="w-full" 
-            onClick={() => onToolClick(tool.id, tool.url)}
-          >
-            <ExternalLink className="w-4 h-4 mr-2" />
-            Use Tool
-          </Button>
+          <div className="mt-auto pt-4">
+            <Button 
+              className="w-full" 
+              onClick={(e) => {
+                stopPropagation(e);
+                onToolClick(tool.id, tool.url);
+              }}
+            >
+              <ExternalLink className="w-4 h-4 mr-2" />
+              Use Tool
+            </Button>
+          </div>
         </CardContent>
       </Card>
     </TooltipProvider>
