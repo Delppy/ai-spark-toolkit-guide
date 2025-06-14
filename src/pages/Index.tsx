@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -17,7 +16,7 @@ const Index = () => {
       description: "AI tools for students and learners",
       color: "bg-gradient-to-br from-blue-500 to-purple-600",
       tools: ["ChatGPT for Essays", "Quillbot Summarizer", "Grammarly AI"],
-      route: "/category/school"
+      route: "/school"
     },
     {
       id: "business",
@@ -26,7 +25,7 @@ const Index = () => {
       description: "Professional AI tools for productivity",
       color: "bg-gradient-to-br from-green-500 to-emerald-600",
       tools: ["Jasper AI", "Copy.ai", "Notion AI"],
-      route: "/category/business"
+      route: "/business"
     },
     {
       id: "content",
@@ -35,7 +34,7 @@ const Index = () => {
       description: "AI for social media and content",
       color: "bg-gradient-to-br from-pink-500 to-rose-600",
       tools: ["Canva AI", "Midjourney", "Runway ML"],
-      route: "/category/content"
+      route: "/content"
     },
     {
       id: "career",
@@ -44,7 +43,7 @@ const Index = () => {
       description: "AI tools for job search and CV writing",
       color: "bg-gradient-to-br from-orange-500 to-amber-600",
       tools: ["Resume.io", "LinkedIn AI", "InterviewBuddy"],
-      route: "/category/career"
+      route: "/career"
     }
   ];
 
@@ -241,10 +240,10 @@ const Index = () => {
             <div>
               <h5 className="font-semibold mb-4">Categories</h5>
               <ul className="space-y-2 text-slate-400">
-                <li><Link to="/category/school" className="hover:text-white transition-colors">School & Education</Link></li>
-                <li><Link to="/category/business" className="hover:text-white transition-colors">Business & Work</Link></li>
-                <li><Link to="/category/content" className="hover:text-white transition-colors">Content Creation</Link></li>
-                <li><Link to="/category/career" className="hover:text-white transition-colors">Career & Jobs</Link></li>
+                <li><Link to="/school" className="hover:text-white transition-colors">School & Education</Link></li>
+                <li><Link to="/business" className="hover:text-white transition-colors">Business & Work</Link></li>
+                <li><Link to="/content" className="hover:text-white transition-colors">Content Creation</Link></li>
+                <li><Link to="/career" className="hover:text-white transition-colors">Career & Jobs</Link></li>
               </ul>
             </div>
             <div>
