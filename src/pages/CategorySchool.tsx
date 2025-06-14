@@ -4,18 +4,41 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { BookOpen, Search, Star, Users, Copy, Heart, ExternalLink, ArrowLeft, Gift } from "lucide-react";
+import { BookOpen, Search, Star, Users, Copy, Heart, ExternalLink, ArrowLeft, Gift, Bookmark } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { dataManager } from "@/data/dataManager";
+import { useUserPreferences } from "@/contexts/UserPreferencesContext";
+import { useToolFiltering } from "@/hooks/useToolFiltering";
+import { ToolFilters } from "@/components/ToolFilters";
+import { ToolSorting } from "@/components/ToolSorting";
 
 const CategorySchool = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { toast } = useToast();
+  const { toggleFavorite, isFavorite, addToRecentlyViewed } = useUserPreferences();
 
   const categoryData = dataManager.getCategoryData('school');
   const aiTools = categoryData.aiTools;
   const promptPacks = categoryData.promptPacks;
+
+  const {
+    filteredAndSortedTools,
+    filters,
+    sort,
+    updateFilter,
+    updateSort,
+    clearFilters,
+    getUniqueCategories,
+    getUniqueFreeOfferings,
+    totalResults,
+    hasActiveFilters
+  } = useToolFiltering(aiTools);
+
+  // Update search filter when searchTerm changes
+  React.useEffect(() => {
+    updateFilter('searchTerm', searchTerm);
+  }, [searchTerm, updateFilter]);
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -25,11 +48,21 @@ const CategorySchool = () => {
     });
   };
 
-  const filteredTools = aiTools.filter(tool =>
-    tool.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    tool.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    tool.description.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const handleToolClick = (toolId: string, url: string) => {
+    addToRecentlyViewed(toolId);
+    window.open(url, '_blank');
+  };
+
+  const handleFavoriteClick = (toolId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    toggleFavorite(toolId);
+    toast({
+      title: isFavorite(toolId) ? "Removed from favorites" : "Added to favorites",
+      description: isFavorite(toolId) 
+        ? "Tool removed from your favorites" 
+        : "Tool added to your favorites",
+    });
+  };
 
   const getFreeOfferingIcon = (offering: string) => {
     switch (offering) {
@@ -111,11 +144,32 @@ const CategorySchool = () => {
         </div>
       </section>
 
+      {/* Filters */}
+      <section className="container mx-auto px-4">
+        <ToolFilters
+          filters={filters}
+          onFilterChange={updateFilter}
+          onClearFilters={clearFilters}
+          categories={getUniqueCategories()}
+          freeOfferings={getUniqueFreeOfferings()}
+          hasActiveFilters={hasActiveFilters}
+        />
+      </section>
+
       {/* AI Tools Grid */}
       <section className="container mx-auto px-4 py-8">
-        <h3 className="text-2xl font-bold mb-6 text-slate-900">AI Tools for School</h3>
+        <div className="flex items-center justify-between mb-6">
+          <h3 className="text-2xl font-bold text-slate-900">AI Tools for School</h3>
+        </div>
+        
+        <ToolSorting
+          sort={sort}
+          onSortChange={updateSort}
+          totalResults={totalResults}
+        />
+
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {filteredTools.map((tool) => (
+          {filteredAndSortedTools.map((tool) => (
             <Card key={tool.id} className="group cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
               <CardHeader className="pb-4">
                 <div className="flex items-start justify-between">
@@ -138,8 +192,17 @@ const CategorySchool = () => {
                       </Badge>
                     </div>
                   </div>
-                  <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Heart className="w-4 h-4" />
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="transition-opacity"
+                    onClick={(e) => handleFavoriteClick(tool.id, e)}
+                  >
+                    {isFavorite(tool.id) ? (
+                      <Bookmark className="w-4 h-4 fill-current text-blue-600" />
+                    ) : (
+                      <Heart className="w-4 h-4" />
+                    )}
                   </Button>
                 </div>
               </CardHeader>
@@ -175,7 +238,7 @@ const CategorySchool = () => {
 
                 <Button 
                   className="w-full" 
-                  onClick={() => window.open(tool.url, '_blank')}
+                  onClick={() => handleToolClick(tool.id, tool.url)}
                 >
                   <ExternalLink className="w-4 h-4 mr-2" />
                   Use Tool
@@ -184,6 +247,19 @@ const CategorySchool = () => {
             </Card>
           ))}
         </div>
+
+        {filteredAndSortedTools.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-slate-500 text-lg">No tools found matching your criteria.</p>
+            <Button 
+              variant="outline" 
+              onClick={clearFilters}
+              className="mt-4"
+            >
+              Clear all filters
+            </Button>
+          </div>
+        )}
       </section>
 
       {/* Prompt Packs */}
