@@ -4,115 +4,18 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { BookOpen, Search, Star, Users, Copy, Heart, ExternalLink, ArrowLeft } from "lucide-react";
+import { BookOpen, Search, Star, Users, Copy, Heart, ExternalLink, ArrowLeft, Gift } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { dataManager } from "@/data/dataManager";
 
 const CategorySchool = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const { toast } = useToast();
 
-  const aiTools = [
-    {
-      name: "ChatGPT",
-      category: "Essay Writing",
-      description: "Get help writing essays, research papers, and assignments with AI assistance",
-      rating: 4.8,
-      users: "100M+",
-      isPro: false,
-      url: "https://chat.openai.com",
-      features: ["Essay Writing", "Research Help", "Citation Formatting"]
-    },
-    {
-      name: "Quillbot",
-      category: "Paraphrasing",
-      description: "Paraphrase and rewrite text to avoid plagiarism and improve clarity",
-      rating: 4.6,
-      users: "50M+",
-      isPro: true,
-      url: "https://quillbot.com",
-      features: ["Paraphrasing", "Grammar Check", "Summarizer"]
-    },
-    {
-      name: "Grammarly",
-      category: "Grammar Check",
-      description: "Check grammar, spelling, and improve your writing style",
-      rating: 4.7,
-      users: "30M+",
-      isPro: false,
-      url: "https://grammarly.com",
-      features: ["Grammar Check", "Style Suggestions", "Plagiarism Detection"]
-    },
-    {
-      name: "Wolfram Alpha",
-      category: "Math & Science",
-      description: "Solve complex math problems and get step-by-step solutions",
-      rating: 4.5,
-      users: "5M+",
-      isPro: true,
-      url: "https://wolframalpha.com",
-      features: ["Math Solver", "Science Calculator", "Data Analysis"]
-    },
-    {
-      name: "Notion AI",
-      category: "Note Taking",
-      description: "AI-powered note-taking and study organization",
-      rating: 4.4,
-      users: "20M+",
-      isPro: true,
-      url: "https://notion.so",
-      features: ["Smart Notes", "Study Plans", "Research Organization"]
-    },
-    {
-      name: "Consensus",
-      category: "Research",
-      description: "Find scientific papers and research evidence using AI",
-      rating: 4.3,
-      users: "1M+",
-      isPro: false,
-      url: "https://consensus.app",
-      features: ["Research Papers", "Citation Finder", "Evidence Search"]
-    }
-  ];
-
-  const promptPacks = [
-    {
-      title: "Essay Writing Prompts",
-      description: "Complete prompts for writing different types of essays",
-      prompts: 15,
-      category: "Writing",
-      isPro: false,
-      examples: [
-        "Write a 5-paragraph essay about [TOPIC] with clear thesis statement and supporting evidence",
-        "Create an argumentative essay outline for [POSITION] with counterarguments",
-        "Generate a conclusion paragraph that summarizes [MAIN_POINTS] and restates thesis"
-      ]
-    },
-    {
-      title: "Research & Citation Prompts",
-      description: "Get help with research methodology and proper citations",
-      prompts: 12,
-      category: "Research",
-      isPro: true,
-      examples: [
-        "Find 5 credible sources about [TOPIC] and explain why they're reliable",
-        "Create APA citations for [SOURCE_TYPE] about [SUBJECT]",
-        "Summarize this research paper in 200 words: [PASTE_CONTENT]"
-      ]
-    },
-    {
-      title: "Study & Exam Prep",
-      description: "Prompts to help you study more effectively",
-      prompts: 18,
-      category: "Study",
-      isPro: false,
-      examples: [
-        "Create flashcards for [SUBJECT] covering [SPECIFIC_TOPICS]",
-        "Generate practice questions for [EXAM_TYPE] on [SUBJECT]",
-        "Explain [COMPLEX_CONCEPT] in simple terms with examples"
-      ]
-    }
-  ];
+  const categoryData = dataManager.getCategoryData('school');
+  const aiTools = categoryData.aiTools;
+  const promptPacks = categoryData.promptPacks;
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -127,6 +30,36 @@ const CategorySchool = () => {
     tool.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
     tool.description.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const getFreeOfferingIcon = (offering: string) => {
+    switch (offering) {
+      case 'free':
+        return <Gift className="w-3 h-3 text-green-600" />;
+      case 'free_trial':
+        return <Gift className="w-3 h-3 text-blue-600" />;
+      case 'free_credits':
+        return <Gift className="w-3 h-3 text-purple-600" />;
+      case 'freemium':
+        return <Gift className="w-3 h-3 text-orange-600" />;
+      default:
+        return null;
+    }
+  };
+
+  const getFreeOfferingColor = (offering: string) => {
+    switch (offering) {
+      case 'free':
+        return 'bg-green-100 text-green-800';
+      case 'free_trial':
+        return 'bg-blue-100 text-blue-800';
+      case 'free_credits':
+        return 'bg-purple-100 text-purple-800';
+      case 'freemium':
+        return 'bg-orange-100 text-orange-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
@@ -160,7 +93,7 @@ const CategorySchool = () => {
             AI Tools for Students
           </h2>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Discover AI tools and prompts to help with essays, research, studying, and academic projects.
+            Discover AI tools and prompts to help with essays, research, studying, and academic projects. All tools offer free access or trials!
           </p>
         </div>
 
@@ -182,8 +115,8 @@ const CategorySchool = () => {
       <section className="container mx-auto px-4 py-8">
         <h3 className="text-2xl font-bold mb-6 text-slate-900">AI Tools for School</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-          {filteredTools.map((tool, index) => (
-            <Card key={index} className="group cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+          {filteredTools.map((tool) => (
+            <Card key={tool.id} className="group cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
               <CardHeader className="pb-4">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
@@ -195,9 +128,15 @@ const CategorySchool = () => {
                         </Badge>
                       )}
                     </CardTitle>
-                    <Badge variant="secondary" className="mt-1 text-xs">
-                      {tool.category}
-                    </Badge>
+                    <div className="flex items-center space-x-2 mt-1">
+                      <Badge variant="secondary" className="text-xs">
+                        {tool.category}
+                      </Badge>
+                      <Badge className={`text-xs flex items-center space-x-1 ${getFreeOfferingColor(tool.freeOffering)}`}>
+                        {getFreeOfferingIcon(tool.freeOffering)}
+                        <span>{tool.freeOffering.replace('_', ' ')}</span>
+                      </Badge>
+                    </div>
                   </div>
                   <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
                     <Heart className="w-4 h-4" />
@@ -208,6 +147,12 @@ const CategorySchool = () => {
                 <CardDescription className="mb-4 text-slate-600">
                   {tool.description}
                 </CardDescription>
+                
+                <div className="mb-3 p-2 bg-green-50 rounded-lg border border-green-200">
+                  <p className="text-xs text-green-700 font-medium">
+                    🎁 {tool.freeDetails}
+                  </p>
+                </div>
                 
                 <div className="flex flex-wrap gap-1 mb-4">
                   {tool.features.map((feature, idx) => (
@@ -245,8 +190,8 @@ const CategorySchool = () => {
       <section className="container mx-auto px-4 py-8">
         <h3 className="text-2xl font-bold mb-6 text-slate-900">Student Prompt Packs</h3>
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-          {promptPacks.map((pack, index) => (
-            <Card key={index} className="group cursor-pointer transition-all duration-300 hover:shadow-lg">
+          {promptPacks.map((pack) => (
+            <Card key={pack.id} className="group cursor-pointer transition-all duration-300 hover:shadow-lg">
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div>
