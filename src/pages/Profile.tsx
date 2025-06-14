@@ -1,15 +1,25 @@
+
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import Layout from "@/components/Layout";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import ProfilePhotoUploader from "@/components/ProfilePhotoUploader";
 import type { Tables } from "@/integrations/supabase/types";
+import ProfileUserInfo from "@/components/ProfileUserInfo";
+import ProfilePreferences from "@/components/ProfilePreferences";
+import ProfileFavorites from "@/components/ProfileFavorites";
+import ProfileActivity from "@/components/ProfileActivity";
+import ProfileModal from "@/components/ProfileModal";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 type ProfileRow = Tables<"profiles">;
+
+const defaultPrefs = {
+  notifications: true,
+  darkMode: false,
+  language: "English",
+};
 
 const Profile = () => {
   const [user, setUser] = useState<any>(null);
@@ -17,10 +27,12 @@ const Profile = () => {
   const [email, setEmail] = useState("");
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [prefs, setPrefs] = useState(defaultPrefs);
+  const [activeSheet, setActiveSheet] = useState<null | "favorites" | "activity" | "preferences">(null);
   const { toast } = useToast();
   const navigate = useNavigate();
 
-  // Fetch user on mount
+  // Fetch user and profile
   useEffect(() => {
     let ignore = false;
     supabase.auth.getSession().then(async ({ data: { session } }) => {
@@ -31,7 +43,6 @@ const Profile = () => {
       if (!ignore && session?.user) {
         setUser(session.user);
         setEmail(session.user.email ?? "");
-        // Fetch profile
         const { data, error } = await supabase
           .from("profiles")
           .select("*")
@@ -127,6 +138,12 @@ const Profile = () => {
     await refreshProfile();
   };
 
+  // Preference handler
+  const handlePrefsChange = (p: typeof prefs) => {
+    setPrefs(p);
+    // Here you can sync to supabase (not implemented in demo)
+  };
+
   if (!user || !profile) {
     return (
       <Layout>
@@ -136,75 +153,94 @@ const Profile = () => {
   }
   return (
     <Layout>
-      <div className="flex items-center justify-center w-full min-h-[80vh] py-12">
-        <Card className="mx-auto w-full max-w-md animate-fade-in">
-          <CardHeader>
-            <CardTitle className="text-2xl md:text-3xl text-center font-bold">
-              Your Profile
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-col items-center mb-6">
-              <ProfilePhotoUploader
-                userId={profile.id}
-                photoUrl={profile.photo_url}
-                onUpload={handlePhotoUpload}
-              />
+      <div className="w-full max-w-md mx-auto min-h-[80vh]">
+        <Tabs defaultValue="main" className="pt-6 w-full animate-fade-in">
+          <TabsList className="w-full grid grid-cols-3 mb-7">
+            <TabsTrigger value="main" className="w-full">Profile</TabsTrigger>
+            <TabsTrigger value="settings" className="w-full">Settings</TabsTrigger>
+            <TabsTrigger value="legal" className="w-full">Account</TabsTrigger>
+          </TabsList>
+
+          {/* Main profile */}
+          <TabsContent value="main" className="space-y-4">
+            <ProfileUserInfo
+              profile={profile}
+              email={email}
+              editing={editing}
+              loading={loading}
+              setEditing={setEditing}
+              setEmail={setEmail}
+              handleSave={handleSave}
+              handleLogout={handleLogout}
+              handlePhotoUpload={handlePhotoUpload}
+              user={user}
+            />
+            <div className="flex flex-col gap-3 mt-8">
+              <Button
+                onClick={() => setActiveSheet("favorites")}
+                variant="secondary"
+                className="w-full shadow-sm"
+              >
+                Favorites
+              </Button>
+              <Button
+                onClick={() => setActiveSheet("activity")}
+                variant="secondary"
+                className="w-full shadow-sm"
+              >
+                Activity History
+              </Button>
             </div>
-            <form onSubmit={handleSave} className="space-y-4" aria-label="profile edit form">
-              <div>
-                <label htmlFor="profile-email" className="block font-medium mb-1">
-                  Email
-                </label>
-                <Input
-                  id="profile-email"
-                  type="email"
-                  value={email}
-                  onChange={e => setEmail(e.target.value)}
-                  disabled={!editing}
-                  className={!editing ? "bg-gray-100" : ""}
-                />
-              </div>
-              <div className="flex gap-2 mt-4">
-                {!editing ? (
-                  <Button type="button" variant="outline" onClick={() => setEditing(true)}>
-                    Edit Email
-                  </Button>
-                ) : (
-                  <>
-                    <Button type="submit" disabled={loading}>
-                      {loading ? "Saving..." : "Save"}
-                    </Button>
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      onClick={() => {
-                        setEditing(false);
-                        setEmail(user.email);
-                      }}
-                    >
-                      Cancel
-                    </Button>
-                  </>
-                )}
-                <Button type="button" variant="destructive" className="ml-auto" onClick={handleLogout}>
-                  Log out
-                </Button>
-              </div>
-            </form>
+          </TabsContent>
+          {/* Settings */}
+          <TabsContent value="settings" className="space-y-4">
+            <Button
+              onClick={() => setActiveSheet("preferences")}
+              className="w-full"
+              variant="outline"
+            >
+              Preferences
+            </Button>
             <div className="mt-8 border-t pt-6">
               <div className="font-semibold mb-3">Subscription</div>
               <div className="flex flex-col gap-3">
-                <Button type="button" onClick={handleUpgrade} className="w-full bg-gradient-to-r from-purple-500 to-blue-600">
+                <Button
+                  type="button"
+                  onClick={handleUpgrade}
+                  className="w-full bg-gradient-to-r from-purple-500 to-blue-600"
+                >
                   Upgrade Subscription
                 </Button>
-                <Button type="button" variant="destructive" onClick={handleCancelSubscription} className="w-full">
+                <Button
+                  type="button"
+                  variant="destructive"
+                  onClick={handleCancelSubscription}
+                  className="w-full"
+                >
                   Cancel Subscription
                 </Button>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </TabsContent>
+          {/* Account / legal */}
+          <TabsContent value="legal">
+            <div className="space-y-4">
+              <Button className="w-full" variant="outline">Privacy Policy</Button>
+              <Button className="w-full" variant="outline">Terms of Service</Button>
+              <Button className="w-full" variant="destructive">Delete Account</Button>
+            </div>
+          </TabsContent>
+        </Tabs>
+        {/* Popups for modular navigation */}
+        <ProfileModal open={activeSheet === "favorites"} setOpen={o => setActiveSheet(o ? "favorites" : null)}>
+          <ProfileFavorites />
+        </ProfileModal>
+        <ProfileModal open={activeSheet === "activity"} setOpen={o => setActiveSheet(o ? "activity" : null)}>
+          <ProfileActivity />
+        </ProfileModal>
+        <ProfileModal open={activeSheet === "preferences"} setOpen={o => setActiveSheet(o ? "preferences" : null)}>
+          <ProfilePreferences preferences={prefs} setPreferences={handlePrefsChange} />
+        </ProfileModal>
       </div>
     </Layout>
   );
