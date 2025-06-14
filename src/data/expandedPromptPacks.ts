@@ -1,4 +1,3 @@
-
 import { PromptPack } from './aiTools';
 
 // Enhanced School Prompt Packs with 50 detailed prompts
@@ -360,6 +359,106 @@ export const careerPromptPacks: PromptPack[] = [
       "Write a compelling LinkedIn headline for [JOB_TITLE] that goes beyond job title. Include key skills, value proposition, and target audience in 120 characters",
       "Create a LinkedIn summary for [PROFESSION] with [X] years of experience. Tell your professional story, highlight achievements, and include a call-to-action",
       "Generate 10 LinkedIn post ideas for [INDUSTRY] professionals to build thought leadership. Include industry insights, personal experiences, and engagement questions"
+    ]
+  },
+  {
+    id: "resume-cover-letter-help",
+    title: "📝 Resume & Cover Letter Help",
+    description: "Craft winning resumes and cover letters to land your dream job.",
+    prompts: 10,
+    category: "Resume",
+    isPro: false,
+    examples: [
+      "Write a professional resume summary for someone applying as a [job title] with [years] of experience. Great for job seekers building or updating a modern CV.",
+      "Generate bullet points for a resume based on this job description: [paste description]. Quickly transforms listings into tailored resume content.",
+      "Rewrite my current CV to sound more results-driven and impactful. [paste old CV text]. Ideal for people with bland or generic resume wording.",
+      "Write a cover letter for a job at [company] for the role of [position]. Custom letter writing in seconds.",
+      "Optimize my resume for Applicant Tracking Systems (ATS). Paste resume below. Ensures keyword compatibility for online applications.",
+      "Suggest strong action verbs to use in my resume. Enhances writing and makes accomplishments stand out.",
+      "Create a one-page resume layout for someone in [industry]. Useful for those needing a compact yet professional format.",
+      "Turn this internship experience into a strong resume entry. [describe experience]. Helps students or recent grads boost credibility.",
+      "Summarize my LinkedIn profile into a resume-friendly format. [paste LinkedIn text]. For syncing online presence with job applications.",
+      "Write a follow-up thank-you note after submitting a job application. Builds goodwill and keeps you top of mind."
+    ]
+  },
+  {
+    id: "job-search-applications",
+    title: "🔍 Job Search & Applications",
+    description: "Strategize your job search and streamline applications.",
+    prompts: 10,
+    category: "Job Search",
+    isPro: false,
+    examples: [
+      "Find 5 job titles that match my experience in [industry/skills]. Broadens job search possibilities.",
+      "Generate keywords I should use in my resume for [job role]. Tailors CVs for better visibility.",
+      "Write a networking message to reconnect with an old colleague about job opportunities. Builds strategic career connections.",
+      "Suggest websites or apps I can use to find remote jobs in [field]. For users exploring remote work.",
+      "Turn my skills into a freelance service I can start offering today. Encourages self-employment.",
+      "List 5 industries I can transition into with my current skill set: [list skills]. Promotes career reinvention.",
+      "Suggest job options for someone who wants flexible hours and works well independently. Caters to alternative work styles.",
+      "Help me identify career paths that don’t require a degree but pay well. Focused on accessibility.",
+      "Write a short personal statement I can use on a job board or freelance profile. Elevates visibility and trust.",
+      "Create a checklist for applying to multiple jobs efficiently. Helps job seekers stay organized."
+    ]
+  },
+  {
+    id: "interview-prep-communication",
+    title: "🎙️ Interview Prep & Communication",
+    description: "Ace your interviews and communicate with confidence.",
+    prompts: 10,
+    category: "Interview",
+    isPro: false,
+    examples: [
+      "What are the top 10 interview questions for a [job role]? Helps prepare for common interview formats.",
+      "Suggest smart ways to answer: “Tell me about yourself.” For confident first impressions.",
+      "Help me respond to the question: “Why did you leave your last job?” Navigates tough questions with poise.",
+      "Generate a confident response to: “What’s your biggest weakness?” Turns negatives into strengths.",
+      "Give me a STAR format answer for this experience: [describe situation]. Structured storytelling made easy.",
+      "Turn this list of achievements into strong talking points for an interview. Shows off accomplishments effectively.",
+      "Write a short pitch I can use during a virtual interview to describe my skills. Ideal for Zoom calls or recruiter chats.",
+      "How should I answer if I’m asked about salary expectations? Avoids underpricing or overreaching.",
+      "Give me 5 questions I can ask the interviewer at the end of the call. Signals confidence and curiosity.",
+      "Suggest tips for preparing for a virtual job interview. Includes both tech and etiquette advice."
+    ]
+  },
+  {
+    id: "on-the-job-success",
+    title: "💼 On-the-Job Success & Workplace Skills",
+    description: "Navigate workplace challenges and excel in your role.",
+    prompts: 10,
+    category: "Workplace",
+    isPro: false,
+    examples: [
+      "Write a polite email asking for feedback after a job rejection. Turns a no into a learning moment.",
+      "How do I ask for a raise professionally via email? Advocates for your worth respectfully.",
+      "Draft a professional email requesting time off for personal reasons. For clear and respectful communication.",
+      "Turn this casual message into a formal business email. [paste message]. Instantly professionalizes tone.",
+      "Create a 30-60-90 day plan for starting a new job as a [role]. Helps users impress early on.",
+      "Write a message to politely decline additional tasks beyond my scope. Protects from burnout.",
+      "Help me address a conflict at work using assertive but respectful language. Enhances communication and resolution.",
+      "Write an appreciation message to a coworker who helped me on a project. Builds team morale.",
+      "Generate a team update message summarizing my progress on this week’s tasks. Keeps leadership informed.",
+      "Help me set professional boundaries when working remotely. Supports work-life balance."
+    ]
+  },
+  {
+    id: "career-growth-transitions",
+    title: "🚀 Career Growth & Transitions",
+    description: "Plan your career path and make successful transitions.",
+    prompts: 10,
+    category: "Career Growth",
+    isPro: false,
+    examples: [
+      "Build a personal development plan for the next 6 months in [career path]. Encourages intentional growth.",
+      "What skills should I learn to grow from [current role] to [target role]? Roadmaps for upward mobility.",
+      "Suggest online courses or certifications to help me switch careers into [industry]. Empowers reskilling.",
+      "Write a message requesting mentorship from a senior colleague. Starts a valuable professional relationship.",
+      "How can I position myself for a promotion within my company? Makes internal advancement clearer.",
+      "List 5 ways to build my personal brand as a professional in [field]. Increases visibility and authority.",
+      "Create a weekly schedule for balancing my full-time job and a side hustle. Prevents burnout while building more.",
+      "Suggest habits of high-performing professionals I can adopt. Encourages excellence.",
+      "Write a professional bio I can use for speaking events or interviews. Helps polish your public image.",
+      "Help me track and document my achievements for future opportunities. Supports performance reviews and resume updates."
     ]
   }
 ];
