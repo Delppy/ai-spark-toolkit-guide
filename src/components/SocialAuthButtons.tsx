@@ -4,9 +4,9 @@ import { Facebook, Linkedin } from "lucide-react";
 import { createClient } from "@supabase/supabase-js";
 import React from "react";
 
-// Debug: Output env variables at runtime
-const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+// Use correct env var names for Lovable projects
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 console.log("Supabase env check:", { supabaseUrl, supabaseAnonKey });
 
 if (!supabaseUrl || !supabaseAnonKey) {
@@ -103,4 +103,3 @@ const SocialAuthButtons = () => {
 };
 
 export default SocialAuthButtons;
-
