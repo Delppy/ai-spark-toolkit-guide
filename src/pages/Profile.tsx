@@ -7,9 +7,17 @@ import { Input } from "@/components/ui/input";
 import Layout from "@/components/Layout";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import ProfilePhotoUploader from "@/components/ProfilePhotoUploader";
+
+type ProfileRow = {
+  id: string;
+  email: string | null;
+  photo_url: string | null;
+};
 
 const Profile = () => {
   const [user, setUser] = useState<any>(null);
+  const [profile, setProfile] = useState<ProfileRow | null>(null);
   const [email, setEmail] = useState("");
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -19,19 +27,39 @@ const Profile = () => {
   // Fetch user on mount
   useEffect(() => {
     let ignore = false;
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (!ignore && !session) {
         navigate("/login", { replace: true });
+        return;
       }
       if (!ignore && session?.user) {
         setUser(session.user);
         setEmail(session.user.email ?? "");
+        // Fetch profile
+        const { data, error } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", session.user.id)
+          .single();
+        if (!ignore && !error && data) {
+          setProfile(data);
+        }
       }
     });
     return () => {
       ignore = true;
     };
   }, [navigate]);
+
+  const refreshProfile = async () => {
+    if (!user) return;
+    const { data, error } = await supabase
+      .from("profiles")
+      .select("*")
+      .eq("id", user.id)
+      .single();
+    if (!error && data) setProfile(data);
+  };
 
   const handleLogout = async () => {
     await supabase.auth.signOut();
@@ -46,7 +74,6 @@ const Profile = () => {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Update email (if changed)
     if (email && user && email !== user.email) {
       const { error } = await supabase.auth.updateUser({ email });
       if (error) {
@@ -66,6 +93,7 @@ const Profile = () => {
       setUser({ ...user, email });
       setEditing(false);
       setLoading(false);
+      await refreshProfile();
       return;
     }
     setEditing(false);
@@ -73,7 +101,6 @@ const Profile = () => {
   };
 
   const handleUpgrade = () => {
-    // TODO: Integrate Stripe/create-checkout session.
     toast({
       title: "Coming soon",
       description: "Subscription upgrades coming soon.",
@@ -81,14 +108,30 @@ const Profile = () => {
   };
 
   const handleCancelSubscription = () => {
-    // TODO: Integrate Stripe portal/cancel logic.
     toast({
       title: "Coming soon",
       description: "Subscription cancellation coming soon.",
     });
   };
 
-  if (!user) {
+  const handlePhotoUpload = async (publicUrl: string) => {
+    if (!user) return;
+    const { error } = await supabase
+      .from("profiles")
+      .update({ photo_url: publicUrl, updated_at: new Date().toISOString() })
+      .eq("id", user.id);
+    if (error) {
+      toast({
+        title: "Photo update failed",
+        description: error.message,
+        variant: "destructive",
+      });
+      return;
+    }
+    await refreshProfile();
+  };
+
+  if (!user || !profile) {
     return (
       <Layout>
         <div className="flex items-center justify-center min-h-[80vh]">Loading...</div>
@@ -105,6 +148,13 @@ const Profile = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
+            <div className="flex flex-col items-center mb-6">
+              <ProfilePhotoUploader
+                userId={profile.id}
+                photoUrl={profile.photo_url}
+                onUpload={handlePhotoUpload}
+              />
+            </div>
             <form onSubmit={handleSave} className="space-y-4" aria-label="profile edit form">
               <div>
                 <label htmlFor="profile-email" className="block font-medium mb-1">
