@@ -1,10 +1,12 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Star, Users, BookOpen, Briefcase, Camera, UserCheck, ChevronRight } from "lucide-react";
+import { BookOpen, Briefcase, Camera, UserCheck, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
+import { TrendingToolsSection } from "@/components/TrendingToolsSection";
 
 const Index = () => {
   const [featuredCategory, setFeaturedCategory] = useState("school");
@@ -45,33 +47,6 @@ const Index = () => {
       color: "bg-gradient-to-br from-orange-500 to-amber-600",
       tools: ["Resume.io", "LinkedIn AI", "InterviewBuddy"],
       route: "/career"
-    }
-  ];
-
-  const featuredTools = [
-    {
-      name: "ChatGPT",
-      category: "General AI",
-      description: "The most popular AI assistant for any task",
-      rating: 4.8,
-      users: "100M+",
-      isPro: false
-    },
-    {
-      name: "Midjourney",
-      category: "Image Generation",
-      description: "Create stunning AI-generated artwork",
-      rating: 4.7,
-      users: "10M+",
-      isPro: true
-    },
-    {
-      name: "Notion AI",
-      category: "Productivity",
-      description: "AI-powered note-taking and organization",
-      rating: 4.6,
-      users: "20M+",
-      isPro: false
     }
   ];
 
@@ -133,53 +108,8 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Featured Tools */}
-      <section className="container mx-auto px-4 py-12">
-        <div className="text-center mb-12">
-          <h3 className="text-3xl font-bold mb-4 text-slate-900">Trending AI Tools</h3>
-          <p className="text-slate-600 max-w-2xl mx-auto">
-            Discover the most popular AI tools used by millions of creators, students, and professionals.
-          </p>
-        </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {featuredTools.map((tool, index) => (
-            <Card key={index} className="group cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-              <CardHeader className="pb-4">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <CardTitle className="text-lg group-hover:text-purple-600 transition-colors">
-                      {tool.name}
-                      {tool.isPro && (
-                        <Badge className="ml-2 bg-gradient-to-r from-amber-400 to-orange-500 text-white">
-                          Pro
-                        </Badge>
-                      )}
-                    </CardTitle>
-                    <Badge variant="secondary" className="mt-1">
-                      {tool.category}
-                    </Badge>
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <CardDescription className="mb-4 text-slate-600">
-                  {tool.description}
-                </CardDescription>
-                <div className="flex items-center justify-between text-sm text-slate-500">
-                  <div className="flex items-center space-x-1">
-                    <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                    <span>{tool.rating}</span>
-                  </div>
-                  <div className="flex items-center space-x-1">
-                    <Users className="w-4 h-4" />
-                    <span>{tool.users} users</span>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </section>
+      {/* Trending Tools Section */}
+      <TrendingToolsSection />
 
       {/* CTA Section */}
       <section className="bg-gradient-to-r from-purple-600 to-blue-600 text-white py-16">
