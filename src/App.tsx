@@ -19,6 +19,7 @@ import Signup from "./pages/Signup";
 import Profile from "./pages/Profile";
 import Help from "./pages/Help";
 import About from "./pages/About";
+import Contact from "./pages/Contact";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,7 @@ const App = () => (
               <Route path="/profile" element={<Profile />} />
               <Route path="/help" element={<Help />} />
               <Route path="/about" element={<About />} />
+              <Route path="/contact" element={<Contact />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </TransitionProvider>
