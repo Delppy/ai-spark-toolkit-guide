@@ -120,7 +120,7 @@ const ProfileUserInfo: React.FC<ProfileUserInfoProps> = ({
               <SelectContent className="max-h-60">
                 {countries.map(option => (
                   <SelectItem key={option} value={option}>
-                    {option === "" ? "Select country" : option}
+                    {option}
                   </SelectItem>
                 ))}
               </SelectContent>
