@@ -1,10 +1,27 @@
-
 import { Button } from "@/components/ui/button";
 import { Sparkles } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
+  const [user, setUser] = useState<any>(null);
+
+  useEffect(() => {
+    let ignore = false;
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!ignore) setUser(session?.user ?? null);
+    });
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!ignore) setUser(session?.user ?? null);
+    });
+    return () => {
+      ignore = true;
+      listener?.subscription.unsubscribe();
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex flex-col">
       {/* Header */}
@@ -20,9 +37,14 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               </h1>
             </Link>
             <div className="flex items-center space-x-2">
-              {location.pathname !== "/login" && (
+              {!user && location.pathname !== "/login" && (
                 <Button asChild variant="ghost" size="sm">
                   <Link to="/login">Login</Link>
+                </Button>
+              )}
+              {!!user && location.pathname !== "/profile" && (
+                <Button asChild variant="ghost" size="sm">
+                  <Link to="/profile">Profile</Link>
                 </Button>
               )}
               <Button size="sm" className="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700">
