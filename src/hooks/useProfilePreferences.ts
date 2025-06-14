@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import { useTheme } from "next-themes";
 
 const defaultPrefs = {
   notifications: true,
@@ -8,7 +9,11 @@ const defaultPrefs = {
 };
 
 export const useProfilePreferences = () => {
-  const [prefs, setPrefs] = useState(defaultPrefs);
+  const { theme } = useTheme();
+  const [prefs, setPrefs] = useState({
+    ...defaultPrefs,
+    darkMode: theme === 'dark'
+  });
 
   const handlePrefsChange = (p: typeof prefs) => {
     setPrefs(p);
