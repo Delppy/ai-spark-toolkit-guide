@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Mail, Lock, LogIn } from "lucide-react";
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
+import SocialAuthButtons from "@/components/SocialAuthButtons";
 
 const Signup = () => {
   const [email, setEmail] = useState("");
@@ -28,6 +28,9 @@ const Signup = () => {
             <CardTitle className="text-2xl md:text-3xl text-center font-bold">Sign Up for AiToUse</CardTitle>
           </CardHeader>
           <CardContent>
+            {/* SOCIAL LOGIN BUTTONS */}
+            <SocialAuthButtons />
+            {/* Email Signup Form */}
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
                 <label className="block font-medium mb-1" htmlFor="email">Email</label>
