@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -150,27 +151,6 @@ export const ToolCard: React.FC<ToolCardProps> = ({
             {tool.description}
           </CardDescription>
           
-          {/* Prominent Pricing Section */}
-          <div className="mb-4 p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border-2 border-green-400 shadow-inner">
-            <div className="flex items-center space-x-2 mb-2">
-              <span className="bg-green-300/70 px-2 py-1 rounded-full text-xs font-semibold text-green-900 uppercase">Pricing Info</span>
-            </div>
-            <p className="text-xs text-green-700 font-semibold">
-              🎁 {tool.freeDetails}
-            </p>
-            <div className="mt-2">
-              <Button 
-                size="sm"
-                variant="secondary"
-                className="w-full text-green-800 bg-white hover:bg-green-50"
-                onClick={stopPropagation}
-                tabIndex={-1}
-              >
-                View Pricing
-              </Button>
-            </div>
-          </div>
-
           {/* Reviews & Ratings Section */}
           <div className="mb-4 px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg">
             <div className="flex items-center mb-2">
