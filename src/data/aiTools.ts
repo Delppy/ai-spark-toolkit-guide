@@ -127,7 +127,20 @@ export const schoolAITools: AITool[] = [
     features: ["Camera Scanner", "Step-by-step", "Multiple Methods"],
     freeOffering: "freemium",
     freeDetails: "Free basic solutions, premium for detailed explanations"
-  }
+  },
+  {
+    id: "humata-ai",
+    name: "Humata AI",
+    category: "Study Assistant",
+    description: "AI answers questions about your PDFs and documents instantly.",
+    rating: 4.6,
+    users: "1M+",
+    isPro: false,
+    url: "https://www.humata.ai/",
+    features: ["PDF Q&A", "Document Summaries", "Knowledge Extraction"],
+    freeOffering: "free_credits",
+    freeDetails: "Free pages per month | Added from theresanaiforthat.com"
+  },
 ];
 
 // Content Creation AI Tools (Free/Trial Focus)
@@ -235,7 +248,20 @@ export const contentAITools: AITool[] = [
     features: ["Stable Diffusion", "Open Source", "Various Models"],
     freeOffering: "free",
     freeDetails: "Free access to open-source models"
-  }
+  },
+  {
+    id: "browse-ai",
+    name: "Browse AI",
+    category: "Web Scraping",
+    description: "Monitor changes & extract data from any website with no code.",
+    rating: 4.3,
+    users: "800K+",
+    isPro: false,
+    url: "https://www.browse.ai/",
+    features: ["Website Extraction", "No-code", "Change Monitoring"],
+    freeOffering: "free_credits",
+    freeDetails: "100 free credits/month | Added from theresanaiforthat.com"
+  },
 ];
 
 // Business AI Tools (Free/Trial Focus) - EXPANDED
@@ -395,7 +421,33 @@ export const businessAITools: AITool[] = [
     features: ["AI Insights", "Project Templates", "Team Automation"],
     freeOffering: "freemium",
     freeDetails: "Free plan for up to 2 users"
-  }
+  },
+  {
+    id: "rask-ai",
+    name: "Rask AI",
+    category: "Video Localization",
+    description: "Localize your videos automatically into 60+ languages using AI.",
+    rating: 4.4,
+    users: "120K+",
+    isPro: false,
+    url: "https://www.rask.ai/",
+    features: ["Video Translation", "Voice Cloning", "Multi-language Support"],
+    freeOffering: "free_trial",
+    freeDetails: "Free trials available | Added from theresanaiforthat.com"
+  },
+  {
+    id: "genei",
+    name: "Genei",
+    category: "Research Summarization",
+    description: "Summarize research & webpages using advanced AI.",
+    rating: 4.2,
+    users: "350K+",
+    isPro: true,
+    url: "https://www.genei.io/",
+    features: ["Summarization", "Research Analysis", "Webpage Import"],
+    freeOffering: "freemium",
+    freeDetails: "Free basic summaries | Added from theresanaiforthat.com"
+  },
 ];
 
 // Career AI Tools (Free/Trial Focus)
@@ -451,5 +503,18 @@ export const careerAITools: AITool[] = [
     features: ["ATS Optimization", "Keyword Analysis", "Resume Scoring"],
     freeOffering: "freemium",
     freeDetails: "5 free resume scans per month"
-  }
+  },
+  {
+    id: "jobful-ai",
+    name: "Jobful AI",
+    category: "Job Search",
+    description: "Find matching jobs powered by AI recommendation engines.",
+    rating: 4.2,
+    users: "300K+",
+    isPro: false,
+    url: "https://www.jobful.io/ai/",
+    features: ["AI Job Matching", "Resume Scoring", "Application Tracking"],
+    freeOffering: "freemium",
+    freeDetails: "Free to use, paid premium features | Added from theresanaiforthat.com"
+  },
 ];

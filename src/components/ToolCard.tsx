@@ -70,6 +70,13 @@ export const ToolCard: React.FC<ToolCardProps> = ({
 
   const stopPropagation = (e: React.MouseEvent) => e.stopPropagation();
 
+  // Sample reviews & ratings (placeholder, can be swapped with dynamic/backend later)
+  const reviews = [
+    { name: "Sophia", rating: 5, comment: "Excellent tool! Saved me tons of time." },
+    { name: "James", rating: 4, comment: "Helpful but takes a while to learn." },
+    { name: "Aisha", rating: 5, comment: "Love the AI features!" },
+  ];
+
   return (
     <TooltipProvider>
       <Card 
@@ -143,17 +150,42 @@ export const ToolCard: React.FC<ToolCardProps> = ({
             {tool.description}
           </CardDescription>
           
-          {/* Always visible pricing information */}
-          <div className="mb-4 p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border border-green-200">
+          {/* Prominent Pricing Section */}
+          <div className="mb-4 p-3 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border-2 border-green-400 shadow-inner">
             <div className="flex items-center space-x-2 mb-2">
-              <DollarSign className="w-4 h-4 text-green-600" />
-              <p className="text-sm font-medium text-green-700">
-                Pricing
-              </p>
+              <span className="bg-green-300/70 px-2 py-1 rounded-full text-xs font-semibold text-green-900 uppercase">Pricing Info</span>
             </div>
-            <p className="text-xs text-green-700">
+            <p className="text-xs text-green-700 font-semibold">
               🎁 {tool.freeDetails}
             </p>
+            <div className="mt-2">
+              <Button 
+                size="sm"
+                variant="secondary"
+                className="w-full text-green-800 bg-white hover:bg-green-50"
+                onClick={stopPropagation}
+                tabIndex={-1}
+              >
+                View Pricing
+              </Button>
+            </div>
+          </div>
+
+          {/* Reviews & Ratings Section */}
+          <div className="mb-4 px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg">
+            <div className="flex items-center mb-2">
+              <span className="font-medium text-slate-700 mr-2">Reviews & Ratings</span>
+              <span className="text-xs text-slate-500">({reviews.length} reviews)</span>
+            </div>
+            <div className="space-y-1">
+              {reviews.map((review, idx) => (
+                <div key={idx} className="flex items-start space-x-2">
+                  <span className="font-semibold text-slate-700">{review.name}:</span>
+                  <span className="text-yellow-500">{"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}</span>
+                  <span className="text-slate-600 text-xs">{review.comment}</span>
+                </div>
+              ))}
+            </div>
           </div>
           
           <div className="flex flex-wrap gap-1 mb-4">
