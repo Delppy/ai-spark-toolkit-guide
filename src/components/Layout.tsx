@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import AnimatedButton from "@/components/ui/animated-button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -9,6 +8,7 @@ import { supabase } from "@/integrations/supabase/client";
 import PageTransition from "./PageTransition";
 import type { Tables } from "@/integrations/supabase/types";
 import type { Session } from "@supabase/supabase-js";
+import { useSubscription } from "@/hooks/useSubscription";
 
 type ProfileRow = Tables<"profiles">;
 
@@ -58,6 +58,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   const user = session?.user;
 
+  // ---------- ADD: Use Pro Subscription Status Hook ----------
+  const subscriptionStatus = useSubscription(user?.id || user?.email || undefined);
+
+  // Utility: Pass down Pro status with children via context/provider if needed in future
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex flex-col">
       {/* Header with enhanced animations */}
@@ -99,11 +104,21 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                   </Link>
                 </AnimatedButton>
               )}
-              {/* Only show Get Pro button if user is logged in */}
-              {user && (
-                <AnimatedButton size="sm" className="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700">
-                  Get Pro
+              {/* Only show Get Pro button if user is logged in and NOT Pro */}
+              {user && !subscriptionStatus.isPro && (
+                <AnimatedButton
+                  asChild
+                  size="sm"
+                  className="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700"
+                >
+                  <Link to="/pricing">Get Pro</Link>
                 </AnimatedButton>
+              )}
+              {/* If Pro is enabled, show a "Pro" badge instead of Get Pro */}
+              {user && subscriptionStatus.isPro && (
+                <span className="ml-2 px-2 py-1 text-xs rounded-full font-semibold bg-gradient-to-r from-yellow-400 to-orange-500 text-white shadow">
+                  Pro
+                </span>
               )}
             </div>
           </div>
@@ -112,6 +127,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
       <main className="flex-grow">
         <PageTransition>
+          {/* Make subscription status available to children via props/context in future */}
           {children}
         </PageTransition>
       </main>
@@ -168,4 +184,3 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 };
 
 export default Layout;
-

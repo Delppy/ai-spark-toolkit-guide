@@ -54,6 +54,51 @@ export type Database = {
         }
         Relationships: []
       }
+      subscribers: {
+        Row: {
+          email: string
+          expires_at: string | null
+          id: string
+          plan: string | null
+          pro_enabled: boolean
+          started_at: string
+          subscription_tier: string | null
+          trial_expiration: string | null
+          trial_start: string | null
+          trial_used: boolean
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          email: string
+          expires_at?: string | null
+          id?: string
+          plan?: string | null
+          pro_enabled?: boolean
+          started_at?: string
+          subscription_tier?: string | null
+          trial_expiration?: string | null
+          trial_start?: string | null
+          trial_used?: boolean
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          email?: string
+          expires_at?: string | null
+          id?: string
+          plan?: string | null
+          pro_enabled?: boolean
+          started_at?: string
+          subscription_tier?: string | null
+          trial_expiration?: string | null
+          trial_start?: string | null
+          trial_used?: boolean
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
