@@ -1,9 +1,17 @@
 
 import Layout from "@/components/Layout";
 import { PromptPackCard } from "@/components/PromptPackCard";
-import { promptPacks } from "@/data/promptPacks";
+import { schoolPromptPacks, contentPromptPacks, businessPromptPacks, careerPromptPacks, PromptPack } from "@/data/promptPacks";
+import { toast } from "sonner";
 
 const Prompts = () => {
+  const promptPacks: PromptPack[] = [...schoolPromptPacks, ...contentPromptPacks, ...businessPromptPacks, ...careerPromptPacks];
+
+  const handleCopyPrompt = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success("Prompt copied to clipboard!");
+  };
+
   return (
     <Layout>
       <div className="container mx-auto px-4 py-12">
@@ -17,7 +25,11 @@ const Prompts = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {promptPacks.map((pack) => (
-            <PromptPackCard key={pack.id} promptPack={pack} />
+            <PromptPackCard 
+              key={pack.id} 
+              pack={pack}
+              onCopyPrompt={handleCopyPrompt}
+            />
           ))}
         </div>
       </div>

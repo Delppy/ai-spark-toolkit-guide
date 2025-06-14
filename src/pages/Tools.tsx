@@ -1,9 +1,34 @@
 
+import React, { useState } from "react";
 import Layout from "@/components/Layout";
 import { ToolCard } from "@/components/ToolCard";
-import { aiTools } from "@/data/aiTools";
+import { schoolAITools, contentAITools, businessAITools, careerAITools, AITool } from "@/data/aiTools";
+import { toast } from "sonner";
 
 const Tools = () => {
+  const aiTools: AITool[] = [...schoolAITools, ...contentAITools, ...businessAITools, ...careerAITools];
+  const [favorites, setFavorites] = useState<string[]>([]);
+
+  const handleFavoriteClick = (toolId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setFavorites((prev) => {
+      if (prev.includes(toolId)) {
+        toast.info("Removed from favorites");
+        return prev.filter((id) => id !== toolId);
+      } else {
+        toast.success("Added to favorites");
+        return [...prev, toolId];
+      }
+    });
+  };
+
+  const handleToolClick = (toolId: string, url: string) => {
+    console.log(`Navigating to ${url} for tool ${toolId}`);
+    window.open(url, "_blank");
+  };
+
+  const isFavorite = (toolId: string) => favorites.includes(toolId);
+  
   return (
     <Layout>
       <div className="container mx-auto px-4 py-12">
@@ -17,7 +42,13 @@ const Tools = () => {
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {aiTools.map((tool) => (
-            <ToolCard key={tool.id} tool={tool} />
+            <ToolCard 
+              key={tool.id} 
+              tool={tool}
+              onFavoriteClick={handleFavoriteClick}
+              onToolClick={handleToolClick}
+              isFavorite={isFavorite}
+            />
           ))}
         </div>
       </div>
