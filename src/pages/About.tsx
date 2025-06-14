@@ -141,7 +141,7 @@ const About = () => {
                 <div className="bg-slate-50 p-4 rounded-lg">
                   <div className="space-y-2">
                     <p className="text-slate-700"><strong>Version:</strong> 1.0.0</p>
-                    <p className="text-slate-700"><strong>Last Updated:</strong> June 2024</p>
+                    <p className="text-slate-700"><strong>Last Updated:</strong> June 2025</p>
                   </div>
                 </div>
               </div>
