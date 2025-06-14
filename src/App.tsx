@@ -13,6 +13,8 @@ import CategoryContent from "./pages/CategoryContent";
 import CategoryBusiness from "./pages/CategoryBusiness";
 import CategoryCareer from "./pages/CategoryCareer";
 import NotFound from "./pages/NotFound";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +33,8 @@ const App = () => (
             <Route path="/content" element={<CategoryContent />} />
             <Route path="/business" element={<CategoryBusiness />} />
             <Route path="/career" element={<CategoryCareer />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
