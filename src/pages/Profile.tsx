@@ -36,8 +36,9 @@ const Profile = () => {
         setUser(session.user);
         setEmail(session.user.email ?? "");
         // Fetch profile
+        // @ts-expect-error: Using "any" type for table
         const { data, error } = await supabase
-          .from("profiles")
+          .from<any>("profiles")
           .select("*")
           .eq("id", session.user.id)
           .single();
@@ -53,8 +54,9 @@ const Profile = () => {
 
   const refreshProfile = async () => {
     if (!user) return;
+    // @ts-expect-error: Using "any" type for table
     const { data, error } = await supabase
-      .from("profiles")
+      .from<any>("profiles")
       .select("*")
       .eq("id", user.id)
       .single();
@@ -116,8 +118,9 @@ const Profile = () => {
 
   const handlePhotoUpload = async (publicUrl: string) => {
     if (!user) return;
+    // @ts-expect-error: Using "any" type for table
     const { error } = await supabase
-      .from("profiles")
+      .from<any>("profiles")
       .update({ photo_url: publicUrl, updated_at: new Date().toISOString() })
       .eq("id", user.id);
     if (error) {
