@@ -1,4 +1,3 @@
-
 export interface AITool {
   id: string;
   name: string;
@@ -239,7 +238,7 @@ export const contentAITools: AITool[] = [
   }
 ];
 
-// Business AI Tools (Free/Trial Focus)  
+// Business AI Tools (Free/Trial Focus) - EXPANDED
 export const businessAITools: AITool[] = [
   {
     id: "claude",
@@ -292,6 +291,110 @@ export const businessAITools: AITool[] = [
     features: ["AI Presentations", "Storytelling", "Interactive Content"],
     freeOffering: "freemium",
     freeDetails: "Free tier with AI generation credits"
+  },
+  {
+    id: "jasper-ai",
+    name: "Jasper AI",
+    category: "Content Writing",
+    description: "AI copywriting assistant for marketing and business content",
+    rating: 4.4,
+    users: "1M+",
+    isPro: true,
+    url: "https://jasper.ai",
+    features: ["Marketing Copy", "Blog Writing", "Social Media"],
+    freeOffering: "free_trial",
+    freeDetails: "7-day free trial with full access"
+  },
+  {
+    id: "copy-ai",
+    name: "Copy.ai",
+    category: "Copywriting",
+    description: "AI-powered copywriting for marketing campaigns and content",
+    rating: 4.3,
+    users: "2M+",
+    isPro: false,
+    url: "https://copy.ai",
+    features: ["Marketing Copy", "Email Templates", "Social Media"],
+    freeOffering: "freemium",
+    freeDetails: "Free tier with 2,000 words per month"
+  },
+  {
+    id: "loom-ai",
+    name: "Loom AI",
+    category: "Video Communication",
+    description: "AI-powered video messaging and screen recording for teams",
+    rating: 4.5,
+    users: "14M+",
+    isPro: false,
+    url: "https://loom.com",
+    features: ["Screen Recording", "AI Summaries", "Video Messaging"],
+    freeOffering: "freemium",
+    freeDetails: "Free plan with 25 videos per person"
+  },
+  {
+    id: "otter-ai",
+    name: "Otter.ai",
+    category: "Transcription",
+    description: "AI meeting transcription and note-taking assistant",
+    rating: 4.4,
+    users: "3M+",
+    isPro: false,
+    url: "https://otter.ai",
+    features: ["Meeting Transcription", "AI Summaries", "Team Collaboration"],
+    freeOffering: "freemium",
+    freeDetails: "Free plan with 300 monthly transcription minutes"
+  },
+  {
+    id: "slidesai",
+    name: "SlidesAI",
+    category: "Presentation",
+    description: "Create professional presentations from text using AI",
+    rating: 4.2,
+    users: "500K+",
+    isPro: false,
+    url: "https://slidesai.io",
+    features: ["Text to Slides", "Professional Templates", "Quick Generation"],
+    freeOffering: "freemium",
+    freeDetails: "Free plan with 3 presentations per month"
+  },
+  {
+    id: "beautiful-ai",
+    name: "Beautiful.AI",
+    category: "Presentation",
+    description: "AI-powered presentation design with smart templates",
+    rating: 4.3,
+    users: "1M+",
+    isPro: false,
+    url: "https://beautiful.ai",
+    features: ["Smart Templates", "Auto-design", "Team Collaboration"],
+    freeOffering: "free_trial",
+    freeDetails: "Free trial with limited presentations"
+  },
+  {
+    id: "descript",
+    name: "Descript",
+    category: "Video Editing",
+    description: "AI-powered video editing with text-based editing",
+    rating: 4.4,
+    users: "1M+",
+    isPro: false,
+    url: "https://descript.com",
+    features: ["Text-based Editing", "AI Voices", "Transcription"],
+    freeOffering: "freemium",
+    freeDetails: "Free plan with 3 hours of transcription per month"
+  },
+  {
+    id: "monday-ai",
+    name: "monday.com AI",
+    category: "Project Management",
+    description: "AI-enhanced project management and team collaboration",
+    rating: 4.5,
+    users: "152K+",
+    isPro: false,
+    url: "https://monday.com",
+    features: ["AI Insights", "Project Templates", "Team Automation"],
+    freeOffering: "freemium",
+    freeDetails: "Free plan for up to 2 users"
   }
 ];
 

@@ -1,4 +1,3 @@
-
 import { PromptPack } from './aiTools';
 
 // School Prompt Packs
@@ -113,7 +112,7 @@ export const contentPromptPacks: PromptPack[] = [
   }
 ];
 
-// Business Prompt Packs
+// Business Prompt Packs - EXPANDED
 export const businessPromptPacks: PromptPack[] = [
   {
     id: "email-marketing",
@@ -152,6 +151,71 @@ export const businessPromptPacks: PromptPack[] = [
       "Write a landing page sales copy for [PRODUCT/SERVICE] using the AIDA framework: Attention-grabbing headline, Interest-building benefits, Desire-creating testimonials, Action-driving CTA",
       "Create a sales email sequence for [PRODUCT] with 5 emails: introduction, problem awareness, solution presentation, objection handling, and final offer with urgency",
       "Generate product descriptions for [PRODUCT] that sell. Include: emotional hooks, feature-benefit translations, social proof elements, and compelling call-to-action"
+    ]
+  },
+  {
+    id: "customer-service",
+    title: "Customer Service & Support",
+    description: "Professional customer service responses and templates",
+    prompts: 24,
+    category: "Support",
+    isPro: false,
+    examples: [
+      "Write a professional apology email for [ISSUE] that includes: sincere apology, explanation without excuses, specific solution, and future prevention measures",
+      "Create a customer onboarding email sequence for [PRODUCT/SERVICE]. Include: welcome message, setup instructions, helpful resources, and support contact",
+      "Generate FAQ responses for common customer questions about [PRODUCT/SERVICE]. Make them clear, helpful, and brand-aligned"
+    ]
+  },
+  {
+    id: "social-media-business",
+    title: "Business Social Media",
+    description: "Professional social media content for business growth",
+    prompts: 35,
+    category: "Social Media",
+    isPro: false,
+    examples: [
+      "Create a week's worth of LinkedIn posts for [BUSINESS_TYPE] focusing on industry insights, company updates, and thought leadership",
+      "Write engaging Twitter threads about [BUSINESS_TOPIC] that provide value and encourage engagement. Include 8-10 tweets with clear progression",
+      "Generate Instagram Stories templates for businesses including: behind-the-scenes, team highlights, product features, and customer testimonials"
+    ]
+  },
+  {
+    id: "meeting-productivity",
+    title: "Meeting & Productivity",
+    description: "Templates for efficient meetings and business communication",
+    prompts: 20,
+    category: "Productivity",
+    isPro: false,
+    examples: [
+      "Create a meeting agenda template for [MEETING_TYPE] including: objectives, discussion points, action items, and time allocation",
+      "Write a project kickoff email for [PROJECT_NAME] including: project overview, team roles, timeline, deliverables, and next steps",
+      "Generate a weekly team update template covering: accomplishments, challenges, upcoming priorities, and resource needs"
+    ]
+  },
+  {
+    id: "financial-planning",
+    title: "Financial Planning & Analysis",
+    description: "Business financial planning and analysis prompts",
+    prompts: 18,
+    category: "Finance",
+    isPro: true,
+    examples: [
+      "Create a monthly financial report template for [BUSINESS_TYPE] including: revenue analysis, expense breakdown, cash flow, and key metrics comparison",
+      "Generate a budget planning worksheet for [DEPARTMENT/PROJECT] with categories, estimated costs, and tracking mechanisms",
+      "Analyze the financial impact of [BUSINESS_DECISION] including: cost-benefit analysis, ROI calculations, and risk assessment"
+    ]
+  },
+  {
+    id: "hr-recruitment",
+    title: "HR & Recruitment",
+    description: "Human resources and recruitment templates",
+    prompts: 25,
+    category: "HR",
+    isPro: false,
+    examples: [
+      "Write a job description for [POSITION] including: role overview, key responsibilities, required qualifications, and company culture fit",
+      "Create interview questions for [ROLE] covering: technical skills, cultural fit, problem-solving, and career goals",
+      "Generate an employee onboarding checklist for [DEPARTMENT] including: paperwork, training modules, introductions, and first-week goals"
     ]
   }
 ];
