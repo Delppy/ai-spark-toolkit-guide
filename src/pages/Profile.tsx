@@ -34,30 +34,68 @@ const Profile = () => {
   const [activeSheet, setActiveSheet] = useState<null | "favorites" | "activity" | "preferences">(null);
   const { toast } = useToast();
   const navigate = useNavigate();
+  const [checkingProfile, setCheckingProfile] = useState(true);
 
-  // Fetch user and profile
+  // Fetch user and profile, create profile if missing
   useEffect(() => {
     let ignore = false;
+    setCheckingProfile(true);
+
     supabase.auth.getSession().then(async ({ data: { session } }) => {
-      if (!ignore && !session) {
+      if (ignore) return;
+      if (!session) {
         navigate("/login", { replace: true });
         return;
       }
-      if (!ignore && session?.user) {
-        setUser(session.user);
-        setEmail(session.user.email ?? "");
-        const { data, error } = await supabase
+      setUser(session.user);
+      setEmail(session.user.email ?? "");
+      // Try to get the profile
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", session.user.id)
+        .maybeSingle();
+
+      if (ignore) return;
+
+      if (!error && !data) {
+        // Profile does not exist: create it
+        const { error: insertError } = await supabase.from("profiles").insert([
+          {
+            id: session.user.id,
+            email: session.user.email,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString()
+          }
+        ]);
+        if (insertError) {
+          toast({
+            title: "Profile creation failed",
+            description: insertError.message,
+            variant: "destructive",
+          });
+          setCheckingProfile(false);
+          return;
+        }
+        // Fetch the newly created profile
+        const { data: newProfile, error: errorAfterInsert } = await supabase
           .from("profiles")
           .select("*")
           .eq("id", session.user.id)
           .maybeSingle();
-        if (!ignore && !error && data) {
-          setProfile(data as ProfileRow);
-          setName(data.name ?? "");
-          setBio(data.bio ?? "");
-          setCountry(data.country ?? "");
+        if (!errorAfterInsert && newProfile) {
+          setProfile(newProfile as ProfileRow);
+          setName(newProfile.name ?? "");
+          setBio(newProfile.bio ?? "");
+          setCountry(newProfile.country ?? "");
         }
+      } else if (!error && data) {
+        setProfile(data as ProfileRow);
+        setName(data.name ?? "");
+        setBio(data.bio ?? "");
+        setCountry(data.country ?? "");
       }
+      setCheckingProfile(false);
     });
     return () => {
       ignore = true;
@@ -188,10 +226,17 @@ const Profile = () => {
     // Here you can sync to supabase (not implemented in demo)
   };
 
-  if (!user || !profile) {
+  if (checkingProfile) {
     return (
       <Layout>
         <div className="flex items-center justify-center min-h-[80vh]">Loading...</div>
+      </Layout>
+    );
+  }
+  if (!user || !profile) {
+    return (
+      <Layout>
+        <div className="flex items-center justify-center min-h-[80vh]">Couldn't find a profile for this user.</div>
       </Layout>
     );
   }
