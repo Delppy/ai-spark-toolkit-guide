@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import AnimatedButton from "@/components/ui/animated-button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -8,65 +7,55 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import PageTransition from "./PageTransition";
 import type { Tables } from "@/integrations/supabase/types";
+import type { Session } from "@supabase/supabase-js";
 
 type ProfileRow = Tables<"profiles">;
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
-  const [user, setUser] = useState<any>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<ProfileRow | null>(null);
 
   useEffect(() => {
-    let ignore = false;
-    
-    const getSessionAndProfile = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!ignore) {
-        setUser(session?.user ?? null);
-        
-        if (session?.user) {
-          // Fetch profile data including photo_url
-          const { data: profileData } = await supabase
-            .from("profiles")
-            .select("*")
-            .eq("id", session.user.id)
-            .maybeSingle();
-          
-          if (!ignore && profileData) {
-            setProfile(profileData);
-          }
-        }
-      }
-    };
-
-    getSessionAndProfile();
-
-    const { data: listener } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (!ignore) {
-        setUser(session?.user ?? null);
-        
-        if (session?.user) {
-          // Fetch profile data when auth state changes
-          const { data: profileData } = await supabase
-            .from("profiles")
-            .select("*")
-            .eq("id", session.user.id)
-            .maybeSingle();
-          
-          if (!ignore && profileData) {
-            setProfile(profileData);
-          }
-        } else {
-          setProfile(null);
-        }
-      }
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
     });
 
-    return () => {
-      ignore = true;
-      listener?.subscription.unsubscribe();
-    };
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (session?.user) {
+      const fetchProfile = async () => {
+        try {
+          const { data: profileData, error } = await supabase
+            .from("profiles")
+            .select("*")
+            .eq("id", session.user.id)
+            .maybeSingle();
+
+          if (error) {
+            console.error("Error fetching profile:", error);
+          } else if (profileData) {
+            setProfile(profileData);
+          }
+        } catch (error) {
+          console.error("Unexpected error fetching profile:", error);
+        }
+      };
+      fetchProfile();
+    } else {
+      setProfile(null);
+    }
+  }, [session]);
+
+  const user = session?.user;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex flex-col">
