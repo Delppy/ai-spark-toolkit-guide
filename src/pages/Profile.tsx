@@ -25,6 +25,9 @@ const Profile = () => {
   const [user, setUser] = useState<any>(null);
   const [profile, setProfile] = useState<ProfileRow | null>(null);
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [bio, setBio] = useState("");
+  const [country, setCountry] = useState("");
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [prefs, setPrefs] = useState(defaultPrefs);
@@ -47,9 +50,12 @@ const Profile = () => {
           .from("profiles")
           .select("*")
           .eq("id", session.user.id)
-          .single();
+          .maybeSingle();
         if (!ignore && !error && data) {
           setProfile(data as ProfileRow);
+          setName(data.name ?? "");
+          setBio(data.bio ?? "");
+          setCountry(data.country ?? "");
         }
       }
     });
@@ -64,8 +70,13 @@ const Profile = () => {
       .from("profiles")
       .select("*")
       .eq("id", user.id)
-      .single();
-    if (!error && data) setProfile(data as ProfileRow);
+      .maybeSingle();
+    if (!error && data) {
+      setProfile(data as ProfileRow);
+      setName(data.name ?? "");
+      setBio(data.bio ?? "");
+      setCountry(data.country ?? "");
+    }
   };
 
   const handleLogout = async () => {
@@ -81,6 +92,13 @@ const Profile = () => {
   const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
+    if (!user) {
+      setLoading(false);
+      return;
+    }
+
+    // Handle auth email update if email field changed
     if (email && user && email !== user.email) {
       const { error } = await supabase.auth.updateUser({ email });
       if (error) {
@@ -98,13 +116,39 @@ const Profile = () => {
         variant: "default",
       });
       setUser({ ...user, email });
-      setEditing(false);
-      setLoading(false);
-      await refreshProfile();
-      return;
     }
+
+    // Update name, bio, country in profiles table if changed
+    if (
+      (profile?.name !== name) ||
+      (profile?.bio !== bio) ||
+      (profile?.country !== country) ||
+      (profile?.email !== email)
+    ) {
+      const { error } = await supabase
+        .from("profiles")
+        .update({
+          name,
+          bio,
+          country,
+          email,
+          updated_at: new Date().toISOString(),
+        })
+        .eq("id", user.id);
+      if (error) {
+        toast({
+          title: "Profile update failed",
+          description: error.message,
+          variant: "destructive",
+        });
+        setLoading(false);
+        return;
+      }
+    }
+
     setEditing(false);
     setLoading(false);
+    await refreshProfile();
   };
 
   const handleUpgrade = () => {
@@ -160,7 +204,6 @@ const Profile = () => {
             <TabsTrigger value="settings" className="w-full">Settings</TabsTrigger>
             <TabsTrigger value="legal" className="w-full">Account</TabsTrigger>
           </TabsList>
-
           {/* Main profile */}
           <TabsContent value="main" className="space-y-4">
             <ProfileUserInfo
@@ -174,6 +217,12 @@ const Profile = () => {
               handleLogout={handleLogout}
               handlePhotoUpload={handlePhotoUpload}
               user={user}
+              name={name}
+              bio={bio}
+              country={country}
+              setName={setName}
+              setBio={setBio}
+              setCountry={setCountry}
             />
             <div className="flex flex-col gap-3 mt-8">
               <Button
@@ -247,3 +296,4 @@ const Profile = () => {
 };
 
 export default Profile;
+

@@ -10,6 +10,9 @@ type ProfileUserInfoProps = {
     id: string;
     photo_url: string | null;
     email: string | null;
+    name?: string | null;
+    bio?: string | null;
+    country?: string | null;
   };
   email: string;
   editing: boolean;
@@ -20,7 +23,19 @@ type ProfileUserInfoProps = {
   handleLogout: () => void;
   handlePhotoUpload: (url: string) => void;
   user: any;
+  name: string;
+  bio: string;
+  country: string;
+  setName: (s: string) => void;
+  setBio: (s: string) => void;
+  setCountry: (s: string) => void;
 };
+
+const countries = [
+  "",
+  "United States", "Canada", "United Kingdom", "Germany", "France", "India", "Australia", "Nigeria",
+  "Brazil", "China", "Japan", "South Africa", "Other"
+];
 
 const ProfileUserInfo: React.FC<ProfileUserInfoProps> = ({
   profile,
@@ -33,6 +48,12 @@ const ProfileUserInfo: React.FC<ProfileUserInfoProps> = ({
   handleLogout,
   handlePhotoUpload,
   user,
+  name,
+  bio,
+  country,
+  setName,
+  setBio,
+  setCountry,
 }) => (
   <Card className="w-full animate-fade-in">
     <CardHeader>
@@ -48,6 +69,20 @@ const ProfileUserInfo: React.FC<ProfileUserInfoProps> = ({
       </div>
       <form onSubmit={handleSave} className="space-y-4" aria-label="profile edit form">
         <div>
+          <label htmlFor="profile-name" className="block font-medium mb-1">
+            Name
+          </label>
+          <Input
+            id="profile-name"
+            type="text"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            disabled={!editing}
+            className={!editing ? "bg-gray-100" : ""}
+            placeholder="Your name"
+          />
+        </div>
+        <div>
           <label htmlFor="profile-email" className="block font-medium mb-1">
             Email
           </label>
@@ -60,10 +95,40 @@ const ProfileUserInfo: React.FC<ProfileUserInfoProps> = ({
             className={!editing ? "bg-gray-100" : ""}
           />
         </div>
+        <div>
+          <label htmlFor="profile-bio" className="block font-medium mb-1">
+            Bio
+          </label>
+          <Input
+            id="profile-bio"
+            type="text"
+            value={bio}
+            onChange={e => setBio(e.target.value)}
+            disabled={!editing}
+            className={!editing ? "bg-gray-100" : ""}
+            placeholder="Short bio"
+          />
+        </div>
+        <div>
+          <label htmlFor="profile-country" className="block font-medium mb-1">
+            Country
+          </label>
+          <select
+            id="profile-country"
+            value={country}
+            onChange={e => setCountry(e.target.value)}
+            disabled={!editing}
+            className={`border rounded px-2 py-1 w-full ${!editing ? "bg-gray-100" : ""}`}
+          >
+            {countries.map(option => (
+              <option key={option} value={option}>{option === "" ? "Select country" : option}</option>
+            ))}
+          </select>
+        </div>
         <div className="flex gap-2 mt-4">
           {!editing ? (
             <Button type="button" variant="outline" onClick={() => setEditing(true)}>
-              Edit Email
+              Edit Profile
             </Button>
           ) : (
             <>
@@ -75,6 +140,9 @@ const ProfileUserInfo: React.FC<ProfileUserInfoProps> = ({
                 variant="ghost"
                 onClick={() => {
                   setEditing(false);
+                  setName(profile.name ?? "");
+                  setBio(profile.bio ?? "");
+                  setCountry(profile.country ?? "");
                   setEmail(user.email);
                 }}
               >
