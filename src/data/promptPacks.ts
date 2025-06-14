@@ -1,5 +1,8 @@
 import { PromptPack } from './aiTools';
 
+// Re-export the PromptPack interface for use in components
+export { PromptPack };
+
 // School Prompt Packs
 export const schoolPromptPacks: PromptPack[] = [
   {
