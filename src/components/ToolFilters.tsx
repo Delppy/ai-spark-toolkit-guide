@@ -29,38 +29,27 @@ export const ToolFilters: React.FC<ToolFiltersProps> = ({
   hasActiveFilters
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [pendingFilters, setPendingFilters] = React.useState(filters);
-
-  React.useEffect(() => {
-    setPendingFilters(filters);
-  }, [filters]);
-
-  const handleApply = () => {
-    onFilterChange({
-      categories: pendingFilters.categories,
-      freeOfferings: pendingFilters.freeOfferings,
-      ratings: pendingFilters.ratings,
-      isPro: pendingFilters.isPro,
-    });
-    setIsOpen(false);
-  };
 
   const handleCategoryChange = (category: string, checked: boolean) => {
     const newCategories = checked
-      ? [...pendingFilters.categories, category]
-      : pendingFilters.categories.filter(c => c !== category);
-    setPendingFilters(prev => ({...prev, categories: newCategories}));
+      ? [...filters.categories, category]
+      : filters.categories.filter(c => c !== category);
+    onFilterChange({ categories: newCategories });
   };
 
   const handleFreeOfferingChange = (offering: string, checked: boolean) => {
     const newOfferings = checked
-      ? [...pendingFilters.freeOfferings, offering]
-      : pendingFilters.freeOfferings.filter(o => o !== offering);
-    setPendingFilters(prev => ({...prev, freeOfferings: newOfferings}));
+      ? [...filters.freeOfferings, offering]
+      : filters.freeOfferings.filter(o => o !== offering);
+    onFilterChange({ freeOfferings: newOfferings });
   };
 
   const handleProStatusChange = (isPro: boolean | null) => {
-    setPendingFilters(prev => ({...prev, isPro}));
+    onFilterChange({ isPro });
+  };
+
+  const handleRatingChange = (value: number[]) => {
+    onFilterChange({ ratings: { min: value[0], max: value[1] } });
   };
 
   const freeOfferingLabels: Record<string, string> = {
@@ -116,7 +105,7 @@ export const ToolFilters: React.FC<ToolFiltersProps> = ({
                     <div key={category} className="flex items-center space-x-2">
                       <Checkbox
                         id={`category-${category}`}
-                        checked={pendingFilters.categories.includes(category)}
+                        checked={filters.categories.includes(category)}
                         onCheckedChange={(checked) => handleCategoryChange(category, checked === true)}
                       />
                       <Label htmlFor={`category-${category}`} className="text-sm cursor-pointer">
@@ -135,7 +124,7 @@ export const ToolFilters: React.FC<ToolFiltersProps> = ({
                     <div key={offering} className="flex items-center space-x-2">
                       <Checkbox
                         id={`offering-${offering}`}
-                        checked={pendingFilters.freeOfferings.includes(offering)}
+                        checked={filters.freeOfferings.includes(offering)}
                         onCheckedChange={(checked) => handleFreeOfferingChange(offering, checked === true)}
                       />
                       <Label htmlFor={`offering-${offering}`} className="text-sm cursor-pointer">
@@ -149,14 +138,12 @@ export const ToolFilters: React.FC<ToolFiltersProps> = ({
               {/* Rating Range */}
               <div>
                 <Label className="text-sm font-medium mb-3 block">
-                  Rating ({pendingFilters.ratings.min} - {pendingFilters.ratings.max})
+                  Rating ({filters.ratings.min} - {filters.ratings.max})
                 </Label>
                 <div className="px-2">
                   <Slider
-                    value={[pendingFilters.ratings.min, pendingFilters.ratings.max]}
-                    onValueChange={(value) => 
-                      setPendingFilters(prev => ({ ...prev, ratings: { min: value[0], max: value[1] } }))
-                    }
+                    value={[filters.ratings.min, filters.ratings.max]}
+                    onValueChange={handleRatingChange}
                     max={5}
                     min={0}
                     step={0.1}
@@ -172,7 +159,7 @@ export const ToolFilters: React.FC<ToolFiltersProps> = ({
                   <div className="flex items-center space-x-2">
                     <Checkbox
                       id="free-tools"
-                      checked={pendingFilters.isPro === false}
+                      checked={filters.isPro === false}
                       onCheckedChange={(checked) => 
                         handleProStatusChange(checked ? false : null)
                       }
@@ -184,7 +171,7 @@ export const ToolFilters: React.FC<ToolFiltersProps> = ({
                   <div className="flex items-center space-x-2">
                     <Checkbox
                       id="pro-tools"
-                      checked={pendingFilters.isPro === true}
+                      checked={filters.isPro === true}
                       onCheckedChange={(checked) => 
                         handleProStatusChange(checked ? true : null)
                       }
@@ -195,9 +182,6 @@ export const ToolFilters: React.FC<ToolFiltersProps> = ({
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="mt-6 flex justify-end">
-                <Button onClick={handleApply}>Apply Filters</Button>
             </div>
           </CardContent>
         </CollapsibleContent>

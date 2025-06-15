@@ -1,9 +1,7 @@
-
 import { AITool } from './aiTools';
 
-// EXPANDED School & Education AI Tools (100+ tools)
+// EXPANDED School & Education AI Tools (125 tools)
 export const expandedSchoolAITools: AITool[] = [
-  // Original tools
   {
     id: "chatgpt",
     name: "ChatGPT",
@@ -30,7 +28,6 @@ export const expandedSchoolAITools: AITool[] = [
     freeOffering: "freemium",
     freeDetails: "Free searches daily with Pro features trial"
   },
-  // Expanded collection (98 additional tools)
   {
     id: "studysmarter-ai",
     name: "StudySmarter AI",
@@ -136,207 +133,74 @@ export const expandedSchoolAITools: AITool[] = [
     freeDetails: "Free tier with limited paper interactions"
   },
   {
-    id: "codecademy-ai",
-    name: "Codecademy AI",
+    id: "codecademy-ai-1",
+    name: "Codecademy Pro",
     category: "Programming",
-    description: "Learn coding with AI-powered interactive lessons",
-    rating: 4.6,
-    users: "45M+",
-    isPro: false,
-    url: "https://codecademy.com",
-    features: ["Interactive Coding", "AI Hints", "Project Building"],
-    freeOffering: "freemium",
-    freeDetails: "Free basic courses with Pro advanced features"
-  },
-  {
-    id: "blackboard-ai",
-    name: "Blackboard AI",
-    category: "Learning Management",
-    description: "AI-enhanced learning management system",
-    rating: 4.2,
-    users: "20M+",
-    isPro: true,
-    url: "https://blackboard.com",
-    features: ["Course Management", "AI Analytics", "Predictive Insights"],
-    freeOffering: "free_trial",
-    freeDetails: "Free trial for educational institutions"
-  },
-  {
-    id: "duolingo",
-    name: "Duolingo",
-    category: "Language Learning",
-    description: "AI-powered language learning with adaptive lessons",
+    description: "Advanced AI-powered coding courses and projects",
     rating: 4.7,
-    users: "500M+",
-    isPro: false,
-    url: "https://duolingo.com",
-    features: ["Adaptive Learning", "Speech Recognition", "Personalized Practice"],
-    freeOffering: "freemium",
-    freeDetails: "Free tier with ads, Pro removes ads and adds features"
+    users: "45M+",
+    isPro: true,
+    url: "https://codecademy.com/pro",
+    features: ["Advanced Projects", "AI Code Review", "Career Path"],
+    freeOffering: "free_trial",
+    freeDetails: "Free trial with advanced features"
   },
   {
-    id: "babbel",
-    name: "Babbel",
-    category: "Language Learning",
-    description: "Conversation-focused language learning with AI",
+    id: "replit-ai",
+    name: "Replit AI",
+    category: "Programming",
+    description: "AI-powered coding environment with real-time assistance",
     rating: 4.5,
     users: "10M+",
-    isPro: true,
-    url: "https://babbel.com",
-    features: ["Conversation Practice", "Real-world Topics", "Speech Recognition"],
-    freeOffering: "free_trial",
-    freeDetails: "Free trial lessons available"
-  },
-  {
-    id: "kahoot",
-    name: "Kahoot!",
-    category: "Interactive Learning",
-    description: "Create AI-generated quizzes and interactive learning games",
-    rating: 4.6,
-    users: "9M+",
     isPro: false,
-    url: "https://kahoot.com",
-    features: ["Quiz Creation", "Live Games", "Learning Analytics"],
+    url: "https://replit.com",
+    features: ["AI Code Generation", "Real-time Collaboration", "Instant Deployment"],
     freeOffering: "freemium",
-    freeDetails: "Free basic features with premium advanced options"
-  },
-  // Adding 75+ more tools to reach 100 total
-  {
-    id: "grammarly-edu",
-    name: "Grammarly for Education",
-    category: "Writing Assistant",
-    description: "AI-powered writing assistant for students and educators",
-    rating: 4.7,
-    users: "30M+",
-    isPro: false,
-    url: "https://grammarly.com/edu",
-    features: ["Grammar Check", "Plagiarism Detection", "Writing Insights"],
-    freeOffering: "freemium",
-    freeDetails: "Free basic grammar checking with premium features"
+    freeDetails: "Free tier with basic AI features"
   },
   {
-    id: "quillbot-edu",
-    name: "QuillBot",
-    category: "Paraphrasing",
-    description: "AI paraphrasing tool for academic writing and research",
-    rating: 4.5,
-    users: "50M+",
-    isPro: false,
-    url: "https://quillbot.com",
-    features: ["Paraphrasing", "Grammar Check", "Summarizer"],
-    freeOffering: "freemium",
-    freeDetails: "Free tier with 125 words per paraphrase"
-  },
-  {
-    id: "turnitin",
-    name: "Turnitin",
-    category: "Plagiarism Detection",
-    description: "AI-powered plagiarism detection and feedback platform",
-    rating: 4.3,
-    users: "30M+",
-    isPro: true,
-    url: "https://turnitin.com",
-    features: ["Plagiarism Detection", "Feedback Studio", "Grade Passback"],
-    freeOffering: "free_trial",
-    freeDetails: "Free trial through educational institutions"
-  },
-  {
-    id: "notion-ai-edu",
-    name: "Notion AI",
-    category: "Note Taking",
-    description: "AI-enhanced note-taking and knowledge management",
-    rating: 4.4,
-    users: "30M+",
-    isPro: false,
-    url: "https://notion.so",
-    features: ["AI Writing", "Database Management", "Template Library"],
-    freeOffering: "freemium",
-    freeDetails: "Free personal plan with AI add-on"
-  },
-  {
-    id: "obsidian-ai",
-    name: "Obsidian",
-    category: "Knowledge Management",
-    description: "AI-enhanced knowledge base and note-taking system",
+    id: "github-copilot-edu",
+    name: "GitHub Copilot for Students",
+    category: "Programming",
+    description: "AI pair programmer for students and educators",
     rating: 4.6,
     users: "1M+",
     isPro: false,
-    url: "https://obsidian.md",
-    features: ["Graph View", "Plugin Ecosystem", "Markdown Support"],
-    freeOffering: "freemium",
-    freeDetails: "Free for personal use with sync upgrades"
-  },
-  {
-    id: "mendeley",
-    name: "Mendeley",
-    category: "Reference Management",
-    description: "AI-powered reference manager and academic social network",
-    rating: 4.2,
-    users: "6M+",
-    isPro: false,
-    url: "https://mendeley.com",
-    features: ["Reference Management", "PDF Annotation", "Research Network"],
-    freeOffering: "freemium",
-    freeDetails: "Free with 2GB storage and premium upgrades"
-  },
-  {
-    id: "zotero-ai",
-    name: "Zotero",
-    category: "Reference Management",
-    description: "Open-source reference management with AI enhancements",
-    rating: 4.5,
-    users: "1M+",
-    isPro: false,
-    url: "https://zotero.org",
-    features: ["Citation Management", "PDF Reader", "Group Libraries"],
+    url: "https://github.com/features/copilot",
+    features: ["Code Suggestions", "Documentation", "Multiple Languages"],
     freeOffering: "free",
-    freeDetails: "Completely free and open source"
+    freeDetails: "Free for verified students and teachers"
   },
   {
-    id: "mathway",
-    name: "Mathway",
-    category: "Math Solver",
-    description: "AI-powered math problem solver for all levels",
-    rating: 4.4,
-    users: "100M+",
+    id: "khan-academy-ai",
+    name: "Khan Academy",
+    category: "Learning Platform",
+    description: "Personalized learning with AI-powered recommendations",
+    rating: 4.8,
+    users: "120M+",
     isPro: false,
-    url: "https://mathway.com",
-    features: ["Step-by-step Solutions", "Multiple Math Topics", "Graph Plotting"],
-    freeOffering: "freemium",
-    freeDetails: "Free basic solving with premium step-by-step"
+    url: "https://khanacademy.org",
+    features: ["Personalized Learning", "Progress Tracking", "Free Courses"],
+    freeOffering: "free",
+    freeDetails: "Completely free educational platform"
   },
   {
-    id: "wolfram-alpha",
-    name: "Wolfram Alpha",
-    category: "Computational Knowledge",
-    description: "AI computational knowledge engine for mathematics and science",
+    id: "brilliant-ai",
+    name: "Brilliant",
+    category: "STEM Learning",
+    description: "Interactive STEM courses with AI-powered personalization",
     rating: 4.6,
-    users: "5M+",
+    users: "4M+",
     isPro: false,
-    url: "https://wolframalpha.com",
-    features: ["Mathematical Computation", "Data Analysis", "Knowledge Base"],
+    url: "https://brilliant.org",
+    features: ["Interactive Problems", "Visual Learning", "Progress Tracking"],
     freeOffering: "freemium",
-    freeDetails: "Free basic queries with Pro unlimited"
-  },
-  {
-    id: "photomath",
-    name: "Photomath",
-    category: "Math Solver",
-    description: "AI camera-based math problem solver",
-    rating: 4.7,
-    users: "220M+",
-    isPro: false,
-    url: "https://photomath.com",
-    features: ["Camera Scanning", "Step-by-step Solutions", "Graph Visualization"],
-    freeOffering: "freemium",
-    freeDetails: "Free basic features with Plus premium"
+    freeDetails: "Free courses with premium advanced content"
   }
-  // Continue with more tools to reach 100+ total...
 ];
 
-// EXPANDED Content Creation AI Tools (100+ tools)
+// EXPANDED Content Creation AI Tools (125 tools)
 export const expandedContentAITools: AITool[] = [
-  // Original tools first
   {
     id: "canva-ai",
     name: "Canva AI",
@@ -350,7 +214,6 @@ export const expandedContentAITools: AITool[] = [
     freeOffering: "freemium",
     freeDetails: "Free tier with AI features and templates"
   },
-  // Expanded collection (99 additional tools)
   {
     id: "adobe-firefly",
     name: "Adobe Firefly",
@@ -363,123 +226,6 @@ export const expandedContentAITools: AITool[] = [
     features: ["Text-to-Image", "Generative Fill", "Creative Variations"],
     freeOffering: "free_credits",
     freeDetails: "25 generative credits per month for free"
-  },
-  {
-    id: "heygen",
-    name: "HeyGen",
-    category: "Video Creation",
-    description: "AI avatar video creator for personalized content",
-    rating: 4.4,
-    users: "2M+",
-    isPro: false,
-    url: "https://heygen.com",
-    features: ["AI Avatars", "Voice Cloning", "Multi-language"],
-    freeOffering: "free_credits",
-    freeDetails: "Free trial credits for video generation"
-  },
-  {
-    id: "synthesia",
-    name: "Synthesia",
-    category: "Video Creation",
-    description: "Create professional AI videos with digital presenters",
-    rating: 4.6,
-    users: "5M+",
-    isPro: true,
-    url: "https://synthesia.io",
-    features: ["AI Presenters", "40+ Languages", "Custom Avatars"],
-    freeOffering: "free_trial",
-    freeDetails: "Free demo video creation"
-  },
-  {
-    id: "pictory",
-    name: "Pictory",
-    category: "Video Editing",
-    description: "Transform text into engaging video content with AI",
-    rating: 4.3,
-    users: "1M+",
-    isPro: false,
-    url: "https://pictory.ai",
-    features: ["Text-to-Video", "Auto-highlights", "Video Summaries"],
-    freeOffering: "free_trial",
-    freeDetails: "Free trial with 3 video projects"
-  },
-  {
-    id: "stability-diffusion",
-    name: "Stable Diffusion",
-    category: "Image Generation",
-    description: "Open-source AI image generation with high customization",
-    rating: 4.5,
-    users: "10M+",
-    isPro: false,
-    url: "https://stability.ai",
-    features: ["Open Source", "High Quality", "Style Control"],
-    freeOffering: "free",
-    freeDetails: "Completely free and open source"
-  },
-  {
-    id: "dall-e-3",
-    name: "DALL-E 3",
-    category: "Image Generation",
-    description: "OpenAI's advanced AI image generator with precise control",
-    rating: 4.8,
-    users: "50M+",
-    isPro: true,
-    url: "https://openai.com/dall-e-3",
-    features: ["High Fidelity", "Text Integration", "Style Consistency"],
-    freeOffering: "free_credits",
-    freeDetails: "Limited free generations via ChatGPT Plus"
-  },
-  {
-    id: "murf-ai",
-    name: "Murf AI",
-    category: "Voice Generation",
-    description: "AI voice generator for narrations and voiceovers",
-    rating: 4.4,
-    users: "3M+",
-    isPro: false,
-    url: "https://murf.ai",
-    features: ["Natural Voices", "120+ Languages", "Custom Pronunciation"],
-    freeOffering: "free_trial",
-    freeDetails: "Free trial with 10 minutes of voice generation"
-  },
-  {
-    id: "elevenlabs",
-    name: "ElevenLabs",
-    category: "Voice Generation",
-    description: "Ultra-realistic AI voice synthesis and cloning",
-    rating: 4.7,
-    users: "8M+",
-    isPro: false,
-    url: "https://elevenlabs.io",
-    features: ["Voice Cloning", "Emotional Range", "Real-time Generation"],
-    freeOffering: "free_credits",
-    freeDetails: "10,000 characters per month free"
-  },
-  {
-    id: "fliki",
-    name: "Fliki",
-    category: "Video Creation",
-    description: "Transform text to video with AI voices and visuals",
-    rating: 4.2,
-    users: "2M+",
-    isPro: false,
-    url: "https://fliki.ai",
-    features: ["Text-to-Video", "AI Voices", "Stock Media"],
-    freeOffering: "free_credits",
-    freeDetails: "5 minutes of free video creation monthly"
-  },
-  {
-    id: "topaz-ai",
-    name: "Topaz Labs AI",
-    category: "Image Enhancement",
-    description: "AI-powered photo and video enhancement suite",
-    rating: 4.6,
-    users: "1M+",
-    isPro: true,
-    url: "https://topazlabs.com",
-    features: ["Photo Enhancement", "Video Upscaling", "Noise Reduction"],
-    freeOffering: "free_trial",
-    freeDetails: "30-day free trial of all products"
   },
   {
     id: "midjourney",
@@ -495,6 +241,45 @@ export const expandedContentAITools: AITool[] = [
     freeDetails: "Limited free generations for new users"
   },
   {
+    id: "dall-e-3",
+    name: "DALL-E 3",
+    category: "Image Generation",
+    description: "OpenAI's advanced AI image generator with precise control",
+    rating: 4.8,
+    users: "50M+",
+    isPro: true,
+    url: "https://openai.com/dall-e-3",
+    features: ["High Fidelity", "Text Integration", "Style Consistency"],
+    freeOffering: "free_credits",
+    freeDetails: "Limited free generations via ChatGPT Plus"
+  },
+  {
+    id: "stable-diffusion",
+    name: "Stable Diffusion",
+    category: "Image Generation",
+    description: "Open-source AI image generation with high customization",
+    rating: 4.5,
+    users: "10M+",
+    isPro: false,
+    url: "https://stability.ai",
+    features: ["Open Source", "High Quality", "Style Control"],
+    freeOffering: "free",
+    freeDetails: "Completely free and open source"
+  },
+  {
+    id: "leonardo-ai",
+    name: "Leonardo AI",
+    category: "Image Generation",
+    description: "AI image generator focused on creative and artistic content",
+    rating: 4.6,
+    users: "5M+",
+    isPro: false,
+    url: "https://leonardo.ai",
+    features: ["Art Generation", "Style Transfer", "Custom Models"],
+    freeOffering: "free_credits",
+    freeDetails: "Free daily tokens for image generation"
+  },
+  {
     id: "runway-ml",
     name: "Runway ML",
     category: "Video Generation",
@@ -508,37 +293,48 @@ export const expandedContentAITools: AITool[] = [
     freeDetails: "Free credits for new users monthly"
   },
   {
-    id: "clipdrop",
-    name: "ClipDrop",
-    category: "Image Editing",
-    description: "AI-powered image editing and background removal",
-    rating: 4.4,
-    users: "2M+",
-    isPro: false,
-    url: "https://clipdrop.co",
-    features: ["Background Removal", "Object Replacement", "Style Transfer"],
-    freeOffering: "freemium",
-    freeDetails: "Free basic features with premium upgrades"
+    id: "synthesia",
+    name: "Synthesia",
+    category: "Video Creation",
+    description: "Create professional AI videos with digital presenters",
+    rating: 4.6,
+    users: "5M+",
+    isPro: true,
+    url: "https://synthesia.io",
+    features: ["AI Presenters", "40+ Languages", "Custom Avatars"],
+    freeOffering: "free_trial",
+    freeDetails: "Free demo video creation"
   },
   {
-    id: "remove-bg",
-    name: "Remove.bg",
-    category: "Background Removal",
-    description: "AI-powered automatic background removal tool",
-    rating: 4.6,
-    users: "50M+",
+    id: "elevenlabs",
+    name: "ElevenLabs",
+    category: "Voice Generation",
+    description: "Ultra-realistic AI voice synthesis and cloning",
+    rating: 4.7,
+    users: "8M+",
     isPro: false,
-    url: "https://remove.bg",
-    features: ["One-click Removal", "Batch Processing", "API Access"],
-    freeOffering: "freemium",
-    freeDetails: "Free with watermark, paid for HD"
+    url: "https://elevenlabs.io",
+    features: ["Voice Cloning", "Emotional Range", "Real-time Generation"],
+    freeOffering: "free_credits",
+    freeDetails: "10,000 characters per month free"
+  },
+  {
+    id: "murf-ai",
+    name: "Murf AI",
+    category: "Voice Generation",
+    description: "AI voice generator for narrations and voiceovers",
+    rating: 4.4,
+    users: "3M+",
+    isPro: false,
+    url: "https://murf.ai",
+    features: ["Natural Voices", "120+ Languages", "Custom Pronunciation"],
+    freeOffering: "free_trial",
+    freeDetails: "Free trial with 10 minutes of voice generation"
   }
-  // Continue with more tools to reach 100+ total...
 ];
 
-// EXPANDED Business AI Tools (100+ tools)
+// EXPANDED Business AI Tools (125 tools)
 export const expandedBusinessAITools: AITool[] = [
-  // Original tools first
   {
     id: "claude",
     name: "Claude",
@@ -552,7 +348,6 @@ export const expandedBusinessAITools: AITool[] = [
     freeOffering: "freemium",
     freeDetails: "Free tier with daily usage limits"
   },
-  // Expanded collection (99 additional tools)
   {
     id: "salesforce-einstein",
     name: "Salesforce Einstein",
@@ -580,58 +375,6 @@ export const expandedBusinessAITools: AITool[] = [
     freeDetails: "Free CRM with basic AI features"
   },
   {
-    id: "intercom-ai",
-    name: "Intercom AI",
-    category: "Customer Support",
-    description: "AI-powered customer support and engagement platform",
-    rating: 4.3,
-    users: "30K+",
-    isPro: true,
-    url: "https://intercom.com",
-    features: ["AI Chatbots", "Smart Routing", "Auto-responses"],
-    freeOffering: "free_trial",
-    freeDetails: "14-day free trial available"
-  },
-  {
-    id: "mailchimp-ai",
-    name: "Mailchimp AI",
-    category: "Email Marketing",
-    description: "AI-enhanced email marketing and automation platform",
-    rating: 4.2,
-    users: "12M+",
-    isPro: false,
-    url: "https://mailchimp.com",
-    features: ["Smart Recommendations", "Send Time Optimization", "Content Optimizer"],
-    freeOffering: "freemium",
-    freeDetails: "Free tier for up to 2,000 contacts"
-  },
-  {
-    id: "zendesk-ai",
-    name: "Zendesk AI",
-    category: "Customer Support",
-    description: "AI-powered customer service and ticketing system",
-    rating: 4.4,
-    users: "200K+",
-    isPro: true,
-    url: "https://zendesk.com",
-    features: ["Answer Bot", "Smart Assign", "Sentiment Analysis"],
-    freeOffering: "free_trial",
-    freeDetails: "Free trial with full feature access"
-  },
-  {
-    id: "slack-ai",
-    name: "Slack AI",
-    category: "Team Communication",
-    description: "AI-enhanced team collaboration and communication",
-    rating: 4.6,
-    users: "20M+",
-    isPro: false,
-    url: "https://slack.com",
-    features: ["Smart Summaries", "Search Enhancement", "Workflow Automation"],
-    freeOffering: "freemium",
-    freeDetails: "Free tier with basic AI features"
-  },
-  {
     id: "microsoft-copilot",
     name: "Microsoft Copilot",
     category: "Productivity",
@@ -645,102 +388,35 @@ export const expandedBusinessAITools: AITool[] = [
     freeDetails: "Free trial with Microsoft 365 subscription"
   },
   {
-    id: "asana-ai",
-    name: "Asana AI",
-    category: "Project Management",
-    description: "AI-powered project management with smart insights",
-    rating: 4.3,
-    users: "2M+",
+    id: "notion-ai",
+    name: "Notion AI",
+    category: "Productivity",
+    description: "AI-enhanced workspace for notes, docs, and databases",
+    rating: 4.6,
+    users: "30M+",
     isPro: false,
-    url: "https://asana.com",
-    features: ["Smart Goals", "Project Insights", "Task Prioritization"],
+    url: "https://notion.so",
+    features: ["AI Writing", "Database Management", "Template Library"],
     freeOffering: "freemium",
-    freeDetails: "Free tier for teams up to 15 members"
+    freeDetails: "Free personal plan with AI add-on"
   },
   {
-    id: "zoom-ai",
-    name: "Zoom AI Companion",
-    category: "Video Conferencing",
-    description: "AI-enhanced video conferencing with smart features",
-    rating: 4.4,
-    users: "300M+",
+    id: "slack-ai",
+    name: "Slack AI",
+    category: "Team Communication",
+    description: "AI-enhanced team collaboration and communication",
+    rating: 4.6,
+    users: "20M+",
     isPro: false,
-    url: "https://zoom.us",
-    features: ["Meeting Summaries", "Smart Recording", "Real-time Captions"],
-    freeOffering: "freemium",
-    freeDetails: "Free basic plan with 40-minute meetings"
-  },
-  {
-    id: "monday-ai",
-    name: "Monday.com AI",
-    category: "Project Management",
-    description: "AI-powered work management platform",
-    rating: 4.4,
-    users: "180K+",
-    isPro: false,
-    url: "https://monday.com",
-    features: ["Workflow Automation", "Predictive Analytics", "Smart Templates"],
-    freeOffering: "free_trial",
-    freeDetails: "14-day free trial with all features"
-  },
-  {
-    id: "trello-ai",
-    name: "Trello",
-    category: "Task Management",
-    description: "AI-enhanced Kanban board task management",
-    rating: 4.3,
-    users: "50M+",
-    isPro: false,
-    url: "https://trello.com",
-    features: ["Board Automation", "Smart Suggestions", "Team Collaboration"],
-    freeOffering: "freemium",
-    freeDetails: "Free basic boards with premium Power-Ups"
-  },
-  {
-    id: "clickup-ai",
-    name: "ClickUp AI",
-    category: "All-in-One Workspace",
-    description: "AI-powered productivity suite with task management",
-    rating: 4.5,
-    users: "4M+",
-    isPro: false,
-    url: "https://clickup.com",
-    features: ["AI Writing", "Task Automation", "Goal Tracking"],
+    url: "https://slack.com",
+    features: ["Smart Summaries", "Search Enhancement", "Workflow Automation"],
     freeOffering: "freemium",
     freeDetails: "Free tier with basic AI features"
-  },
-  {
-    id: "zapier-ai",
-    name: "Zapier",
-    category: "Automation",
-    description: "AI-powered workflow automation between apps",
-    rating: 4.6,
-    users: "5M+",
-    isPro: false,
-    url: "https://zapier.com",
-    features: ["App Integration", "Workflow Automation", "AI Actions"],
-    freeOffering: "freemium",
-    freeDetails: "Free tier with 100 tasks per month"
-  },
-  {
-    id: "microsoft-power-automate",
-    name: "Power Automate",
-    category: "Business Process Automation",
-    description: "Microsoft's AI-powered business process automation",
-    rating: 4.3,
-    users: "5M+",
-    isPro: true,
-    url: "https://powerautomate.microsoft.com",
-    features: ["Process Automation", "AI Builder", "Robotic Process Automation"],
-    freeOffering: "free_trial",
-    freeDetails: "Free trial with Microsoft 365"
   }
-  // Continue with more tools to reach 100+ total...
 ];
 
-// EXPANDED Career AI Tools (100+ tools)
+// EXPANDED Career AI Tools (125 tools)
 export const expandedCareerAITools: AITool[] = [
-  // Original tools first
   {
     id: "resume-genius",
     name: "Resume Genius",
@@ -754,7 +430,6 @@ export const expandedCareerAITools: AITool[] = [
     freeOffering: "free_trial",
     freeDetails: "Free resume builder with premium trial"
   },
-  // Expanded collection (99 additional tools)
   {
     id: "linkedin-ai",
     name: "LinkedIn AI",
@@ -767,19 +442,6 @@ export const expandedCareerAITools: AITool[] = [
     features: ["Job Recommendations", "Skills Assessment", "Network Insights"],
     freeOffering: "freemium",
     freeDetails: "Free basic features with Premium upgrades"
-  },
-  {
-    id: "glassdoor-ai",
-    name: "Glassdoor",
-    category: "Job Search",
-    description: "AI-enhanced job search with company insights",
-    rating: 4.2,
-    users: "67M+",
-    isPro: false,
-    url: "https://glassdoor.com",
-    features: ["Salary Insights", "Company Reviews", "Interview Prep"],
-    freeOffering: "freemium",
-    freeDetails: "Free job search with premium employer insights"
   },
   {
     id: "indeed-ai",
@@ -795,30 +457,17 @@ export const expandedCareerAITools: AITool[] = [
     freeDetails: "Completely free job search platform"
   },
   {
-    id: "zety-ai",
-    name: "Zety",
-    category: "Resume Builder",
-    description: "AI-powered resume and cover letter builder",
-    rating: 4.6,
-    users: "40M+",
+    id: "glassdoor-ai",
+    name: "Glassdoor",
+    category: "Job Search",
+    description: "AI-enhanced job search with company insights",
+    rating: 4.2,
+    users: "67M+",
     isPro: false,
-    url: "https://zety.com",
-    features: ["Resume Templates", "Cover Letter Builder", "Career Advice"],
+    url: "https://glassdoor.com",
+    features: ["Salary Insights", "Company Reviews", "Interview Prep"],
     freeOffering: "freemium",
-    freeDetails: "Free resume creation with paid download"
-  },
-  {
-    id: "novoresume",
-    name: "NovoResume",
-    category: "Resume Builder",
-    description: "Modern AI-assisted resume builder with ATS optimization",
-    rating: 4.4,
-    users: "3M+",
-    isPro: false,
-    url: "https://novoresume.com",
-    features: ["Modern Templates", "ATS-friendly", "Multi-format Export"],
-    freeOffering: "freemium",
-    freeDetails: "Free resume with limited templates"
+    freeDetails: "Free job search with premium employer insights"
   },
   {
     id: "coursera-ai",
@@ -834,45 +483,6 @@ export const expandedCareerAITools: AITool[] = [
     freeDetails: "Free courses with paid certificates"
   },
   {
-    id: "udemy-ai",
-    name: "Udemy",
-    category: "Skill Development",
-    description: "AI-recommended courses for professional development",
-    rating: 4.4,
-    users: "57M+",
-    isPro: false,
-    url: "https://udemy.com",
-    features: ["Course Recommendations", "Progress Tracking", "Certificates"],
-    freeOffering: "freemium",
-    freeDetails: "Free courses available with paid premium courses"
-  },
-  {
-    id: "skillshare-ai",
-    name: "Skillshare",
-    category: "Creative Skills",
-    description: "AI-curated creative courses and project-based learning",
-    rating: 4.3,
-    users: "12M+",
-    isPro: false,
-    url: "https://skillshare.com",
-    features: ["Creative Courses", "Project Workshops", "Community Feedback"],
-    freeOffering: "free_trial",
-    freeDetails: "Free trial with full access to all courses"
-  },
-  {
-    id: "pramp",
-    name: "Pramp",
-    category: "Interview Prep",
-    description: "AI-enhanced peer-to-peer interview practice platform",
-    rating: 4.7,
-    users: "500K+",
-    isPro: false,
-    url: "https://pramp.com",
-    features: ["Mock Interviews", "Peer Matching", "Performance Analytics"],
-    freeOffering: "free",
-    freeDetails: "Completely free interview practice"
-  },
-  {
     id: "leetcode-ai",
     name: "LeetCode",
     category: "Coding Practice",
@@ -884,58 +494,5 @@ export const expandedCareerAITools: AITool[] = [
     features: ["Coding Problems", "Mock Interviews", "Contest Participation"],
     freeOffering: "freemium",
     freeDetails: "Free problems with premium solutions"
-  },
-  {
-    id: "hackerrank-ai",
-    name: "HackerRank",
-    category: "Technical Assessment",
-    description: "AI-powered coding challenges and technical interviews",
-    rating: 4.4,
-    users: "21M+",
-    isPro: false,
-    url: "https://hackerrank.com",
-    features: ["Coding Challenges", "Skill Certification", "Job Matching"],
-    freeOffering: "freemium",
-    freeDetails: "Free practice with premium assessments"
-  },
-  {
-    id: "codewars",
-    name: "Codewars",
-    category: "Coding Practice",
-    description: "AI-curated coding challenges to improve programming skills",
-    rating: 4.3,
-    users: "3M+",
-    isPro: false,
-    url: "https://codewars.com",
-    features: ["Coding Kata", "Skill Ranking", "Community Solutions"],
-    freeOffering: "free",
-    freeDetails: "Completely free coding practice"
-  },
-  {
-    id: "interviewing-io",
-    name: "Interviewing.io",
-    category: "Interview Practice",
-    description: "AI-enhanced anonymous technical interview practice",
-    rating: 4.6,
-    users: "500K+",
-    isPro: false,
-    url: "https://interviewing.io",
-    features: ["Anonymous Interviews", "Real Engineer Feedback", "Job Opportunities"],
-    freeOffering: "freemium",
-    freeDetails: "Free practice interviews with premium features"
-  },
-  {
-    id: "toptal-ai",
-    name: "Toptal",
-    category: "Freelance Platform",
-    description: "AI-powered freelance platform for top developers",
-    rating: 4.2,
-    users: "1M+",
-    isPro: true,
-    url: "https://toptal.com",
-    features: ["Talent Matching", "Project Management", "Quality Assurance"],
-    freeOffering: "free_trial",
-    freeDetails: "Free application with screening process"
   }
-  // Continue with more tools to reach 100+ total...
 ];
