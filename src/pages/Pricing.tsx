@@ -3,7 +3,10 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Check, XCircle, Sparkles, Percent } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useUserPreferences } from "@/contexts/UserPreferencesContext";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 const proFeatures = [
   "Unlock all prompt packs",
@@ -25,6 +28,51 @@ const YEARLY_DISCOUNT_PERCENT = Math.round(100 - (YEARLY_PRICE / (MONTHLY_PRICE 
 
 const Pricing: React.FC = () => {
   const [billing, setBilling] = useState<"monthly" | "yearly">("monthly");
+  const [loading, setLoading] = useState<"monthly" | "yearly" | null>(null);
+  const { user } = useUserPreferences();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleUpgrade = async (plan: "monthly" | "yearly") => {
+    if (!user || !user.email) {
+      localStorage.setItem("afterProRedirect", location.pathname);
+      toast.error("Please sign in to upgrade.");
+      navigate("/login");
+      return;
+    }
+
+    setLoading(plan);
+
+    const price = plan === "monthly" ? MONTHLY_PRICE : YEARLY_PRICE;
+    const callback_url = `${window.location.origin}/payment/verify`;
+
+    try {
+      const { data, error } = await supabase.functions.invoke('paystack-initialize', {
+        body: {
+          email: user.email,
+          amount: price,
+          plan: plan,
+          callback_url: callback_url
+        },
+      });
+
+      if (error) {
+        throw error;
+      }
+      
+      if (data && data.authorization_url) {
+        window.location.href = data.authorization_url;
+      } else {
+        toast.error("Could not initiate payment. Please try again.");
+        setLoading(null);
+      }
+
+    } catch (error: any) {
+      console.error("Payment initialization error:", error);
+      toast.error(error.message || "An unexpected error occurred during payment initiation.");
+      setLoading(null);
+    }
+  };
 
   const displayPrice = billing === "monthly"
     ? (
@@ -137,12 +185,19 @@ const Pricing: React.FC = () => {
                 </li>
               ))}
             </ul>
-            {/* Placeholder for payment or sign-in/upgrade */}
-            <Button className="w-full bg-gradient-to-r from-purple-600 to-amber-500 text-white text-lg font-bold py-6 shadow-lg">
-              {billing === "yearly" ? "Get Pro Yearly" : "Get Pro Monthly"}
+            <Button
+              className="w-full bg-gradient-to-r from-purple-600 to-amber-500 text-white text-lg font-bold py-6 shadow-lg"
+              onClick={() => handleUpgrade(billing)}
+              disabled={loading !== null}
+            >
+              {loading === billing
+                ? "Redirecting to payment..."
+                : billing === "yearly"
+                ? "Get Pro Yearly"
+                : "Get Pro Monthly"}
             </Button>
             <p className="text-xs text-center text-slate-500 mt-4">
-              No Stripe setup yet. This is a demo UI only.
+              Payments processed securely by Paystack.
             </p>
           </CardContent>
         </Card>

@@ -23,6 +23,7 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Pricing from "./pages/Pricing";
+import PaymentVerify from "./pages/PaymentVerify";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,7 @@ const App = () => (
               <Route path="/contact" element={<Contact />} />
               <Route path="/privacy" element={<PrivacyPolicy />} />
               <Route path="/pricing" element={<Pricing />} />
+              <Route path="/payment/verify" element={<PaymentVerify />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </TransitionProvider>

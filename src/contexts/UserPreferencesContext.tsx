@@ -1,6 +1,6 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { AITool, PromptPack } from '@/data/aiTools';
+import { supabase } from '@/integrations/supabase/client';
 
 interface UserPreferences {
   favorites: string[];
@@ -38,8 +38,54 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
     sortPreference: 'rating'
   });
 
-  // Mock user for now - in a real app this would come from authentication
-  const [user] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const { data: { user: authUser } } = await supabase.auth.getUser();
+        if (authUser) {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('name')
+            .eq('id', authUser.id)
+            .single();
+
+          setUser({
+            id: authUser.id,
+            email: authUser.email,
+            name: profile?.name || authUser.user_metadata.name,
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching user:", error);
+      }
+    };
+
+    fetchUser();
+
+    const { data: authListener } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      const authUser = session?.user;
+      if (authUser) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('name')
+          .eq('id', authUser.id)
+          .single();
+        setUser({
+          id: authUser.id,
+          email: authUser.email,
+          name: profile?.name || authUser.user_metadata.name,
+        });
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => {
+      authListener?.subscription.unsubscribe();
+    };
+  }, []);
 
   // Load preferences from localStorage on mount
   useEffect(() => {
