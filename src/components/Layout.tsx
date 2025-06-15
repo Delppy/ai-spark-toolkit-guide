@@ -1,62 +1,17 @@
+
 import { Button } from "@/components/ui/button";
 import AnimatedButton from "@/components/ui/animated-button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Sparkles } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 import PageTransition from "./PageTransition";
-import type { Tables } from "@/integrations/supabase/types";
-import type { Session } from "@supabase/supabase-js";
 import { useSubscription } from "@/hooks/useSubscription";
-
-type ProfileRow = Tables<"profiles">;
+import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
-  const [session, setSession] = useState<Session | null>(null);
-  const [profile, setProfile] = useState<ProfileRow | null>(null);
+  const { user, profile } = useUserPreferences();
 
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-    });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    if (session?.user) {
-      const fetchProfile = async () => {
-        try {
-          const { data: profileData, error } = await supabase
-            .from("profiles")
-            .select("*")
-            .eq("id", session.user.id)
-            .maybeSingle();
-
-          if (error) {
-            console.error("Error fetching profile:", error);
-          } else if (profileData) {
-            setProfile(profileData);
-          }
-        } catch (error) {
-          console.error("Unexpected error fetching profile:", error);
-        }
-      };
-      fetchProfile();
-    } else {
-      setProfile(null);
-    }
-  }, [session]);
-
-  const user = session?.user;
   const subscriptionStatus = useSubscription(user?.id || user?.email || undefined);
 
   return (

@@ -2,6 +2,9 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { AITool, PromptPack } from '@/data/aiTools';
 import { supabase } from '@/integrations/supabase/client';
+import type { Tables } from "@/integrations/supabase/types";
+
+type ProfileRow = Tables<"profiles">;
 
 interface UserPreferences {
   favorites: string[];
@@ -19,6 +22,7 @@ interface User {
 interface UserPreferencesContextType {
   preferences: UserPreferences;
   user: User | null;
+  profile: ProfileRow | null;
   favoriteTools: string[];
   toggleFavorite: (toolId: string) => void;
   addFavorite: (toolId: string) => void;
@@ -40,31 +44,38 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
   });
 
   const [user, setUser] = useState<User | null>(null);
+  const [profile, setProfile] = useState<ProfileRow | null>(null);
 
   useEffect(() => {
     const updateUserState = (sessionUser: any | null) => {
       if (!sessionUser) {
         setUser(null);
+        setProfile(null);
         return;
       }
       
       // Defer Supabase calls to prevent deadlocks, following best practices.
       setTimeout(async () => {
         try {
-          const { data: profile } = await supabase
+          const { data: profileData } = await supabase
             .from('profiles')
-            .select('name')
+            .select('*')
             .eq('id', sessionUser.id)
             .single();
+
+          if (profileData) {
+            setProfile(profileData as ProfileRow);
+          }
 
           setUser({
             id: sessionUser.id,
             email: sessionUser.email,
-            name: profile?.name || sessionUser.user_metadata?.name,
+            name: profileData?.name || sessionUser.user_metadata?.name,
           });
         } catch (error) {
           console.error("Error fetching user profile:", error);
           // Fallback to user data without profile if the call fails
+          setProfile(null);
           setUser({
             id: sessionUser.id,
             email: sessionUser.email,
@@ -150,6 +161,7 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
     <UserPreferencesContext.Provider value={{
       preferences,
       user,
+      profile,
       favoriteTools: preferences.favorites,
       toggleFavorite,
       addFavorite,
