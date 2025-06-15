@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -21,7 +20,7 @@ const freeFeatures = [
 ];
 
 const MONTHLY_PRICE = 1.99;
-const YEARLY_PRICE = 19.0;
+const YEARLY_PRICE = 20.0;
 const YEARLY_DISCOUNT_PERCENT = Math.round(100 - (YEARLY_PRICE / (MONTHLY_PRICE * 12)) * 100);
 
 const Pricing: React.FC = () => {
