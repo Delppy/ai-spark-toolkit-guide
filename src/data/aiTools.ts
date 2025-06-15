@@ -1,4 +1,3 @@
-
 export interface AITool {
   id: string;
   name: string;
@@ -71,7 +70,7 @@ export const schoolAITools: AITool[] = [
     description: "Check grammar, spelling, and improve your writing style",
     rating: 4.7,
     users: "30M+",
-    iPro: false,
+    isPro: false,
     url: "https://grammarly.com",
     features: ["Grammar Check", "Style Suggestions", "Plagiarism Detection"],
     freeOffering: "freemium",

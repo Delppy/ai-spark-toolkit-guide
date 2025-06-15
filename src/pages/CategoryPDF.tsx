@@ -1,18 +1,22 @@
-
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileText, Search, Filter, Zap } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import Layout from "@/components/Layout";
 import { ToolCard } from "@/components/ToolCard";
 import { ToolFilters } from "@/components/ToolFilters";
 import { ToolSorting } from "@/components/ToolSorting";
 import { useToolFiltering } from "@/hooks/useToolFiltering";
 import { dataManager } from "@/data/dataManager";
+import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 
 const CategoryPDF = () => {
+  const navigate = useNavigate();
+  const { user, favoriteTools, addFavorite, removeFavorite } = useUserPreferences();
   const pdfData = dataManager.getCategoryData('pdf');
   const {
     filteredAndSortedTools,
@@ -53,6 +57,31 @@ const CategoryPDF = () => {
       count: pdfData.aiTools.filter(tool => tool.category === "PDF Security").length
     }
   ];
+
+  const handleFavoriteClick = (toolId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!user) {
+      toast.error("Please sign in to save favorites");
+      navigate("/login");
+      return;
+    }
+    
+    if (favoriteTools.includes(toolId)) {
+      removeFavorite(toolId);
+      toast.success("Removed from favorites");
+    } else {
+      addFavorite(toolId);
+      toast.success("Added to favorites");
+    }
+  };
+
+  const handleToolClick = (toolId: string, url: string) => {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  };
+
+  const isFavorite = (toolId: string) => {
+    return favoriteTools.includes(toolId);
+  };
 
   return (
     <Layout>
@@ -137,22 +166,21 @@ const CategoryPDF = () => {
           hasActiveFilters={hasActiveFilters}
         />
 
-        <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
-          <div className="mb-4 sm:mb-0">
-            <p className="text-slate-600">
-              Showing <span className="font-semibold">{totalResults}</span> PDF tools
-              {hasActiveFilters && " (filtered)"}
-            </p>
-          </div>
-          <ToolSorting
-            sort={sort}
-            onSortChange={updateSort}
-          />
-        </div>
+        <ToolSorting
+          sort={sort}
+          onSortChange={updateSort}
+          totalResults={totalResults}
+        />
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredAndSortedTools.map((tool) => (
-            <ToolCard key={tool.id} tool={tool} />
+            <ToolCard 
+              key={tool.id} 
+              tool={tool}
+              onFavoriteClick={handleFavoriteClick}
+              onToolClick={handleToolClick}
+              isFavorite={isFavorite}
+            />
           ))}
         </div>
 
