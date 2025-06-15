@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +13,7 @@ import { ToolCard } from "@/components/ToolCard";
 import { PromptPackCard } from "@/components/PromptPackCard";
 import { useSubscription } from "@/hooks/useSubscription";
 import { supabase } from "@/integrations/supabase/client";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const CategorySchool = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -82,14 +82,25 @@ const CategorySchool = () => {
     });
   };
 
+  // Add effect: after payment, if coming from /pricing and user is now Pro, redirect back
+  React.useEffect(() => {
+    // Only trigger if redirected from /pricing and afterProRedirect exists in localStorage
+    const params = new URLSearchParams(location.search);
+    const fromPricing = params.get("pro-success") === "1";
+    if (fromPricing && isPro) {
+      const afterRedirect = localStorage.getItem("afterProRedirect");
+      if (afterRedirect && location.pathname !== afterRedirect) {
+        // Remove marker to prevent loops
+        localStorage.removeItem("afterProRedirect");
+        navigate(afterRedirect, { replace: true });
+      }
+    }
+  }, [isPro, location, navigate]);
+
   // Only show Pro tools if user is logged in and Pro
-  const visibleTools = filteredAndSortedTools.filter(tool =>
-    !tool.isPro || (userId && isPro)
-  );
-  // Only show Pro prompt packs if user is logged in and Pro
-  const visiblePromptPacks = promptPacks.filter(pack =>
-    !pack.isPro || (userId && isPro)
-  );
+  // *** Now: Always show all, but lock if needed (handled by ToolCard gating)
+  const visibleTools = filteredAndSortedTools;
+  const visiblePromptPacks = promptPacks;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
