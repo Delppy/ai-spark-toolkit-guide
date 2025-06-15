@@ -88,7 +88,7 @@ export const ToolCard: React.FC<ToolCardProps> = ({
     <TooltipProvider>
       <div className="relative"> 
         <Card 
-          className={`group cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col ${isLocked ? "opacity-60 blur-[1.5px] pointer-events-none select-none" : ""}`}
+          className={`group cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col ${isLocked ? "opacity-90 blur-[0.5px] pointer-events-none select-none" : ""}`}
           onClick={isLocked
             ? (e) => proGate(e)
             : () => onToolClick(tool.id, tool.url)
@@ -237,7 +237,7 @@ export const ToolCard: React.FC<ToolCardProps> = ({
 
         {/* Overlay lock if locked */}
         {isLocked && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/60 z-10 rounded-lg pointer-events-auto" style={{backdropFilter:"blur(3px)"}}>
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/40 z-10 rounded-lg pointer-events-auto" style={{backdropFilter:"blur(1.5px)"}}>
             <LockIcon className="mb-2 text-blue-600 w-8 h-8" />
             <div className="font-semibold text-blue-700 text-lg mb-2">Pro Feature</div>
             <Button className="w-32" onClick={proGate}>Get Pro Access</Button>
