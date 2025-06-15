@@ -1,8 +1,9 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { BookOpen, Search, ArrowLeft } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { dataManager } from "@/data/dataManager";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
@@ -13,7 +14,6 @@ import { ToolCard } from "@/components/ToolCard";
 import { PromptPackCard } from "@/components/PromptPackCard";
 import { useSubscription } from "@/hooks/useSubscription";
 import { supabase } from "@/integrations/supabase/client";
-import { useNavigate, useLocation } from "react-router-dom";
 
 const CategorySchool = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -52,6 +52,10 @@ const CategorySchool = () => {
 
   // Use subscription status; if not logged in, isPro is false
   const { isPro } = useSubscription(userId ?? undefined);
+
+  // For navigation and current location
+  const navigate = useNavigate();
+  const location = useLocation();
 
   // Update search filter when searchTerm changes
   React.useEffect(() => {
