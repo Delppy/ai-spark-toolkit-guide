@@ -82,8 +82,8 @@ const CategoryCareer = () => {
                 <h1 className="text-xl font-bold text-slate-900">Career Development</h1>
               </div>
             </div>
-            <Button size="sm" className="bg-gradient-to-r from-purple-500 to-blue-600">
-              Get Pro
+            <Button asChild size="sm" className="bg-gradient-to-r from-purple-500 to-blue-600">
+              <Link to="/pricing">Get Pro</Link>
             </Button>
           </div>
         </div>

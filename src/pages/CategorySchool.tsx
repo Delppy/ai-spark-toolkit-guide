@@ -126,8 +126,8 @@ const CategorySchool = () => {
             </div>
             {/* Hide Get Pro button for users who aren't logged in */}
             {userId && !isPro && (
-              <Button size="sm" className="bg-gradient-to-r from-purple-500 to-blue-600">
-                Get Pro
+              <Button asChild size="sm" className="bg-gradient-to-r from-purple-500 to-blue-600">
+                <Link to="/pricing">Get Pro</Link>
               </Button>
             )}
           </div>
