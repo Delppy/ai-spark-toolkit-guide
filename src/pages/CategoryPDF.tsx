@@ -79,6 +79,20 @@ const CategoryPDF = () => {
     window.open(url, '_blank', 'noopener,noreferrer');
   };
 
+  const handleSubcategoryClick = (subcategoryName: string) => {
+    // Clear existing filters and set the category filter
+    clearFilters();
+    updateFilter({ categories: [subcategoryName] });
+    
+    // Scroll to the tools section
+    const toolsSection = document.getElementById('tools-section');
+    if (toolsSection) {
+      toolsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    toast.success(`Showing ${subcategoryName} tools`);
+  };
+
   const isFavorite = (toolId: string) => {
     return favoriteTools.includes(toolId);
   };
@@ -122,7 +136,11 @@ const CategoryPDF = () => {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {subcategories.map((subcategory) => (
-            <Card key={subcategory.name} className="hover:shadow-lg transition-shadow cursor-pointer group">
+            <Card 
+              key={subcategory.name} 
+              className="hover:shadow-lg transition-shadow cursor-pointer group"
+              onClick={() => handleSubcategoryClick(subcategory.name)}
+            >
               <CardHeader className="text-center">
                 <div className="text-3xl mb-3">{subcategory.icon}</div>
                 <CardTitle className="text-lg group-hover:text-red-600 transition-colors">
@@ -143,7 +161,7 @@ const CategoryPDF = () => {
       </section>
 
       {/* Search and Filter Section */}
-      <section className="container mx-auto px-4 py-8">
+      <section id="tools-section" className="container mx-auto px-4 py-8">
         <div className="mb-6">
           <div className="relative max-w-md mx-auto mb-6">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
