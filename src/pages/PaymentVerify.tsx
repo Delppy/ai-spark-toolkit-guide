@@ -5,10 +5,14 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import Layout from '@/components/Layout';
 import { Loader2 } from 'lucide-react';
+import { useUserPreferences } from '@/contexts/UserPreferencesContext';
+import { useSubscription } from '@/hooks/useSubscription';
 
 const PaymentVerify = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const { user } = useUserPreferences();
+  const { refresh: refreshSubscription } = useSubscription(user?.id);
 
   useEffect(() => {
     const verifyPayment = async () => {
@@ -30,6 +34,7 @@ const PaymentVerify = () => {
         }
 
         if (data.status === 'success') {
+          await refreshSubscription();
           toast.success('Payment successful! Your account has been upgraded to Pro.');
           const redirectTo = localStorage.getItem("afterProRedirect") || "/profile";
           localStorage.removeItem("afterProRedirect");
@@ -45,8 +50,10 @@ const PaymentVerify = () => {
       }
     };
 
-    verifyPayment();
-  }, [searchParams, navigate]);
+    if (user?.id) {
+      verifyPayment();
+    }
+  }, [searchParams, navigate, user, refreshSubscription]);
 
   return (
     <Layout>

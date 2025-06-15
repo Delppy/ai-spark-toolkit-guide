@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -22,8 +23,8 @@ const freeFeatures = [
   "No credit card required",
 ];
 
-const MONTHLY_PRICE = 1.99;
-const YEARLY_PRICE = 20.0;
+const MONTHLY_PRICE = 30;
+const YEARLY_PRICE = 300;
 const YEARLY_DISCOUNT_PERCENT = Math.round(100 - (YEARLY_PRICE / (MONTHLY_PRICE * 12)) * 100);
 
 const Pricing: React.FC = () => {
@@ -52,7 +53,8 @@ const Pricing: React.FC = () => {
           email: user.email,
           amount: price,
           plan: plan,
-          callback_url: callback_url
+          callback_url: callback_url,
+          currency: 'GHS'
         },
       });
 
@@ -77,12 +79,12 @@ const Pricing: React.FC = () => {
   const displayPrice = billing === "monthly"
     ? (
       <>
-        <span className="text-4xl font-extrabold">${MONTHLY_PRICE.toFixed(2)}</span>
+        <span className="text-4xl font-extrabold">GHS {MONTHLY_PRICE.toFixed(2)}</span>
         <span className="text-base font-normal text-gray-400">/month</span>
       </>
     ) : (
       <>
-        <span className="text-4xl font-extrabold">${YEARLY_PRICE.toFixed(2)}</span>
+        <span className="text-4xl font-extrabold">GHS {YEARLY_PRICE.toFixed(2)}</span>
         <span className="text-base font-normal text-gray-400">/year</span>
       </>
     );
@@ -133,7 +135,7 @@ const Pricing: React.FC = () => {
             <CardDescription>All the basics, free forever!</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-bold mb-4">$0<span className="text-base font-normal text-gray-400">/month</span></p>
+            <p className="text-3xl font-bold mb-4">GHS 0<span className="text-base font-normal text-gray-400">/month</span></p>
             <ul className="mb-4 space-y-2">
               {freeFeatures.map((feature) => (
                 <li className="flex items-center gap-2 text-sm text-slate-700" key={feature}>

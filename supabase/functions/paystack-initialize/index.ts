@@ -29,10 +29,10 @@ Deno.serve(async (req) => {
       })
     }
 
-    const { amount, email, plan, callback_url } = await req.json()
+    const { amount, email, plan, callback_url, currency } = await req.json()
 
-    if (!amount || !email || !plan) {
-      return new Response(JSON.stringify({ error: 'Missing required fields: amount, email, plan' }), {
+    if (!amount || !email || !plan || !currency) {
+      return new Response(JSON.stringify({ error: 'Missing required fields: amount, email, plan, currency' }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 400,
       })
@@ -55,7 +55,8 @@ Deno.serve(async (req) => {
       },
       body: JSON.stringify({
         email,
-        amount: amount * 100, // Paystack expects amount in kobo
+        amount: amount * 100, // Paystack expects amount in kobo/pesewas
+        currency,
         callback_url: callback_url,
         metadata: {
           user_id: user.id,
