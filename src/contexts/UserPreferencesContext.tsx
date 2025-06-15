@@ -9,9 +9,19 @@ interface UserPreferences {
   sortPreference: 'name' | 'rating' | 'users' | 'recent';
 }
 
+interface User {
+  id: string;
+  email?: string;
+  name?: string;
+}
+
 interface UserPreferencesContextType {
   preferences: UserPreferences;
+  user: User | null;
+  favoriteTools: string[];
   toggleFavorite: (toolId: string) => void;
+  addFavorite: (toolId: string) => void;
+  removeFavorite: (toolId: string) => void;
   addToRecentlyViewed: (toolId: string) => void;
   setPreferredFreeOffering: (offerings: string[]) => void;
   setSortPreference: (sort: UserPreferences['sortPreference']) => void;
@@ -27,6 +37,9 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
     preferredFreeOffering: [],
     sortPreference: 'rating'
   });
+
+  // Mock user for now - in a real app this would come from authentication
+  const [user] = useState<User | null>(null);
 
   // Load preferences from localStorage on mount
   useEffect(() => {
@@ -47,6 +60,22 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
       favorites: prev.favorites.includes(toolId)
         ? prev.favorites.filter(id => id !== toolId)
         : [...prev.favorites, toolId]
+    }));
+  };
+
+  const addFavorite = (toolId: string) => {
+    setPreferences(prev => ({
+      ...prev,
+      favorites: prev.favorites.includes(toolId) 
+        ? prev.favorites 
+        : [...prev.favorites, toolId]
+    }));
+  };
+
+  const removeFavorite = (toolId: string) => {
+    setPreferences(prev => ({
+      ...prev,
+      favorites: prev.favorites.filter(id => id !== toolId)
     }));
   };
 
@@ -72,7 +101,11 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
   return (
     <UserPreferencesContext.Provider value={{
       preferences,
+      user,
+      favoriteTools: preferences.favorites,
       toggleFavorite,
+      addFavorite,
+      removeFavorite,
       addToRecentlyViewed,
       setPreferredFreeOffering,
       setSortPreference,
