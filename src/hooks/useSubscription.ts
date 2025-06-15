@@ -18,7 +18,7 @@ interface SubscriptionStatus {
   refresh: () => Promise<void>;
 }
 
-export const useSubscription = (userIdOrEmail?: string) : SubscriptionStatus => {
+export const useSubscription = (userIdOrEmail?: string): SubscriptionStatus => {
   const [subscriber, setSubscriber] = useState<SubscriberRow>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -28,16 +28,16 @@ export const useSubscription = (userIdOrEmail?: string) : SubscriptionStatus => 
     setLoading(true);
     setError(null);
 
-    let query = supabase.from("subscribers").select("*").maybeSingle();
+    let query = supabase.from("subscribers").select("*");
 
     if (userIdOrEmail?.includes("@")) {
       query = query.eq("email", userIdOrEmail);
-    } else {
+    } else if (userIdOrEmail) {
       query = query.eq("user_id", userIdOrEmail);
     }
 
-    const { data, error } = await query;
-    if (error) {
+    const { data, error: fetchError } = await query.maybeSingle();
+    if (fetchError) {
       setError("Could not fetch subscription data");
       setSubscriber(null);
     } else {
@@ -69,7 +69,9 @@ export const useSubscription = (userIdOrEmail?: string) : SubscriptionStatus => 
       const start = new Date(trialStart);
       const end = new Date(trialExpiration);
       trialActive = now >= start && now <= end;
-    } catch (e) { /* ignore invalid date */ }
+    } catch (e) {
+      /* ignore invalid date */
+    }
   }
 
   // Pro is active if pro_enabled OR trialActive (for feature gating)
