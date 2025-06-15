@@ -43,7 +43,7 @@ export const ToolCard: React.FC<ToolCardProps> = ({
   isFavorite
 }) => {
   // Needed to get userId for Pro gating
-  const { user } = useUserPreferences() as any; // Or from context/auth
+  const { user } = useUserPreferences() as any;
   const userId = user?.id || null;
   const { isPro, proGate } = useProGate(userId);
   const navigate = useNavigate();
@@ -80,19 +80,15 @@ export const ToolCard: React.FC<ToolCardProps> = ({
 
   const stopPropagation = (e: React.MouseEvent) => e.stopPropagation();
 
-  // Is this a locked (Pro-protected) card for non-Pro users?
-  const isLocked = tool.isPro && !isPro;
+  // Tools are never locked - always accessible
+  const isLocked = false;
 
-  // Show overlay and block interaction for Pro tools if not unlocked
   return (
     <TooltipProvider>
       <div className="relative"> 
         <Card 
-          className={`group cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col ${isLocked ? "opacity-90 blur-[0.5px] pointer-events-none select-none" : ""}`}
-          onClick={isLocked
-            ? (e) => proGate(e)
-            : () => onToolClick(tool.id, tool.url)
-          }
+          className={`group cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex flex-col`}
+          onClick={() => onToolClick(tool.id, tool.url)}
           tabIndex={0}
         >
           <CardHeader className="pb-4">
@@ -142,10 +138,7 @@ export const ToolCard: React.FC<ToolCardProps> = ({
                     variant="ghost" 
                     size="sm" 
                     className="transition-opacity"
-                    onClick={isLocked 
-                      ? (e) => proGate(e)
-                      : (e) => onFavoriteClick(tool.id, e)
-                    }
+                    onClick={(e) => { stopPropagation(e); onFavoriteClick(tool.id, e); }}
                   >
                     {isFavorite(tool.id) ? (
                       <Bookmark className="w-4 h-4 fill-current text-blue-600" />
@@ -155,10 +148,7 @@ export const ToolCard: React.FC<ToolCardProps> = ({
                   </Button>
                 </TooltipTrigger>
                 <TooltipContent onClick={stopPropagation}>
-                  <p>{isLocked 
-                    ? "Get Pro to unlock favorites!" 
-                    : (isFavorite(tool.id) ? "Remove from favorites" : "Add to favorites")}
-                  </p>
+                  <p>{isFavorite(tool.id) ? "Remove from favorites" : "Add to favorites"}</p>
                 </TooltipContent>
               </Tooltip>
             </div>
@@ -167,8 +157,6 @@ export const ToolCard: React.FC<ToolCardProps> = ({
             <CardDescription className="mb-4 text-slate-600">
               {tool.description}
             </CardDescription>
-            
-            {/* Reviews section removed */}
 
             <div className="flex flex-wrap gap-1 mb-4">
               {tool.features.slice(0, 3).map((feature, idx) => (
@@ -222,28 +210,16 @@ export const ToolCard: React.FC<ToolCardProps> = ({
             <div className="mt-auto pt-4">
               <Button 
                 className="w-full" 
-                onClick={(e) => isLocked 
-                  ? proGate(e)
-                  : (() => { stopPropagation(e); onToolClick(tool.id, tool.url); })()
-                }
+                onClick={(e) => { stopPropagation(e); onToolClick(tool.id, tool.url); }}
                 variant={tool.isPro ? "default" : "outline"}
               >
                 <ExternalLink className="w-4 h-4 mr-2" />
-                {isLocked ? "Unlock with Pro" : "Use Tool"}
+                {"Use Tool"}
               </Button>
             </div>
           </CardContent>
         </Card>
-
-        {/* Overlay lock if locked */}
-        {isLocked && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/40 z-10 rounded-lg pointer-events-auto" style={{backdropFilter:"blur(1.5px)"}}>
-            <LockIcon className="mb-2 text-blue-600 w-8 h-8" />
-            <div className="font-semibold text-blue-700 text-lg mb-2">Pro Feature</div>
-            <Button className="w-32" onClick={proGate}>Get Pro Access</Button>
-          </div>
-        )}
-
+        {/* Overlay: None, tools never locked */}
       </div>
     </TooltipProvider>
   );

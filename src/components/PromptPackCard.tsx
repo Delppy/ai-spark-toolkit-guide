@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -36,7 +37,9 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
   return (
     <div className="relative">
       <TooltipProvider>
-        <Card className={`group cursor-pointer transition-all duration-300 hover:shadow-lg ${isLocked ? "opacity-90 blur-[0.5px] pointer-events-none select-none" : ""}`}>
+        <Card className={`group cursor-pointer transition-all duration-300 hover:shadow-lg ${
+          isLocked ? "opacity-80 pointer-events-none select-none" : ""
+        }`}>
           <CardHeader>
             <div className="flex items-start justify-between">
               <div>
@@ -146,7 +149,7 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
 
         {/* Overlay lock if locked */}
         {isLocked && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/40 z-10 rounded-lg pointer-events-auto" style={{backdropFilter:"blur(1.5px)"}}>
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-white/75 z-10 rounded-lg pointer-events-auto" style={{backdropFilter:"none"}}>
             <LockIcon className="mb-2 text-purple-600 w-8 h-8" />
             <div className="font-semibold text-purple-700 text-lg mb-2">Pro Prompt Pack</div>
             <Button className="w-32" onClick={proGate}>Get Pro Access</Button>
