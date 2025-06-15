@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,7 +10,6 @@ import { supabase } from "@/integrations/supabase/client";
 import type { Session } from "@supabase/supabase-js";
 
 const Index = () => {
-  const [featuredCategory, setFeaturedCategory] = useState("school");
   const [session, setSession] = useState<Session | null>(null);
 
   useEffect(() => {
@@ -82,12 +80,6 @@ const Index = () => {
             <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6 border-2">
               <Link to="/prompts">Browse Prompt Packs</Link>
             </Button>
-            {/* Hide View Pricing button unless logged in */}
-            {session?.user && (
-              <Button asChild variant="secondary" size="lg" className="text-lg px-8 py-6 border-2 focus:ring-4 focus:ring-purple-300" style={{ minWidth: 170 }}>
-                <Link to="/pricing">View Pricing</Link>
-              </Button>
-            )}
           </div>
         </div>
       </section>
@@ -140,25 +132,10 @@ const Index = () => {
             Join thousands of users who are already using AI to boost their productivity and creativity.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            {/* Hide Start Free Trial and View Pricing buttons unless logged in */}
-            {session?.user && (
-              <>
-                <Button size="lg" variant="secondary" className="text-lg px-8 py-6">
-                  Start Free Trial
-                </Button>
-                <Button size="lg" variant="outline" className="text-lg px-8 py-6 border-white text-white hover:bg-white hover:text-purple-600">
-                  View Pricing
-                </Button>
-              </>
-            )}
+            {/* Buttons for logged-in users removed to streamline CTA */}
           </div>
           <div className="mt-4">
-            {/* Hide View All Pricing Plans unless logged in */}
-            {session?.user && (
-              <Button asChild variant="ghost" size="sm" className="bg-white text-purple-600 border-white border hover:bg-purple-100">
-                <Link to="/pricing">→ View All Pricing Plans</Link>
-              </Button>
-            )}
+            {/* Buttons for logged-in users removed to streamline CTA */}
           </div>
         </div>
       </section>
@@ -167,4 +144,3 @@ const Index = () => {
 };
 
 export default Index;
-
