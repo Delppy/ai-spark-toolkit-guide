@@ -9,6 +9,27 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      favorites: {
+        Row: {
+          created_at: string
+          id: string
+          item_id: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          item_id: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          item_id?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           bio: string | null
@@ -54,6 +75,63 @@ export type Database = {
         }
         Relationships: []
       }
+      prompt_credits: {
+        Row: {
+          credit_balance: number
+          id: string
+          updated_at: string
+          usage_period: string
+          user_id: string | null
+        }
+        Insert: {
+          credit_balance?: number
+          id?: string
+          updated_at?: string
+          usage_period: string
+          user_id?: string | null
+        }
+        Update: {
+          credit_balance?: number
+          id?: string
+          updated_at?: string
+          usage_period?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      prompt_usage: {
+        Row: {
+          category: string
+          created_at: string
+          id: string
+          last_used: string | null
+          prompt_count: number
+          updated_at: string
+          usage_period: string
+          user_id: string | null
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          id?: string
+          last_used?: string | null
+          prompt_count?: number
+          updated_at?: string
+          usage_period: string
+          user_id?: string | null
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          id?: string
+          last_used?: string | null
+          prompt_count?: number
+          updated_at?: string
+          usage_period?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       subscribers: {
         Row: {
           email: string
@@ -95,6 +173,39 @@ export type Database = {
           trial_start?: string | null
           trial_used?: boolean
           updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      user_plan: {
+        Row: {
+          created_at: string
+          id: string
+          plan_type: string
+          trial_end: string | null
+          trial_start: string | null
+          updated_at: string
+          upgraded_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          plan_type?: string
+          trial_end?: string | null
+          trial_start?: string | null
+          updated_at?: string
+          upgraded_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          plan_type?: string
+          trial_end?: string | null
+          trial_start?: string | null
+          updated_at?: string
+          upgraded_at?: string | null
           user_id?: string | null
         }
         Relationships: []
