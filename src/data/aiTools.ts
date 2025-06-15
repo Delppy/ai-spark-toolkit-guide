@@ -1,3 +1,4 @@
+
 export interface AITool {
   id: string;
   name: string;
@@ -141,6 +142,32 @@ export const schoolAITools: AITool[] = [
     freeOffering: "free_credits",
     freeDetails: "Free pages per month | Added from theresanaiforthat.com"
   },
+  {
+    id: "wolframalpha",
+    name: "WolframAlpha",
+    category: "Math Solver",
+    description: "Computational knowledge engine for complex queries.",
+    rating: 4.9,
+    users: "30M+",
+    isPro: true,
+    url: "https://www.wolframalpha.com/",
+    features: ["Complex Math", "Data Analysis", "Scientific Computation"],
+    freeOffering: "freemium",
+    freeDetails: "Free for basic computations, Pro for step-by-step solutions"
+  },
+  {
+    id: "socratic",
+    name: "Socratic",
+    category: "Study Assistant",
+    description: "AI-powered homework helper from Google.",
+    rating: 4.7,
+    users: "10M+",
+    isPro: false,
+    url: "https://socratic.org/",
+    features: ["Homework Help", "Visual Explanations", "Multi-subject"],
+    freeOffering: "free",
+    freeDetails: "Completely free learning app"
+  },
 ];
 
 // Content Creation AI Tools (Free/Trial Focus)
@@ -261,6 +288,32 @@ export const contentAITools: AITool[] = [
     features: ["Website Extraction", "No-code", "Change Monitoring"],
     freeOffering: "free_credits",
     freeDetails: "100 free credits/month | Added from theresanaiforthat.com"
+  },
+  {
+    id: "midjourney",
+    name: "Midjourney",
+    category: "Image Generation",
+    description: "Leading AI image generator known for artistic and high-quality visuals.",
+    rating: 4.8,
+    users: "15M+",
+    isPro: true,
+    url: "https://www.midjourney.com/",
+    features: ["Artistic Images", "High-Fidelity", "Community Showcase"],
+    freeOffering: "free_trial",
+    freeDetails: "Free trial credits upon joining Discord server"
+  },
+  {
+    id: "runwayml",
+    name: "RunwayML",
+    category: "Video Editing",
+    description: "AI-powered video creation and editing suite for creators.",
+    rating: 4.6,
+    users: "3M+",
+    isPro: false,
+    url: "https://runwayml.com/",
+    features: ["Text-to-Video", "Video-to-Video", "AI Magic Tools"],
+    freeOffering: "free_credits",
+    freeDetails: "Free account with starting credits"
   },
 ];
 
@@ -448,6 +501,32 @@ export const businessAITools: AITool[] = [
     freeOffering: "freemium",
     freeDetails: "Free basic summaries | Added from theresanaiforthat.com"
   },
+  {
+    id: "clickup-ai",
+    name: "ClickUp AI",
+    category: "Project Management",
+    description: "Native AI assistant within ClickUp to boost productivity.",
+    rating: 4.5,
+    users: "8M+",
+    isPro: true,
+    url: "https://clickup.com/ai",
+    features: ["Task Summaries", "AI Content Generation", "Progress Reports"],
+    freeOffering: "free_trial",
+    freeDetails: "Available as a paid add-on with a free trial"
+  },
+  {
+    id: "fireflies-ai",
+    name: "Fireflies.ai",
+    category: "Transcription",
+    description: "AI notetaker that transcribes, summarizes, and analyzes voice conversations.",
+    rating: 4.6,
+    users: "10M+",
+    isPro: false,
+    url: "https://fireflies.ai/",
+    features: ["Meeting Transcription", "Action Items", "Conversation Analysis"],
+    freeOffering: "freemium",
+    freeDetails: "Free tier with limited transcription credits"
+  },
 ];
 
 // Career AI Tools (Free/Trial Focus)
@@ -516,5 +595,31 @@ export const careerAITools: AITool[] = [
     features: ["AI Job Matching", "Resume Scoring", "Application Tracking"],
     freeOffering: "freemium",
     freeDetails: "Free to use, paid premium features | Added from theresanaiforthat.com"
+  },
+  {
+    id: "teal",
+    name: "Teal",
+    category: "Job Search",
+    description: "All-in-one job search tracker and contact manager.",
+    rating: 4.8,
+    users: "500K+",
+    isPro: false,
+    url: "https://www.tealhq.com/",
+    features: ["Job Tracking", "Resume Builder", "Keyword Optimization"],
+    freeOffering: "freemium",
+    freeDetails: "Free version with core features"
+  },
+  {
+    id: "vmock",
+    name: "VMock",
+    category: "Resume Optimization",
+    description: "AI platform for instant resume feedback and career analytics.",
+    rating: 4.5,
+    users: "1M+",
+    isPro: true,
+    url: "https://www.vmock.com/",
+    features: ["Resume Scoring", "Actionable Feedback", "Targeted Suggestions"],
+    freeOffering: "free_credits",
+    freeDetails: "Often provided through universities, limited free scans"
   },
 ];

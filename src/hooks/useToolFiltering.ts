@@ -94,8 +94,8 @@ export const useToolFiltering = (tools: AITool[]) => {
     return filtered;
   }, [tools, filters, sort]);
 
-  const updateFilter = (key: keyof FilterOptions, value: any) => {
-    setFilters(prev => ({ ...prev, [key]: value }));
+  const updateFilter = (changes: Partial<FilterOptions>) => {
+    setFilters(prev => ({ ...prev, ...changes }));
   };
 
   const updateSort = (field: SortOptions['field'], direction?: SortOptions['direction']) => {

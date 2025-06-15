@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -59,7 +58,7 @@ const CategorySchool = () => {
 
   // Update search filter when searchTerm changes
   React.useEffect(() => {
-    updateFilter('searchTerm', searchTerm);
+    updateFilter({ searchTerm });
   }, [searchTerm, updateFilter]);
 
   const copyToClipboard = (text: string) => {
