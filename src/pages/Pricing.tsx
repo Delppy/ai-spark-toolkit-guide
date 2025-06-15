@@ -1,9 +1,9 @@
 
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Check, XCircle, Sparkles } from "lucide-react";
+import { Check, XCircle, Sparkles, Percent } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const proFeatures = [
@@ -20,7 +20,26 @@ const freeFeatures = [
   "No credit card required",
 ];
 
+const MONTHLY_PRICE = 1.99;
+const YEARLY_PRICE = 19.0;
+const YEARLY_DISCOUNT_PERCENT = Math.round(100 - (YEARLY_PRICE / (MONTHLY_PRICE * 12)) * 100);
+
 const Pricing: React.FC = () => {
+  const [billing, setBilling] = useState<"monthly" | "yearly">("monthly");
+
+  const displayPrice = billing === "monthly"
+    ? (
+      <>
+        <span className="text-4xl font-extrabold">${MONTHLY_PRICE.toFixed(2)}</span>
+        <span className="text-base font-normal text-gray-400">/month</span>
+      </>
+    ) : (
+      <>
+        <span className="text-4xl font-extrabold">${YEARLY_PRICE.toFixed(2)}</span>
+        <span className="text-base font-normal text-gray-400">/year</span>
+      </>
+    );
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex flex-col items-center justify-start py-10 px-2">
       <div className="mb-8 text-center">
@@ -32,6 +51,29 @@ const Pricing: React.FC = () => {
           Upgrade to <span className="font-semibold text-purple-700">Pro</span> and supercharge your productivity! Unlimited prompt packs, premium tools, and more.
         </p>
       </div>
+
+      {/* Billing Toggle */}
+      <div className="flex items-center justify-center gap-3 mb-6 bg-white rounded-full p-1 border shadow-sm">
+        <Button
+          variant={billing === "monthly" ? "default" : "ghost"}
+          className={`rounded-full px-6 py-2 ${billing === "monthly" ? "font-bold" : ""}`}
+          onClick={() => setBilling("monthly")}
+        >
+          Monthly
+        </Button>
+        <Button
+          variant={billing === "yearly" ? "default" : "ghost"}
+          className={`rounded-full px-6 py-2 ${billing === "yearly" ? "font-bold" : ""}`}
+          onClick={() => setBilling("yearly")}
+        >
+          Yearly
+          <Badge className="ml-2 bg-amber-100 text-amber-700 border-amber-300 px-2 py-0.5 flex items-center gap-1">
+            <Percent className="w-3 h-3" />
+            Save {YEARLY_DISCOUNT_PERCENT}%
+          </Badge>
+        </Button>
+      </div>
+
       <div className="flex flex-col md:flex-row gap-8 items-center justify-center w-full max-w-5xl">
 
         {/* Free Plan */}
@@ -75,8 +117,20 @@ const Pricing: React.FC = () => {
             <CardDescription>For students & power users</CardDescription>
           </CardHeader>
           <CardContent>
-            <p className="text-4xl font-extrabold mb-2">$9<span className="text-lg font-normal text-gray-400">/month</span></p>
-            <span className="inline-block mb-4 text-purple-700 font-semibold">Cancel anytime</span>
+            <p className="mb-2 flex items-center justify-center gap-2">
+              {displayPrice}
+            </p>
+            <span className="inline-block mb-4 text-purple-700 font-semibold">
+              {billing === "yearly" ? "Best value – billed once a year" : "Cancel anytime"}
+            </span>
+            {billing === "yearly" && (
+              <div className="mb-2 flex items-center justify-center gap-2">
+                <Badge className="bg-amber-100 text-amber-700 border-amber-300 px-2 py-0.5 flex items-center gap-1">
+                  <Percent className="w-3 h-3" />
+                  Save {YEARLY_DISCOUNT_PERCENT}% compared to monthly
+                </Badge>
+              </div>
+            )}
             <ul className="mb-6 space-y-2">
               {proFeatures.map((feature) => (
                 <li className="flex items-center gap-2 text-base" key={feature}>
@@ -86,7 +140,7 @@ const Pricing: React.FC = () => {
             </ul>
             {/* Placeholder for payment or sign-in/upgrade */}
             <Button className="w-full bg-gradient-to-r from-purple-600 to-amber-500 text-white text-lg font-bold py-6 shadow-lg">
-              Get Pro Now
+              {billing === "yearly" ? "Get Pro Yearly" : "Get Pro Monthly"}
             </Button>
             <p className="text-xs text-center text-slate-500 mt-4">
               No Stripe setup yet. This is a demo UI only.
