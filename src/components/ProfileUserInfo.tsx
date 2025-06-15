@@ -6,6 +6,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import ProfilePhotoUploader from "@/components/ProfilePhotoUploader";
 import { countries } from "@/utils/countries";
 import React from "react";
+import { useUserPreferences } from "@/contexts/UserPreferencesContext";
+import { useSubscription } from "@/hooks/useSubscription";
+import { Badge } from "@/components/ui/badge";
+import { Crown } from "lucide-react";
 
 type ProfileUserInfoProps = {
   profile: {
@@ -50,123 +54,141 @@ const ProfileUserInfo: React.FC<ProfileUserInfoProps> = ({
   setName,
   setBio,
   setCountry,
-}) => (
-  <Card className="w-full animate-fade-in">
-    <CardHeader>
-      <CardTitle className="text-xl text-center font-bold">Account Info</CardTitle>
-    </CardHeader>
-    <CardContent>
-      <div className="flex flex-col items-center mb-4">
-        <ProfilePhotoUploader
-          userId={profile.id}
-          photoUrl={profile.photo_url}
-          onUpload={handlePhotoUpload}
-        />
-      </div>
-      <form onSubmit={handleSave} className="space-y-4" aria-label="profile edit form">
-        <div>
-          <label htmlFor="profile-name" className="block font-medium mb-1">
-            Name
-          </label>
-          <Input
-            id="profile-name"
-            type="text"
-            value={name}
-            onChange={e => setName(e.target.value)}
-            disabled={!editing}
-            className={!editing ? "bg-gray-100" : ""}
-            placeholder="Your name"
+}) => {
+  // Get logged-in user id from user preferences if available (for correct id used by useSubscription)
+  const { user: prefUser } = useUserPreferences();
+  const userId = prefUser?.id || user?.id || profile.id;
+  const { isPro } = useSubscription(userId);
+
+  return (
+    <Card className="w-full animate-fade-in">
+      <CardHeader>
+        <CardTitle className="text-xl text-center font-bold">Account Info</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="flex flex-col items-center mb-4">
+          <ProfilePhotoUploader
+            userId={profile.id}
+            photoUrl={profile.photo_url}
+            onUpload={handlePhotoUpload}
           />
-        </div>
-        <div>
-          <label htmlFor="profile-email" className="block font-medium mb-1">
-            Email
-          </label>
-          <Input
-            id="profile-email"
-            type="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            disabled={!editing}
-            className={!editing ? "bg-gray-100" : ""}
-          />
-        </div>
-        <div>
-          <label htmlFor="profile-bio" className="block font-medium mb-1">
-            Bio
-          </label>
-          <Input
-            id="profile-bio"
-            type="text"
-            value={bio}
-            onChange={e => setBio(e.target.value)}
-            disabled={!editing}
-            className={!editing ? "bg-gray-100" : ""}
-            placeholder="Short bio"
-          />
-        </div>
-        <div>
-          <label htmlFor="profile-country" className="block font-medium mb-1">
-            Country
-          </label>
-          {editing ? (
-            <Select
-              value={country}
-              onValueChange={setCountry}
+          {/* Pro User Badge indicator */}
+          {isPro && (
+            <Badge
+              variant="premium"
+              className="mt-1 flex items-center gap-1 text-xs px-3 py-1 pt-1 shadow border-0"
             >
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select country" />
-              </SelectTrigger>
-              <SelectContent className="max-h-60">
-                {countries.map(option => (
-                  <SelectItem key={option} value={option}>
-                    {option}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          ) : (
+              <Crown className="w-4 h-4 mr-1" />
+              Premium
+            </Badge>
+          )}
+        </div>
+        <form onSubmit={handleSave} className="space-y-4" aria-label="profile edit form">
+          <div>
+            <label htmlFor="profile-name" className="block font-medium mb-1">
+              Name
+            </label>
             <Input
-              id="profile-country"
+              id="profile-name"
               type="text"
-              value={country || "Not selected"}
-              disabled={true}
-              className="bg-gray-100"
+              value={name}
+              onChange={e => setName(e.target.value)}
+              disabled={!editing}
+              className={!editing ? "bg-gray-100" : ""}
+              placeholder="Your name"
             />
-          )}
-        </div>
-        <div className="flex gap-2 mt-4">
-          {!editing ? (
-            <Button type="button" variant="outline" onClick={() => setEditing(true)}>
-              Edit Profile
-            </Button>
-          ) : (
-            <>
-              <Button type="submit" disabled={loading}>
-                {loading ? "Saving..." : "Save"}
-              </Button>
-              <Button
-                type="button"
-                variant="ghost"
-                onClick={() => {
-                  setEditing(false);
-                  setName(profile.name ?? "");
-                  setBio(profile.bio ?? "");
-                  setCountry(profile.country ?? "");
-                  setEmail(user.email);
-                }}
+          </div>
+          <div>
+            <label htmlFor="profile-email" className="block font-medium mb-1">
+              Email
+            </label>
+            <Input
+              id="profile-email"
+              type="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              disabled={!editing}
+              className={!editing ? "bg-gray-100" : ""}
+            />
+          </div>
+          <div>
+            <label htmlFor="profile-bio" className="block font-medium mb-1">
+              Bio
+            </label>
+            <Input
+              id="profile-bio"
+              type="text"
+              value={bio}
+              onChange={e => setBio(e.target.value)}
+              disabled={!editing}
+              className={!editing ? "bg-gray-100" : ""}
+              placeholder="Short bio"
+            />
+          </div>
+          <div>
+            <label htmlFor="profile-country" className="block font-medium mb-1">
+              Country
+            </label>
+            {editing ? (
+              <Select
+                value={country}
+                onValueChange={setCountry}
               >
-                Cancel
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select country" />
+                </SelectTrigger>
+                <SelectContent className="max-h-60">
+                  {countries.map(option => (
+                    <SelectItem key={option} value={option}>
+                      {option}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            ) : (
+              <Input
+                id="profile-country"
+                type="text"
+                value={country || "Not selected"}
+                disabled={true}
+                className="bg-gray-100"
+              />
+            )}
+          </div>
+          <div className="flex gap-2 mt-4">
+            {!editing ? (
+              <Button type="button" variant="outline" onClick={() => setEditing(true)}>
+                Edit Profile
               </Button>
-            </>
-          )}
-          <Button type="button" variant="destructive" className="ml-auto" onClick={handleLogout}>
-            Log out
-          </Button>
-        </div>
-      </form>
-    </CardContent>
-  </Card>
-);
+            ) : (
+              <>
+                <Button type="submit" disabled={loading}>
+                  {loading ? "Saving..." : "Save"}
+                </Button>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  onClick={() => {
+                    setEditing(false);
+                    setName(profile.name ?? "");
+                    setBio(profile.bio ?? "");
+                    setCountry(profile.country ?? "");
+                    setEmail(user.email);
+                  }}
+                >
+                  Cancel
+                </Button>
+              </>
+            )}
+            <Button type="button" variant="destructive" className="ml-auto" onClick={handleLogout}>
+              Log out
+            </Button>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
+  );
+};
 
 export default ProfileUserInfo;
+
