@@ -1,9 +1,11 @@
+
 import { AITool, PromptPack } from './aiTools';
 import {
   schoolAITools,
   contentAITools,
   businessAITools,
-  careerAITools
+  careerAITools,
+  pdfAITools
 } from './aiTools';
 import {
   expandedSchoolAITools,
@@ -18,7 +20,7 @@ import {
   careerPromptPacks
 } from './expandedPromptPacks';
 
-export type CategoryType = 'school' | 'content' | 'business' | 'career';
+export type CategoryType = 'school' | 'content' | 'business' | 'career' | 'pdf';
 
 export interface CategoryData {
   aiTools: AITool[];
@@ -46,6 +48,10 @@ export class DataManager {
       career: {
         aiTools: [...careerAITools, ...expandedCareerAITools],
         promptPacks: careerPromptPacks
+      },
+      pdf: {
+        aiTools: pdfAITools,
+        promptPacks: [] // PDF prompts can be added later if needed
       }
     };
   }

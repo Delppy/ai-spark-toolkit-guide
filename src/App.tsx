@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -12,6 +13,7 @@ import CategorySchool from "./pages/CategorySchool";
 import CategoryContent from "./pages/CategoryContent";
 import CategoryBusiness from "./pages/CategoryBusiness";
 import CategoryCareer from "./pages/CategoryCareer";
+import CategoryPDF from "./pages/CategoryPDF";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -40,6 +42,7 @@ const App = () => (
               <Route path="/content" element={<CategoryContent />} />
               <Route path="/business" element={<CategoryBusiness />} />
               <Route path="/career" element={<CategoryCareer />} />
+              <Route path="/pdf" element={<CategoryPDF />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/profile" element={<Profile />} />

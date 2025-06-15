@@ -1,3 +1,4 @@
+
 export interface AITool {
   id: string;
   name: string;
@@ -70,7 +71,7 @@ export const schoolAITools: AITool[] = [
     description: "Check grammar, spelling, and improve your writing style",
     rating: 4.7,
     users: "30M+",
-    isPro: false,
+    iPro: false,
     url: "https://grammarly.com",
     features: ["Grammar Check", "Style Suggestions", "Plagiarism Detection"],
     freeOffering: "freemium",
@@ -168,22 +169,9 @@ export const schoolAITools: AITool[] = [
     freeDetails: "Completely free learning app"
   },
   {
-    id: "pdf-summarizer-edu",
-    name: "PDF Summarizer",
-    category: "PDF Tools",
-    description: "AI-powered PDF summarization for research papers and study materials",
-    rating: 4.4,
-    users: "800K+",
-    isPro: false,
-    url: "https://example.com/pdf-summarizer",
-    features: ["Research Summaries", "Key Point Extraction", "Citation Ready"],
-    freeOffering: "freemium",
-    freeDetails: "5 free summaries per month"
-  },
-  {
     id: "chatpdf",
     name: "ChatPDF",
-    category: "PDF Tools",
+    category: "Study Assistant",
     description: "Chat with your PDF documents and get instant answers",
     rating: 4.5,
     users: "2M+",
@@ -339,58 +327,6 @@ export const contentAITools: AITool[] = [
     features: ["Text-to-Video", "Video-to-Video", "AI Magic Tools"],
     freeOffering: "free_credits",
     freeDetails: "Free account with starting credits"
-  },
-  {
-    id: "tinywow",
-    name: "TinyWOW",
-    category: "PDF Tools",
-    description: "Free online PDF tools for merging, splitting, and converting PDFs",
-    rating: 4.6,
-    users: "5M+",
-    isPro: false,
-    url: "https://tinywow.com/",
-    features: ["PDF Merge", "PDF Split", "PDF Convert", "Compress PDF"],
-    freeOffering: "free",
-    freeDetails: "Completely free with no file size limits"
-  },
-  {
-    id: "pdf24",
-    name: "PDF24",
-    category: "PDF Tools",
-    description: "Comprehensive PDF editor and converter with privacy focus",
-    rating: 4.5,
-    users: "10M+",
-    isPro: false,
-    url: "https://tools.pdf24.org/",
-    features: ["PDF Editor", "File Converter", "Password Protection", "OCR"],
-    freeOffering: "free",
-    freeDetails: "100% free with local processing for privacy"
-  },
-  {
-    id: "ilovepdf",
-    name: "iLovePDF",
-    category: "PDF Tools",
-    description: "Popular online PDF toolkit for all your PDF needs",
-    rating: 4.7,
-    users: "25M+",
-    isPro: false,
-    url: "https://www.ilovepdf.com/",
-    features: ["PDF Tools Suite", "Batch Processing", "Cloud Storage", "API Access"],
-    freeOffering: "freemium",
-    freeDetails: "Free with file size limits, premium for larger files"
-  },
-  {
-    id: "pdf-ai-creator",
-    name: "PDF AI Creator",
-    category: "PDF Tools",
-    description: "AI-powered PDF generation from text, images, and templates",
-    rating: 4.3,
-    users: "500K+",
-    isPro: false,
-    url: "https://example.com/pdf-ai-creator",
-    features: ["AI PDF Generation", "Template Library", "Smart Formatting"],
-    freeOffering: "freemium",
-    freeDetails: "3 free PDFs per month"
   },
 ];
 
@@ -604,45 +540,6 @@ export const businessAITools: AITool[] = [
     freeOffering: "freemium",
     freeDetails: "Free tier with limited transcription credits"
   },
-  {
-    id: "docusign",
-    name: "DocuSign",
-    category: "PDF Tools",
-    description: "Digital signature and document management platform",
-    rating: 4.6,
-    users: "1B+",
-    isPro: false,
-    url: "https://www.docusign.com/",
-    features: ["E-Signatures", "Document Workflow", "Template Library", "API Integration"],
-    freeOffering: "free_trial",
-    freeDetails: "30-day free trial with 3 signature requests"
-  },
-  {
-    id: "pdf-contract-analyzer",
-    name: "PDF Contract Analyzer",
-    category: "PDF Tools",
-    description: "AI-powered contract analysis and risk assessment tool",
-    rating: 4.4,
-    users: "200K+",
-    isPro: true,
-    url: "https://example.com/contract-analyzer",
-    features: ["Contract Analysis", "Risk Assessment", "Clause Extraction", "Legal Compliance"],
-    freeOffering: "free_trial",
-    freeDetails: "5 free contract analyses"
-  },
-  {
-    id: "smallpdf",
-    name: "SmallPDF",
-    category: "PDF Tools",
-    description: "Business-focused PDF platform with team collaboration features",
-    rating: 4.5,
-    users: "50M+",
-    isPro: false,
-    url: "https://smallpdf.com/",
-    features: ["PDF Editor", "Team Sharing", "Digital Signatures", "Document Templates"],
-    freeOffering: "freemium",
-    freeDetails: "Free with daily limits, premium for unlimited use"
-  },
 ];
 
 // Career AI Tools (Free/Trial Focus)
@@ -738,10 +635,136 @@ export const careerAITools: AITool[] = [
     freeOffering: "free_credits",
     freeDetails: "Often provided through universities, limited free scans"
   },
+];
+
+// PDF AI Tools (Comprehensive Collection)
+export const pdfAITools: AITool[] = [
+  // PDF Editing & Conversion
+  {
+    id: "tinywow",
+    name: "TinyWOW",
+    category: "PDF Editing",
+    description: "Free online PDF tools for merging, splitting, and converting PDFs",
+    rating: 4.6,
+    users: "5M+",
+    isPro: false,
+    url: "https://tinywow.com/",
+    features: ["PDF Merge", "PDF Split", "PDF Convert", "Compress PDF"],
+    freeOffering: "free",
+    freeDetails: "Completely free with no file size limits"
+  },
+  {
+    id: "pdf24",
+    name: "PDF24",
+    category: "PDF Editing",
+    description: "Comprehensive PDF editor and converter with privacy focus",
+    rating: 4.5,
+    users: "10M+",
+    isPro: false,
+    url: "https://tools.pdf24.org/",
+    features: ["PDF Editor", "File Converter", "Password Protection", "OCR"],
+    freeOffering: "free",
+    freeDetails: "100% free with local processing for privacy"
+  },
+  {
+    id: "ilovepdf",
+    name: "iLovePDF",
+    category: "PDF Editing",
+    description: "Popular online PDF toolkit for all your PDF needs",
+    rating: 4.7,
+    users: "25M+",
+    isPro: false,
+    url: "https://www.ilovepdf.com/",
+    features: ["PDF Tools Suite", "Batch Processing", "Cloud Storage", "API Access"],
+    freeOffering: "freemium",
+    freeDetails: "Free with file size limits, premium for larger files"
+  },
+  {
+    id: "smallpdf",
+    name: "SmallPDF",
+    category: "PDF Editing",
+    description: "Business-focused PDF platform with team collaboration features",
+    rating: 4.5,
+    users: "50M+",
+    isPro: false,
+    url: "https://smallpdf.com/",
+    features: ["PDF Editor", "Team Sharing", "Digital Signatures", "Document Templates"],
+    freeOffering: "freemium",
+    freeDetails: "Free with daily limits, premium for unlimited use"
+  },
+
+  // PDF Analysis & Intelligence
+  {
+    id: "pdf-summarizer-edu",
+    name: "PDF Summarizer",
+    category: "PDF Analysis",
+    description: "AI-powered PDF summarization for research papers and study materials",
+    rating: 4.4,
+    users: "800K+",
+    isPro: false,
+    url: "https://example.com/pdf-summarizer",
+    features: ["Research Summaries", "Key Point Extraction", "Citation Ready"],
+    freeOffering: "freemium",
+    freeDetails: "5 free summaries per month"
+  },
+  {
+    id: "chatpdf-analysis",
+    name: "ChatPDF",
+    category: "PDF Analysis",
+    description: "Chat with your PDF documents and get instant answers",
+    rating: 4.5,
+    users: "2M+",
+    isPro: false,
+    url: "https://www.chatpdf.com/",
+    features: ["PDF Chat", "Document Q&A", "Citation Extraction"],
+    freeOffering: "freemium",
+    freeDetails: "Free for PDFs up to 120 pages"
+  },
+  {
+    id: "humata-pdf",
+    name: "Humata AI",
+    category: "PDF Analysis",
+    description: "AI answers questions about your PDFs and documents instantly",
+    rating: 4.6,
+    users: "1M+",
+    isPro: false,
+    url: "https://www.humata.ai/",
+    features: ["PDF Q&A", "Document Summaries", "Knowledge Extraction"],
+    freeOffering: "free_credits",
+    freeDetails: "Free pages per month"
+  },
+  {
+    id: "pdf-contract-analyzer",
+    name: "PDF Contract Analyzer",
+    category: "PDF Analysis",
+    description: "AI-powered contract analysis and risk assessment tool",
+    rating: 4.4,
+    users: "200K+",
+    isPro: true,
+    url: "https://example.com/contract-analyzer",
+    features: ["Contract Analysis", "Risk Assessment", "Clause Extraction", "Legal Compliance"],
+    freeOffering: "free_trial",
+    freeDetails: "5 free contract analyses"
+  },
+
+  // PDF Creation & Generation
+  {
+    id: "pdf-ai-creator",
+    name: "PDF AI Creator",
+    category: "PDF Creation",
+    description: "AI-powered PDF generation from text, images, and templates",
+    rating: 4.3,
+    users: "500K+",
+    isPro: false,
+    url: "https://example.com/pdf-ai-creator",
+    features: ["AI PDF Generation", "Template Library", "Smart Formatting"],
+    freeOffering: "freemium",
+    freeDetails: "3 free PDFs per month"
+  },
   {
     id: "resume-pdf-enhancer",
     name: "Resume PDF Enhancer",
-    category: "PDF Tools",
+    category: "PDF Creation",
     description: "AI-powered PDF resume optimization and ATS compatibility checker",
     rating: 4.4,
     users: "400K+",
@@ -754,7 +777,7 @@ export const careerAITools: AITool[] = [
   {
     id: "portfolio-pdf-creator",
     name: "Portfolio PDF Creator",
-    category: "PDF Tools",
+    category: "PDF Creation",
     description: "Create professional portfolio PDFs with AI-assisted layout and design",
     rating: 4.3,
     users: "250K+",
@@ -764,4 +787,71 @@ export const careerAITools: AITool[] = [
     freeOffering: "free_trial",
     freeDetails: "Free trial with 2 portfolio creations"
   },
+  {
+    id: "ai-report-generator",
+    name: "AI Report Generator",
+    category: "PDF Creation",
+    description: "Generate professional reports and documents in PDF format using AI",
+    rating: 4.2,
+    users: "300K+",
+    isPro: false,
+    url: "https://example.com/report-generator",
+    features: ["Report Templates", "Data Visualization", "Auto-formatting", "Chart Integration"],
+    freeOffering: "freemium",
+    freeDetails: "2 free reports per month"
+  },
+
+  // PDF Security & Collaboration
+  {
+    id: "docusign",
+    name: "DocuSign",
+    category: "PDF Security",
+    description: "Digital signature and document management platform",
+    rating: 4.6,
+    users: "1B+",
+    isPro: false,
+    url: "https://www.docusign.com/",
+    features: ["E-Signatures", "Document Workflow", "Template Library", "API Integration"],
+    freeOffering: "free_trial",
+    freeDetails: "30-day free trial with 3 signature requests"
+  },
+  {
+    id: "adobe-sign",
+    name: "Adobe Sign",
+    category: "PDF Security",
+    description: "Enterprise-grade PDF signing and document workflow solution",
+    rating: 4.5,
+    users: "50M+",
+    isPro: true,
+    url: "https://www.adobe.com/sign.html",
+    features: ["Digital Signatures", "Advanced Security", "Workflow Automation", "Integration"],
+    freeOffering: "free_trial",
+    freeDetails: "14-day free trial"
+  },
+  {
+    id: "pdf-protector",
+    name: "PDF Protector",
+    category: "PDF Security",
+    description: "AI-powered PDF security and access control management",
+    rating: 4.3,
+    users: "150K+",
+    isPro: false,
+    url: "https://example.com/pdf-protector",
+    features: ["Password Protection", "Access Control", "Watermarking", "Encryption"],
+    freeOffering: "freemium",
+    freeDetails: "5 free protected PDFs per month"
+  },
+  {
+    id: "collaborative-pdf",
+    name: "Collaborative PDF",
+    category: "PDF Security",
+    description: "Team collaboration platform for PDF review and annotation",
+    rating: 4.4,
+    users: "200K+",
+    isPro: false,
+    url: "https://example.com/collaborative-pdf",
+    features: ["Team Annotations", "Version Control", "Comment Tracking", "Review Workflows"],
+    freeOffering: "freemium",
+    freeDetails: "Free for teams up to 3 members"
+  }
 ];

@@ -1,8 +1,9 @@
+
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Briefcase, Camera, UserCheck, ChevronRight } from "lucide-react";
+import { BookOpen, Briefcase, Camera, UserCheck, FileText, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { TrendingToolsSection } from "@/components/TrendingToolsSection";
@@ -58,6 +59,15 @@ const Index = () => {
       color: "bg-gradient-to-br from-orange-500 to-amber-600",
       tools: ["Resume.io", "LinkedIn AI", "InterviewBuddy"],
       route: "/career"
+    },
+    {
+      id: "pdf",
+      title: "PDF Tools",
+      icon: FileText,
+      description: "AI-powered PDF editing and analysis",
+      color: "bg-gradient-to-br from-red-500 to-pink-600",
+      tools: ["ChatPDF", "TinyWOW", "DocuSign"],
+      route: "/pdf"
     }
   ];
 
@@ -89,7 +99,7 @@ const Index = () => {
         <h3 className="text-3xl font-bold text-center mb-12 text-slate-900">
           Find AI Tools by Category
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
           {categories.map((category) => {
             const IconComponent = category.icon;
             return (
