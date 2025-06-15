@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -10,6 +9,7 @@ import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 import { useSubscription } from "@/hooks/useSubscription";
 import { Badge } from "@/components/ui/badge";
 import { Crown } from "lucide-react";
+import AvatarPanel from "@/components/AvatarPanel";
 
 type ProfileUserInfoProps = {
   profile: {
@@ -66,23 +66,13 @@ const ProfileUserInfo: React.FC<ProfileUserInfoProps> = ({
         <CardTitle className="text-xl text-center font-bold">Account Info</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="flex flex-col items-center mb-4">
-          <ProfilePhotoUploader
-            userId={profile.id}
-            photoUrl={profile.photo_url}
-            onUpload={handlePhotoUpload}
-          />
-          {/* Pro User Badge indicator */}
-          {isPro && (
-            <Badge
-              variant="premium"
-              className="mt-1 flex items-center gap-1 text-xs px-3 py-1 pt-1 shadow border-0"
-            >
-              <Crown className="w-4 h-4 mr-1" />
-              Premium
-            </Badge>
-          )}
-        </div>
+        {/* Extracted avatar and badge to AvatarPanel */}
+        <AvatarPanel
+          userId={profile.id}
+          photoUrl={profile.photo_url}
+          onUpload={handlePhotoUpload}
+          isPro={isPro}
+        />
         <form onSubmit={handleSave} className="space-y-4" aria-label="profile edit form">
           <div>
             <label htmlFor="profile-name" className="block font-medium mb-1">
@@ -191,4 +181,3 @@ const ProfileUserInfo: React.FC<ProfileUserInfoProps> = ({
 };
 
 export default ProfileUserInfo;
-
