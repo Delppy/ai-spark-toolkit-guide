@@ -2,11 +2,12 @@
 import { Button } from "@/components/ui/button";
 import AnimatedButton from "@/components/ui/animated-button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Sparkles } from "lucide-react";
+import { Sparkles, Star } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import PageTransition from "./PageTransition";
 import { useSubscription } from "@/hooks/useSubscription";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
+import { Badge } from "@/components/ui/badge";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
@@ -54,21 +55,21 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                   </Link>
                 </AnimatedButton>
               )}
-              {/* Only show Get Pro button if user is logged in and NOT Pro */}
+              {/* Show "Get Pro" badge if user is logged in and NOT Pro */}
               {user && !subscriptionStatus.isPro && (
-                <AnimatedButton
-                  asChild
-                  size="sm"
-                  className="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700"
-                >
-                  <Link to="/pricing">Get Pro</Link>
-                </AnimatedButton>
+                <Link to="/pricing" className="ml-2">
+                  <Badge variant="free_tier" className="py-1.5 px-3 flex items-center gap-1.5 transition-all hover:shadow-md">
+                    <Star className="w-4 h-4 text-amber-500" />
+                    Get Pro
+                  </Badge>
+                </Link>
               )}
-              {/* If Pro is enabled, show a "Pro" badge instead of Get Pro */}
+              {/* If Pro is enabled, show a "Premium" badge instead */}
               {user && subscriptionStatus.isPro && (
-                <span className="ml-2 px-2 py-1 text-xs rounded-full font-semibold bg-gradient-to-r from-yellow-400 to-orange-500 text-white shadow">
-                  Pro
-                </span>
+                <Badge variant="premium" className="ml-2 flex items-center gap-1.5 py-1.5 px-3">
+                  <Star className="w-4 h-4" />
+                  Premium
+                </Badge>
               )}
               {/* For users not logged in, never show Pro button or badge */}
             </div>
