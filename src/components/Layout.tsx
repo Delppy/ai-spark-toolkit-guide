@@ -57,15 +57,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   }, [session]);
 
   const user = session?.user;
-
-  // ---------- ADD: Use Pro Subscription Status Hook ----------
   const subscriptionStatus = useSubscription(user?.id || user?.email || undefined);
-
-  // Utility: Pass down Pro status with children via context/provider if needed in future
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex flex-col">
-      {/* Header with enhanced animations */}
       <header className="bg-white/80 backdrop-blur-sm border-b border-slate-200 sticky top-0 z-50 transition-all duration-300">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
@@ -120,6 +115,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                   Pro
                 </span>
               )}
+              {/* For users not logged in, never show Pro button or badge */}
             </div>
           </div>
         </div>
@@ -127,12 +123,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
       <main className="flex-grow">
         <PageTransition>
-          {/* Make subscription status available to children via props/context in future */}
           {children}
         </PageTransition>
       </main>
 
-      {/* Footer with subtle animations */}
       <footer className="bg-slate-900 text-white py-12 transition-all duration-300">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">

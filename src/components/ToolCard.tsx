@@ -26,6 +26,55 @@ import {
 } from 'lucide-react';
 import { AITool } from '@/data/aiTools';
 
+// Diverse pool of review data for realism
+const REVIEW_NAMES = [
+  "Ananya", "James", "Sophia", "Aisha", "Liam", "Noah", "Olivia", "Kojo", "Mia", "Elena",
+  "Lucas", "Charlotte", "Sarah", "Mohamed", "Leah", "Wei", "Chloe", "Mateo", "Jamal", "Priya"
+];
+const REVIEW_COMMENTS = [
+  "Excellent tool! Saved me tons of time.",
+  "Really helpful for my assignments.",
+  "Easy to use and intuitive interface.",
+  "My productivity increased a lot!",
+  "Superb AI features. Highly recommended.",
+  "The best study assistant I’ve used.",
+  "A real game-changer for research.",
+  "Love the customer support.",
+  "Helped me ace my essay!",
+  "Great, but a bit hard to get started.",
+  "Very useful for group projects.",
+  "The free version does so much!",
+  "Impressive results for summaries.",
+  "Speedy and accurate outputs.",
+  "Replaced a bunch of my old tools.",
+  "UI is sleek and fast.",
+  "Prompt pack ideas are fantastic.",
+  "Would recommend to friends.",
+  "Versatile, reliable and fast.",
+  "Definitely worth trying."
+];
+
+function getRandomizedReviews(count = 3) {
+  // Randomly pick unique names and comments
+  const usedNames = new Set();
+  const usedIndexes = new Set();
+  let results = [];
+  while (results.length < count && usedIndexes.size < REVIEW_COMMENTS.length) {
+    const idx = Math.floor(Math.random() * REVIEW_COMMENTS.length);
+    const nameIdx = Math.floor(Math.random() * REVIEW_NAMES.length);
+    if (!usedIndexes.has(idx) && !usedNames.has(nameIdx)) {
+      results.push({
+        name: REVIEW_NAMES[nameIdx],
+        rating: 4 + Math.floor(Math.random() * 2), // 4 or 5 stars
+        comment: REVIEW_COMMENTS[idx]
+      });
+      usedIndexes.add(idx);
+      usedNames.add(nameIdx);
+    }
+  }
+  return results;
+}
+
 interface ToolCardProps {
   tool: AITool;
   onFavoriteClick: (toolId: string, e: React.MouseEvent) => void;
@@ -71,12 +120,8 @@ export const ToolCard: React.FC<ToolCardProps> = ({
 
   const stopPropagation = (e: React.MouseEvent) => e.stopPropagation();
 
-  // Sample reviews & ratings (placeholder, can be swapped with dynamic/backend later)
-  const reviews = [
-    { name: "Sophia", rating: 5, comment: "Excellent tool! Saved me tons of time." },
-    { name: "James", rating: 4, comment: "Helpful but takes a while to learn." },
-    { name: "Aisha", rating: 5, comment: "Love the AI features!" },
-  ];
+  // Use less repetitive, randomized reviews for each card
+  const reviews = React.useMemo(() => getRandomizedReviews(), []);
 
   return (
     <TooltipProvider>
@@ -151,7 +196,7 @@ export const ToolCard: React.FC<ToolCardProps> = ({
             {tool.description}
           </CardDescription>
           
-          {/* Reviews & Ratings Section */}
+          {/* Diverse Reviews & Ratings Section */}
           <div className="mb-4 px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg">
             <div className="flex items-center mb-2">
               <span className="font-medium text-slate-700 mr-2">Reviews & Ratings</span>
@@ -234,3 +279,4 @@ export const ToolCard: React.FC<ToolCardProps> = ({
     </TooltipProvider>
   );
 };
+// ... file end
