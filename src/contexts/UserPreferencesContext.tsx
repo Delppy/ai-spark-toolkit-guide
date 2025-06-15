@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { AITool, PromptPack } from '@/data/aiTools';
 import { supabase } from '@/integrations/supabase/client';
@@ -41,45 +42,46 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const { data: { user: authUser } } = await supabase.auth.getUser();
-        if (authUser) {
+    const updateUserState = (sessionUser: any | null) => {
+      if (!sessionUser) {
+        setUser(null);
+        return;
+      }
+      
+      // Defer Supabase calls to prevent deadlocks, following best practices.
+      setTimeout(async () => {
+        try {
           const { data: profile } = await supabase
             .from('profiles')
             .select('name')
-            .eq('id', authUser.id)
+            .eq('id', sessionUser.id)
             .single();
 
           setUser({
-            id: authUser.id,
-            email: authUser.email,
-            name: profile?.name || authUser.user_metadata.name,
+            id: sessionUser.id,
+            email: sessionUser.email,
+            name: profile?.name || sessionUser.user_metadata?.name,
+          });
+        } catch (error) {
+          console.error("Error fetching user profile:", error);
+          // Fallback to user data without profile if the call fails
+          setUser({
+            id: sessionUser.id,
+            email: sessionUser.email,
+            name: sessionUser.user_metadata?.name,
           });
         }
-      } catch (error) {
-        console.error("Error fetching user:", error);
-      }
+      }, 0);
     };
 
-    fetchUser();
+    // Initialize user state on load
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      updateUserState(session?.user ?? null);
+    });
 
-    const { data: authListener } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      const authUser = session?.user;
-      if (authUser) {
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('name')
-          .eq('id', authUser.id)
-          .single();
-        setUser({
-          id: authUser.id,
-          email: authUser.email,
-          name: profile?.name || authUser.user_metadata.name,
-        });
-      } else {
-        setUser(null);
-      }
+    // Listen for authentication state changes
+    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+      updateUserState(session?.user ?? null);
     });
 
     return () => {
