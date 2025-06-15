@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import AnimatedButton from "@/components/ui/animated-button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -13,7 +12,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
   const { user, profile } = useUserPreferences();
 
-  const subscriptionStatus = useSubscription(user?.id || user?.email || undefined);
+  const subscriptionStatus = useSubscription(user?.id);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex flex-col">

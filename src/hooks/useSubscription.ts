@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
 
@@ -18,42 +18,36 @@ interface SubscriptionStatus {
   refresh: () => Promise<void>;
 }
 
+const fetchSubscription = async (userIdOrEmail?: string): Promise<SubscriberRow> => {
+  if (!userIdOrEmail) return null;
+
+  let query = supabase.from("subscribers").select("*");
+
+  if (userIdOrEmail?.includes("@")) {
+    query = query.eq("email", userIdOrEmail);
+  } else if (userIdOrEmail) {
+    query = query.eq("user_id", userIdOrEmail);
+  }
+
+  const { data, error: fetchError } = await query.maybeSingle();
+
+  if (fetchError) {
+    console.error("Could not fetch subscription data", fetchError);
+    throw new Error("Could not fetch subscription data");
+  }
+
+  return data;
+};
+
+
 export const useSubscription = (userIdOrEmail?: string): SubscriptionStatus => {
-  const [subscriber, setSubscriber] = useState<SubscriberRow>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const queryClient = useQueryClient();
 
-  // Fetch subscription info when user id or email changes
-  const fetchSubscription = async () => {
-    setLoading(true);
-    setError(null);
-
-    let query = supabase.from("subscribers").select("*");
-
-    if (userIdOrEmail?.includes("@")) {
-      query = query.eq("email", userIdOrEmail);
-    } else if (userIdOrEmail) {
-      query = query.eq("user_id", userIdOrEmail);
-    }
-
-    const { data, error: fetchError } = await query.maybeSingle();
-    if (fetchError) {
-      setError("Could not fetch subscription data");
-      setSubscriber(null);
-    } else {
-      setSubscriber(data);
-    }
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    if (userIdOrEmail) fetchSubscription();
-    else {
-      setSubscriber(null);
-      setLoading(false);
-    }
-    // eslint-disable-next-line
-  }, [userIdOrEmail]);
+  const { data: subscriber, isLoading: loading, error } = useQuery({
+    queryKey: ['subscription', userIdOrEmail],
+    queryFn: () => fetchSubscription(userIdOrEmail),
+    enabled: !!userIdOrEmail,
+  });
 
   const plan = subscriber?.plan ?? null;
   const proEnabled = !!subscriber?.pro_enabled;
@@ -77,6 +71,10 @@ export const useSubscription = (userIdOrEmail?: string): SubscriptionStatus => {
   // Pro is active if pro_enabled OR trialActive (for feature gating)
   const isPro = proEnabled || trialActive;
 
+  const refresh = async () => {
+    await queryClient.invalidateQueries({ queryKey: ['subscription', userIdOrEmail] });
+  };
+
   return {
     isPro,
     plan,
@@ -85,8 +83,8 @@ export const useSubscription = (userIdOrEmail?: string): SubscriptionStatus => {
     trialStart,
     trialExpiration,
     loading,
-    error,
-    subscriber,
-    refresh: fetchSubscription,
+    error: error ? error.message : null,
+    subscriber: subscriber ?? null,
+    refresh,
   };
 };
