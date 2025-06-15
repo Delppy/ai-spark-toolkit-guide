@@ -1,4 +1,3 @@
-
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
@@ -42,7 +41,6 @@ const fetchSubscription = async (userIdOrEmail?: string): Promise<SubscriberRow>
 
 export const useSubscription = (userIdOrEmail?: string): SubscriptionStatus => {
   const queryClient = useQueryClient();
-
   const { data: subscriber, isLoading: loading, error } = useQuery({
     queryKey: ['subscription', userIdOrEmail],
     queryFn: () => fetchSubscription(userIdOrEmail),
@@ -55,7 +53,6 @@ export const useSubscription = (userIdOrEmail?: string): SubscriptionStatus => {
   const trialStart = subscriber?.trial_start ?? null;
   const trialExpiration = subscriber?.trial_expiration ?? null;
 
-  // Active free trial: has a trial_start and NOT trial_used and current date is within the trial range
   let trialActive = false;
   if (trialStart && trialExpiration && !trialUsed) {
     const now = new Date();
@@ -68,12 +65,15 @@ export const useSubscription = (userIdOrEmail?: string): SubscriptionStatus => {
     }
   }
 
-  // Pro is active if pro_enabled OR trialActive (for feature gating)
   const isPro = proEnabled || trialActive;
 
   const refresh = async () => {
     await queryClient.invalidateQueries({ queryKey: ['subscription', userIdOrEmail] });
   };
+
+  React.useEffect(() => {
+    console.log("[useSubscription] userIdOrEmail:", userIdOrEmail, "isPro:", isPro, "plan:", plan, "subscriber:", subscriber);
+  }, [userIdOrEmail, isPro, plan, subscriber]);
 
   return {
     isPro,

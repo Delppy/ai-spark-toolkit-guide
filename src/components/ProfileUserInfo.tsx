@@ -57,8 +57,10 @@ const ProfileUserInfo: React.FC<ProfileUserInfoProps> = ({
 }) => {
   // Get logged-in user id from user preferences if available (for correct id used by useSubscription)
   const { user: prefUser } = useUserPreferences();
-  const userId = prefUser?.id || user?.id || profile.id;
-  const { isPro } = useSubscription(userId);
+  // Prefer the user prop over prefUser if available, then fallback to profile.id
+  const derivedUserId = user?.id || prefUser?.id || profile.id;
+  const { isPro } = useSubscription(derivedUserId);
+  console.log("[ProfileUserInfo] user:", user, "prefUser:", prefUser, "derivedUserId:", derivedUserId, "isPro:", isPro);
 
   return (
     <Card className="w-full animate-fade-in">
@@ -68,7 +70,7 @@ const ProfileUserInfo: React.FC<ProfileUserInfoProps> = ({
       <CardContent>
         {/* Extracted avatar and badge to AvatarPanel */}
         <AvatarPanel
-          userId={profile.id}
+          userId={derivedUserId}
           photoUrl={profile.photo_url}
           onUpload={handlePhotoUpload}
           isPro={isPro}

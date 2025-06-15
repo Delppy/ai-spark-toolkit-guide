@@ -7,12 +7,14 @@ import PageTransition from "./PageTransition";
 import { useSubscription } from "@/hooks/useSubscription";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 import { Badge } from "@/components/ui/badge";
+import React from "react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   const location = useLocation();
   const { user, profile } = useUserPreferences();
-
+  // Force reactivity on user?.id
   const subscriptionStatus = useSubscription(user?.id);
+  console.log("[Layout] user:", user, "profile:", profile, "isPro:", subscriptionStatus.isPro);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex flex-col">
@@ -75,13 +77,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           </div>
         </div>
       </header>
-
       <main className="flex-grow">
         <PageTransition>
           {children}
         </PageTransition>
       </main>
-
       <footer className="bg-slate-900 text-white py-12 transition-all duration-300">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
