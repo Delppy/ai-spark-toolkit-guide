@@ -45,6 +45,24 @@ export const ToolFilters: React.FC<ToolFiltersProps> = ({
     setIsOpen(false);
   };
 
+  const handleCategoryChange = (category: string, checked: boolean) => {
+    const newCategories = checked
+      ? [...pendingFilters.categories, category]
+      : pendingFilters.categories.filter(c => c !== category);
+    setPendingFilters(prev => ({...prev, categories: newCategories}));
+  };
+
+  const handleFreeOfferingChange = (offering: string, checked: boolean) => {
+    const newOfferings = checked
+      ? [...pendingFilters.freeOfferings, offering]
+      : pendingFilters.freeOfferings.filter(o => o !== offering);
+    setPendingFilters(prev => ({...prev, freeOfferings: newOfferings}));
+  };
+
+  const handleProStatusChange = (isPro: boolean | null) => {
+    setPendingFilters(prev => ({...prev, isPro}));
+  };
+
   const freeOfferingLabels: Record<string, string> = {
     'free': 'Completely Free',
     'free_trial': 'Free Trial',
@@ -97,16 +115,11 @@ export const ToolFilters: React.FC<ToolFiltersProps> = ({
                   {categories.map(category => (
                     <div key={category} className="flex items-center space-x-2">
                       <Checkbox
-                        id={category}
+                        id={`category-${category}`}
                         checked={pendingFilters.categories.includes(category)}
-                        onCheckedChange={(checked) => {
-                          const newCategories = checked
-                            ? [...pendingFilters.categories, category]
-                            : pendingFilters.categories.filter(c => c !== category);
-                          setPendingFilters(prev => ({...prev, categories: newCategories}));
-                        }}
+                        onCheckedChange={(checked) => handleCategoryChange(category, checked === true)}
                       />
-                      <Label htmlFor={category} className="text-sm">
+                      <Label htmlFor={`category-${category}`} className="text-sm cursor-pointer">
                         {category}
                       </Label>
                     </div>
@@ -121,16 +134,11 @@ export const ToolFilters: React.FC<ToolFiltersProps> = ({
                   {freeOfferings.map(offering => (
                     <div key={offering} className="flex items-center space-x-2">
                       <Checkbox
-                        id={offering}
+                        id={`offering-${offering}`}
                         checked={pendingFilters.freeOfferings.includes(offering)}
-                        onCheckedChange={(checked) => {
-                          const newOfferings = checked
-                            ? [...pendingFilters.freeOfferings, offering]
-                            : pendingFilters.freeOfferings.filter(o => o !== offering);
-                          setPendingFilters(prev => ({...prev, freeOfferings: newOfferings}));
-                        }}
+                        onCheckedChange={(checked) => handleFreeOfferingChange(offering, checked === true)}
                       />
-                      <Label htmlFor={offering} className="text-sm">
+                      <Label htmlFor={`offering-${offering}`} className="text-sm cursor-pointer">
                         {freeOfferingLabels[offering] || offering}
                       </Label>
                     </div>
@@ -166,10 +174,10 @@ export const ToolFilters: React.FC<ToolFiltersProps> = ({
                       id="free-tools"
                       checked={pendingFilters.isPro === false}
                       onCheckedChange={(checked) => 
-                        setPendingFilters(prev => ({...prev, isPro: checked ? false : null}))
+                        handleProStatusChange(checked ? false : null)
                       }
                     />
-                    <Label htmlFor="free-tools" className="text-sm">
+                    <Label htmlFor="free-tools" className="text-sm cursor-pointer">
                       Free Tools Only
                     </Label>
                   </div>
@@ -178,10 +186,10 @@ export const ToolFilters: React.FC<ToolFiltersProps> = ({
                       id="pro-tools"
                       checked={pendingFilters.isPro === true}
                       onCheckedChange={(checked) => 
-                        setPendingFilters(prev => ({...prev, isPro: checked ? true : null}))
+                        handleProStatusChange(checked ? true : null)
                       }
                     />
-                    <Label htmlFor="pro-tools" className="text-sm">
+                    <Label htmlFor="pro-tools" className="text-sm cursor-pointer">
                       Pro Tools Only
                     </Label>
                   </div>
