@@ -32,8 +32,8 @@ function App() {
     <HelmetProvider>
       <QueryClientProvider client={queryClient}>
         <UserPreferencesProvider>
-          <TransitionProvider>
-            <Router>
+          <Router>
+            <TransitionProvider>
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/login" element={<Login />} />
@@ -55,8 +55,8 @@ function App() {
                 <Route path="/privacy" element={<PrivacyPolicy />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
-            </Router>
-          </TransitionProvider>
+            </TransitionProvider>
+          </Router>
         </UserPreferencesProvider>
       </QueryClientProvider>
     </HelmetProvider>
