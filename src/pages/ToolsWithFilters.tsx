@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import Layout from "@/components/Layout";
 import { ToolCard } from "@/components/ToolCard";
@@ -166,6 +165,7 @@ const ToolsWithFilters = () => {
           <ToolSorting
             sort={sort}
             onSortChange={updateSort}
+            totalResults={totalResults}
           />
         </div>
 
