@@ -109,6 +109,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               <h5 className="font-semibold mb-4">Features</h5>
               <ul className="space-y-2 text-slate-400">
                 <li><Link to="/tools" className="hover:text-white transition-all duration-200 hover:translate-x-1">AI Tools</Link></li>
+                <li><Link to="/favorites" className="hover:text-white transition-all duration-200 hover:translate-x-1">Favorites</Link></li>
                 <li><Link to="/prompts" className="hover:text-white transition-all duration-200 hover:translate-x-1">Prompt Packs</Link></li>
                 <li><Link to="/pricing" className="hover:text-white transition-all duration-200 hover:translate-x-1">Pricing</Link></li>
               </ul>
