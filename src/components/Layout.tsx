@@ -7,6 +7,7 @@ import PageTransition from "./PageTransition";
 import { useSubscription } from "@/hooks/useSubscription";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 import { Badge } from "@/components/ui/badge";
+import { BottomBannerAd } from "@/components/ads/BottomBannerAd";
 import React from "react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -61,7 +62,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 <Link to="/pricing" className="ml-2">
                   <Badge variant="free_tier" className="py-1.5 px-3 flex items-center gap-1.5 transition-all hover:shadow-md">
                     <Star className="w-4 h-4 text-amber-500" />
-                    Get Pro
+                    Remove Ads
                   </Badge>
                 </Link>
               )}
@@ -77,11 +78,16 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           </div>
         </div>
       </header>
-      <main className="flex-grow">
+      
+      <main className={`flex-grow ${!subscriptionStatus.isPro ? 'pb-20' : ''}`}>
         <PageTransition>
           {children}
         </PageTransition>
       </main>
+      
+      {/* Bottom Banner Ad - only shows for non-Pro users */}
+      <BottomBannerAd />
+      
       <footer className="bg-slate-900 text-white py-12 transition-all duration-300">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -111,7 +117,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 <li><Link to="/tools" className="hover:text-white transition-all duration-200 hover:translate-x-1">AI Tools</Link></li>
                 <li><Link to="/favorites" className="hover:text-white transition-all duration-200 hover:translate-x-1">Favorites</Link></li>
                 <li><Link to="/prompts" className="hover:text-white transition-all duration-200 hover:translate-x-1">Prompt Packs</Link></li>
-                <li><Link to="/pricing" className="hover:text-white transition-all duration-200 hover:translate-x-1">Pricing</Link></li>
+                <li><Link to="/pricing" className="hover:text-white transition-all duration-200 hover:translate-x-1">Go Ad-Free</Link></li>
               </ul>
             </div>
             <div>

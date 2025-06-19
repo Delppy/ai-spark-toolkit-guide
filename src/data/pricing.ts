@@ -1,5 +1,6 @@
 
 export const proFeatures = [
+  "🚫 Remove ALL ads",
   "Unlock all prompt packs",
   "Unlimited use of Pro tools",
   "Priority support",
@@ -10,6 +11,7 @@ export const proFeatures = [
 export const freeFeatures = [
   "Access to all free tools",
   "Limited prompt packs",
+  "Ad-supported experience",
   "No credit card required",
 ];
 

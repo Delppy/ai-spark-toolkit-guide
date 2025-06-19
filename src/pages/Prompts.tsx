@@ -1,11 +1,14 @@
 
 import Layout from "@/components/Layout";
 import { PromptPackCard } from "@/components/PromptPackCard";
+import { InContentAd } from "@/components/ads/InContentAd";
+import { useAdPlacement } from "@/hooks/useAdPlacement";
 import { schoolPromptPacks, contentPromptPacks, businessPromptPacks, careerPromptPacks, PromptPack } from "@/data/promptPacks";
 import { toast } from "sonner";
 
 const Prompts = () => {
   const promptPacks: PromptPack[] = [...schoolPromptPacks, ...contentPromptPacks, ...businessPromptPacks, ...careerPromptPacks];
+  const { shouldShowInContentAd } = useAdPlacement();
 
   const handleCopyPrompt = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -24,12 +27,19 @@ const Prompts = () => {
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {promptPacks.map((pack) => (
-            <PromptPackCard 
-              key={pack.id} 
-              pack={pack}
-              onCopyPrompt={handleCopyPrompt}
-            />
+          {promptPacks.map((pack, index) => (
+            <React.Fragment key={pack.id}>
+              <PromptPackCard 
+                pack={pack}
+                onCopyPrompt={handleCopyPrompt}
+              />
+              {/* Show in-content ad every 6 cards */}
+              {shouldShowInContentAd(index) && (
+                <div className="col-span-full">
+                  <InContentAd />
+                </div>
+              )}
+            </React.Fragment>
           ))}
         </div>
       </div>
