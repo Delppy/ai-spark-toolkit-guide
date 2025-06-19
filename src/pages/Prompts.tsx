@@ -1,4 +1,5 @@
 
+import React from "react";
 import Layout from "@/components/Layout";
 import { PromptPackCard } from "@/components/PromptPackCard";
 import { InContentAd } from "@/components/ads/InContentAd";
