@@ -1,13 +1,23 @@
+
 import { Button } from "@/components/ui/button";
 import AnimatedButton from "@/components/ui/animated-button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Sparkles, Star } from "lucide-react";
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuSeparator, 
+  DropdownMenuTrigger 
+} from "@/components/ui/dropdown-menu";
+import { Sparkles, Star, User, Settings, LogOut } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import PageTransition from "./PageTransition";
 import { useSubscription } from "@/hooks/useSubscription";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 import { Badge } from "@/components/ui/badge";
 import { BottomBannerAd } from "@/components/ads/BottomBannerAd";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 import React from "react";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
@@ -16,6 +26,15 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   // Force reactivity on user?.id
   const subscriptionStatus = useSubscription(user?.id);
   console.log("[Layout] user:", user, "profile:", profile, "isPro:", subscriptionStatus.isPro);
+
+  const handleLogout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      toast.error("Error signing out");
+    } else {
+      toast.success("Signed out successfully");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex flex-col">
@@ -39,23 +58,47 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                   <Link to="/login">Login</Link>
                 </AnimatedButton>
               )}
-              {!!user && location.pathname !== "/profile" && (
-                <AnimatedButton asChild variant="ghost" size="sm" className="p-1">
-                  <Link to="/profile" className="flex items-center space-x-2">
-                    <Avatar className="w-8 h-8">
-                      <AvatarImage 
-                        src={profile?.photo_url || ""} 
-                        alt={profile?.name || user?.email || "Profile"} 
-                      />
-                      <AvatarFallback className="bg-gradient-to-br from-purple-500 to-blue-600 text-white text-sm">
-                        {profile?.name 
-                          ? profile.name.charAt(0).toUpperCase()
-                          : user?.email?.charAt(0).toUpperCase() || "U"
-                        }
-                      </AvatarFallback>
-                    </Avatar>
-                  </Link>
-                </AnimatedButton>
+              {!!user && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm" className="p-1 hover:bg-gray-100">
+                      <Avatar className="w-8 h-8">
+                        <AvatarImage 
+                          src={profile?.photo_url || ""} 
+                          alt={profile?.name || user?.email || "Profile"} 
+                        />
+                        <AvatarFallback className="bg-gradient-to-br from-purple-500 to-blue-600 text-white text-sm">
+                          {profile?.name 
+                            ? profile.name.charAt(0).toUpperCase()
+                            : user?.email?.charAt(0).toUpperCase() || "U"
+                          }
+                        </AvatarFallback>
+                      </Avatar>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56 bg-white border border-gray-200 shadow-lg">
+                    <DropdownMenuItem asChild>
+                      <Link to="/profile" className="flex items-center space-x-2 cursor-pointer">
+                        <User className="w-4 h-4" />
+                        <span>Profile</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link to="/profile" className="flex items-center space-x-2 cursor-pointer">
+                        <Settings className="w-4 h-4" />
+                        <span>Settings</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem 
+                      onClick={handleLogout}
+                      className="flex items-center space-x-2 cursor-pointer text-red-600 hover:text-red-700 hover:bg-red-50"
+                    >
+                      <LogOut className="w-4 h-4" />
+                      <span>Logout</span>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               )}
               {/* Show "Get Pro" badge if user is logged in and NOT Pro */}
               {user && !subscriptionStatus.isPro && (
