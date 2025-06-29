@@ -2,12 +2,18 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Slider } from '@/components/ui/slider';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+  DropdownMenuCheckboxItem,
+  DropdownMenuSeparator,
+} from '@/components/ui/dropdown-menu';
 import { FilterOptions } from '@/hooks/useToolFiltering';
 import { Filter, X, ChevronDown } from 'lucide-react';
 
@@ -59,6 +65,21 @@ export const ToolFilters: React.FC<ToolFiltersProps> = ({
     'freemium': 'Freemium'
   };
 
+  const getActiveFilterCount = (filterType: string) => {
+    switch (filterType) {
+      case 'categories':
+        return filters.categories.length;
+      case 'freeOfferings':
+        return filters.freeOfferings.length;
+      case 'accessType':
+        return filters.isPro !== null ? 1 : 0;
+      case 'rating':
+        return filters.ratings.min > 0 || filters.ratings.max < 5 ? 1 : 0;
+      default:
+        return 0;
+    }
+  };
+
   return (
     <Card className="mb-6">
       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
@@ -96,92 +117,130 @@ export const ToolFilters: React.FC<ToolFiltersProps> = ({
         
         <CollapsibleContent>
           <CardContent className="pt-0">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {/* Categories */}
-              <div>
-                <Label className="text-sm font-medium mb-3 block">Categories</Label>
-                <div className="space-y-2">
+            <div className="flex flex-wrap gap-4">
+              {/* Categories Dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="min-w-32">
+                    Categories
+                    {getActiveFilterCount('categories') > 0 && (
+                      <Badge variant="secondary" className="ml-2 text-xs">
+                        {getActiveFilterCount('categories')}
+                      </Badge>
+                    )}
+                    <ChevronDown className="w-4 h-4 ml-2" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56 max-h-80 overflow-y-auto bg-white border shadow-lg">
                   {categories.map(category => (
-                    <div key={category} className="flex items-center space-x-2">
-                      <Checkbox
-                        id={`category-${category}`}
-                        checked={filters.categories.includes(category)}
-                        onCheckedChange={(checked) => handleCategoryChange(category, checked === true)}
-                      />
-                      <Label htmlFor={`category-${category}`} className="text-sm cursor-pointer">
-                        {category}
-                      </Label>
-                    </div>
+                    <DropdownMenuCheckboxItem
+                      key={category}
+                      checked={filters.categories.includes(category)}
+                      onCheckedChange={(checked) => handleCategoryChange(category, checked)}
+                    >
+                      {category}
+                    </DropdownMenuCheckboxItem>
                   ))}
-                </div>
-              </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
 
-              {/* Free Offerings */}
-              <div>
-                <Label className="text-sm font-medium mb-3 block">Free Access</Label>
-                <div className="space-y-2">
+              {/* Free Access Dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="min-w-32">
+                    Free Access
+                    {getActiveFilterCount('freeOfferings') > 0 && (
+                      <Badge variant="secondary" className="ml-2 text-xs">
+                        {getActiveFilterCount('freeOfferings')}
+                      </Badge>
+                    )}
+                    <ChevronDown className="w-4 h-4 ml-2" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56 bg-white border shadow-lg">
                   {freeOfferings.map(offering => (
-                    <div key={offering} className="flex items-center space-x-2">
-                      <Checkbox
-                        id={`offering-${offering}`}
-                        checked={filters.freeOfferings.includes(offering)}
-                        onCheckedChange={(checked) => handleFreeOfferingChange(offering, checked === true)}
-                      />
-                      <Label htmlFor={`offering-${offering}`} className="text-sm cursor-pointer">
-                        {freeOfferingLabels[offering] || offering}
-                      </Label>
-                    </div>
+                    <DropdownMenuCheckboxItem
+                      key={offering}
+                      checked={filters.freeOfferings.includes(offering)}
+                      onCheckedChange={(checked) => handleFreeOfferingChange(offering, checked)}
+                    >
+                      {freeOfferingLabels[offering] || offering}
+                    </DropdownMenuCheckboxItem>
                   ))}
-                </div>
-              </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
 
-              {/* Rating Range */}
-              <div>
-                <Label className="text-sm font-medium mb-3 block">
-                  Rating ({filters.ratings.min} - {filters.ratings.max})
-                </Label>
-                <div className="px-2">
-                  <Slider
-                    value={[filters.ratings.min, filters.ratings.max]}
-                    onValueChange={handleRatingChange}
-                    max={5}
-                    min={0}
-                    step={0.1}
-                    className="w-full"
-                  />
-                </div>
-              </div>
+              {/* Rating Dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="min-w-32">
+                    Rating
+                    {getActiveFilterCount('rating') > 0 && (
+                      <Badge variant="secondary" className="ml-2 text-xs">
+                        {filters.ratings.min}-{filters.ratings.max}
+                      </Badge>
+                    )}
+                    <ChevronDown className="w-4 h-4 ml-2" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-64 p-4 bg-white border shadow-lg">
+                  <Label className="text-sm font-medium mb-3 block">
+                    Rating ({filters.ratings.min} - {filters.ratings.max})
+                  </Label>
+                  <div className="px-2">
+                    <Slider
+                      value={[filters.ratings.min, filters.ratings.max]}
+                      onValueChange={handleRatingChange}
+                      max={5}
+                      min={0}
+                      step={0.1}
+                      className="w-full"
+                    />
+                  </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
 
-              {/* Pro Status */}
-              <div>
-                <Label className="text-sm font-medium mb-3 block">Access Type</Label>
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="free-tools"
-                      checked={filters.isPro === false}
-                      onCheckedChange={(checked) => 
-                        handleProStatusChange(checked ? false : null)
-                      }
-                    />
-                    <Label htmlFor="free-tools" className="text-sm cursor-pointer">
-                      Free Tools Only
-                    </Label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox
-                      id="pro-tools"
-                      checked={filters.isPro === true}
-                      onCheckedChange={(checked) => 
-                        handleProStatusChange(checked ? true : null)
-                      }
-                    />
-                    <Label htmlFor="pro-tools" className="text-sm cursor-pointer">
-                      Pro Tools Only
-                    </Label>
-                  </div>
-                </div>
-              </div>
+              {/* Access Type Dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="min-w-32">
+                    Access Type
+                    {getActiveFilterCount('accessType') > 0 && (
+                      <Badge variant="secondary" className="ml-2 text-xs">
+                        {filters.isPro === true ? 'Pro' : 'Free'}
+                      </Badge>
+                    )}
+                    <ChevronDown className="w-4 h-4 ml-2" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-48 bg-white border shadow-lg">
+                  <DropdownMenuCheckboxItem
+                    checked={filters.isPro === false}
+                    onCheckedChange={(checked) => 
+                      handleProStatusChange(checked ? false : null)
+                    }
+                  >
+                    Free Tools Only
+                  </DropdownMenuCheckboxItem>
+                  <DropdownMenuCheckboxItem
+                    checked={filters.isPro === true}
+                    onCheckedChange={(checked) => 
+                      handleProStatusChange(checked ? true : null)
+                    }
+                  >
+                    Pro Tools Only
+                  </DropdownMenuCheckboxItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuCheckboxItem
+                    checked={filters.isPro === null}
+                    onCheckedChange={(checked) => 
+                      handleProStatusChange(checked ? null : filters.isPro)
+                    }
+                  >
+                    All Tools
+                  </DropdownMenuCheckboxItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </CardContent>
         </CollapsibleContent>
