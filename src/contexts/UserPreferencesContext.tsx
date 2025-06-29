@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { AITool, PromptPack } from '@/data/aiTools';
 import { supabase } from '@/integrations/supabase/client';
 import type { Tables } from "@/integrations/supabase/types";
+import type { Session, User } from "@supabase/supabase-js";
 
 type ProfileRow = Tables<"profiles">;
 
@@ -13,7 +14,7 @@ interface UserPreferences {
   sortPreference: 'name' | 'rating' | 'users' | 'recent';
 }
 
-interface User {
+interface UserContextType {
   id: string;
   email?: string;
   name?: string;
@@ -21,8 +22,9 @@ interface User {
 
 interface UserPreferencesContextType {
   preferences: UserPreferences;
-  user: User | null;
+  user: UserContextType | null;
   profile: ProfileRow | null;
+  session: Session | null;
   favoriteTools: string[];
   toggleFavorite: (toolId: string) => void;
   addFavorite: (toolId: string) => void;
@@ -43,12 +45,15 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
     sortPreference: 'rating'
   });
 
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserContextType | null>(null);
   const [profile, setProfile] = useState<ProfileRow | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
 
   useEffect(() => {
-    const updateUserState = (sessionUser: any | null) => {
-      if (!sessionUser) {
+    const updateUserState = (newSession: Session | null) => {
+      setSession(newSession);
+      
+      if (!newSession?.user) {
         setUser(null);
         setProfile(null);
         return;
@@ -60,7 +65,7 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
           const { data: profileData } = await supabase
             .from('profiles')
             .select('*')
-            .eq('id', sessionUser.id)
+            .eq('id', newSession.user.id)
             .single();
 
           if (profileData) {
@@ -68,35 +73,35 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
           }
 
           setUser({
-            id: sessionUser.id,
-            email: sessionUser.email,
-            name: profileData?.name || sessionUser.user_metadata?.name,
+            id: newSession.user.id,
+            email: newSession.user.email,
+            name: profileData?.name || newSession.user.user_metadata?.name,
           });
         } catch (error) {
           console.error("Error fetching user profile:", error);
           // Fallback to user data without profile if the call fails
           setProfile(null);
           setUser({
-            id: sessionUser.id,
-            email: sessionUser.email,
-            name: sessionUser.user_metadata?.name,
+            id: newSession.user.id,
+            email: newSession.user.email,
+            name: newSession.user.user_metadata?.name,
           });
         }
       }, 0);
     };
 
-    // Initialize user state on load
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      updateUserState(session?.user ?? null);
+    // Set up auth state listener FIRST
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      updateUserState(session);
     });
 
-    // Listen for authentication state changes
-    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
-      updateUserState(session?.user ?? null);
+    // THEN check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      updateUserState(session);
     });
 
     return () => {
-      authListener?.subscription.unsubscribe();
+      subscription?.unsubscribe();
     };
   }, []);
 
@@ -162,6 +167,7 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
       preferences,
       user,
       profile,
+      session,
       favoriteTools: preferences.favorites,
       toggleFavorite,
       addFavorite,

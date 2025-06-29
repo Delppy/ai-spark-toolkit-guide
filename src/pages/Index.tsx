@@ -144,7 +144,7 @@ const Index = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg" variant="secondary" className="bg-white text-purple-600 hover:bg-gray-100 text-lg px-8 py-6">
-                <Link to="/login">Get Started Free</Link>
+                <Link to="/signup">Get Started Free</Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-purple-600 text-lg px-8 py-6">
                 <Link to="/login">Sign In</Link>
