@@ -1,18 +1,18 @@
 
 export const proFeatures = [
   "🚫 Remove ALL ads",
-  "Unlock all prompt packs",
-  "Unlimited use of Pro tools",
-  "Priority support",
-  "Early access to updates",
-  "Access to new features first",
+  "🔓 Access to premium tools",
+  "📦 Unlock exclusive tool packs",
+  "⚡ Priority tool recommendations",
+  "🎯 Advanced filtering options",
+  "🆘 Priority support",
 ];
 
 export const freeFeatures = [
-  "Access to all free tools",
-  "Limited prompt packs",
+  "Access to basic tools",
+  "Limited tool packs",
   "Ad-supported experience",
-  "No credit card required",
+  "Standard support",
 ];
 
 export const MONTHLY_PRICE = 30;

@@ -76,6 +76,12 @@ const Pricing: React.FC = () => {
       <>
         <span className="text-4xl font-extrabold">GHS {YEARLY_PRICE.toFixed(2)}</span>
         <span className="text-base font-normal text-gray-400">/year</span>
+        <div className="text-sm text-gray-500 mt-1">
+          <span className="line-through">GHS {(MONTHLY_PRICE * 12).toFixed(2)}</span>
+          <span className="ml-2 text-green-600 font-semibold">
+            Save GHS {((MONTHLY_PRICE * 12) - YEARLY_PRICE).toFixed(2)}
+          </span>
+        </div>
       </>
     );
     

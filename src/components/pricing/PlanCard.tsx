@@ -45,7 +45,7 @@ const PlanCard: React.FC<PlanCardProps> = ({
           </CardTitle>
         </div>
         <CardDescription>
-          {isPro ? "For students & power users" : "All the basics, free forever!"}
+          {isPro ? "Remove ads & unlock premium tools" : "All the basics, free forever!"}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -75,7 +75,7 @@ const PlanCard: React.FC<PlanCardProps> = ({
           ))}
           {!isPro && (
             <li className="flex items-center gap-2 text-sm text-slate-400 line-through">
-              <XCircle className="w-4 h-4" /> Unlock Pro packs
+              <XCircle className="w-4 h-4" /> Remove ads & premium tools
             </li>
           )}
         </ul>
