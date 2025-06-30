@@ -53,10 +53,15 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               </h1>
             </Link>
             <div className="flex items-center space-x-2">
-              {!user && location.pathname !== "/login" && (
-                <AnimatedButton asChild variant="ghost" size="sm">
-                  <Link to="/login">Login</Link>
-                </AnimatedButton>
+              {!user && location.pathname !== "/login" && location.pathname !== "/signup" && (
+                <div className="flex items-center space-x-2">
+                  <AnimatedButton asChild variant="ghost" size="sm">
+                    <Link to="/login">Login</Link>
+                  </AnimatedButton>
+                  <AnimatedButton asChild variant="outline" size="sm">
+                    <Link to="/signup">Sign Up</Link>
+                  </AnimatedButton>
+                </div>
               )}
               {!!user && (
                 <DropdownMenu>
