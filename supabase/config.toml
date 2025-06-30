@@ -23,6 +23,9 @@ verify_jwt = false
 [functions.paystack-ipn]
 verify_jwt = false
 
+[functions.paystack-webhook]
+verify_jwt = false
+
 [edge-runtime]
 enabled = true
 policy = "oneshot"
