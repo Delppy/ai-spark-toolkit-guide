@@ -82,12 +82,23 @@ const Index = () => {
           <p className="text-xl text-slate-600 mb-8 leading-relaxed">
             From school projects to business tasks, find the perfect AI tools and prompts to boost your productivity.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
             <Button asChild size="lg" className="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 text-lg px-8 py-6">
               <Link to="/tools">Explore AI Tools</Link>
             </Button>
             <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6 border-2">
               <Link to="/prompts">Browse Prompt Packs</Link>
+            </Button>
+          </div>
+          {/* Search Button */}
+          <div className="flex justify-center">
+            <Button asChild variant="secondary" size="lg" className="text-lg px-8 py-4 bg-slate-100 hover:bg-slate-200 text-slate-700">
+              <Link to="/tools">
+                <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                Search AI Tools
+              </Link>
             </Button>
           </div>
         </div>

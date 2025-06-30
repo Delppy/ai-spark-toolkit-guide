@@ -1,4 +1,3 @@
-
 export interface AITool {
   id: string;
   name: string;
@@ -155,7 +154,6 @@ export const schoolAITools: AITool[] = [
     freeOffering: "free",
     freeDetails: "Completely free learning app"
   },
-  // NEW SCHOOL TOOLS (15 additions)
   {
     id: "elicit",
     name: "Elicit",
@@ -485,7 +483,6 @@ export const contentAITools: AITool[] = [
     freeOffering: "free_credits",
     freeDetails: "Free account with starting credits"
   },
-  // NEW CONTENT TOOLS (15 additions)
   {
     id: "adobe-firefly",
     name: "Adobe Firefly",
@@ -815,7 +812,6 @@ export const businessAITools: AITool[] = [
     freeOffering: "freemium",
     freeDetails: "Free tier with limited transcription credits"
   },
-  // NEW BUSINESS TOOLS (15 additions)
   {
     id: "writesonic",
     name: "Writesonic",
@@ -1145,7 +1141,6 @@ export const careerAITools: AITool[] = [
     freeOffering: "freemium",
     freeDetails: "Free practice interviews available"
   },
-  // NEW CAREER TOOLS (15 additions)
   {
     id: "resumeworded",
     name: "Resume Worded",
@@ -1345,7 +1340,6 @@ export const careerAITools: AITool[] = [
 
 // PDF AI Tools (25 tools total)
 export const pdfAITools: AITool[] = [
-  // PDF Editing & Conversion
   {
     id: "tinywow",
     name: "TinyWOW",
@@ -1476,20 +1470,6 @@ export const pdfAITools: AITool[] = [
     freeOffering: "freemium",
     freeDetails: "Free with ads, premium ad-free"
   },
-  // NEW PDF TOOLS (15 additions)
-  {
-    id: "pdf-ai-summarizer",
-    name: "PDF AI Summarizer",
-    category: "PDF Analysis",
-    description: "AI-powered PDF document summarization and key insights extraction",
-    rating: 4.4,
-    users: "800K+",
-    isPro: false,
-    url: "https://pdf-summarizer.ai",
-    features: ["Document Summaries", "Key Points", "Multi-language", "Bulk Processing"],
-    freeOffering: "freemium",
-    freeDetails: "5 free summaries per month"
-  },
   {
     id: "wondershare-pdfelement",
     name: "PDFelement",
@@ -1530,32 +1510,6 @@ export const pdfAITools: AITool[] = [
     freeDetails: "Completely free PDF editor"
   },
   {
-    id: "ai-pdf-translator",
-    name: "AI PDF Translator",
-    category: "PDF Analysis",
-    description: "AI-powered PDF translation preserving formatting",
-    rating: 4.3,
-    users: "1M+",
-    isPro: false,
-    url: "https://pdf-translator.ai",
-    features: ["Document Translation", "Format Preservation", "100+ Languages", "OCR"],
-    freeOffering: "freemium",
-    freeDetails: "Free translations with page limits"
-  },
-  {
-    id: "pdf-ai-reader",
-    name: "PDF AI Reader",
-    category: "PDF Analysis",
-    description: "AI reading assistant for PDF documents with smart highlights",
-    rating: 4.1,
-    users: "600K+",
-    isPro: false,
-    url: "https://pdf-ai-reader.com",
-    features: ["Smart Reading", "Auto Highlights", "Note Taking", "Voice Reading"],
-    freeOffering: "freemium",
-    freeDetails: "Free plan with basic features"
-  },
-  {
     id: "lightpdf",
     name: "LightPDF",
     category: "PDF Editing",
@@ -1569,107 +1523,146 @@ export const pdfAITools: AITool[] = [
     freeDetails: "Free plan with limited features"
   },
   {
-    id: "pdfshift",
-    name: "PDFShift",
-    category: "PDF Creation",
-    description: "HTML to PDF API with AI-powered optimization",
+    id: "pdfx",
+    name: "PDFX",
+    category: "PDF Analysis",
+    description: "Academic-focused PDF analysis and reference extraction",
     rating: 4.2,
-    users: "100K+",
+    users: "500K+",
     isPro: false,
-    url: "https://pdfshift.io",
-    features: ["HTML to PDF", "API Integration", "Custom Styling", "High Quality"],
-    freeOffering: "freemium",
-    freeDetails: "Free tier with 250 conversions monthly"
+    url: "https://www.cs.man.ac.uk/~pdfx/",
+    features: ["Reference Extraction", "Citation Analysis", "Academic Papers"],
+    freeOffering: "free",
+    freeDetails: "Free for academic use"
   },
   {
-    id: "pdf-form-filler",
-    name: "PDF Form Filler AI",
-    category: "PDF Creation",
-    description: "AI-powered PDF form filling and data extraction",
-    rating: 4.0,
-    users: "400K+",
-    isPro: false,
-    url: "https://pdf-form-filler.ai",
-    features: ["Auto Form Filling", "Data Extraction", "Template Matching", "Batch Processing"],
-    freeOffering: "freemium",
-    freeDetails: "Free form filling with limits"
-  },
-  {
-    id: "pdf-compressor-ai",
-    name: "PDF Compressor AI",
-    category: "PDF Editing",
-    description: "AI-optimized PDF compression maintaining quality",
-    rating: 4.4,
+    id: "pdf-reader-pro",
+    name: "PDF Reader Pro",
+    category: "PDF Analysis",
+    description: "Professional PDF reader with advanced annotation tools",
+    rating: 4.3,
     users: "3M+",
     isPro: false,
-    url: "https://pdf-compressor.ai",
-    features: ["Smart Compression", "Quality Preservation", "Batch Processing", "Size Optimization"],
-    freeOffering: "free",
-    freeDetails: "Free unlimited compression"
-  },
-  {
-    id: "pdf-signature-ai",
-    name: "PDF Signature AI",
-    category: "PDF Security",
-    description: "AI-powered digital signature verification and creation",
-    rating: 4.2,
-    users: "1.5M+",
-    isPro: false,
-    url: "https://pdf-signature.ai",
-    features: ["Digital Signatures", "Verification", "Legal Compliance", "Workflow"],
+    url: "https://www.pdfreaderpro.com",
+    features: ["Advanced Reading", "Annotation", "Form Filling", "Collaboration"],
     freeOffering: "freemium",
-    freeDetails: "Free basic signatures"
+    freeDetails: "Free version with basic features"
   },
   {
-    id: "pdf-extractor-ai",
-    name: "PDF Data Extractor",
-    category: "PDF Analysis",
-    description: "AI-powered data extraction from PDF documents",
-    rating: 4.3,
-    users: "800K+",
+    id: "pandadoc",
+    name: "PandaDoc",
+    category: "PDF Creation",
+    description: "Document creation and e-signature platform",
+    rating: 4.4,
+    users: "40K+",
     isPro: false,
-    url: "https://pdf-extractor.ai",
-    features: ["Data Extraction", "Table Recognition", "Text Mining", "API Access"],
-    freeOffering: "freemium",
-    freeDetails: "Free extractions with limits"
+    url: "https://pandadoc.com",
+    features: ["Document Builder", "E-signatures", "Templates", "Analytics"],
+    freeOffering: "free_trial",
+    freeDetails: "14-day free trial available"
   },
   {
-    id: "pdf-voice-reader",
-    name: "PDF Voice Reader",
-    category: "PDF Analysis",
-    description: "AI text-to-speech for PDF documents with natural voices",
-    rating: 4.1,
-    users: "2M+",
-    isPro: false,
-    url: "https://pdf-voice-reader.ai",
-    features: ["Text-to-Speech", "Natural Voices", "Speed Control", "Highlight Sync"],
-    freeOffering: "freemium",
-    freeDetails: "Free reading with time limits"
-  },
-  {
-    id: "pdf-merger-ai",
-    name: "PDF Merger AI",
+    id: "nitro-pdf",
+    name: "Nitro PDF",
     category: "PDF Editing",
-    description: "AI-powered PDF merging with smart organization",
-    rating: 4.2,
-    users: "4M+",
-    isPro: false,
-    url: "https://pdf-merger.ai",
-    features: ["Smart Merging", "Auto Organization", "Bookmark Creation", "Page Ordering"],
-    freeOffering: "free",
-    freeDetails: "Free unlimited merging"
+    description: "Professional PDF productivity suite for businesses",
+    rating: 4.3,
+    users: "2M+",
+    isPro: true,
+    url: "https://gonitro.com",
+    features: ["PDF Editing", "E-signatures", "Collaboration", "Security"],
+    freeOffering: "free_trial",
+    freeDetails: "14-day free trial"
   },
   {
-    id: "pdf-annotator-ai",
-    name: "PDF Annotator AI",
+    id: "pdf-pro",
+    name: "PDF Pro",
+    category: "PDF Editing",
+    description: "Mobile PDF editor and scanner application",
+    rating: 4.1,
+    users: "10M+",
+    isPro: false,
+    url: "https://pdfpro.co",
+    features: ["Mobile Editing", "Document Scanner", "Cloud Sync", "Annotations"],
+    freeOffering: "freemium",
+    freeDetails: "Free with limited features"
+  },
+  {
+    id: "pdf-expert",
+    name: "PDF Expert",
     category: "PDF Analysis",
-    description: "AI-assisted PDF annotation and collaborative review",
+    description: "Premium PDF editor for Mac and iOS with advanced features",
+    rating: 4.5,
+    users: "5M+",
+    isPro: true,
+    url: "https://pdfexpert.com",
+    features: ["Advanced Editing", "Form Filling", "Annotation", "Reading Mode"],
+    freeOffering: "free_trial",
+    freeDetails: "7-day free trial"
+  },
+  {
+    id: "kami",
+    name: "Kami",
+    category: "PDF Analysis",
+    description: "Digital classroom tool for PDF annotation and collaboration",
+    rating: 4.2,
+    users: "6M+",
+    isPro: false,
+    url: "https://kamihq.com",
+    features: ["Classroom Integration", "Real-time Collaboration", "Voice Comments", "Google Classroom"],
+    freeOffering: "freemium",
+    freeDetails: "Free for basic use"
+  },
+  {
+    id: "xodo",
+    name: "Xodo",
+    category: "PDF Analysis",
+    description: "Free PDF reader and annotator with cloud synchronization",
+    rating: 4.4,
+    users: "15M+",
+    isPro: false,
+    url: "https://xodo.com",
+    features: ["PDF Annotation", "Cloud Sync", "Form Filling", "Collaboration"],
+    freeOffering: "freemium",
+    freeDetails: "Free with premium features available"
+  },
+  {
+    id: "goodreader",
+    name: "GoodReader",
+    category: "PDF Analysis",
+    description: "Professional PDF reader with powerful annotation tools",
+    rating: 4.3,
+    users: "2M+",
+    isPro: true,
+    url: "https://goodreader.com",
+    features: ["Advanced Reading", "File Management", "Annotation", "Cloud Integration"],
+    freeOffering: "free_trial",
+    freeDetails: "Free trial version available"
+  },
+  {
+    id: "soda-pdf",
+    name: "Soda PDF",
+    category: "PDF Creation",
+    description: "Complete PDF solution for creating, editing, and converting",
+    rating: 4.1,
+    users: "8M+",
+    isPro: false,
+    url: "https://sodapdf.com",
+    features: ["PDF Creation", "Editing", "Conversion", "E-signatures"],
+    freeOffering: "freemium",
+    freeDetails: "Free online tools with desktop trial"
+  },
+  {
+    id: "able2extract",
+    name: "Able2Extract",
+    category: "PDF Creation",
+    description: "Professional PDF converter and editor with advanced features",
     rating: 4.0,
     users: "1M+",
-    isPro: false,
-    url: "https://pdf-annotator.ai",
-    features: ["Smart Annotations", "Collaboration", "Auto Highlights", "Review Workflow"],
-    freeOffering: "freemium",
-    freeDetails: "Free plan with basic annotation features"
+    isPro: true,
+    url: "https://able2extract.com",
+    features: ["Advanced Conversion", "Batch Processing", "Custom Conversion", "OCR"],
+    freeOffering: "free_trial",
+    freeDetails: "7-day free trial"
   }
 ];
