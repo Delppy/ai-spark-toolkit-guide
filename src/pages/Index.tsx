@@ -1,14 +1,15 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Briefcase, Camera, UserCheck, FileText, ChevronRight, Search, X } from "lucide-react";
+import { BookOpen, Briefcase, Camera, UserCheck, FileText, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { TrendingToolsSection } from "@/components/TrendingToolsSection";
 import { ToolCard } from "@/components/ToolCard";
+import { AdvancedSearch } from "@/components/AdvancedSearch";
+import { ToolComparison } from "@/components/ToolComparison";
 import { supabase } from "@/integrations/supabase/client";
 import { dataManager } from "@/data/dataManager";
 import { useToolFiltering } from "@/hooks/useToolFiltering";
@@ -17,7 +18,6 @@ import { toast } from "sonner";
 
 const Index = () => {
   const [session, setSession] = useState<Session | null>(null);
-  const [searchTerm, setSearchTerm] = useState("");
   const [showResults, setShowResults] = useState(false);
   const [favorites, setFavorites] = useState<string[]>([]);
 
@@ -37,16 +37,13 @@ const Index = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const handleSearch = (value: string) => {
-    setSearchTerm(value);
-    updateFilter({ searchTerm: value });
-    setShowResults(value.length > 0);
+  const handleSearch = (searchTerm: string) => {
+    updateFilter({ searchTerm });
+    setShowResults(searchTerm.length > 0);
   };
 
-  const clearSearch = () => {
-    setSearchTerm("");
-    updateFilter({ searchTerm: "" });
-    setShowResults(false);
+  const handleSuggestionSelect = (suggestion: any) => {
+    console.log('Selected suggestion:', suggestion);
   };
 
   const handleFavoriteClick = async (toolId: string, e: React.MouseEvent) => {
@@ -147,27 +144,13 @@ const Index = () => {
 
   return (
     <Layout>
-      {/* Search Section - Moved to Top */}
+      {/* Advanced Search Section */}
       <section className="container mx-auto px-4 py-8">
-        <div className="max-w-2xl mx-auto">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
-            <Input
-              placeholder="Search AI tools by name, category, or features..."
-              value={searchTerm}
-              onChange={(e) => handleSearch(e.target.value)}
-              className="pl-10 pr-12 py-4 text-lg border-2 border-slate-200 focus:border-purple-500 rounded-xl shadow-sm"
-            />
-            {searchTerm && (
-              <button
-                onClick={clearSearch}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            )}
-          </div>
-        </div>
+        <AdvancedSearch
+          onSearch={handleSearch}
+          onSuggestionSelect={handleSuggestionSelect}
+          placeholder="Search AI tools by name, category, or features..."
+        />
       </section>
 
       {/* Search Results */}
@@ -179,7 +162,6 @@ const Index = () => {
             </h3>
             {filteredAndSortedTools.length === 0 ? (
               <div className="text-center py-12">
-                <Search className="w-16 h-16 text-slate-300 mx-auto mb-4" />
                 <h4 className="text-xl font-semibold text-slate-600 mb-2">No tools found</h4>
                 <p className="text-slate-500">Try adjusting your search terms</p>
               </div>
@@ -223,7 +205,7 @@ const Index = () => {
                 <Link to="/tools">Explore AI Tools</Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6 border-2">
-                <Link to="/prompts">Browse Prompt Packs</Link>
+                <Link to="/dashboard">View Dashboard</Link>
               </Button>
             </div>
           </div>
@@ -269,6 +251,9 @@ const Index = () => {
 
       {/* Trending Tools Section - Only show when not searching */}
       {!showResults && <TrendingToolsSection />}
+
+      {/* Tool Comparison Component */}
+      <ToolComparison tools={allTools} />
 
       {/* CTA Section - Only show if user is not signed in and not searching */}
       {!session && !showResults && (
