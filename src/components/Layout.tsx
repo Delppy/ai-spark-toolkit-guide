@@ -105,23 +105,25 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                   </DropdownMenuContent>
                 </DropdownMenu>
               )}
-              {/* Show "Get Pro" badge if user is logged in and NOT Pro */}
-              {user && !subscriptionStatus.isPro && (
-                <Link to="/pricing" className="ml-2">
-                  <Badge variant="free_tier" className="py-1.5 px-3 flex items-center gap-1.5 transition-all hover:shadow-md">
-                    <Star className="w-4 h-4 text-amber-500" />
-                    Remove Ads
-                  </Badge>
-                </Link>
+              
+              {/* Premium Badge - Show for all logged in users */}
+              {user && (
+                <div className="ml-2">
+                  {subscriptionStatus.isPro ? (
+                    <Badge variant="premium" className="flex items-center gap-1.5 py-1.5 px-3">
+                      <Star className="w-4 h-4" />
+                      Premium
+                    </Badge>
+                  ) : (
+                    <Link to="/pricing">
+                      <Badge variant="free_tier" className="py-1.5 px-3 flex items-center gap-1.5 transition-all hover:shadow-md">
+                        <Star className="w-4 h-4 text-amber-500" />
+                        Remove Ads
+                      </Badge>
+                    </Link>
+                  )}
+                </div>
               )}
-              {/* If Pro is enabled, show a "Premium" badge instead */}
-              {user && subscriptionStatus.isPro && (
-                <Badge variant="premium" className="ml-2 flex items-center gap-1.5 py-1.5 px-3">
-                  <Star className="w-4 h-4" />
-                  Premium
-                </Badge>
-              )}
-              {/* For users not logged in, never show Pro button or badge */}
             </div>
           </div>
         </div>
