@@ -7,6 +7,7 @@ import Index from '@/pages/Index';
 import Login from '@/pages/Login';
 import Signup from '@/pages/Signup';
 import Profile from '@/pages/Profile';
+import Dashboard from '@/pages/Dashboard';
 import CategorySchool from '@/pages/CategorySchool';
 import CategoryBusiness from '@/pages/CategoryBusiness';
 import CategoryContent from '@/pages/CategoryContent';
@@ -39,6 +40,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/tools" element={<ToolsWithFilters />} />
                 <Route path="/favorites" element={<Favorites />} />
                 <Route path="/prompts" element={<Prompts />} />
