@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -107,31 +108,23 @@ const CategorySchool = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-      {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-slate-200 sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Link to="/">
-                <Button variant="ghost" size="sm">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back
-                </Button>
-              </Link>
-              <div className="flex items-center space-x-2">
-                <BookOpen className="w-6 h-6 text-blue-600" />
-                <h1 className="text-xl font-bold text-slate-900">School & Education</h1>
-              </div>
-            </div>
-            {/* Hide Get Pro button for users who aren't logged in */}
-            {userId && !isPro && (
-              <Button asChild size="sm" className="bg-gradient-to-r from-purple-500 to-blue-600">
-                <Link to="/pricing">Get Pro</Link>
+      {/* Simplified Header - Remove custom header to use main Layout */}
+      <section className="container mx-auto px-4 pt-8">
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center space-x-4">
+            <Link to="/">
+              <Button variant="ghost" size="sm">
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Back
               </Button>
-            )}
+            </Link>
+            <div className="flex items-center space-x-2">
+              <BookOpen className="w-6 h-6 text-blue-600" />
+              <h1 className="text-xl font-bold text-slate-900">School & Education</h1>
+            </div>
           </div>
         </div>
-      </header>
+      </section>
 
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-8">
