@@ -50,7 +50,7 @@ const Login = () => {
 
     console.log("Attempting login with email:", email);
 
-    // Validation
+    // Basic validation - don't be too strict here
     if (!validateEmail(email)) {
       const errorMsg = "Please enter a valid email address.";
       setError(errorMsg);
@@ -63,8 +63,8 @@ const Login = () => {
       return;
     }
 
-    if (!password || password.length < 6) {
-      const errorMsg = "Password must be at least 6 characters.";
+    if (!password) {
+      const errorMsg = "Please enter your password.";
       setError(errorMsg);
       toast({
         title: "Login failed",
@@ -85,10 +85,19 @@ const Login = () => {
 
       if (loginErr) {
         console.error("Login error:", loginErr);
-        setError(loginErr.message);
+        
+        // Provide more helpful error messages
+        let errorMessage = loginErr.message;
+        if (loginErr.message.includes("Invalid login credentials")) {
+          errorMessage = "Invalid email or password. Please check your credentials and try again.";
+        } else if (loginErr.message.includes("Email not confirmed")) {
+          errorMessage = "Please check your email and click the confirmation link before logging in.";
+        }
+        
+        setError(errorMessage);
         toast({
           title: "Login failed",
-          description: loginErr.message,
+          description: errorMessage,
           variant: "destructive",
         });
       } else if (data.user) {
@@ -193,6 +202,16 @@ const Login = () => {
                 {loading ? "Logging in..." : "Login"}
               </Button>
             </form>
+            
+            <div className="mt-4 text-center">
+              <Link
+                to="/forgot-password"
+                className="text-sm text-blue-600 hover:underline"
+              >
+                Forgot your password?
+              </Link>
+            </div>
+            
             <div className="mt-6 text-center text-sm text-slate-500">
               Don't have an account?{" "}
               <Link
