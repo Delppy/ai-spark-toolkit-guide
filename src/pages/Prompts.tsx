@@ -26,8 +26,8 @@ const Prompts = () => {
     toast.success("Prompt copied to clipboard!");
   };
 
-  // If user is not logged in or not pro, show paywall
-  if (!user || !isPro) {
+  // If user is not logged in, show full paywall
+  if (!user) {
     return (
       <Layout>
         <div className="container mx-auto px-4 py-12">
@@ -115,8 +115,8 @@ const Prompts = () => {
 
   return (
     <Layout>
-      <div className="container mx-auto px-4 py-12">
-        <div className="text-center mb-12">
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Crown className="w-8 h-8 text-amber-500" />
             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-slate-900 via-purple-900 to-blue-900 bg-clip-text text-transparent">
@@ -126,6 +126,13 @@ const Prompts = () => {
           <p className="text-xl text-slate-600 mt-4 max-w-2xl mx-auto">
             Supercharge your AI with our curated prompt packs for a variety of use cases.
           </p>
+          {!isPro && (
+            <div className="mt-4 p-4 bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 rounded-lg">
+              <p className="text-sm text-slate-600">
+                🎁 Preview available! Unlock all {promptPacks.length}+ premium prompts with Pro
+              </p>
+            </div>
+          )}
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {promptPacks.map((pack, index) => (
@@ -133,6 +140,7 @@ const Prompts = () => {
               <PromptPackCard 
                 pack={pack}
                 onCopyPrompt={handleCopyPrompt}
+                isPreviewMode={!isPro}
               />
               {/* Show in-content ad every 6 cards */}
               {shouldShowInContentAd(index) && (
