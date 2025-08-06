@@ -212,7 +212,7 @@ const Index = () => {
                 <Link to="/tools">Explore AI Tools</Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6 border-2">
-                <Link to="/dashboard">View Dashboard</Link>
+                <Link to="/prompts">Browse Prompt Packs</Link>
               </Button>
             </div>
           </div>
