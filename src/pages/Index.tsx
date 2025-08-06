@@ -214,6 +214,9 @@ const Index = () => {
               <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6 border-2">
                 <Link to="/prompts">Browse Prompt Packs</Link>
               </Button>
+              <Button asChild variant="secondary" size="lg" className="text-lg px-8 py-6">
+                <Link to="/prompts">View All Prompts</Link>
+              </Button>
             </div>
           </div>
         </section>
