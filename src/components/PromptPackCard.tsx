@@ -177,23 +177,33 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
               )}
             </div>
 
-            {/* Show button for locked users or when there are more prompts to view */}
-            {(isLocked || shouldShowViewAll || (!hasFullAccess && !isLocked)) && (
-              <Button
-                className="w-full mt-4"
-                variant={isLocked ? "default" : "outline"}
-                onClick={handleActionClick}
-              >
-                {isLocked 
-                  ? "Unlock with Pro" 
-                  : hasLimitedAccess && !hasFullAccess 
-                    ? "Upgrade to Pro for Unlimited Access"
-                    : showAllPrompts 
-                      ? "Show Less" 
-                      : "View All Prompts"
-                }
+            {/* Action buttons */}
+            <div className="flex flex-col sm:flex-row gap-2 mt-4">
+              <Button asChild variant="outline" className="flex-1">
+                <Link to={`/prompts/${pack.id}`}>
+                  <Eye className="w-4 h-4 mr-2" />
+                  View All Prompts
+                </Link>
               </Button>
-            )}
+              
+              {/* Show button for locked users or when there are more prompts to view */}
+              {(isLocked || shouldShowViewAll || (!hasFullAccess && !isLocked)) && (
+                <Button
+                  className="flex-1"
+                  variant={isLocked ? "default" : "outline"}
+                  onClick={handleActionClick}
+                >
+                  {isLocked 
+                    ? "Unlock with Pro" 
+                    : hasLimitedAccess && !hasFullAccess 
+                      ? "Upgrade to Pro for Unlimited Access"
+                      : showAllPrompts 
+                        ? "Show Less" 
+                        : "View All Prompts"
+                  }
+                </Button>
+              )}
+            </div>
           </CardContent>
         </Card>
       </TooltipProvider>
