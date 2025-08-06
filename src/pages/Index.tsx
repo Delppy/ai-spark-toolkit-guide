@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Briefcase, Camera, UserCheck, FileText, ChevronRight, Sparkles, Zap, Star } from "lucide-react";
+import { BookOpen, Briefcase, Camera, UserCheck, FileText, ChevronRight, Sparkles, Zap, Star, Crown } from "lucide-react";
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { TrendingToolsSection } from "@/components/TrendingToolsSection";
@@ -277,61 +277,6 @@ const Index = () => {
             )}
           </div>
 
-          {/* Prompt Pack Categories */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            {[
-              { 
-                category: 'School & Education', 
-                icon: BookOpen, 
-                color: 'from-blue-500 to-purple-600',
-                count: allPromptPacks.filter(p => p.category === 'School & Education').length,
-                description: 'Study helpers & research prompts'
-              },
-              { 
-                category: 'Content Creation', 
-                icon: Camera, 
-                color: 'from-pink-500 to-rose-600',
-                count: allPromptPacks.filter(p => p.category === 'Content Creation').length,
-                description: 'Social media & creative prompts'
-              },
-              { 
-                category: 'Business & Work', 
-                icon: Briefcase, 
-                color: 'from-green-500 to-emerald-600',
-                count: allPromptPacks.filter(p => p.category === 'Business & Work').length,
-                description: 'Professional & productivity prompts'
-              },
-              { 
-                category: 'Career & Jobs', 
-                icon: UserCheck, 
-                color: 'from-orange-500 to-amber-600',
-                count: allPromptPacks.filter(p => p.category === 'Career & Jobs').length,
-                description: 'Resume & interview prompts'
-              }
-            ].map((cat) => (
-              <Link key={cat.category} to="/prompts">
-                <Card className="group cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-0 overflow-hidden">
-                  <div className={`bg-gradient-to-br ${cat.color} p-6 text-white relative`}>
-                    <div className="absolute top-0 right-0 w-16 h-16 bg-white/10 rounded-full -translate-y-4 translate-x-4"></div>
-                    <cat.icon className="w-8 h-8 mb-3 relative z-10" />
-                    <h4 className="text-lg font-semibold mb-1 relative z-10">{cat.category}</h4>
-                    <p className="text-white/90 text-sm relative z-10">{cat.description}</p>
-                  </div>
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-slate-600">{cat.count} prompt packs</span>
-                      {!isPro && (
-                        <Badge className="bg-green-100 text-green-800 text-xs">
-                          3 Free
-                        </Badge>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
-
           {/* CTA */}
           <div className="text-center">
             <Button 
@@ -340,8 +285,8 @@ const Index = () => {
               className="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 text-lg px-8 py-6"
             >
               <Link to="/prompts">
-                <Zap className="w-5 h-5 mr-2" />
-                {isPro ? "Browse All Prompt Packs" : "Try Prompt Packs Free"}
+                <Crown className="w-5 h-5 mr-2" />
+                {isPro ? "Browse All Prompt Packs" : "Explore Prompt Packs"}
               </Link>
             </Button>
           </div>

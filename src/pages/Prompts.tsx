@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import Layout from "@/components/Layout";
 import { PromptPackCard } from "@/components/PromptPackCard";
 import { InContentAd } from "@/components/ads/InContentAd";
@@ -9,20 +9,44 @@ import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 import { useProGate } from "@/hooks/useProGate";
 import { useSubscription } from "@/hooks/useSubscription";
 import { Button } from "@/components/ui/button";
-import { Lock, Crown, BookOpen, Video, Briefcase, User } from "lucide-react";
+import { Lock, Crown, BookOpen, Video, Briefcase, User, Filter, Grid } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
+import { Badge } from "@/components/ui/badge";
 
 const Prompts = () => {
   const { user } = useUserPreferences();
   const { isPro } = useSubscription(user?.id);
   const { proGate } = useProGate(user?.id);
   
+  // State for filtering
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  
   // Get all prompt packs organized by category
   const schoolPromptPacks = dataManager.getCategoryData('school').promptPacks;
   const contentPromptPacks = dataManager.getCategoryData('content').promptPacks;
   const businessPromptPacks = dataManager.getCategoryData('business').promptPacks;
   const careerPromptPacks = dataManager.getCategoryData('career').promptPacks;
+  
+  // Filter categories
+  const categories = [
+    { id: 'all', name: 'All Categories', icon: Grid, count: schoolPromptPacks.length + contentPromptPacks.length + businessPromptPacks.length + careerPromptPacks.length },
+    { id: 'school', name: 'School & Education', icon: BookOpen, count: schoolPromptPacks.length, packs: schoolPromptPacks },
+    { id: 'content', name: 'Content Creation', icon: Video, count: contentPromptPacks.length, packs: contentPromptPacks },
+    { id: 'business', name: 'Business & Work', icon: Briefcase, count: businessPromptPacks.length, packs: businessPromptPacks },
+    { id: 'career', name: 'Career & Jobs', icon: User, count: careerPromptPacks.length, packs: careerPromptPacks }
+  ];
+  
+  // Get filtered prompt packs based on selected category
+  const getFilteredPromptPacks = () => {
+    if (selectedCategory === 'all') {
+      return [...schoolPromptPacks, ...contentPromptPacks, ...businessPromptPacks, ...careerPromptPacks];
+    }
+    const category = categories.find(cat => cat.id === selectedCategory);
+    return category?.packs || [];
+  };
+  
+  const filteredPromptPacks = getFilteredPromptPacks();
   
   const { shouldShowInContentAd } = useAdPlacement();
 
@@ -140,105 +164,80 @@ const Prompts = () => {
           )}
         </div>
 
-        {/* School & Education Section */}
-        <section className="mb-12">
-          <div className="flex items-center gap-3 mb-6">
-            <BookOpen className="w-6 h-6 text-blue-600" />
-            <h3 className="text-2xl font-bold text-slate-900">School & Education</h3>
-            <span className="text-sm text-slate-500">({schoolPromptPacks.length} packs)</span>
+        {/* Filter Section */}
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 mb-8">
+          <div className="flex items-center gap-2 mb-4">
+            <Filter className="w-5 h-5 text-gray-600" />
+            <h3 className="text-lg font-semibold text-gray-900">Filter by Category</h3>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {schoolPromptPacks.map((pack, index) => (
-              <React.Fragment key={pack.id}>
-                <PromptPackCard 
-                  pack={pack}
-                  onCopyPrompt={handleCopyPrompt}
-                  isPreviewMode={!isPro}
-                />
-                {shouldShowInContentAd(index) && (
-                  <div className="col-span-full">
-                    <InContentAd />
-                  </div>
-                )}
-              </React.Fragment>
-            ))}
+          <div className="flex flex-wrap gap-3">
+            {categories.map((category) => {
+              const IconComponent = category.icon;
+              const isSelected = selectedCategory === category.id;
+              return (
+                <Button
+                  key={category.id}
+                  variant={isSelected ? "default" : "outline"}
+                  onClick={() => setSelectedCategory(category.id)}
+                  className={`flex items-center gap-2 h-auto py-3 px-4 rounded-lg transition-all duration-200 ${
+                    isSelected 
+                      ? "bg-gradient-to-r from-purple-500 to-blue-600 text-white shadow-md hover:from-purple-600 hover:to-blue-700" 
+                      : "border-gray-200 text-gray-700 hover:border-purple-300 hover:text-purple-700 hover:bg-purple-50"
+                  }`}
+                >
+                  <IconComponent className="w-4 h-4" />
+                  <span className="font-medium">{category.name}</span>
+                  <Badge 
+                    variant={isSelected ? "secondary" : "outline"}
+                    className={`ml-1 ${
+                      isSelected 
+                        ? "bg-white/20 text-white border-white/30" 
+                        : "bg-gray-100 text-gray-600 border-gray-300"
+                    }`}
+                  >
+                    {category.count}
+                  </Badge>
+                </Button>
+              );
+            })}
           </div>
-        </section>
+        </div>
 
-        {/* Content Creation Section */}
-        <section className="mb-12">
-          <div className="flex items-center gap-3 mb-6">
-            <Video className="w-6 h-6 text-purple-600" />
-            <h3 className="text-2xl font-bold text-slate-900">Content Creation</h3>
-            <span className="text-sm text-slate-500">({contentPromptPacks.length} packs)</span>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {contentPromptPacks.map((pack, index) => (
-              <React.Fragment key={pack.id}>
-                <PromptPackCard 
-                  pack={pack}
-                  onCopyPrompt={handleCopyPrompt}
-                  isPreviewMode={!isPro}
-                />
-                {shouldShowInContentAd(index) && (
-                  <div className="col-span-full">
-                    <InContentAd />
-                  </div>
-                )}
-              </React.Fragment>
-            ))}
-          </div>
-        </section>
+        {/* Prompt Packs Grid */}
+        <div className="mb-4">
+          <h3 className="text-2xl font-bold text-slate-900 mb-2">
+            {selectedCategory === 'all' 
+              ? 'All Prompt Packs' 
+              : categories.find(cat => cat.id === selectedCategory)?.name
+            }
+          </h3>
+          <p className="text-slate-600">
+            {filteredPromptPacks.length} prompt pack{filteredPromptPacks.length !== 1 ? 's' : ''} available
+          </p>
+        </div>
 
-        {/* Business & Work Section */}
-        <section className="mb-12">
-          <div className="flex items-center gap-3 mb-6">
-            <Briefcase className="w-6 h-6 text-green-600" />
-            <h3 className="text-2xl font-bold text-slate-900">Business & Work</h3>
-            <span className="text-sm text-slate-500">({businessPromptPacks.length} packs)</span>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {businessPromptPacks.map((pack, index) => (
-              <React.Fragment key={pack.id}>
-                <PromptPackCard 
-                  pack={pack}
-                  onCopyPrompt={handleCopyPrompt}
-                  isPreviewMode={!isPro}
-                />
-                {shouldShowInContentAd(index) && (
-                  <div className="col-span-full">
-                    <InContentAd />
-                  </div>
-                )}
-              </React.Fragment>
-            ))}
-          </div>
-        </section>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredPromptPacks.map((pack, index) => (
+            <React.Fragment key={pack.id}>
+              <PromptPackCard 
+                pack={pack}
+                onCopyPrompt={handleCopyPrompt}
+                isPreviewMode={!isPro}
+              />
+              {shouldShowInContentAd(index) && (
+                <div className="col-span-full">
+                  <InContentAd />
+                </div>
+              )}
+            </React.Fragment>
+          ))}
+        </div>
 
-        {/* Career & Jobs Section */}
-        <section className="mb-12">
-          <div className="flex items-center gap-3 mb-6">
-            <User className="w-6 h-6 text-orange-600" />
-            <h3 className="text-2xl font-bold text-slate-900">Career & Jobs</h3>
-            <span className="text-sm text-slate-500">({careerPromptPacks.length} packs)</span>
+        {filteredPromptPacks.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-slate-500 text-lg">No prompt packs found in this category.</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {careerPromptPacks.map((pack, index) => (
-              <React.Fragment key={pack.id}>
-                <PromptPackCard 
-                  pack={pack}
-                  onCopyPrompt={handleCopyPrompt}
-                  isPreviewMode={!isPro}
-                />
-                {shouldShowInContentAd(index) && (
-                  <div className="col-span-full">
-                    <InContentAd />
-                  </div>
-                )}
-              </React.Fragment>
-            ))}
-          </div>
-        </section>
+        )}
       </div>
     </Layout>
   );
