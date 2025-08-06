@@ -15,9 +15,9 @@ import {
 } from './expandedAIToolsCollection';
 import {
   enhancedSchoolPromptPacks,
-  contentPromptPacks, 
-  businessPromptPacks,
-  careerPromptPacks
+  contentPromptPacks as expandedContentPromptPacks, 
+  businessPromptPacks as expandedBusinessPromptPacks,
+  careerPromptPacks as expandedCareerPromptPacks
 } from './expandedPromptPacks';
 
 export type CategoryType = 'school' | 'content' | 'business' | 'career' | 'pdf';
@@ -39,15 +39,15 @@ export class DataManager {
       },
       content: {
         aiTools: [...contentAITools, ...expandedContentAITools],
-        promptPacks: contentPromptPacks
+        promptPacks: expandedContentPromptPacks
       },
       business: {
         aiTools: [...businessAITools, ...expandedBusinessAITools],
-        promptPacks: businessPromptPacks
+        promptPacks: expandedBusinessPromptPacks
       },
       career: {
         aiTools: [...careerAITools, ...expandedCareerAITools],
-        promptPacks: careerPromptPacks
+        promptPacks: expandedCareerPromptPacks
       },
       pdf: {
         aiTools: pdfAITools,
