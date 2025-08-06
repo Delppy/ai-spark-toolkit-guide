@@ -21,7 +21,7 @@ const PromptPack = () => {
 
   // Find the prompt pack by ID across all categories
   const allPromptPacks = dataManager.getAllPromptPacks();
-  const pack = allPromptPacks.find(p => p.id === packId);
+  const pack = allPromptPacks.find(p => p.id === packId || p.title.toLowerCase().replace(/\s+/g, '-') === packId);
 
   if (!pack) {
     return (

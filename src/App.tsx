@@ -85,7 +85,7 @@ function App() {
                     <Route path="/career" element={<CategoryCareer />} />
                     <Route path="/pdf" element={<CategoryPDF />} />
                     <Route path="/pricing" element={<Pricing />} />
-                    <Route path="/payment-verify" element={<PaymentVerify />} />
+                    <Route path="/payment/verify" element={<PaymentVerify />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/contact" element={<Contact />} />
                     <Route path="/help" element={<Help />} />
