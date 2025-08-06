@@ -21,6 +21,13 @@ const CategoryContent = () => {
   const categoryData = dataManager.getCategoryData('content');
   const aiTools = categoryData.aiTools;
   const promptPacks = categoryData.promptPacks;
+  
+  // Debug logging for content category
+  console.log('🎨 Content Category Data:', {
+    promptPackCount: promptPacks.length,
+    promptPackTitles: promptPacks.map(p => p.title),
+    firstPromptPackId: promptPacks[0]?.id
+  });
 
   const {
     filteredAndSortedTools,

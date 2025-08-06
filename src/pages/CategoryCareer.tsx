@@ -21,6 +21,13 @@ const CategoryCareer = () => {
   const categoryData = dataManager.getCategoryData('career');
   const aiTools = categoryData.aiTools;
   const promptPacks = categoryData.promptPacks;
+  
+  // Debug logging for career category
+  console.log('🚀 Career Category Data:', {
+    promptPackCount: promptPacks.length,
+    promptPackTitles: promptPacks.map(p => p.title),
+    firstPromptPackId: promptPacks[0]?.id
+  });
 
   const {
     filteredAndSortedTools,

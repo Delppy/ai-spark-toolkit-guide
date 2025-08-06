@@ -21,6 +21,13 @@ const CategoryBusiness = () => {
   const categoryData = dataManager.getCategoryData('business');
   const aiTools = categoryData.aiTools;
   const promptPacks = categoryData.promptPacks;
+  
+  // Debug logging for business category
+  console.log('💼 Business Category Data:', {
+    promptPackCount: promptPacks.length,
+    promptPackTitles: promptPacks.map(p => p.title),
+    firstPromptPackId: promptPacks[0]?.id
+  });
 
   const {
     filteredAndSortedTools,

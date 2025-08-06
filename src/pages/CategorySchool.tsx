@@ -23,6 +23,13 @@ const CategorySchool = () => {
   const categoryData = dataManager.getCategoryData('school');
   const aiTools = categoryData.aiTools;
   const promptPacks = categoryData.promptPacks;
+  
+  // Debug logging for school category
+  console.log('🏫 School Category Data:', {
+    promptPackCount: promptPacks.length,
+    promptPackTitles: promptPacks.map(p => p.title),
+    firstPromptPackId: promptPacks[0]?.id
+  });
 
   const {
     filteredAndSortedTools,
