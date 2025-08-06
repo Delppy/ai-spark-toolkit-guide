@@ -54,6 +54,17 @@ export class DataManager {
         promptPacks: [] // PDF prompts can be added later if needed
       }
     };
+    
+    // Debug logging to check data
+    console.log('🔧 DataManager initialized with categories:');
+    console.log('📚 School prompt packs:', this.data.school.promptPacks.length);
+    console.log('🎨 Content prompt packs:', this.data.content.promptPacks.length);
+    console.log('💼 Business prompt packs:', this.data.business.promptPacks.length);
+    console.log('🚀 Career prompt packs:', this.data.career.promptPacks.length);
+    
+    // Check if we're getting unique data
+    console.log('📚 School pack titles:', this.data.school.promptPacks.map(p => p.title));
+    console.log('🎨 Content pack titles:', this.data.content.promptPacks.map(p => p.title));
   }
 
   public static getInstance(): DataManager {
