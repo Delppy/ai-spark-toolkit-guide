@@ -7,7 +7,7 @@ export const enhancedSchoolPromptPacks: PromptPack[] = [
     title: '**Advanced Study & Exam Preparation**',
     description: 'Expert-level prompts for academic success, exam strategies, and retention techniques',
     prompts: 10,
-    category: 'school',
+    category: 'School & Education',
     isPro: true,
     examples: [
       "**You're an academic tutor with a PhD in [Subject].** Create a simplified explanation of [Insert Topic] using real-life analogies, storytelling, and visuals the average high school student can understand.",
@@ -27,7 +27,7 @@ export const enhancedSchoolPromptPacks: PromptPack[] = [
     title: '**Research & Writing Excellence**',
     description: 'Professional-grade prompts for academic research, essay writing, and scholarly communication',
     prompts: 10,
-    category: 'school',
+    category: 'School & Education',
     isPro: true,
     examples: [
       "**Summarize this academic paper** using an abstract, key arguments, limitations, and real-world applications. Keep it under 300 words but retain scholarly depth. [Paste Text]",
@@ -47,7 +47,7 @@ export const enhancedSchoolPromptPacks: PromptPack[] = [
     title: '**Critical Thinking & Analysis**',
     description: 'Advanced prompts for developing analytical skills, debate preparation, and academic reasoning',
     prompts: 10,
-    category: 'school',
+    category: 'School & Education',
     isPro: true,
     examples: [
       "**Explain [Insert Historical Event]** using a cause-and-effect timeline, with global context, long-term impact, and comparison to similar events in history.",
@@ -67,7 +67,7 @@ export const enhancedSchoolPromptPacks: PromptPack[] = [
     title: '**STEM Mastery Tools**',
     description: 'Specialized prompts for mathematics, science, and technical subject mastery',
     prompts: 10,
-    category: 'school',
+    category: 'School & Education',
     isPro: true,
     examples: [
       "**You are a math genius tutor.** Generate a complete breakdown of solving [Insert Math Problem or Topic], including formulas, logic, step-by-step walkthrough, and a second example for practice.",
@@ -87,7 +87,7 @@ export const enhancedSchoolPromptPacks: PromptPack[] = [
     title: '**Academic Presentation & Communication**',
     description: 'Professional prompts for academic presentations, public speaking, and scholarly communication',
     prompts: 10,
-    category: 'school',
+    category: 'School & Education',
     isPro: true,
     examples: [
       "**Turn this paragraph** into a concise elevator pitch version, then expand it into a detailed summary suitable for a research proposal. [Paste Text]",
@@ -111,7 +111,7 @@ export const contentPromptPacks: PromptPack[] = [
     title: '**Content Strategy & Planning**',
     description: 'Full-stack content strategist prompts for cross-platform success',
     prompts: 10,
-    category: 'content',
+    category: 'Content Creation',
     isPro: true,
     examples: [
       "**Act as a full-stack content strategist.** Given my niche ([Insert Niche]), target audience ([Insert Audience]), and content goal ([e.g., build trust, generate leads]), create a 30-day cross-platform content calendar including platform-specific post ideas, suggested posting times, and engagement strategies.",
@@ -131,7 +131,7 @@ export const contentPromptPacks: PromptPack[] = [
     title: '**Video & Script Creation**',
     description: 'Professional video scripting and viral content creation prompts',
     prompts: 10,
-    category: 'content',
+    category: 'Content Creation',
     isPro: true,
     examples: [
       "**You are a viral video scriptwriter** for TikTok and Instagram Reels. Using the following topic: [Insert Topic], write a 60-second script that starts with a curiosity-driven hook, flows with emotional storytelling, and ends with a strong call to action — optimized for vertical video delivery.",
@@ -151,7 +151,7 @@ export const contentPromptPacks: PromptPack[] = [
     title: '**Social Media Optimization**',
     description: 'Advanced social media optimization and engagement strategies',
     prompts: 10,
-    category: 'content',
+    category: 'Content Creation',
     isPro: true,
     examples: [
       "**You are a visual storyteller.** Based on the following brand tone and value proposition: [Insert Tone], generate a 10-slide Instagram carousel content concept with text per slide, engaging hooks, and design prompts for each slide.",
@@ -171,7 +171,7 @@ export const contentPromptPacks: PromptPack[] = [
     title: '**Copywriting & Persuasion**',
     description: 'Advanced copywriting techniques for maximum conversion and engagement',
     prompts: 10,
-    category: 'content',
+    category: 'Content Creation',
     isPro: true,
     examples: [
       "**You are a storytelling mentor.** Help me turn this random idea into a compelling personal story that could go viral on LinkedIn or Instagram. Include hook, tension, lesson, and payoff. [Paste Idea]",
@@ -191,7 +191,7 @@ export const contentPromptPacks: PromptPack[] = [
     title: '**Content Optimization & Analytics**',
     description: 'Data-driven content optimization and performance analysis prompts',
     prompts: 10,
-    category: 'content',
+    category: 'Content Creation',
     isPro: true,
     examples: [
       "**You are an SEO consultant.** Turn this rough blog draft into a fully optimized article for Google Search, using Yoast standards: title tags, meta description, keyword density, outbound/internal links, and schema suggestions. [Paste Draft]",
@@ -215,7 +215,7 @@ export const businessPromptPacks: PromptPack[] = [
     title: '**Business Operations & Strategy**',
     description: 'World-class business operations and strategic planning prompts',
     prompts: 10,
-    category: 'business',
+    category: 'Business & Work',
     isPro: true,
     examples: [
       "**You're a world-class operations consultant.** Analyze this business workflow and suggest 3 AI automation strategies that can increase efficiency by at least 25%. [Describe Workflow]",
@@ -319,7 +319,7 @@ export const careerPromptPacks: PromptPack[] = [
     title: '**Career Advancement & Strategy**',
     description: 'Professional career coaching and advancement strategies',
     prompts: 10,
-    category: 'career',
+    category: 'Career & Jobs',
     isPro: true,
     examples: [
       "**Act as a career coach for tech professionals.** Based on this resume and job posting, write a tailored cover letter that aligns with the company's mission, mirrors key language from the job description, and highlights quantified achievements. [Paste Resume & Job Post]",

@@ -10,7 +10,7 @@ export const schoolPromptPacks: PromptPack[] = [
     title: "Essay Writing Prompts",
     description: "Complete prompts for writing different types of essays",
     prompts: 25,
-    category: "Writing",
+    category: "School & Education",
     isPro: false,
     examples: [
       "Write a 5-paragraph essay about [TOPIC] with a clear thesis statement, three supporting arguments with evidence, and a strong conclusion that restates the thesis",
@@ -23,7 +23,7 @@ export const schoolPromptPacks: PromptPack[] = [
     title: "Research & Citation Prompts",
     description: "Get help with research methodology and proper citations",
     prompts: 20,
-    category: "Research", 
+    category: "School & Education", 
     isPro: true,
     examples: [
       "Find 5 credible academic sources about [TOPIC] published within the last 5 years. For each source, provide: full citation in [APA/MLA] format, brief summary, and explanation of credibility",
@@ -36,7 +36,7 @@ export const schoolPromptPacks: PromptPack[] = [
     title: "Study & Exam Prep",
     description: "Prompts to help you study more effectively and prepare for exams",
     prompts: 30,
-    category: "Study",
+    category: "School & Education",
     isPro: false,
     examples: [
       "Create 20 flashcards for [SUBJECT] covering these topics: [TOPICS_LIST]. Format: Question on front, detailed answer on back with examples",
@@ -49,7 +49,7 @@ export const schoolPromptPacks: PromptPack[] = [
     title: "Math & Science Problem Solving",
     description: "Get step-by-step help with math and science problems",
     prompts: 18,
-    category: "STEM",
+    category: "School & Education",
     isPro: false,
     examples: [
       "Solve this math problem step-by-step, explaining each step clearly: [MATH_PROBLEM]. Show all work and check the answer",
@@ -66,7 +66,7 @@ export const contentPromptPacks: PromptPack[] = [
     title: "Social Media Captions",
     description: "Engaging captions for Instagram, TikTok, and other platforms",
     prompts: 40,
-    category: "Social Media",
+    category: "Content Creation",
     isPro: false,
     examples: [
       "Create 5 Instagram captions for [PRODUCT/SERVICE] that encourage engagement. Include: attention-grabbing hook, value proposition, call-to-action, and relevant hashtags",
@@ -79,7 +79,7 @@ export const contentPromptPacks: PromptPack[] = [
     title: "Content Ideas Generator", 
     description: "Fresh content ideas for videos, posts, and stories",
     prompts: 35,
-    category: "Ideas",
+    category: "Content Creation",
     isPro: false,
     examples: [
       "Generate 10 YouTube video ideas for [NICHE] that will get high engagement. Include: catchy titles, brief descriptions, target audience, and why each would perform well",
@@ -92,7 +92,7 @@ export const contentPromptPacks: PromptPack[] = [
     title: "Video Script Templates",
     description: "Complete video scripts for different content types",
     prompts: 25,
-    category: "Video",
+    category: "Content Creation",
     isPro: true,
     examples: [
       "Write a 60-second TikTok script about [TOPIC] with: hook (first 3 seconds), main content with visual cues, engagement elements, and strong call-to-action",
@@ -105,7 +105,7 @@ export const contentPromptPacks: PromptPack[] = [
     title: "Blog Writing & SEO",
     description: "Blog post ideas and SEO-optimized content prompts",
     prompts: 30,
-    category: "Blogging",
+    category: "Content Creation",
     isPro: false,
     examples: [
       "Write a 1500-word blog post titled '[TITLE]' optimized for SEO. Include: keyword-rich introduction, H2/H3 subheadings, bullet points, and conclusion with CTA",
@@ -122,7 +122,7 @@ export const businessPromptPacks: PromptPack[] = [
     title: "Email Marketing Templates",
     description: "High-converting email templates for different business needs",
     prompts: 28,
-    category: "Marketing",
+    category: "Business & Work",
     isPro: false,
     examples: [
       "Create a welcome email sequence for new subscribers to [BUSINESS_TYPE]. Include: warm welcome, value proposition, what to expect, and first-time offer",
@@ -135,7 +135,7 @@ export const businessPromptPacks: PromptPack[] = [
     title: "Business Planning & Strategy",
     description: "Strategic planning prompts for business development",
     prompts: 22,
-    category: "Strategy",
+    category: "Business & Work",
     isPro: true,
     examples: [
       "Create a lean business plan for [BUSINESS_IDEA] including: executive summary, market analysis, competitive landscape, revenue model, and financial projections",
@@ -148,7 +148,7 @@ export const businessPromptPacks: PromptPack[] = [
     title: "Sales Copy & Conversion",
     description: "Persuasive sales copy that converts visitors to customers",
     prompts: 32,
-    category: "Sales",
+    category: "Business & Work",
     isPro: false,
     examples: [
       "Write a landing page sales copy for [PRODUCT/SERVICE] using the AIDA framework: Attention-grabbing headline, Interest-building benefits, Desire-creating testimonials, Action-driving CTA",
@@ -161,7 +161,7 @@ export const businessPromptPacks: PromptPack[] = [
     title: "Customer Service & Support",
     description: "Professional customer service responses and templates",
     prompts: 24,
-    category: "Support",
+    category: "Business & Work",
     isPro: false,
     examples: [
       "Write a professional apology email for [ISSUE] that includes: sincere apology, explanation without excuses, specific solution, and future prevention measures",
@@ -174,7 +174,7 @@ export const businessPromptPacks: PromptPack[] = [
     title: "Business Social Media",
     description: "Professional social media content for business growth",
     prompts: 35,
-    category: "Social Media",
+    category: "Business & Work",
     isPro: false,
     examples: [
       "Create a week's worth of LinkedIn posts for [BUSINESS_TYPE] focusing on industry insights, company updates, and thought leadership",
@@ -187,7 +187,7 @@ export const businessPromptPacks: PromptPack[] = [
     title: "Meeting & Productivity",
     description: "Templates for efficient meetings and business communication",
     prompts: 20,
-    category: "Productivity",
+    category: "Business & Work",
     isPro: false,
     examples: [
       "Create a meeting agenda template for [MEETING_TYPE] including: objectives, discussion points, action items, and time allocation",
@@ -200,7 +200,7 @@ export const businessPromptPacks: PromptPack[] = [
     title: "Financial Planning & Analysis",
     description: "Business financial planning and analysis prompts",
     prompts: 18,
-    category: "Finance",
+    category: "Business & Work",
     isPro: true,
     examples: [
       "Create a monthly financial report template for [BUSINESS_TYPE] including: revenue analysis, expense breakdown, cash flow, and key metrics comparison",
@@ -213,7 +213,7 @@ export const businessPromptPacks: PromptPack[] = [
     title: "HR & Recruitment",
     description: "Human resources and recruitment templates",
     prompts: 25,
-    category: "HR",
+    category: "Business & Work",
     isPro: false,
     examples: [
       "Write a job description for [POSITION] including: role overview, key responsibilities, required qualifications, and company culture fit",
@@ -230,7 +230,7 @@ export const careerPromptPacks: PromptPack[] = [
     title: "Resume Optimization",
     description: "Create compelling resumes that get past ATS and impress recruiters",
     prompts: 26,
-    category: "Resume",
+    category: "Career & Jobs",
     isPro: false,
     examples: [
       "Optimize this resume bullet point for [JOB_TITLE]: [CURRENT_BULLET]. Make it quantifiable, action-oriented, and keyword-rich for ATS systems",
@@ -243,7 +243,7 @@ export const careerPromptPacks: PromptPack[] = [
     title: "Interview Preparation",
     description: "Master job interviews with practice questions and strategies",
     prompts: 30,
-    category: "Interview",
+    category: "Career & Jobs",
     isPro: false,
     examples: [
       "Prepare answers for these common interview questions for [JOB_TITLE]: Tell me about yourself, Why do you want this role?, What are your strengths/weaknesses?, Where do you see yourself in 5 years?",
@@ -256,7 +256,7 @@ export const careerPromptPacks: PromptPack[] = [
     title: "Cover Letter Templates",
     description: "Personalized cover letters that stand out from the crowd",
     prompts: 20,
-    category: "Applications",
+    category: "Career & Jobs",
     isPro: true,
     examples: [
       "Write a compelling cover letter for [JOB_TITLE] at [COMPANY]. Include: attention-grabbing opening, relevant experience alignment, company research insights, and strong closing",
@@ -269,7 +269,7 @@ export const careerPromptPacks: PromptPack[] = [
     title: "LinkedIn Profile Optimization",
     description: "Optimize your LinkedIn profile to attract recruiters and opportunities",
     prompts: 24,
-    category: "LinkedIn",
+    category: "Career & Jobs",
     isPro: false,
     examples: [
       "Write a compelling LinkedIn headline for [JOB_TITLE] that goes beyond job title. Include key skills, value proposition, and target audience in 120 characters",
