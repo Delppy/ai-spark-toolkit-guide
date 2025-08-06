@@ -4,7 +4,7 @@ import { PromptPack } from './aiTools';
 export const enhancedSchoolPromptPacks: PromptPack[] = [
   {
     id: 'advanced-study-exam-prep',
-    title: '**Advanced Study & Exam Preparation**',
+    title: 'Advanced Study & Exam Preparation',
     description: 'Expert-level prompts for academic success, exam strategies, and retention techniques',
     prompts: 10,
     category: 'School & Education',
@@ -24,7 +24,7 @@ export const enhancedSchoolPromptPacks: PromptPack[] = [
   },
   {
     id: 'research-writing-excellence',
-    title: '**Research & Writing Excellence**',
+    title: 'Research & Writing Excellence',
     description: 'Professional-grade prompts for academic research, essay writing, and scholarly communication',
     prompts: 10,
     category: 'School & Education',
@@ -44,7 +44,7 @@ export const enhancedSchoolPromptPacks: PromptPack[] = [
   },
   {
     id: 'critical-thinking-analysis',
-    title: '**Critical Thinking & Analysis**',
+    title: 'Critical Thinking & Analysis',
     description: 'Advanced prompts for developing analytical skills, debate preparation, and academic reasoning',
     prompts: 10,
     category: 'School & Education',
@@ -64,7 +64,7 @@ export const enhancedSchoolPromptPacks: PromptPack[] = [
   },
   {
     id: 'stem-mastery-tools',
-    title: '**STEM Mastery Tools**',
+    title: 'STEM Mastery Tools',
     description: 'Specialized prompts for mathematics, science, and technical subject mastery',
     prompts: 10,
     category: 'School & Education',
@@ -84,7 +84,7 @@ export const enhancedSchoolPromptPacks: PromptPack[] = [
   },
   {
     id: 'presentation-communication',
-    title: '**Academic Presentation & Communication**',
+    title: 'Academic Presentation & Communication',
     description: 'Professional prompts for academic presentations, public speaking, and scholarly communication',
     prompts: 10,
     category: 'School & Education',
@@ -108,7 +108,7 @@ export const enhancedSchoolPromptPacks: PromptPack[] = [
 export const contentPromptPacks: PromptPack[] = [
   {
     id: 'content-strategy-planning',
-    title: '**Content Strategy & Planning**',
+    title: 'Content Strategy & Planning',
     description: 'Full-stack content strategist prompts for cross-platform success',
     prompts: 10,
     category: 'Content Creation',
@@ -128,7 +128,7 @@ export const contentPromptPacks: PromptPack[] = [
   },
   {
     id: 'video-script-creation',
-    title: '**Video & Script Creation**',
+    title: 'Video & Script Creation',
     description: 'Professional video scripting and viral content creation prompts',
     prompts: 10,
     category: 'Content Creation',
@@ -148,7 +148,7 @@ export const contentPromptPacks: PromptPack[] = [
   },
   {
     id: 'social-media-optimization',
-    title: '**Social Media Optimization**',
+    title: 'Social Media Optimization',
     description: 'Advanced social media optimization and engagement strategies',
     prompts: 10,
     category: 'Content Creation',
@@ -168,7 +168,7 @@ export const contentPromptPacks: PromptPack[] = [
   },
   {
     id: 'copywriting-persuasion',
-    title: '**Copywriting & Persuasion**',
+    title: 'Copywriting & Persuasion',
     description: 'Advanced copywriting techniques for maximum conversion and engagement',
     prompts: 10,
     category: 'Content Creation',
@@ -188,7 +188,7 @@ export const contentPromptPacks: PromptPack[] = [
   },
   {
     id: 'content-optimization-analytics',
-    title: '**Content Optimization & Analytics**',
+    title: 'Content Optimization & Analytics',
     description: 'Data-driven content optimization and performance analysis prompts',
     prompts: 10,
     category: 'Content Creation',
@@ -212,7 +212,7 @@ export const contentPromptPacks: PromptPack[] = [
 export const businessPromptPacks: PromptPack[] = [
   {
     id: 'business-operations-strategy',
-    title: '**Business Operations & Strategy**',
+    title: 'Business Operations & Strategy',
     description: 'World-class business operations and strategic planning prompts',
     prompts: 10,
     category: 'Business & Work',
@@ -316,7 +316,7 @@ export const businessPromptPacks: PromptPack[] = [
 export const careerPromptPacks: PromptPack[] = [
   {
     id: 'career-advancement-strategy',
-    title: '**Career Advancement & Strategy**',
+    title: 'Career Advancement & Strategy',
     description: 'Professional career coaching and advancement strategies',
     prompts: 10,
     category: 'Career & Jobs',
