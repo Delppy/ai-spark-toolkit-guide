@@ -16,11 +16,6 @@ const ForgotPassword = lazy(() => import('@/pages/ForgotPassword'));
 const ResetPassword = lazy(() => import('@/pages/ResetPassword'));
 const Profile = lazy(() => import('@/pages/Profile'));
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
-const CategorySchool = lazy(() => import('@/pages/CategorySchool'));
-const CategoryBusiness = lazy(() => import('@/pages/CategoryBusiness'));
-const CategoryContent = lazy(() => import('@/pages/CategoryContent'));
-const CategoryCareer = lazy(() => import('@/pages/CategoryCareer'));
-const CategoryPDF = lazy(() => import('@/pages/CategoryPDF'));
 const Pricing = lazy(() => import('@/pages/Pricing'));
 const PaymentVerify = lazy(() => import('@/pages/PaymentVerify'));
 const About = lazy(() => import('@/pages/About'));
@@ -79,11 +74,6 @@ function App() {
                     <Route path="/favorites" element={<Favorites />} />
                     <Route path="/prompts" element={<Prompts />} />
                     <Route path="/prompts/:packId" element={<PromptPack />} />
-                    <Route path="/school" element={<CategorySchool />} />
-                    <Route path="/business" element={<CategoryBusiness />} />
-                    <Route path="/content" element={<CategoryContent />} />
-                    <Route path="/career" element={<CategoryCareer />} />
-                    <Route path="/pdf" element={<CategoryPDF />} />
                     <Route path="/pricing" element={<Pricing />} />
                     <Route path="/payment/verify" element={<PaymentVerify />} />
                     <Route path="/about" element={<About />} />

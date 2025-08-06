@@ -9,7 +9,7 @@ import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 import { useProGate } from "@/hooks/useProGate";
 import { useSubscription } from "@/hooks/useSubscription";
 import { Button } from "@/components/ui/button";
-import { Lock, Crown } from "lucide-react";
+import { Lock, Crown, BookOpen, Video, Briefcase, User } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -18,7 +18,12 @@ const Prompts = () => {
   const { isPro } = useSubscription(user?.id);
   const { proGate } = useProGate(user?.id);
   
-  const promptPacks = dataManager.getAllPromptPacks();
+  // Get all prompt packs organized by category
+  const schoolPromptPacks = dataManager.getCategoryData('school').promptPacks;
+  const contentPromptPacks = dataManager.getCategoryData('content').promptPacks;
+  const businessPromptPacks = dataManager.getCategoryData('business').promptPacks;
+  const careerPromptPacks = dataManager.getCategoryData('career').promptPacks;
+  
   const { shouldShowInContentAd } = useAdPlacement();
 
   const handleCopyPrompt = (text: string) => {
@@ -53,7 +58,7 @@ const Prompts = () => {
               
               <p className="text-lg text-slate-600 mb-6 max-w-2xl mx-auto">
                 Our curated prompt packs are exclusively available to Premium subscribers. 
-                Get access to {promptPacks.length}+ professional prompts designed by experts.
+                Get access to 200+ professional prompts designed by experts.
               </p>
               
               <div className="bg-white rounded-xl p-6 mb-8 shadow-sm">
@@ -124,33 +129,116 @@ const Prompts = () => {
             </h2>
           </div>
           <p className="text-xl text-slate-600 mt-4 max-w-2xl mx-auto">
-            Supercharge your AI with our curated prompt packs for a variety of use cases.
+            Access 200+ expertly crafted AI prompts organized by category to supercharge your productivity.
           </p>
           {!isPro && (
             <div className="mt-4 p-4 bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 rounded-lg">
               <p className="text-sm text-slate-600">
-                🎁 Preview available! Unlock all {promptPacks.length}+ premium prompts with Pro
+                🎁 Preview available! Unlock all premium prompts with Pro
               </p>
             </div>
           )}
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {promptPacks.map((pack, index) => (
-            <React.Fragment key={pack.id}>
-              <PromptPackCard 
-                pack={pack}
-                onCopyPrompt={handleCopyPrompt}
-                isPreviewMode={!isPro}
-              />
-              {/* Show in-content ad every 6 cards */}
-              {shouldShowInContentAd(index) && (
-                <div className="col-span-full">
-                  <InContentAd />
-                </div>
-              )}
-            </React.Fragment>
-          ))}
-        </div>
+
+        {/* School & Education Section */}
+        <section className="mb-12">
+          <div className="flex items-center gap-3 mb-6">
+            <BookOpen className="w-6 h-6 text-blue-600" />
+            <h3 className="text-2xl font-bold text-slate-900">School & Education</h3>
+            <span className="text-sm text-slate-500">({schoolPromptPacks.length} packs)</span>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {schoolPromptPacks.map((pack, index) => (
+              <React.Fragment key={pack.id}>
+                <PromptPackCard 
+                  pack={pack}
+                  onCopyPrompt={handleCopyPrompt}
+                  isPreviewMode={!isPro}
+                />
+                {shouldShowInContentAd(index) && (
+                  <div className="col-span-full">
+                    <InContentAd />
+                  </div>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+        </section>
+
+        {/* Content Creation Section */}
+        <section className="mb-12">
+          <div className="flex items-center gap-3 mb-6">
+            <Video className="w-6 h-6 text-purple-600" />
+            <h3 className="text-2xl font-bold text-slate-900">Content Creation</h3>
+            <span className="text-sm text-slate-500">({contentPromptPacks.length} packs)</span>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {contentPromptPacks.map((pack, index) => (
+              <React.Fragment key={pack.id}>
+                <PromptPackCard 
+                  pack={pack}
+                  onCopyPrompt={handleCopyPrompt}
+                  isPreviewMode={!isPro}
+                />
+                {shouldShowInContentAd(index) && (
+                  <div className="col-span-full">
+                    <InContentAd />
+                  </div>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+        </section>
+
+        {/* Business & Work Section */}
+        <section className="mb-12">
+          <div className="flex items-center gap-3 mb-6">
+            <Briefcase className="w-6 h-6 text-green-600" />
+            <h3 className="text-2xl font-bold text-slate-900">Business & Work</h3>
+            <span className="text-sm text-slate-500">({businessPromptPacks.length} packs)</span>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {businessPromptPacks.map((pack, index) => (
+              <React.Fragment key={pack.id}>
+                <PromptPackCard 
+                  pack={pack}
+                  onCopyPrompt={handleCopyPrompt}
+                  isPreviewMode={!isPro}
+                />
+                {shouldShowInContentAd(index) && (
+                  <div className="col-span-full">
+                    <InContentAd />
+                  </div>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+        </section>
+
+        {/* Career & Jobs Section */}
+        <section className="mb-12">
+          <div className="flex items-center gap-3 mb-6">
+            <User className="w-6 h-6 text-orange-600" />
+            <h3 className="text-2xl font-bold text-slate-900">Career & Jobs</h3>
+            <span className="text-sm text-slate-500">({careerPromptPacks.length} packs)</span>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {careerPromptPacks.map((pack, index) => (
+              <React.Fragment key={pack.id}>
+                <PromptPackCard 
+                  pack={pack}
+                  onCopyPrompt={handleCopyPrompt}
+                  isPreviewMode={!isPro}
+                />
+                {shouldShowInContentAd(index) && (
+                  <div className="col-span-full">
+                    <InContentAd />
+                  </div>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+        </section>
       </div>
     </Layout>
   );
