@@ -4,7 +4,7 @@ import Layout from "@/components/Layout";
 import { PromptPackCard } from "@/components/PromptPackCard";
 import { InContentAd } from "@/components/ads/InContentAd";
 import { useAdPlacement } from "@/hooks/useAdPlacement";
-import { schoolPromptPacks, contentPromptPacks, businessPromptPacks, careerPromptPacks, PromptPack } from "@/data/promptPacks";
+import { dataManager } from "@/data/dataManager";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 import { useProGate } from "@/hooks/useProGate";
 import { useSubscription } from "@/hooks/useSubscription";
@@ -18,7 +18,7 @@ const Prompts = () => {
   const { isPro } = useSubscription(user?.id);
   const { proGate } = useProGate(user?.id);
   
-  const promptPacks: PromptPack[] = [...schoolPromptPacks, ...contentPromptPacks, ...businessPromptPacks, ...careerPromptPacks];
+  const promptPacks = dataManager.getAllPromptPacks();
   const { shouldShowInContentAd } = useAdPlacement();
 
   const handleCopyPrompt = (text: string) => {
