@@ -37,13 +37,18 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
   const isLocked = pack.isPro && !isPro;
   const [showAllPrompts, setShowAllPrompts] = React.useState(false);
   
-  // For preview mode, show 2 prompts, then blur the rest
-  const previewLimit = 2;
-  const visiblePrompts = isPreviewMode && isLocked 
-    ? pack.examples.slice(0, previewLimit)
-    : pack.examples;
-  const hiddenPrompts = isPreviewMode && isLocked 
-    ? pack.examples.slice(previewLimit)
+  // Always start with limited prompts - 2 for locked users, 3 for unlocked
+  const defaultLimit = isLocked ? 2 : 3;
+  const shouldShowViewAll = pack.examples.length > defaultLimit;
+  
+  // Determine which prompts to show
+  const visiblePrompts = showAllPrompts 
+    ? pack.examples 
+    : pack.examples.slice(0, defaultLimit);
+  
+  // For locked users in preview mode, show blurred prompts after the visible ones
+  const hiddenPrompts = isPreviewMode && isLocked && !showAllPrompts
+    ? pack.examples.slice(defaultLimit)
     : [];
     
   const handleActionClick = () => {
@@ -73,7 +78,7 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
                   <Badge variant="secondary" className="text-xs">
                     {pack.category}
                   </Badge>
-                  <span className="text-sm text-slate-500">{pack.prompts} prompts</span>
+                  <span className="text-sm text-slate-500">{pack.examples.length} prompts</span>
                 </div>
               </div>
             </div>
@@ -87,7 +92,7 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
               <p className="text-sm font-medium text-slate-700">Example prompts:</p>
               
               {/* Show visible prompts */}
-              {(showAllPrompts ? pack.examples : visiblePrompts).map((example, idx) => (
+              {visiblePrompts.map((example, idx) => (
                 <div key={idx} className="bg-slate-50 p-3 rounded-lg border">
                   <p className="text-sm text-slate-700 mb-2">{example}</p>
                   <Tooltip>
@@ -132,8 +137,8 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
               )}
             </div>
 
-            {/* Only show button if user is not pro or if they want to see all prompts */}
-            {(isLocked || !showAllPrompts) && (
+            {/* Show button for locked users or when there are more prompts to view */}
+            {(isLocked || shouldShowViewAll) && (
               <Button
                 className="w-full mt-4"
                 variant={isLocked ? "default" : "outline"}
