@@ -45,17 +45,18 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
   const isLocked = pack.isPro && !hasFullAccess && !hasLimitedAccess;
   
   // Show different amounts based on access level
-  const defaultLimit = hasFullAccess ? pack.examples.length : (hasLimitedAccess ? 3 : 2);
-  const shouldShowViewAll = pack.examples.length > defaultLimit && hasFullAccess;
+  const examplesList = pack.examples || [];
+  const defaultLimit = hasFullAccess ? examplesList.length : (hasLimitedAccess ? 3 : 2);
+  const shouldShowViewAll = examplesList.length > defaultLimit && hasFullAccess;
   
   // Determine which prompts to show
   const visiblePrompts = showAllPrompts 
-    ? pack.examples 
-    : pack.examples.slice(0, defaultLimit);
+    ? examplesList 
+    : examplesList.slice(0, defaultLimit);
   
   // For locked users in preview mode, show blurred prompts after the visible ones
   const hiddenPrompts = isPreviewMode && isLocked && !showAllPrompts
-    ? pack.examples.slice(defaultLimit)
+    ? examplesList.slice(defaultLimit)
     : [];
 
   const handleCopyPrompt = async (prompt: string) => {
@@ -105,7 +106,7 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
                   <Badge variant="secondary" className="text-xs">
                     {pack.category}
                   </Badge>
-                  <span className="text-sm text-slate-500">{pack.examples.length} prompts</span>
+                  <span className="text-sm text-slate-500">{pack.examples?.length || pack.prompts || 0} prompts</span>
                   {!isPro && hasLimitedAccess && (
                     <Badge className="bg-green-100 text-green-800 text-xs">
                       <Zap className="w-3 h-3 mr-1" />
@@ -122,51 +123,57 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
             </CardDescription>
 
             <div className="space-y-3">
-              <p className="text-sm font-medium text-slate-700">Example prompts:</p>
-              
-              {/* Show visible prompts */}
-              {visiblePrompts.map((example, idx) => (
-                <div key={idx} className="bg-slate-50 p-3 rounded-lg border">
-                  <p className="text-sm text-slate-700 mb-2">{example}</p>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleCopyPrompt(example)}
-                        className="text-xs"
-                      >
-                        <Copy className="w-3 h-3 mr-1" />
-                        {hasLimitedAccess && !hasFullAccess ? 'Copy (1 credit)' : 'Copy'}
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Copy prompt to clipboard</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </div>
-              ))}
-              
-              {/* Show blurred prompts for preview mode */}
-              {hiddenPrompts.length > 0 && (
+              {examplesList.length > 0 ? (
                 <>
-                  {hiddenPrompts.map((example, idx) => (
-                    <div key={`hidden-${idx}`} className="relative bg-slate-50 p-3 rounded-lg border">
-                      <div className="filter blur-sm pointer-events-none">
-                        <p className="text-sm text-slate-700 mb-2">{example}</p>
-                        <Button variant="ghost" size="sm" className="text-xs">
-                          <Copy className="w-3 h-3 mr-1" />
-                          Copy
-                        </Button>
-                      </div>
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="bg-white/90 px-3 py-1 rounded-full text-xs font-medium text-purple-600 border border-purple-200">
-                          🔒 Upgrade to unlock
-                        </div>
-                      </div>
+                  <p className="text-sm font-medium text-slate-700">Example prompts:</p>
+                  
+                  {/* Show visible prompts */}
+                  {visiblePrompts.map((example, idx) => (
+                    <div key={idx} className="bg-slate-50 p-3 rounded-lg border">
+                      <p className="text-sm text-slate-700 mb-2">{example}</p>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleCopyPrompt(example)}
+                            className="text-xs"
+                          >
+                            <Copy className="w-3 h-3 mr-1" />
+                            {hasLimitedAccess && !hasFullAccess ? 'Copy (1 credit)' : 'Copy'}
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Copy prompt to clipboard</p>
+                        </TooltipContent>
+                      </Tooltip>
                     </div>
                   ))}
+                  
+                  {/* Show blurred prompts for preview mode */}
+                  {hiddenPrompts.length > 0 && (
+                    <>
+                      {hiddenPrompts.map((example, idx) => (
+                        <div key={`hidden-${idx}`} className="relative bg-slate-50 p-3 rounded-lg border">
+                          <div className="filter blur-sm pointer-events-none">
+                            <p className="text-sm text-slate-700 mb-2">{example}</p>
+                            <Button variant="ghost" size="sm" className="text-xs">
+                              <Copy className="w-3 h-3 mr-1" />
+                              Copy
+                            </Button>
+                          </div>
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <div className="bg-white/90 px-3 py-1 rounded-full text-xs font-medium text-purple-600 border border-purple-200">
+                              🔒 Upgrade to unlock
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </>
+                  )}
                 </>
+              ) : (
+                <p className="text-sm text-slate-500 italic">Examples coming soon...</p>
               )}
             </div>
 
