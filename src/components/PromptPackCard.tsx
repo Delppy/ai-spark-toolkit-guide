@@ -37,27 +37,22 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
   const userId = user?.id || null;
   const { isPro, proGate } = useProGate(userId);
   const { credits, useCredit, hasCredits } = usePromptCredits(userId);
-  const [showAllPrompts, setShowAllPrompts] = React.useState(false);
   
   // Determine access level
   const hasFullAccess = isPro;
   const hasLimitedAccess = !isPro && hasCredits;
   const isLocked = pack.isPro && !hasFullAccess && !hasLimitedAccess;
   
-  // Show different amounts based on access level - reduced for better UX with "View All" button
+  // Show a fixed small number of prompts as preview
   const examplesList = pack.examples || [];
-  const defaultLimit = hasFullAccess ? 2 : (hasLimitedAccess ? 2 : 1);
-  const shouldShowViewAll = examplesList.length > defaultLimit;
+  const previewLimit = hasFullAccess ? 2 : (hasLimitedAccess ? 2 : 1);
   
-  // Determine which prompts to show
-  const visiblePrompts = showAllPrompts 
-    ? examplesList 
-    : examplesList.slice(0, defaultLimit);
+  
+  // Determine which prompts to show - always just preview
+  const visiblePrompts = examplesList.slice(0, previewLimit);
   
   // For locked users in preview mode, show blurred prompts after the visible ones
-  const hiddenPrompts = isPreviewMode && isLocked && !showAllPrompts
-    ? examplesList.slice(defaultLimit)
-    : [];
+  const hiddenPrompts = isLocked ? examplesList.slice(previewLimit, previewLimit + 1) : [];
 
   const handleCopyPrompt = async (prompt: string) => {
     if (hasFullAccess) {
@@ -67,16 +62,6 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
       if (success) {
         onCopyPrompt(prompt);
       }
-    } else {
-      proGate();
-    }
-  };
-    
-  const handleActionClick = () => {
-    if (isLocked) {
-      proGate();
-    } else if (hasFullAccess) {
-      setShowAllPrompts(!showAllPrompts);
     } else {
       proGate();
     }
@@ -178,29 +163,21 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
             </div>
 
             {/* Action buttons */}
-            <div className="flex flex-col sm:flex-row gap-2 mt-4">
-              <Button asChild variant="outline" className="flex-1">
+            <div className="flex flex-col gap-2 mt-4">
+              <Button asChild variant="outline" className="w-full">
                 <Link to={`/prompts/${pack.id}`}>
                   <Eye className="w-4 h-4 mr-2" />
-                  View All Prompts
+                  View All Prompts ({examplesList.length})
                 </Link>
               </Button>
               
-              {/* Show button for locked users or when there are more prompts to view */}
-              {(isLocked || shouldShowViewAll || (!hasFullAccess && !isLocked)) && (
+              {/* Show upgrade button for locked users */}
+              {isLocked && (
                 <Button
-                  className="flex-1"
-                  variant={isLocked ? "default" : "outline"}
-                  onClick={handleActionClick}
+                  className="w-full"
+                  onClick={() => proGate()}
                 >
-                  {isLocked 
-                    ? "Unlock with Pro" 
-                    : hasLimitedAccess && !hasFullAccess 
-                      ? "Upgrade to Pro for Unlimited Access"
-                      : showAllPrompts 
-                        ? "Show Less" 
-                        : "View All Prompts"
-                  }
+                  Unlock with Pro
                 </Button>
               )}
             </div>
