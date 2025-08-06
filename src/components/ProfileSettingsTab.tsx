@@ -6,6 +6,8 @@ import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 import { Badge } from "@/components/ui/badge";
 import { Star, Crown } from "lucide-react";
 import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useState } from "react";
 
 type ProfileSettingsTabProps = {
   setActiveSheet: (sheet: "preferences" | "help" | null) => void;
@@ -15,12 +17,37 @@ const ProfileSettingsTab = ({ setActiveSheet }: ProfileSettingsTabProps) => {
   const { toast } = useToast();
   const { user } = useUserPreferences();
   const subscriptionStatus = useSubscription(user?.id);
+  const [cancelling, setCancelling] = useState(false);
 
-  const handleCancelSubscription = () => {
-    toast({
-      title: "Coming soon",
-      description: "Subscription cancellation coming soon.",
-    });
+  const handleCancelSubscription = async () => {
+    if (cancelling) return;
+    
+    setCancelling(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('paystack-cancel-subscription');
+      
+      if (error) {
+        throw error;
+      }
+
+      toast({
+        title: "Subscription Cancelled",
+        description: `Your subscription has been cancelled. You'll continue to have Pro access until ${new Date(data.expires_at).toLocaleDateString()}.`,
+      });
+
+      // Refresh subscription status
+      subscriptionStatus.refresh();
+      
+    } catch (error: any) {
+      console.error('Error cancelling subscription:', error);
+      toast({
+        title: "Error",
+        description: error.message || "Failed to cancel subscription. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setCancelling(false);
+    }
   };
 
   return (
@@ -59,8 +86,9 @@ const ProfileSettingsTab = ({ setActiveSheet }: ProfileSettingsTabProps) => {
               variant="destructive"
               onClick={handleCancelSubscription}
               className="w-full"
+              disabled={cancelling}
             >
-              Cancel Subscription
+              {cancelling ? "Cancelling..." : "Cancel Subscription"}
             </Button>
           </div>
         ) : (
