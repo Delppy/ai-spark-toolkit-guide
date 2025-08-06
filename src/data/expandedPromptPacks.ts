@@ -1,228 +1,233 @@
 import { PromptPack } from './aiTools';
 
-// Enhanced School Prompt Packs with 50 detailed prompts
+// Enhanced School & Education Prompt Packs with 50 sophisticated prompts
 export const enhancedSchoolPromptPacks: PromptPack[] = [
   {
-    id: "concept-explanations",
-    title: "Concept Explanations for Students",
-    description: "Get complex topics explained in simple, relatable terms",
+    id: 'advanced-study-exam-prep',
+    title: '**Advanced Study & Exam Preparation**',
+    description: 'Expert-level prompts for academic success, exam strategies, and retention techniques',
     prompts: 10,
-    category: "Learning",
-    isPro: false,
-    examples: [
-      "Can you explain [insert concept] to me like I'm a 12-year-old who's never heard it before? Perfect for when your teacher is moving too fast and Google is giving overly complex answers.",
-      "Simplify this dense academic paragraph into easy English a teenager can understand: [paste paragraph]. Great for breaking down technical content into something relatable.",
-      "Give me a fun analogy to understand this hard concept: [insert concept]. Makes abstract ideas feel relatable.",
-      "Create a fictional dialogue between two people discussing [concept] so I can understand it in a real-world context. Learning through storytelling makes complex theories stick better."
-    ]
-  },
-  {
-    id: "study-optimization",
-    title: "Study Optimization & Planning",
-    description: "Smart study strategies and personalized learning plans",
-    prompts: 12,
-    category: "Study Planning",
-    isPro: false,
-    examples: [
-      "Take this wall of notes and turn it into 5 bite-sized flashcards I can review before a test. Here's the text: [paste]. Helps you prep smarter, not harder, especially for exams.",
-      "Summarize this entire textbook page in 5 key points I can memorize. [paste content]. Use this when you're cramming and want to retain only what matters.",
-      "Create a 7-day crash study plan to prepare for my upcoming [subject] test. I have only 2 hours per day. Ideal for last-minute learners who still want to pass with confidence.",
-      "Build a revision calendar based on my test schedule. Here's what I'm studying: [list subjects]. Custom study roadmap."
-    ]
-  },
-  {
-    id: "interactive-learning",
-    title: "Interactive Learning & Practice",
-    description: "Turn passive studying into active learning experiences",
-    prompts: 8,
-    category: "Practice",
-    isPro: false,
-    examples: [
-      "Generate 5 multiple-choice questions (with answers) based on [topic]. Make it feel like an actual quiz. Simulate test scenarios and self-check your understanding.",
-      "Act as a private tutor and quiz me with 5 short-answer questions on [subject]. Then tell me how I did. Makes studying interactive and less boring.",
-      "Generate 10 quick-fire revision questions I can answer out loud while walking. Great for active learners.",
-      "Turn this study material into a Kahoot! quiz I can play with friends. Makes group revision fun."
-    ]
-  },
-  {
-    id: "content-transformation",
-    title: "Content Transformation & Format",
-    description: "Convert study materials into different engaging formats",
-    prompts: 10,
-    category: "Content Creation",
+    category: 'school',
     isPro: true,
     examples: [
-      "Turn this class lecture into a TikTok-style summary I can review on my phone later. For visual/audio learners who want quick, engaging review material.",
-      "Convert these notes into a PowerPoint structure with slide headings and bullet points. [paste]. Useful for class presentations or visual study aids.",
-      "Turn this entire article or blog post into a 1-minute explainer script I could use for a class video. Designed for content creators and students doing multimedia assignments.",
-      "Turn this topic into a script I can use for a class video assignment. Supports multimedia learning."
+      "**You're an academic tutor with a PhD in [Subject].** Create a simplified explanation of [Insert Topic] using real-life analogies, storytelling, and visuals the average high school student can understand.",
+      "**Act as a top-ranked exam coach.** Based on this syllabus: [Paste Syllabus], generate a detailed 30-day revision plan with daily focus topics, mock questions, and high-retention strategies.",
+      "**You are a professional flashcard creator.** Convert this topic into a spaced-repetition flashcard set optimized for memorization and recall. Output in Q&A format. Topic: [Insert Topic]",
+      "**Break down [Insert Complex Theory]** into 3 progressive levels: beginner, intermediate, and expert — each with clear explanations, examples, and quiz questions to test understanding.",
+      "**Turn this messy lecture note** into a structured study guide with headers, summaries, definitions, and exam tips. [Paste Notes]",
+      "**You are an exam setter.** Write a 20-question multiple-choice quiz on [Insert Topic] covering both theory and applied knowledge. Include correct answers with explanations for each.",
+      "**Create a visual mind map breakdown** of [Insert Subject] that could be used in a study app — include branches for concepts, subtopics, formulas, and real-world relevance.",
+      "**Build a weekly planner** for mastering [Insert Subject] from scratch in 6 weeks. Include key concepts, YouTube video suggestions, textbook pages, and practice questions.",
+      "**You're an academic AI coach.** Turn this list of topics into a project-based learning plan with milestones, outputs, and grading rubrics. [Insert Topics]",
+      "**You're an academic coach for students with ADHD.** Design a distraction-proof study workflow for [Insert Subject], using 25-minute sprints and active recall."
     ]
   },
   {
-    id: "memory-techniques",
-    title: "Memory Techniques & Mnemonics",
-    description: "Creative memory aids and retention strategies",
-    prompts: 5,
-    category: "Memory",
-    isPro: false,
-    examples: [
-      "Make a fun mnemonic or rhyme to help me remember this process: [paste concept, e.g., photosynthesis steps]. Memorization made fun (and easier to recall under exam pressure).",
-      "What are the 5 most important things to remember about [concept] for exams? Direct, exam-focused revision.",
-      "Give me a quick timeline of events around [historical moment]. Visualizes history clearly.",
-      "Compare and contrast [concept A] vs [concept B] with examples so I can finally understand the difference. Removes confusion around similar terms or theories."
-    ]
-  },
-  {
-    id: "research-assistance",
-    title: "Research & Academic Writing",
-    description: "Support for research projects and academic writing",
-    prompts: 15,
-    category: "Research",
+    id: 'research-writing-excellence',
+    title: '**Research & Writing Excellence**',
+    description: 'Professional-grade prompts for academic research, essay writing, and scholarly communication',
+    prompts: 10,
+    category: 'school',
     isPro: true,
     examples: [
-      "Help me generate a unique research topic in [subject], preferably one that hasn't been overdone. Great when your brain is blank and you want a project that stands out.",
-      "Can you find 3 real-world case studies I can reference for my paper on [topic]? Perfect for research-backed essays or dissertations.",
-      "List the top 5 academic sources or journal articles about [topic], and explain each one briefly. Saves you time skimming through Google Scholar or JSTOR.",
-      "What are some common research questions students ask when studying [topic]? Inspires better research questions, especially for thesis or coursework.",
-      "Break down the pros and cons of different research methods for [topic or field]. Helpful when you're unsure whether to go qualitative, quantitative, or mixed.",
-      "Give me a sample hypothesis I could use for a research project on [topic]. A shortcut to getting your proposal started.",
-      "Summarize the current trends or debates in the field of [insert subject] — I need to stay updated for my paper. Gives your work academic depth and relevance.",
-      "Turn this long research article into a 10-sentence summary with the main ideas and key stats. Makes dense reading easier to digest.",
-      "What are the ethical considerations I should mention when doing research on [topic]? Especially useful for social science or medical projects.",
-      "Help me design a simple survey/questionnaire to collect data on [issue]. Ideal for student-led primary research projects.",
-      "What kind of data visualization should I use for my findings about [topic]? Ensures your charts don't confuse your audience (or your professor).",
-      "Suggest a title, abstract, and 3 objectives for my research project on [topic]. Instantly frames your entire paper.",
-      "List 5 controversial arguments related to [topic] that I can explore in my assignment. For persuasive writing, debates, or critical reviews.",
-      "Help me build a basic literature review for my research on [topic]. Organizes your sources and shows gaps in existing work.",
-      "What statistical tools or AI platforms can I use to analyze survey data for free? Helps students without SPSS or Excel experience."
+      "**Summarize this academic paper** using an abstract, key arguments, limitations, and real-world applications. Keep it under 300 words but retain scholarly depth. [Paste Text]",
+      "**Act like an academic ghostwriter.** Rewrite this rough essay draft into a polished university-level essay in APA format with citations. Maintain original intent but improve structure and flow. [Paste Essay]",
+      "**You are a research supervisor.** Given this topic: [Insert Topic], generate 5 original research questions, a brief hypothesis, and recommended data sources for each.",
+      "**You're a top citation expert.** Format this reference list into both APA and MLA styles, and correct any missing information. [Paste References]",
+      "**Write a sample answer** to this past exam question, using ideal structure, quotes, citations, and insights to aim for a top-grade. [Paste Question]",
+      "**Reframe this data set** into a research findings summary with visual suggestions (e.g., bar chart, table). Highlight trends, anomalies, and implications. [Paste Data]",
+      "**Write a comparative analysis** between [Book A] and [Book B], focusing on themes, characters, cultural context, and author intent.",
+      "**Draft an academic discussion post** based on this reading. Pose a question to spark dialogue in a class forum. [Insert Topic]",
+      "**You are a university admissions coach.** Improve this personal statement to match Ivy League standards while keeping my voice authentic. [Paste Draft]",
+      "**Act like a university teaching assistant.** Review this assignment, suggest improvements, and point out where marks might be lost. [Paste Assignment]"
+    ]
+  },
+  {
+    id: 'critical-thinking-analysis',
+    title: '**Critical Thinking & Analysis**',
+    description: 'Advanced prompts for developing analytical skills, debate preparation, and academic reasoning',
+    prompts: 10,
+    category: 'school',
+    isPro: true,
+    examples: [
+      "**Explain [Insert Historical Event]** using a cause-and-effect timeline, with global context, long-term impact, and comparison to similar events in history.",
+      "**Create a Socratic dialogue-style Q&A script** that helps someone understand [Insert Topic] by asking progressively deeper questions that lead to understanding.",
+      "**Write a sample debate script** — one side for and one side against — the use of [Insert Controversial Educational Topic]. Include references, facts, and counter-arguments.",
+      "**Extract 10 critical thinking prompts** and discussion questions from this reading material to encourage deeper classroom analysis. [Paste Text]",
+      "**Simulate a mock oral defense** of a research paper. Ask 5 challenging questions based on this abstract and suggest strong response strategies. [Paste Abstract]",
+      "**Analyze this poem or literature piece** from the lens of feminism / post-colonialism / Marxism. Provide a short critique based on the selected theory. [Paste Text]",
+      "**You are a debate judge.** Evaluate this speech based on structure, logic, delivery, and rebuttal power. [Paste Speech]",
+      "**Create a comparison chart** between two scientific theories, including origin, assumptions, experimental backing, and real-world impact. [Theory A] vs [Theory B]",
+      "**Identify 5 scholarship opportunities** relevant to students in [Country] pursuing [Field of Study]. Include brief descriptions and links.",
+      "**Create a real-life problem scenario** that tests my ability to apply [Insert Concept] practically, and then walk through the solution."
+    ]
+  },
+  {
+    id: 'stem-mastery-tools',
+    title: '**STEM Mastery Tools**',
+    description: 'Specialized prompts for mathematics, science, and technical subject mastery',
+    prompts: 10,
+    category: 'school',
+    isPro: true,
+    examples: [
+      "**You are a math genius tutor.** Generate a complete breakdown of solving [Insert Math Problem or Topic], including formulas, logic, step-by-step walkthrough, and a second example for practice.",
+      "**Generate a cheat sheet of formulas** and when to use them for this math/science topic: [Insert Topic]",
+      "**Give me 5 ideas for science experiments** that demonstrate [Insert Principle], using low-cost or household items.",
+      "**Simplify this theoretical concept** using metaphors and explain how it can be applied to modern technology, society, or business. [Insert Concept]",
+      "**Break down a Nobel Prize-winning idea** in [Insert Field] and explain it in a way a curious high schooler would find fascinating.",
+      "**Generate a list of 10 terms** in [Subject] that are often misunderstood. Define each, give examples, and explain common mistakes students make.",
+      "**You are a memory coach.** Build a 10-point retention checklist for mastering this topic: [Insert Topic]",
+      "**Build a crossword puzzle or word search** using these academic terms. Make it challenging but fun. [Paste List]",
+      "**Simulate a timed test environment.** Ask me 5 questions on [Insert Topic] and grade my answers like a strict examiner would.",
+      "**Rewrite this explanation** to sound more persuasive and confident, as if you're teaching it to a peer. [Paste Explanation]"
+    ]
+  },
+  {
+    id: 'presentation-communication',
+    title: '**Academic Presentation & Communication**',
+    description: 'Professional prompts for academic presentations, public speaking, and scholarly communication',
+    prompts: 10,
+    category: 'school',
+    isPro: true,
+    examples: [
+      "**Turn this paragraph** into a concise elevator pitch version, then expand it into a detailed summary suitable for a research proposal. [Paste Text]",
+      "**You're a university professor.** Create a grading rubric to assess a student essay on [Insert Topic], with detailed scoring criteria for thesis, structure, research, grammar, and citations.",
+      "**Simulate a mini classroom** where I'm the student. Walk me through [Insert Topic] in a conversational tone, asking me questions as we go to test my understanding.",
+      "**Develop an infographic outline** to teach [Insert Topic] visually, highlighting key stats, concepts, processes, and examples. Use bullet points and layout suggestions.",
+      "**Write a case study** on the impact of [Insert Issue] on students in developing countries — include causes, data, and intervention strategies.",
+      "**Take this long academic paper** and compress it into a Twitter thread that explains the key points in 10 tweets — use emojis, analogies, and hashtags. [Paste Text]",
+      "**You're a curriculum developer.** Turn [Insert Topic] into a 5-day lesson plan with learning objectives, warm-up activities, and end-of-day assessments.",
+      "**Recreate this paragraph** into a journalistic article suitable for a student magazine. Keep it engaging but factual. [Paste Text]",
+      "**Turn these bullet points** into a narrated script for an educational YouTube video on [Insert Topic]. Add examples, transitions, and a compelling hook. [Paste Points]",
+      "**You're a speech coach.** Turn this academic explanation into a TED Talk script with emotion, real-world impact, and audience engagement. [Paste Text]"
     ]
   }
 ];
 
-// Content Creation Prompt Packs - UPDATED WITH 50 NEW PROMPTS
+// Content Creation Prompt Packs - Sophisticated 50 prompts
 export const contentPromptPacks: PromptPack[] = [
   {
-    id: "hook-script-creation",
-    title: "🎥 Hook & Script Creation",
-    description: "Create compelling hooks and scripts for video content",
+    id: 'content-strategy-planning',
+    title: '**Content Strategy & Planning**',
+    description: 'Full-stack content strategist prompts for cross-platform success',
     prompts: 10,
-    category: "Scripting",
-    isPro: false,
-    examples: [
-      "Generate 3 scroll-stopping hooks for a TikTok video about [topic]. Perfect for grabbing attention in the first 3 seconds.",
-      "Write a 60-second script for a product review of [insert product]. Makes recording faster and clearer.",
-      "Act like a YouTube creator. Give me a complete script outline for a video on [topic]. Helps structure long-form content.",
-      "Turn this blog post into a short Instagram Reel script. [paste text] Repurposing content made easy.",
-      "Write a funny voiceover script for this 15-second video clip. [describe or link] Boosts engagement with humor.",
-      "Summarize this YouTube video into bullet points for a carousel post. [link] Converts long-form into digestible bites.",
-      "Create a storytelling-style post about a personal experience with [theme]. Builds trust and relatability.",
-      "Write a CTA (call to action) for the end of this video: [describe video]. Encourages likes, shares, and follows.",
-      "Suggest a list of trending audios I can use for a video about [niche]. Helps content stay relevant.",
-      "Build a 3-part content series idea on [topic]. Encourages followers to keep watching."
-    ]
-  },
-  {
-    id: "social-media-optimization",
-    title: "📱 Social Media Optimization",
-    description: "Optimize your content for maximum engagement across platforms",
-    prompts: 10,
-    category: "Optimization",
-    isPro: false,
-    examples: [
-      "Write an engaging Instagram caption using emojis for a post about [topic]. Boosts relatability and reach.",
-      "Suggest 10 SEO-friendly YouTube titles for a video on [subject]. Improves click-through rate.",
-      "Generate 5 bio ideas for a TikTok account focused on [niche]. Makes your profile stand out.",
-      "Create a hashtag strategy for a content creator in [niche]. Increases discoverability.",
-      "What are the best times to post on TikTok, Instagram, and YouTube for [region]? Maximizes reach.",
-      "Write a short pinned comment to boost engagement on this post: [describe post]. Gets the convo started.",
-      "Turn this tweet into a LinkedIn-style post with a more professional tone. [paste tweet] Cross-platform style guide.",
-      "Suggest 5 carousel post ideas for Instagram on [topic]. Great for educational or storytelling content.",
-      "Write a video hook, main point, and CTA in less than 150 characters each. Topic: [insert] Optimized for short-form attention.",
-      "Analyze this caption and suggest 3 ways to make it more engaging. [paste caption] Helps improve performance."
-    ]
-  },
-  {
-    id: "content-brainstorming-planning",
-    title: "🧠 Content Brainstorming & Planning",
-    description: "Generate fresh content ideas and strategic planning",
-    prompts: 10,
-    category: "Planning",
-    isPro: false,
-    examples: [
-      "I'm stuck. Give me 10 content ideas for [niche] that are educational but fun. For creators facing burnout.",
-      "Create a 7-day content calendar for a creator in [niche]. Mix formats. Keeps posting consistent.",
-      "Give me a content idea that can go viral using this trend: [describe trend]. Trend jacking simplified.",
-      "Break this big idea into 5 smaller video topics. Topic: [input] Turns one idea into multiple pieces.",
-      "Suggest 3 unique series ideas I can use every week (e.g., Mondays = Myths). Keeps content fresh & structured.",
-      "Create a niche content angle I can explore if I'm tired of the usual topics. Helps you stand out.",
-      "Help me turn this conversation or DM into a content idea. [paste message] Real life = relatable content.",
-      "List 5 underrated but interesting sub-topics in the [industry] space. Niche down and dominate.",
-      "Generate a monthly content theme and slogan for my page. Niche: [insert] For cohesive campaigns.",
-      "What are the top 5 content mistakes creators make in [platform]? Learn and improve fast."
-    ]
-  },
-  {
-    id: "copywriting-emails-captions",
-    title: "✍️ Copywriting, Emails & Captions",
-    description: "Craft compelling copy for various platforms and purposes",
-    prompts: 10,
-    category: "Copywriting",
+    category: 'content',
     isPro: true,
     examples: [
-      "Write a promotional caption for my new digital product about [insert topic]. For launches or product pushes.",
-      "Turn this Instagram caption into a LinkedIn version with more authority. [paste] Adjust tone by platform.",
-      "Create 3 email subject lines for my free content guide download. Get more opens.",
-      "Write a thank-you email to my followers for hitting [milestone]. Build loyalty and gratitude.",
-      "Draft a pitch message I can send to a brand I want to work with. Land collabs.",
-      "Write 3 value-packed tweet threads for creators who teach [topic]. Get bookmarked & shared.",
-      "Create a text post for Threads or Twitter that sparks engagement on [topic]. Encourages replies.",
-      "Write a short post that hooks readers in the first 2 lines. Topic: [input] Scroll-stopping intros.",
-      "List 5 CTAs I can use for a carousel post on [topic]. Drive action.",
-      "Suggest a mini-story I can use to start a blog about [niche]. Storytelling that builds emotion."
+      "**Act as a full-stack content strategist.** Given my niche ([Insert Niche]), target audience ([Insert Audience]), and content goal ([e.g., build trust, generate leads]), create a 30-day cross-platform content calendar including platform-specific post ideas, suggested posting times, and engagement strategies.",
+      "**Take this blog post idea:** [Insert Idea] and turn it into a complete outline with SEO-optimized H2s and H3s, suggested keywords, FAQs, and internal link opportunities.",
+      "**Design a social media content repurposing plan.** Given one long-form blog post, break it into 5 tweet threads, 3 carousel posts, 2 Reels scripts, and 1 email newsletter.",
+      "**Create 5 content ideas** for a storytelling-based brand campaign using current pop culture trends, memes, and internet slang — targeting Millennials and Gen Z.",
+      "**Develop a brand voice guide** for my business based on this mission, target audience, and content samples. Include tone, vocabulary, emojis usage, and no-go phrases. [Paste Info]",
+      "**Generate a month's worth of Instagram captions** for a personal brand that teaches [Insert Topic]. Each caption should include a story, value, and soft CTA.",
+      "**You're a trend forecaster.** Predict 5 content trends that creators in the [Insert Niche] space should lean into over the next 3 months.",
+      "**Generate 10 original content ideas** that combine storytelling and education in the [Insert Niche] space — include a 1-line hook and CTA for each.",
+      "**Create a post structure** I can reuse every week to build consistency on Twitter, Instagram, and LinkedIn. Include examples and format guidelines.",
+      "**Build a notion board structure** for managing ideas, content pipelines, hooks, captions, and analytics all in one place."
     ]
   },
   {
-    id: "analytics-strategy-monetization",
-    title: "🎯 Analytics, Strategy & Monetization",
-    description: "Turn your content into a profitable business",
+    id: 'video-script-creation',
+    title: '**Video & Script Creation**',
+    description: 'Professional video scripting and viral content creation prompts',
     prompts: 10,
-    category: "Strategy",
+    category: 'content',
     isPro: true,
     examples: [
-      "What content types are performing best on [platform] this month? Stay updated.",
-      "Give me 5 monetization strategies for a creator with under 10K followers. Early-stage income streams.",
-      "How do I turn my top-performing content into a paid product? Content-to-cash plan.",
-      "Create a basic media kit outline I can send to brands. Looks pro, gets deals.",
-      "Suggest KPIs I should be tracking as a content creator. Grow with intention.",
-      "Break down what content repurposing looks like across 4 platforms. Work once, post everywhere.",
-      "Analyze this video performance and tell me how to improve it: [paste stats or context] Data-driven decisions.",
-      "How can I use affiliate links or referral programs in my niche? Passive income starter.",
-      "Give me a 5-step content strategy for growing to 100K followers in [niche]. Long-term planning.",
-      "Write a hook + CTA for promoting my paid community or course. Builds conversions and trust."
+      "**You are a viral video scriptwriter** for TikTok and Instagram Reels. Using the following topic: [Insert Topic], write a 60-second script that starts with a curiosity-driven hook, flows with emotional storytelling, and ends with a strong call to action — optimized for vertical video delivery.",
+      "**You're a YouTube strategist.** Create a full script for an 8-minute explainer video about [Insert Topic], including intro hook, main sections with timestamps, examples, and a closing CTA that promotes email signups.",
+      "**Write a high-converting YouTube video title,** description, and thumbnail text that will outperform competitors for the keyword: [Insert Keyword]. Include title variations and why each one works.",
+      "**Convert this educational blog post** into a podcast script with a conversational tone, rhetorical questions, humor, and audience interaction moments. [Paste Post]",
+      "**Simulate a live stream content outline.** The topic is: [Insert Topic]. Break it into intro talking points, audience engagement questions, mid-show retention tactics, and post-stream repurposing ideas.",
+      "**You're a video director.** Give me a storyboard outline for a cinematic product trailer for [Insert Product], including shot types, music vibe, transitions, and emotional beats.",
+      "**Write a compelling 'story time' Instagram Reel script** based on this past failure or embarrassing moment — build it up with drama, relatability, and a life lesson. [Describe Moment]",
+      "**Take this TikTok video concept** and write 3 hook variations, 3 punchlines, and 3 comments I can pin to increase engagement and watch time. [Insert Concept]",
+      "**You are a video editor's assistant.** Create a shot list and on-screen text script for a tutorial video teaching [Insert Skill]. Include visual B-roll suggestions.",
+      "**Create a list of 7 viral hook templates** I can adapt for Reels or TikTok that are scroll-stopping and curiosity-inducing."
+    ]
+  },
+  {
+    id: 'social-media-optimization',
+    title: '**Social Media Optimization**',
+    description: 'Advanced social media optimization and engagement strategies',
+    prompts: 10,
+    category: 'content',
+    isPro: true,
+    examples: [
+      "**You are a visual storyteller.** Based on the following brand tone and value proposition: [Insert Tone], generate a 10-slide Instagram carousel content concept with text per slide, engaging hooks, and design prompts for each slide.",
+      "**Act as a brand voice coach.** Rewrite this Instagram caption to sound more engaging, more conversational, and emotionally resonant with Gen Z audiences. [Paste Caption]",
+      "**Create 10 tweet ideas** for a thought leader in [Insert Niche] that blend storytelling, value delivery, controversial opinions, and one-liner punchlines. Include suggested hashtags.",
+      "**You're a caption writer for luxury brands.** Write 5 caption options for this image that evoke exclusivity, elegance, and emotional aspiration. [Describe Image]",
+      "**Take this low-performing post** and diagnose what's wrong. Suggest better hooks, visual ideas, hashtags, and ways to boost comments. [Paste Post]",
+      "**You are an AI script editor.** Review this short script for clarity, tone, rhythm, and emotional impact. Suggest edits line by line. [Paste Script]",
+      "**Generate 10 engagement post ideas** that don't require a new product or announcement — purely focused on conversation starters and interaction.",
+      "**You are a visual storyteller.** Suggest color schemes, typography styles, and design prompts for content that communicates calmness and credibility.",
+      "**Help me create a community-driven post.** Draft a prompt that invites others to share their stories while subtly connecting it to my mission. [Describe Topic]",
+      "**You're a LinkedIn algorithm whisperer.** Build a 7-day posting plan to maximize reach and profile visits for a job seeker with under 500 followers."
+    ]
+  },
+  {
+    id: 'copywriting-persuasion',
+    title: '**Copywriting & Persuasion**',
+    description: 'Advanced copywriting techniques for maximum conversion and engagement',
+    prompts: 10,
+    category: 'content',
+    isPro: true,
+    examples: [
+      "**You are a storytelling mentor.** Help me turn this random idea into a compelling personal story that could go viral on LinkedIn or Instagram. Include hook, tension, lesson, and payoff. [Paste Idea]",
+      "**You are a content ghostwriter for CEOs.** Turn this rough note into a high-authority LinkedIn post that delivers insights and builds executive presence. [Paste Note]",
+      "**You are a meme creator.** Generate 5 smart, shareable meme ideas for [Insert Industry] that subtly promote a product without sounding like an ad.",
+      "**Act as a copywriting mentor.** Rewrite this caption using the AIDA framework: Attention, Interest, Desire, Action. [Paste Text]",
+      "**You're a newsletter expert.** Create a 4-week welcome email sequence that builds trust and drives traffic to my content library.",
+      "**Write a persuasive CTA** that encourages readers to save this post for later. Give me 3 versions: serious, playful, and FOMO-based.",
+      "**Turn this testimonial** into a punchy social proof caption with a hook, highlighted quote, and subtle CTA. [Paste Testimonial]",
+      "**You are an email subject line optimizer.** Rewrite these 5 subject lines to increase open rates. Add preview text for each. [Paste Subjects]",
+      "**You're a copywriting expert.** Rewrite this landing page to increase conversions by making it clearer, emotionally resonant, and benefit-driven. [Paste Page]",
+      "**Design a storytelling formula** I can use repeatedly to introduce myself to new audiences, highlighting my backstory, mission, and what I offer."
+    ]
+  },
+  {
+    id: 'content-optimization-analytics',
+    title: '**Content Optimization & Analytics**',
+    description: 'Data-driven content optimization and performance analysis prompts',
+    prompts: 10,
+    category: 'content',
+    isPro: true,
+    examples: [
+      "**You are an SEO consultant.** Turn this rough blog draft into a fully optimized article for Google Search, using Yoast standards: title tags, meta description, keyword density, outbound/internal links, and schema suggestions. [Paste Draft]",
+      "**Turn this raw transcript** into a polished blog post with structure, formatting, and a click-worthy title. Keep the natural tone but tighten the flow. [Paste Transcript]",
+      "**You're a freelance portfolio coach.** Turn this list of work samples into a punchy portfolio bio with proof, credibility, and personality. [Paste List]",
+      "**Convert this podcast episode** into a 7-part LinkedIn carousel series with takeaways, hooks, and shareable summaries. [Insert Topic]",
+      "**Help me turn this comment section** into future content ideas. Extract 5 pain points, 5 objections, and 5 topic angles from it. [Paste Comments]",
+      "**You're a YouTube title expert.** Rewrite these 3 video titles to maximize CTR using proven emotional and curiosity-based frameworks. [Paste Titles]",
+      "**Take this educational tweet** and expand it into a mini blog post for LinkedIn with examples, tone shifts, and insights. [Paste Tweet]",
+      "**Write a behind-the-scenes post** explaining the process of creating [Insert Content Type] — include struggles, breakthroughs, and lessons.",
+      "**Simulate a full launch content plan** for a digital product, starting 14 days before launch and ending 7 days after. Include email, social, and video angles.",
+      "**Turn this research report** into a TikTok video script that breaks it down in a fun, easy-to-digest way. [Paste Research Summary]"
     ]
   }
 ];
 
-// Business Prompt Packs - EXPANDED WITH 50 NEW PROMPTS
+// Business & Work Prompt Packs - Sophisticated 50 prompts
 export const businessPromptPacks: PromptPack[] = [
   {
-    id: "business-strategy-planning",
-    title: "🧠 Business Strategy & Planning",
-    description: "Strategic planning and business development prompts",
+    id: 'business-operations-strategy',
+    title: '**Business Operations & Strategy**',
+    description: 'World-class business operations and strategic planning prompts',
     prompts: 10,
-    category: "Strategy",
-    isPro: false,
+    category: 'business',
+    isPro: true,
     examples: [
-      "Act like a business consultant and give me a simple business plan outline for a [type of business]. Ideal for first-time entrepreneurs figuring out where to start.",
-      "I want to launch a side hustle. Suggest 3 low-cost business ideas based on trending markets. Great for users exploring online income.",
-      "What are the key steps to validating a new product idea without spending too much? Risk-free strategy planning.",
-      "Help me write a SWOT analysis for my startup idea: [brief description]. Helps identify strengths, weaknesses, opportunities, and threats.",
-      "Give me a 30-day growth strategy to promote my small business online. Actionable plan to go from unknown to visible.",
-      "Write a one-page executive summary for my business plan. Here's what I do: [input]. Useful for presentations or investor decks.",
-      "What metrics should I track if I run a service-based business? Teaches users to monitor real results.",
-      "Generate a competitor analysis for my business. I sell [product/service]. Critical for finding your edge in a saturated market.",
-      "List 5 cost-saving tools I can use to manage a small remote team. Especially useful for freelancers and startup founders.",
-      "Act as a mentor and tell me the biggest mistakes to avoid when launching a business in [industry]. Learn from others' failures before making your own."
+      "**You're a world-class operations consultant.** Analyze this business workflow and suggest 3 AI automation strategies that can increase efficiency by at least 25%. [Describe Workflow]",
+      "**You're an award-winning pitch deck strategist.** Convert this business idea into a 10-slide investor-ready deck with structure, content, and slide-by-slide bullet points. [Describe Idea]",
+      "**Act as a Chief Strategy Officer.** Based on this company's vision and product line, generate 5 bold business moves to capture market share over the next 12 months. [Paste Info]",
+      "**You're a global market analyst.** Based on trends in [Insert Industry], generate a 6-month outlook report with opportunities, threats, and market shifts to watch.",
+      "**Build a SWOT analysis** for a business entering [Insert New Market] — provide detailed reasoning under each quadrant.",
+      "**You're a world-class startup advisor.** Write 5 growth hacks a new SaaS founder can implement with a $0 marketing budget.",
+      "**Create a competitor benchmarking table** comparing [Your Company] and its top 3 rivals across pricing, features, customer support, and innovation.",
+      "**You're a business therapist.** Help a founder navigate burnout, team overwhelm, and investor pressure — deliver the advice in a calm, grounded tone.",
+      "**Generate an AI-powered checklist** for launching a new digital product — from ideation to post-launch analysis.",
+      "**Design a one-page business plan** for a solopreneur launching an online service-based business. Keep it lean, focused, and executable."
     ]
   },
   {
@@ -307,19 +312,26 @@ export const businessPromptPacks: PromptPack[] = [
   }
 ];
 
-// Career Prompt Packs
+// Career & Jobs Prompt Packs - Sophisticated 50 prompts  
 export const careerPromptPacks: PromptPack[] = [
   {
-    id: "resume-optimization",
-    title: "Resume Optimization",
-    description: "Create compelling resumes that get past ATS and impress recruiters",
-    prompts: 26,
-    category: "Resume",
-    isPro: false,
+    id: 'career-advancement-strategy',
+    title: '**Career Advancement & Strategy**',
+    description: 'Professional career coaching and advancement strategies',
+    prompts: 10,
+    category: 'career',
+    isPro: true,
     examples: [
-      "Optimize this resume bullet point for [JOB_TITLE]: [CURRENT_BULLET]. Make it quantifiable, action-oriented, and keyword-rich for ATS systems",
-      "Write a professional summary for [CAREER_LEVEL] in [INDUSTRY] with [X] years of experience. Highlight key achievements, skills, and career goals in 3-4 lines",
-      "Create 5 resume bullet points for [JOB_ROLE] that showcase achievements using the STAR method (Situation, Task, Action, Result) with specific metrics"
+      "**Act as a career coach for tech professionals.** Based on this resume and job posting, write a tailored cover letter that aligns with the company's mission, mirrors key language from the job description, and highlights quantified achievements. [Paste Resume & Job Post]",
+      "**You're a LinkedIn growth strategist.** Write a powerful headline, summary, and featured section for a job seeker trying to pivot from [Insert Old Career] to [Insert New Career]. Include industry keywords and storytelling.",
+      "**You are a job offer negotiator.** Based on this offer letter and job scope, write a professional counteroffer email that justifies a higher salary, includes alternative perks, and maintains a respectful tone. [Paste Offer Details]",
+      "**You're a personal branding expert.** Build a full LinkedIn content strategy for the next 4 weeks — including post types (personal story, value, soft sell), caption ideas, and a weekly posting cadence to increase visibility.",
+      "**Write 5 versions of a cold DM message** for reaching out to hiring managers or recruiters on LinkedIn — each with a slightly different tone (friendly, direct, humble, confident, curious).",
+      "**You are an HR career mentor.** Draft a 6-month personal development plan for someone in mid-career feeling stuck in their role — include goals, stretch assignments, learning paths, and accountability tips.",
+      "**You're a career switch advisor.** Help me reframe my skills from [Old Industry] to [Target Industry] — include keyword mapping, skill translation, and suggested roles.",
+      "**You're a corporate leadership trainer.** Draft a professional development roadmap for someone trying to move from individual contributor to team lead within 12 months.",
+      "**Generate 10 elevator pitches** for different career stages (student, recent grad, mid-career pivot, laid off, freelancer) — each under 30 seconds and focused on confidence.",
+      "**You're a freelancing coach.** Write a 90-day roadmap for someone transitioning from full-time employment into freelance consulting."
     ]
   },
   {
