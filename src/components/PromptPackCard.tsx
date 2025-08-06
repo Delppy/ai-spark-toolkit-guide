@@ -44,10 +44,10 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
   const hasLimitedAccess = !isPro && hasCredits;
   const isLocked = pack.isPro && !hasFullAccess && !hasLimitedAccess;
   
-  // Show different amounts based on access level
+  // Show different amounts based on access level - reduced for better UX with "View All" button
   const examplesList = pack.examples || [];
-  const defaultLimit = hasFullAccess ? examplesList.length : (hasLimitedAccess ? 3 : 2);
-  const shouldShowViewAll = examplesList.length > defaultLimit && hasFullAccess;
+  const defaultLimit = hasFullAccess ? 2 : (hasLimitedAccess ? 2 : 1);
+  const shouldShowViewAll = examplesList.length > defaultLimit;
   
   // Determine which prompts to show
   const visiblePrompts = showAllPrompts 
