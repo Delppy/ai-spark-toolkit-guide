@@ -18,6 +18,7 @@ import { Copy, Eye, DollarSign } from 'lucide-react';
 import { PromptPack } from '@/data/promptPacks';
 import { useProGate } from "@/hooks/useProGate";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
+import { Link } from 'react-router-dom';
 
 interface PromptPackCardProps {
   pack: PromptPack;
@@ -67,7 +68,12 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
             <div className="flex items-start justify-between">
               <div>
                 <CardTitle className="text-lg group-hover:text-purple-600 transition-colors">
-                  {pack.title}
+                  <Link 
+                    to={`/prompts/${pack.id}`}
+                    className="hover:text-purple-600 transition-colors"
+                  >
+                    {pack.title}
+                  </Link>
                   {pack.isPro && (
                     <Badge className="ml-2 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs">
                       Pro

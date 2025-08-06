@@ -34,6 +34,7 @@ import { TransitionProvider } from "@/contexts/TransitionContext";
 const ToolsWithFilters = lazy(() => import('@/pages/ToolsWithFilters'));
 const Favorites = lazy(() => import('@/pages/Favorites'));
 const Prompts = lazy(() => import('@/pages/Prompts'));
+const PromptPack = lazy(() => import('@/pages/PromptPack'));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -77,6 +78,7 @@ function App() {
                     <Route path="/tools" element={<ToolsWithFilters />} />
                     <Route path="/favorites" element={<Favorites />} />
                     <Route path="/prompts" element={<Prompts />} />
+                    <Route path="/prompts/:packId" element={<PromptPack />} />
                     <Route path="/school" element={<CategorySchool />} />
                     <Route path="/business" element={<CategoryBusiness />} />
                     <Route path="/content" element={<CategoryContent />} />

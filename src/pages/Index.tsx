@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Briefcase, Camera, UserCheck, FileText, ChevronRight } from "lucide-react";
+import { BookOpen, Briefcase, Camera, UserCheck, FileText, ChevronRight, Sparkles, Zap, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { TrendingToolsSection } from "@/components/TrendingToolsSection";
@@ -15,13 +15,20 @@ import { dataManager } from "@/data/dataManager";
 import { useToolFiltering } from "@/hooks/useToolFiltering";
 import type { Session } from "@supabase/supabase-js";
 import { toast } from "sonner";
+import { useProGate } from "@/hooks/useProGate";
+import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 
 const Index = () => {
   const [session, setSession] = useState<Session | null>(null);
   const [showResults, setShowResults] = useState(false);
   const [favorites, setFavorites] = useState<string[]>([]);
 
+  const { user } = useUserPreferences() as any;
+  const userId = user?.id || null;
+  const { isPro, proGate } = useProGate(userId);
+
   const allTools = dataManager.getAllAITools();
+  const allPromptPacks = dataManager.getAllPromptPacks();
   const {
     filteredAndSortedTools,
     updateFilter,
@@ -208,6 +215,108 @@ const Index = () => {
                 <Link to="/dashboard">View Dashboard</Link>
               </Button>
             </div>
+          </div>
+        </section>
+      )}
+
+      {/* AI Prompt Packs Section - Only show when not searching */}
+      {!showResults && (
+        <section className="container mx-auto px-4 py-12">
+          <div className="text-center mb-12">
+            <div className="inline-flex items-center justify-center p-2 bg-gradient-to-r from-purple-100 to-blue-100 rounded-full mb-4">
+              <Sparkles className="w-6 h-6 text-purple-600" />
+            </div>
+            <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+              Professional AI Prompt Packs
+            </h3>
+            <p className="text-lg text-slate-600 max-w-2xl mx-auto mb-6">
+              Access curated collections of high-converting prompts designed by experts to boost your productivity.
+            </p>
+            {!isPro && (
+              <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-amber-50 to-orange-50 px-4 py-2 rounded-full border border-amber-200">
+                <Star className="w-4 h-4 text-amber-600" />
+                <span className="text-sm font-medium text-amber-800">Unlock with Pro subscription</span>
+              </div>
+            )}
+          </div>
+
+          {/* Prompt Pack Categories */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            {[
+              { 
+                category: 'School & Education', 
+                icon: BookOpen, 
+                color: 'from-blue-500 to-purple-600',
+                count: allPromptPacks.filter(p => p.category === 'School & Education').length,
+                description: 'Study helpers & research prompts'
+              },
+              { 
+                category: 'Content Creation', 
+                icon: Camera, 
+                color: 'from-pink-500 to-rose-600',
+                count: allPromptPacks.filter(p => p.category === 'Content Creation').length,
+                description: 'Social media & creative prompts'
+              },
+              { 
+                category: 'Business & Work', 
+                icon: Briefcase, 
+                color: 'from-green-500 to-emerald-600',
+                count: allPromptPacks.filter(p => p.category === 'Business & Work').length,
+                description: 'Professional & productivity prompts'
+              },
+              { 
+                category: 'Career & Jobs', 
+                icon: UserCheck, 
+                color: 'from-orange-500 to-amber-600',
+                count: allPromptPacks.filter(p => p.category === 'Career & Jobs').length,
+                description: 'Resume & interview prompts'
+              }
+            ].map((cat) => (
+              <Card 
+                key={cat.category} 
+                className="group cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-0 overflow-hidden"
+                onClick={!isPro ? proGate : undefined}
+              >
+                <div className={`bg-gradient-to-br ${cat.color} p-6 text-white relative`}>
+                  <div className="absolute top-0 right-0 w-16 h-16 bg-white/10 rounded-full -translate-y-4 translate-x-4"></div>
+                  <cat.icon className="w-8 h-8 mb-3 relative z-10" />
+                  <h4 className="text-lg font-semibold mb-1 relative z-10">{cat.category}</h4>
+                  <p className="text-white/90 text-sm relative z-10">{cat.description}</p>
+                </div>
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-slate-600">{cat.count} prompt packs</span>
+                    {!isPro && (
+                      <Badge className="bg-amber-100 text-amber-800 text-xs">
+                        Pro
+                      </Badge>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <div className="text-center">
+            <Button 
+              asChild={isPro} 
+              onClick={!isPro ? proGate : undefined}
+              size="lg" 
+              className="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 text-lg px-8 py-6"
+            >
+              {isPro ? (
+                <Link to="/prompts">
+                  <Zap className="w-5 h-5 mr-2" />
+                  Browse All Prompt Packs
+                </Link>
+              ) : (
+                <>
+                  <Star className="w-5 h-5 mr-2" />
+                  Unlock Pro Prompt Packs
+                </>
+              )}
+            </Button>
           </div>
         </section>
       )}
