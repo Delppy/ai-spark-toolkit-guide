@@ -219,6 +219,43 @@ const Index = () => {
         </section>
       )}
 
+      {/* Categories Grid - Only show when not searching */}
+      {!showResults && (
+        <section className="container mx-auto px-4 py-12">
+          <h3 className="text-3xl font-bold text-center mb-12 text-slate-900">
+            Find AI Tools by Category
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+            {categories.map((category) => {
+              const IconComponent = category.icon;
+              return (
+                <Link key={category.id} to={category.route}>
+                  <Card className="group cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-2 border-0 overflow-hidden">
+                    <div className={`${category.color} p-6 text-white relative`}>
+                      <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -translate-y-6 translate-x-6"></div>
+                      <IconComponent className="w-8 h-8 mb-4 relative z-10" />
+                      <h4 className="text-xl font-semibold mb-2 relative z-10">{category.title}</h4>
+                      <p className="text-white/90 text-sm relative z-10">{category.description}</p>
+                    </div>
+                    <CardContent className="p-6">
+                      <div className="space-y-2">
+                        <p className="text-sm text-slate-600 mb-3">Popular tools:</p>
+                        {category.tools.slice(0, 2).map((tool, index) => (
+                          <div key={index} className="flex items-center justify-between">
+                            <span className="text-sm text-slate-700">{tool}</span>
+                            <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-purple-500 transition-colors" />
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
       {/* AI Prompt Packs Section - Only show when not searching */}
       {!showResults && (
         <section className="container mx-auto px-4 py-12">
@@ -233,9 +270,9 @@ const Index = () => {
               Access curated collections of high-converting prompts designed by experts to boost your productivity.
             </p>
             {!isPro && (
-              <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-amber-50 to-orange-50 px-4 py-2 rounded-full border border-amber-200">
-                <Star className="w-4 h-4 text-amber-600" />
-                <span className="text-sm font-medium text-amber-800">Unlock with Pro subscription</span>
+              <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-green-50 to-emerald-50 px-4 py-2 rounded-full border border-green-200">
+                <Zap className="w-4 h-4 text-green-600" />
+                <span className="text-sm font-medium text-green-800">Try 3 prompts free • Upgrade for unlimited access</span>
               </div>
             )}
           </div>
@@ -272,88 +309,41 @@ const Index = () => {
                 description: 'Resume & interview prompts'
               }
             ].map((cat) => (
-              <Card 
-                key={cat.category} 
-                className="group cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-0 overflow-hidden"
-                onClick={!isPro ? proGate : undefined}
-              >
-                <div className={`bg-gradient-to-br ${cat.color} p-6 text-white relative`}>
-                  <div className="absolute top-0 right-0 w-16 h-16 bg-white/10 rounded-full -translate-y-4 translate-x-4"></div>
-                  <cat.icon className="w-8 h-8 mb-3 relative z-10" />
-                  <h4 className="text-lg font-semibold mb-1 relative z-10">{cat.category}</h4>
-                  <p className="text-white/90 text-sm relative z-10">{cat.description}</p>
-                </div>
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-slate-600">{cat.count} prompt packs</span>
-                    {!isPro && (
-                      <Badge className="bg-amber-100 text-amber-800 text-xs">
-                        Pro
-                      </Badge>
-                    )}
+              <Link key={cat.category} to="/prompts">
+                <Card className="group cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-1 border-0 overflow-hidden">
+                  <div className={`bg-gradient-to-br ${cat.color} p-6 text-white relative`}>
+                    <div className="absolute top-0 right-0 w-16 h-16 bg-white/10 rounded-full -translate-y-4 translate-x-4"></div>
+                    <cat.icon className="w-8 h-8 mb-3 relative z-10" />
+                    <h4 className="text-lg font-semibold mb-1 relative z-10">{cat.category}</h4>
+                    <p className="text-white/90 text-sm relative z-10">{cat.description}</p>
                   </div>
-                </CardContent>
-              </Card>
+                  <CardContent className="p-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-slate-600">{cat.count} prompt packs</span>
+                      {!isPro && (
+                        <Badge className="bg-green-100 text-green-800 text-xs">
+                          3 Free
+                        </Badge>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
             ))}
           </div>
 
           {/* CTA */}
           <div className="text-center">
             <Button 
-              asChild={isPro} 
-              onClick={!isPro ? proGate : undefined}
+              asChild
               size="lg" 
               className="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 text-lg px-8 py-6"
             >
-              {isPro ? (
-                <Link to="/prompts">
-                  <Zap className="w-5 h-5 mr-2" />
-                  Browse All Prompt Packs
-                </Link>
-              ) : (
-                <>
-                  <Star className="w-5 h-5 mr-2" />
-                  Unlock Pro Prompt Packs
-                </>
-              )}
+              <Link to="/prompts">
+                <Zap className="w-5 h-5 mr-2" />
+                {isPro ? "Browse All Prompt Packs" : "Try Prompt Packs Free"}
+              </Link>
             </Button>
-          </div>
-        </section>
-      )}
-
-      {/* Categories Grid - Only show when not searching */}
-      {!showResults && (
-        <section className="container mx-auto px-4 py-12">
-          <h3 className="text-3xl font-bold text-center mb-12 text-slate-900">
-            Find AI Tools by Category
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
-            {categories.map((category) => {
-              const IconComponent = category.icon;
-              return (
-                <Link key={category.id} to={category.route}>
-                  <Card className="group cursor-pointer transition-all duration-300 hover:shadow-xl hover:-translate-y-2 border-0 overflow-hidden">
-                    <div className={`${category.color} p-6 text-white relative`}>
-                      <div className="absolute top-0 right-0 w-20 h-20 bg-white/10 rounded-full -translate-y-6 translate-x-6"></div>
-                      <IconComponent className="w-8 h-8 mb-4 relative z-10" />
-                      <h4 className="text-xl font-semibold mb-2 relative z-10">{category.title}</h4>
-                      <p className="text-white/90 text-sm relative z-10">{category.description}</p>
-                    </div>
-                    <CardContent className="p-6">
-                      <div className="space-y-2">
-                        <p className="text-sm text-slate-600 mb-3">Popular tools:</p>
-                        {category.tools.slice(0, 2).map((tool, index) => (
-                          <div key={index} className="flex items-center justify-between">
-                            <span className="text-sm text-slate-700">{tool}</span>
-                            <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-purple-500 transition-colors" />
-                          </div>
-                        ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
-              );
-            })}
           </div>
         </section>
       )}

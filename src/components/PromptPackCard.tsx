@@ -14,10 +14,11 @@ import {
   PopoverContent,
   PopoverTrigger
 } from '@/components/ui/popover';
-import { Copy, Eye, DollarSign } from 'lucide-react';
+import { Copy, Eye, DollarSign, Zap } from 'lucide-react';
 import { PromptPack } from '@/data/promptPacks';
 import { useProGate } from "@/hooks/useProGate";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
+import { usePromptCredits } from "@/hooks/usePromptCredits";
 import { Link } from 'react-router-dom';
 
 interface PromptPackCardProps {
@@ -31,16 +32,21 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
   onCopyPrompt,
   isPreviewMode = false
 }) => {
-  // Pro gating
+  // Pro gating and credits
   const { user } = useUserPreferences() as any;
   const userId = user?.id || null;
   const { isPro, proGate } = useProGate(userId);
-  const isLocked = pack.isPro && !isPro;
+  const { credits, useCredit, hasCredits } = usePromptCredits(userId);
   const [showAllPrompts, setShowAllPrompts] = React.useState(false);
   
-  // Always start with limited prompts - 2 for locked users, 3 for unlocked
-  const defaultLimit = isLocked ? 2 : 3;
-  const shouldShowViewAll = pack.examples.length > defaultLimit;
+  // Determine access level
+  const hasFullAccess = isPro;
+  const hasLimitedAccess = !isPro && hasCredits;
+  const isLocked = pack.isPro && !hasFullAccess && !hasLimitedAccess;
+  
+  // Show different amounts based on access level
+  const defaultLimit = hasFullAccess ? pack.examples.length : (hasLimitedAccess ? 3 : 2);
+  const shouldShowViewAll = pack.examples.length > defaultLimit && hasFullAccess;
   
   // Determine which prompts to show
   const visiblePrompts = showAllPrompts 
@@ -51,12 +57,27 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
   const hiddenPrompts = isPreviewMode && isLocked && !showAllPrompts
     ? pack.examples.slice(defaultLimit)
     : [];
+
+  const handleCopyPrompt = async (prompt: string) => {
+    if (hasFullAccess) {
+      onCopyPrompt(prompt);
+    } else if (hasLimitedAccess) {
+      const success = await useCredit();
+      if (success) {
+        onCopyPrompt(prompt);
+      }
+    } else {
+      proGate();
+    }
+  };
     
   const handleActionClick = () => {
     if (isLocked) {
       proGate();
-    } else {
+    } else if (hasFullAccess) {
       setShowAllPrompts(!showAllPrompts);
+    } else {
+      proGate();
     }
   };
 
@@ -85,6 +106,12 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
                     {pack.category}
                   </Badge>
                   <span className="text-sm text-slate-500">{pack.examples.length} prompts</span>
+                  {!isPro && hasLimitedAccess && (
+                    <Badge className="bg-green-100 text-green-800 text-xs">
+                      <Zap className="w-3 h-3 mr-1" />
+                      {credits} credits
+                    </Badge>
+                  )}
                 </div>
               </div>
             </div>
@@ -106,11 +133,11 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={isLocked ? () => proGate() : () => onCopyPrompt(example)}
+                        onClick={() => handleCopyPrompt(example)}
                         className="text-xs"
                       >
                         <Copy className="w-3 h-3 mr-1" />
-                        Copy
+                        {hasLimitedAccess && !hasFullAccess ? 'Copy (1 credit)' : 'Copy'}
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>
@@ -144,13 +171,20 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
             </div>
 
             {/* Show button for locked users or when there are more prompts to view */}
-            {(isLocked || shouldShowViewAll) && (
+            {(isLocked || shouldShowViewAll || (!hasFullAccess && !isLocked)) && (
               <Button
                 className="w-full mt-4"
                 variant={isLocked ? "default" : "outline"}
                 onClick={handleActionClick}
               >
-                {isLocked ? "Unlock with Pro" : (showAllPrompts ? "Show Less" : "View All Prompts")}
+                {isLocked 
+                  ? "Unlock with Pro" 
+                  : hasLimitedAccess && !hasFullAccess 
+                    ? "Upgrade to Pro for Unlimited Access"
+                    : showAllPrompts 
+                      ? "Show Less" 
+                      : "View All Prompts"
+                }
               </Button>
             )}
           </CardContent>
