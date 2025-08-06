@@ -15,7 +15,7 @@ import {
   PopoverTrigger
 } from '@/components/ui/popover';
 import { Copy, Eye, DollarSign, Zap } from 'lucide-react';
-import { PromptPack } from '@/data/promptPacks';
+import { PromptPack } from '@/data/aiTools';
 import { useProGate } from "@/hooks/useProGate";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 import { usePromptCredits } from "@/hooks/usePromptCredits";
