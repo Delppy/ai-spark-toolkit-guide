@@ -18,7 +18,7 @@ const Signup = () => {
   const [confirm, setConfirm] = useState("");
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<{ email?: string; password?: string; confirm?: string }>({});
-  const [signupSuccess, setSignupSuccess] = useState(false);
+  
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -63,14 +63,15 @@ const Signup = () => {
     }
 
     setLoading(true);
-    // Redirect URL required for Supabase confirmation emails!
-    const redirectUrl = `${window.location.origin}/`;
 
     const { data, error: signupErr } = await supabase.auth.signUp({
       email,
       password,
       options: {
-        emailRedirectTo: redirectUrl,
+        // Disable email confirmation by not providing emailRedirectTo
+        data: {
+          email: email,
+        }
       },
     });
 
@@ -98,59 +99,16 @@ const Signup = () => {
       return;
     }
 
-    // Check if user needs email confirmation
-    if (data.user && !data.user.email_confirmed_at) {
-      setSignupSuccess(true);
-      toast({
-        title: "Signup successful!",
-        description: "Please check your email to confirm your account before logging in.",
-        variant: "default",
-      });
-    } else {
-      // Auto login if email confirmation is disabled
-      toast({
-        title: "Signup successful!",
-        description: "Your account has been created successfully.",
-        variant: "default",
-      });
-      navigate("/");
-    }
+    // Welcome message and redirect to dashboard
+    toast({
+      title: "Welcome to AiToUse! 🎉",
+      description: "Your account has been created successfully. Welcome aboard!",
+      variant: "default",
+    });
+    navigate("/");
   };
 
-  if (signupSuccess) {
-    return (
-      <Layout>
-        <div className="flex items-center justify-center w-full min-h-[80vh] py-12 bg-gradient-to-br from-slate-50 to-blue-50">
-          <Card className="mx-auto w-full max-w-md animate-fade-in">
-            <CardHeader>
-              <CardTitle className="text-2xl text-center font-bold">Check Your Email</CardTitle>
-            </CardHeader>
-            <CardContent className="text-center space-y-4">
-              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto">
-                <Mail className="w-8 h-8 text-blue-600" />
-              </div>
-              <p className="text-slate-600">
-                We've sent a confirmation link to <strong>{email}</strong>
-              </p>
-              <p className="text-sm text-slate-500">
-                Click the link in your email to confirm your account, then return here to log in.
-              </p>
-              <div className="pt-4">
-                <Link to="/login" className="w-full">
-                  <Button className="w-full bg-gradient-to-r from-purple-500 to-blue-600">
-                    Go to Login
-                  </Button>
-                </Link>
-              </div>
-              <p className="text-xs text-slate-400">
-                Didn't receive the email? Check your spam folder or contact support.
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-      </Layout>
-    );
-  }
+  // Removed email confirmation success state since we're not using email confirmation
 
   return (
     <Layout>
