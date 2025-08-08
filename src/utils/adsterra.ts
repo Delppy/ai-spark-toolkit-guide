@@ -16,33 +16,55 @@ export const ADSTERRA_CONFIG = {
 // Initialize Adsterra ad with different formats
 export const initializeAdsterraAd = (element: HTMLElement, adConfig: any) => {
   try {
+    console.log('[initializeAdsterraAd] Starting with config:', adConfig);
+    
     if (typeof window !== 'undefined' && element && adConfig) {
       // Clear any existing content
       element.innerHTML = '';
       
       if (adConfig.type === 'script') {
+        console.log('[initializeAdsterraAd] Creating script type ad');
         // Simple script format
         const script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = adConfig.src.startsWith('//') ? `https:${adConfig.src}` : adConfig.src;
         script.async = true;
-        script.onerror = () => console.warn('Adsterra ad script failed to load');
+        script.onload = () => console.log('[initializeAdsterraAd] Script loaded successfully');
+        script.onerror = (e) => console.warn('[initializeAdsterraAd] Adsterra ad script failed to load:', e);
         element.appendChild(script);
         
+        // Add a visual indicator that the ad space is ready
+        const adIndicator = document.createElement('div');
+        adIndicator.style.cssText = 'min-height: 90px; background: #f5f5f5; border: 1px dashed #ccc; display: flex; align-items: center; justify-content: center; color: #666;';
+        adIndicator.textContent = 'Ad Loading...';
+        element.appendChild(adIndicator);
+        
+        // Remove indicator after script hopefully loads
+        setTimeout(() => {
+          if (adIndicator.parentNode) {
+            adIndicator.remove();
+          }
+        }, 3000);
+        
       } else if (adConfig.type === 'script_container') {
+        console.log('[initializeAdsterraAd] Creating script_container type ad');
         // Script + container format
         const script = document.createElement('script');
         script.async = true;
         script.setAttribute('data-cfasync', 'false');
         script.src = adConfig.src.startsWith('//') ? `https:${adConfig.src}` : adConfig.src;
-        script.onerror = () => console.warn('Adsterra ad script failed to load');
+        script.onload = () => console.log('[initializeAdsterraAd] Container script loaded successfully');
+        script.onerror = (e) => console.warn('[initializeAdsterraAd] Container script failed to load:', e);
         
         const container = document.createElement('div');
         container.id = adConfig.containerId;
+        container.style.cssText = 'min-height: 250px; background: #f5f5f5; border: 1px dashed #ccc;';
         
         element.appendChild(script);
         element.appendChild(container);
       }
+    } else {
+      console.warn('[initializeAdsterraAd] Missing required parameters:', { window: typeof window, element, adConfig });
     }
   } catch (error) {
     console.error('Adsterra initialization error:', error);
@@ -57,5 +79,7 @@ export const getAdsterraAdScript = (type: 'banner' | 'incontent' | 'sidebar'): a
     sidebar: ADSTERRA_CONFIG.sidebarAdCode
   };
   
-  return adConfigs[type] || null;
+  const config = adConfigs[type] || null;
+  console.log(`[getAdsterraAdScript] type: ${type}, config:`, config);
+  return config;
 };
