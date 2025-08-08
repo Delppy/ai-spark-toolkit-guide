@@ -23,13 +23,21 @@ const Contact = lazy(() => import('@/pages/Contact'));
 const Help = lazy(() => import('@/pages/Help'));
 const PrivacyPolicy = lazy(() => import('@/pages/PrivacyPolicy'));
 const NotFound = lazy(() => import('@/pages/NotFound'));
-import { UserPreferencesProvider } from "@/contexts/UserPreferencesContext";
-import { TransitionProvider } from "@/contexts/TransitionContext";
+
+// Category pages
+const School = lazy(() => import('@/pages/School'));
+const Business = lazy(() => import('@/pages/Business'));
+const Content = lazy(() => import('@/pages/Content'));
+const Career = lazy(() => import('@/pages/Career'));
+const PDFTools = lazy(() => import('@/pages/PDFTools'));
 
 const ToolsWithFilters = lazy(() => import('@/pages/ToolsWithFilters'));
 const Favorites = lazy(() => import('@/pages/Favorites'));
 const Prompts = lazy(() => import('@/pages/Prompts'));
 const PromptPack = lazy(() => import('@/pages/PromptPack'));
+
+import { UserPreferencesProvider } from "@/contexts/UserPreferencesContext";
+import { TransitionProvider } from "@/contexts/TransitionContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -74,6 +82,14 @@ function App() {
                     <Route path="/favorites" element={<Favorites />} />
                     <Route path="/prompts" element={<Prompts />} />
                     <Route path="/prompts/:packId" element={<PromptPack />} />
+                    
+                    {/* Category Routes */}
+                    <Route path="/school" element={<School />} />
+                    <Route path="/business" element={<Business />} />
+                    <Route path="/content" element={<Content />} />
+                    <Route path="/career" element={<Career />} />
+                    <Route path="/pdf" element={<PDFTools />} />
+                    
                     <Route path="/pricing" element={<Pricing />} />
                     <Route path="/payment/verify" element={<PaymentVerify />} />
                     <Route path="/about" element={<About />} />
