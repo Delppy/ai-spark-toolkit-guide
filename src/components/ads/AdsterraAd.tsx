@@ -24,9 +24,9 @@ export const AdsterraAd: React.FC<AdsterraAdProps> = ({
     // Initialize ad after a short delay to ensure DOM is ready
     const timer = setTimeout(() => {
       if (adRef.current && !adLoaded) {
-        const scriptSrc = getAdsterraAdScript(type);
-        if (scriptSrc && !scriptSrc.includes('your_') && !scriptSrc.includes('_code_here')) {
-          initializeAdsterraAd(adRef.current, scriptSrc);
+        const adConfig = getAdsterraAdScript(type);
+        if (adConfig && typeof adConfig === 'object' && adConfig.type) {
+          initializeAdsterraAd(adRef.current, adConfig);
           setAdLoaded(true);
         }
       }
@@ -38,9 +38,9 @@ export const AdsterraAd: React.FC<AdsterraAdProps> = ({
   // Don't render ads for Pro users
   if (isPro) return null;
 
-  // Don't render if no ad script available
-  const scriptSrc = getAdsterraAdScript(type);
-  if (!scriptSrc || scriptSrc.includes('your_') || scriptSrc.includes('_code_here')) {
+  // Don't render if no ad config available
+  const adConfig = getAdsterraAdScript(type);
+  if (!adConfig || typeof adConfig !== 'object' || !adConfig.type) {
     return null;
   }
 

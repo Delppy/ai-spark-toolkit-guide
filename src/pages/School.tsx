@@ -12,6 +12,7 @@ import { Search, Filter } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
+import { InContentAd } from "@/components/ads/InContentAd";
 import { useState, useEffect } from 'react';
 
 const School = () => {
@@ -158,6 +159,13 @@ const School = () => {
             freeOfferings={getUniqueFreeOfferings()}
             hasActiveFilters={hasActiveFilters}
           />
+
+          {/* In-Content Ad */}
+          <div className="my-8">
+            <div className="flex justify-center">
+              <InContentAd className="max-w-md" />
+            </div>
+          </div>
 
           {/* Sorting and Results Count */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
