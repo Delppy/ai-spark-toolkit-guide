@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { getAdsterraAdCode, loadAdsterraScript } from '@/utils/adsterra';
+import { getAdsterraAdScript, initializeAdsterraAd } from '@/utils/adsterra';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useUserPreferences } from '@/contexts/UserPreferencesContext';
 
@@ -21,25 +21,28 @@ export const AdsterraAd: React.FC<AdsterraAdProps> = ({
     // Don't show ads to Pro users
     if (isPro) return;
 
-    // Load Adsterra script
-    loadAdsterraScript();
-
     // Initialize ad after a short delay to ensure DOM is ready
     const timer = setTimeout(() => {
       if (adRef.current && !adLoaded) {
-        const adCode = getAdsterraAdCode(type);
-        if (adCode) {
-          adRef.current.innerHTML = adCode;
+        const scriptSrc = getAdsterraAdScript(type);
+        if (scriptSrc && !scriptSrc.includes('your_') && !scriptSrc.includes('_code_here')) {
+          initializeAdsterraAd(adRef.current, scriptSrc);
           setAdLoaded(true);
         }
       }
-    }, 100);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, [isPro, adLoaded, type]);
 
   // Don't render ads for Pro users
   if (isPro) return null;
+
+  // Don't render if no ad script available
+  const scriptSrc = getAdsterraAdScript(type);
+  if (!scriptSrc || scriptSrc.includes('your_') || scriptSrc.includes('_code_here')) {
+    return null;
+  }
 
   return (
     <div className={`ad-container ${className}`}>
