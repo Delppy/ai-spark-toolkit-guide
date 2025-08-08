@@ -11,8 +11,8 @@ interface PageTransitionProps {
 const PageTransition: React.FC<PageTransitionProps> = ({ children, className }) => {
   const { direction, isTransitioning } = useTransition();
 
-  const getTransitionClasses = () => {
-    const baseClasses = "transition-all duration-300 ease-out";
+const getTransitionClasses = () => {
+    const baseClasses = "transition-all duration-200 ease-out";
     
     if (!isTransitioning) {
       return `${baseClasses} opacity-100 transform translate-x-0 translate-y-0 scale-100`;
@@ -20,13 +20,13 @@ const PageTransition: React.FC<PageTransitionProps> = ({ children, className }) 
 
     switch (direction) {
       case 'slide-right':
-        return `${baseClasses} opacity-0 transform translate-x-12`;
+        return `${baseClasses} opacity-0 transform translate-x-6`;
       case 'slide-left':
-        return `${baseClasses} opacity-0 transform -translate-x-12`;
+        return `${baseClasses} opacity-0 transform -translate-x-6`;
       case 'fade':
-        return `${baseClasses} opacity-0 transform scale-98`;
+        return `${baseClasses} opacity-0 transform scale-99`;
       case 'slide-up':
-        return `${baseClasses} opacity-0 transform translate-y-12`;
+        return `${baseClasses} opacity-0 transform translate-y-6`;
       case 'none':
       default:
         return `${baseClasses} opacity-0`;

@@ -64,14 +64,14 @@ export const TransitionProvider: React.FC<{ children: React.ReactNode }> = ({ ch
       
       const timer = setTimeout(() => {
         setIsTransitioning(false);
-      }, 300); // This duration must match the CSS transition duration
+      }, 200); // Faster transition duration
       
       return () => clearTimeout(timer);
     } else if (previousPath === '') {
       // Handles the initial page load animation
       const timer = setTimeout(() => {
         setIsTransitioning(false);
-      }, 300);
+      }, 200);
       
       return () => clearTimeout(timer);
     }
@@ -84,7 +84,7 @@ export const TransitionProvider: React.FC<{ children: React.ReactNode }> = ({ ch
   const setTransition = (newDirection: TransitionDirection) => {
     setDirection(newDirection);
     setIsTransitioning(true);
-    setTimeout(() => setIsTransitioning(false), 300);
+    setTimeout(() => setIsTransitioning(false), 200);
   };
 
   return (
