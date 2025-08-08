@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { AdBanner } from './AdBanner';
+import { AdsterraAd } from './AdsterraAd';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useUserPreferences } from '@/contexts/UserPreferencesContext';
 
@@ -17,9 +17,8 @@ export const InContentAd: React.FC<InContentAdProps> = ({ className = '' }) => {
 
   return (
     <div className={`my-8 ${className}`}>
-      <AdBanner 
-        slot="inContent" 
-        format="rectangle"
+      <AdsterraAd 
+        type="incontent"
         className="max-w-md mx-auto"
       />
     </div>
