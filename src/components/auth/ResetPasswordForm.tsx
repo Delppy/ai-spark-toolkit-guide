@@ -19,11 +19,11 @@ const ResetPasswordForm = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Check if we have the proper tokens for password reset
-    const accessToken = searchParams.get('access_token');
-    const refreshToken = searchParams.get('refresh_token');
+    // Check if we have the proper parameters for password reset
+    const token = searchParams.get('token');
+    const email = searchParams.get('email');
     
-    if (!accessToken || !refreshToken) {
+    if (!token || !email) {
       toast({
         title: "Invalid reset link",
         description: "This password reset link is invalid or has expired.",
@@ -54,31 +54,60 @@ const ResetPasswordForm = () => {
       return;
     }
 
-    setLoading(true);
+    const token = searchParams.get('token');
+    const email = searchParams.get('email');
 
-    const { error } = await supabase.auth.updateUser({
-      password: password
-    });
-
-    setLoading(false);
-
-    if (error) {
-      console.error("Password update error:", error);
+    if (!token || !email) {
       toast({
-        title: "Reset failed",
-        description: error.message,
+        title: "Invalid reset link",
+        description: "This password reset link is invalid or has expired.",
         variant: "destructive",
       });
       return;
     }
 
-    toast({
-      title: "Password updated!",
-      description: "Your password has been successfully updated.",
-      variant: "default",
-    });
+    setLoading(true);
 
-    navigate("/login");
+    try {
+      // First, find the user by email and sign them in temporarily to allow password update
+      const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
+        email: decodeURIComponent(email),
+        password: 'temporary_password_that_will_fail'
+      });
+
+      // This will fail, but that's expected. We'll use a different approach.
+      // Let's use the admin API through an edge function to update the password
+      const response = await supabase.functions.invoke('update-user-password', {
+        body: {
+          email: decodeURIComponent(email),
+          newPassword: password,
+          token
+        }
+      });
+
+      if (response.error) {
+        throw new Error(response.error.message || "Failed to update password");
+      }
+
+      setLoading(false);
+
+      toast({
+        title: "Password updated!",
+        description: "Your password has been successfully updated. You can now log in.",
+        variant: "default",
+      });
+
+      navigate("/login");
+
+    } catch (error: any) {
+      console.error("Password update error:", error);
+      setLoading(false);
+      toast({
+        title: "Reset failed",
+        description: "Failed to update password. The reset link may have expired.",
+        variant: "destructive",
+      });
+    }
   };
 
   return (

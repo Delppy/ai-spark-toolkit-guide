@@ -34,49 +34,44 @@ const ForgotPasswordForm = () => {
     
     const redirectUrl = `${window.location.origin}/reset-password`;
 
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: redirectUrl,
-    });
-
-    if (error) {
-      console.error("Password reset error:", error);
-      toast({
-        title: "Reset failed",
-        description: error.message,
-        variant: "destructive",
-      });
-      setLoading(false);
-      return;
-    }
-
-    // Send custom email via our edge function
     try {
-      const resetLink = `${redirectUrl}#access_token=dummy&refresh_token=dummy`;
+      // Generate a secure token for password reset
+      const resetToken = crypto.randomUUID();
+      const resetLink = `${redirectUrl}?token=${resetToken}&email=${encodeURIComponent(email)}`;
       
+      // Send custom email via our edge function
       const response = await supabase.functions.invoke('send-password-reset', {
         body: {
           email,
-          resetLink: redirectUrl
+          resetLink
         }
       });
 
       if (response.error) {
         console.error("Email sending error:", response.error);
+        throw new Error(response.error.message || "Failed to send email");
       }
-    } catch (error) {
-      console.error("Edge function error:", error);
-    }
 
-    setLoading(false);
-    setEmailSent(true);
-    setCanResend(false);
-    setCountdown(60);
-    
-    toast({
-      title: isResend ? "Email resent!" : "Reset email sent!",
-      description: "Check your email for password reset instructions.",
-      variant: "default",
-    });
+      setLoading(false);
+      setEmailSent(true);
+      setCanResend(false);
+      setCountdown(60);
+      
+      toast({
+        title: isResend ? "Email resent!" : "Reset email sent!",
+        description: "Check your email for password reset instructions.",
+        variant: "default",
+      });
+
+    } catch (error: any) {
+      console.error("Password reset error:", error);
+      setLoading(false);
+      toast({
+        title: "Reset failed",
+        description: error.message || "Failed to send reset email. Please try again.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
