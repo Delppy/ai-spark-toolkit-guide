@@ -8,6 +8,8 @@ export const BottomBannerAd: React.FC = () => {
   const { user } = useUserPreferences();
   const { isPro } = useSubscription(user?.id);
 
+  console.log('[BottomBannerAd] user:', user?.id, 'isPro:', isPro);
+
   // Don't render for Pro users
   if (isPro) return null;
 

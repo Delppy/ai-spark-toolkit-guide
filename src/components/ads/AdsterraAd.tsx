@@ -17,6 +17,8 @@ export const AdsterraAd: React.FC<AdsterraAdProps> = ({
   const { isPro } = useSubscription(user?.id);
   const [adLoaded, setAdLoaded] = React.useState(false);
 
+  console.log(`[AdsterraAd] type: ${type}, isPro: ${isPro}, adLoaded: ${adLoaded}`);
+
   useEffect(() => {
     // Don't show ads to Pro users
     if (isPro) return;
