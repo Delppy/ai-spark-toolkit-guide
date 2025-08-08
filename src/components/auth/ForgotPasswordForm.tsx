@@ -1,9 +1,9 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Mail, ArrowLeft } from "lucide-react";
+import { Mail, ArrowLeft, Clock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -15,7 +15,69 @@ const ForgotPasswordForm = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
+  const [canResend, setCanResend] = useState(false);
+  const [countdown, setCountdown] = useState(0);
   const { toast } = useToast();
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (countdown > 0) {
+      timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+    } else if (countdown === 0 && emailSent) {
+      setCanResend(true);
+    }
+    return () => clearTimeout(timer);
+  }, [countdown, emailSent]);
+
+  const sendResetEmail = async (email: string, isResend = false) => {
+    setLoading(true);
+    
+    const redirectUrl = `${window.location.origin}/reset-password`;
+
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: redirectUrl,
+    });
+
+    if (error) {
+      console.error("Password reset error:", error);
+      toast({
+        title: "Reset failed",
+        description: error.message,
+        variant: "destructive",
+      });
+      setLoading(false);
+      return;
+    }
+
+    // Send custom email via our edge function
+    try {
+      const resetLink = `${redirectUrl}#access_token=dummy&refresh_token=dummy`;
+      
+      const response = await supabase.functions.invoke('send-password-reset', {
+        body: {
+          email,
+          resetLink: redirectUrl
+        }
+      });
+
+      if (response.error) {
+        console.error("Email sending error:", response.error);
+      }
+    } catch (error) {
+      console.error("Edge function error:", error);
+    }
+
+    setLoading(false);
+    setEmailSent(true);
+    setCanResend(false);
+    setCountdown(60);
+    
+    toast({
+      title: isResend ? "Email resent!" : "Reset email sent!",
+      description: "Check your email for password reset instructions.",
+      variant: "default",
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,32 +91,12 @@ const ForgotPasswordForm = () => {
       return;
     }
 
-    setLoading(true);
-    
-    const redirectUrl = `${window.location.origin}/reset-password`;
+    await sendResetEmail(email);
+  };
 
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: redirectUrl,
-    });
-
-    setLoading(false);
-
-    if (error) {
-      console.error("Password reset error:", error);
-      toast({
-        title: "Reset failed",
-        description: error.message,
-        variant: "destructive",
-      });
-      return;
-    }
-
-    setEmailSent(true);
-    toast({
-      title: "Reset email sent!",
-      description: "Check your email for password reset instructions.",
-      variant: "default",
-    });
+  const handleResend = async () => {
+    if (!canResend || loading) return;
+    await sendResetEmail(email, true);
   };
 
   if (emailSent) {
@@ -75,8 +117,32 @@ const ForgotPasswordForm = () => {
           </p>
           <div className="flex flex-col gap-2">
             <Button 
-              onClick={() => setEmailSent(false)}
+              onClick={handleResend}
               variant="outline"
+              className="w-full"
+              disabled={!canResend || loading}
+            >
+              {loading ? (
+                "Sending..."
+              ) : canResend ? (
+                <>
+                  <Mail className="w-4 h-4 mr-2" />
+                  Resend Email
+                </>
+              ) : (
+                <>
+                  <Clock className="w-4 h-4 mr-2" />
+                  Resend in {countdown}s
+                </>
+              )}
+            </Button>
+            <Button 
+              onClick={() => {
+                setEmailSent(false);
+                setCanResend(false);
+                setCountdown(0);
+              }}
+              variant="ghost"
               className="w-full"
             >
               Try Different Email
