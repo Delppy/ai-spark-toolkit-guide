@@ -35,8 +35,18 @@ const Career = () => {
 
   // Set initial category filter for career
   useEffect(() => {
-    updateFilter({ categories: ['Career'] });
-  }, []);
+    // Filter for career related categories
+    const careerCategories = getUniqueCategories().filter(cat => 
+      cat.toLowerCase().includes('career') ||
+      cat.toLowerCase().includes('job') ||
+      cat.toLowerCase().includes('resume') ||
+      cat.toLowerCase().includes('interview') ||
+      cat.toLowerCase().includes('professional')
+    );
+    if (careerCategories.length > 0) {
+      updateFilter({ categories: careerCategories });
+    }
+  }, [getUniqueCategories]);
 
   useEffect(() => {
     if (user?.id) {

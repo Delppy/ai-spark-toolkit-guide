@@ -35,8 +35,16 @@ const PDFTools = () => {
 
   // Set initial category filter for PDF tools
   useEffect(() => {
-    updateFilter({ categories: ['PDF'] });
-  }, []);
+    // Filter for PDF related categories
+    const pdfCategories = getUniqueCategories().filter(cat => 
+      cat.toLowerCase().includes('pdf') ||
+      cat.toLowerCase().includes('document') ||
+      cat.toLowerCase().includes('file')
+    );
+    if (pdfCategories.length > 0) {
+      updateFilter({ categories: pdfCategories });
+    }
+  }, [getUniqueCategories]);
 
   useEffect(() => {
     if (user?.id) {

@@ -35,8 +35,19 @@ const Content = () => {
 
   // Set initial category filter for content creation
   useEffect(() => {
-    updateFilter({ categories: ['Content Creation'] });
-  }, []);
+    // Filter for content creation related categories
+    const contentCategories = getUniqueCategories().filter(cat => 
+      cat.toLowerCase().includes('content') ||
+      cat.toLowerCase().includes('writing') ||
+      cat.toLowerCase().includes('video') ||
+      cat.toLowerCase().includes('design') ||
+      cat.toLowerCase().includes('art') ||
+      cat.toLowerCase().includes('creative')
+    );
+    if (contentCategories.length > 0) {
+      updateFilter({ categories: contentCategories });
+    }
+  }, [getUniqueCategories]);
 
   useEffect(() => {
     if (user?.id) {

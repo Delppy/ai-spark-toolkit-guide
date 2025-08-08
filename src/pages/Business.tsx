@@ -35,8 +35,14 @@ const Business = () => {
 
   // Set initial category filter for business
   useEffect(() => {
-    updateFilter({ categories: ['Business'] });
-  }, []);
+    // Filter for any category containing "Business"
+    const businessCategories = getUniqueCategories().filter(cat => 
+      cat.toLowerCase().includes('business')
+    );
+    if (businessCategories.length > 0) {
+      updateFilter({ categories: businessCategories });
+    }
+  }, [getUniqueCategories]);
 
   // ... keep existing code (loadFavorites, handleFavoriteClick, etc.)
   useEffect(() => {

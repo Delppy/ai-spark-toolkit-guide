@@ -37,8 +37,17 @@ const School = () => {
 
   // Set initial category filter for school
   useEffect(() => {
-    updateFilter({ categories: ['Education'] });
-  }, []);
+    // Filter for any category containing "Education" or school-related terms
+    const schoolCategories = getUniqueCategories().filter(cat => 
+      cat.toLowerCase().includes('education') || 
+      cat.toLowerCase().includes('essay') ||
+      cat.toLowerCase().includes('research') ||
+      cat.toLowerCase().includes('learning')
+    );
+    if (schoolCategories.length > 0) {
+      updateFilter({ categories: schoolCategories });
+    }
+  }, [getUniqueCategories]);
 
   // Load favorites from database on mount
   useEffect(() => {
