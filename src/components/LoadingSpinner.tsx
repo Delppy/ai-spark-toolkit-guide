@@ -74,11 +74,12 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
       )}
       
       <div className="relative z-10 flex flex-col items-center space-y-6">
-        {/* Enhanced spinner with gradient */}
-        <div className={`relative ${sizeClasses[size].spinner}`}>
-          <div className="absolute inset-0 rounded-full bg-gradient-to-r from-purple-400 to-blue-400 animate-spin"></div>
-          <div className="absolute inset-1 rounded-full bg-white/90 backdrop-blur"></div>
-          <div className="absolute inset-2 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 animate-spin" style={{animationDirection: 'reverse', animationDuration: '1.5s'}}></div>
+        {/* Enhanced AI text with gradient and morphing effects */}
+        <div className={`relative flex items-center justify-center ${sizeClasses[size].spinner}`}>
+          <div className="text-6xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent animate-ai-morph">
+            AI
+          </div>
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-blue-400/20 rounded-lg animate-ai-glow"></div>
         </div>
 
         {/* Progress bar */}
