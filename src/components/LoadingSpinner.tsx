@@ -74,10 +74,13 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
       )}
       
       <div className="relative z-10 flex flex-col items-center space-y-6">
-        {/* Enhanced AI text with gradient and morphing effects */}
+        {/* Enhanced AiToUse logo with gradient and morphing effects */}
         <div className={`relative flex items-center justify-center ${sizeClasses[size].spinner}`}>
-          <div className="text-6xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent animate-ai-morph">
-            AI
+          <div className="relative">
+            <Sparkles className="w-16 h-16 text-white animate-ai-morph" />
+            <div className="absolute inset-0 w-16 h-16">
+              <Sparkles className="w-16 h-16 text-purple-400 animate-ai-morph-delay" />
+            </div>
           </div>
           <div className="absolute inset-0 bg-gradient-to-r from-purple-400/20 to-blue-400/20 rounded-lg animate-ai-glow"></div>
         </div>
