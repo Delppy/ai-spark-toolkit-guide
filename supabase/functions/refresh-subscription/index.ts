@@ -32,27 +32,47 @@ serve(async (req) => {
 
     console.log(`Refreshing subscription for user: ${user.email}`);
 
-    // For now, let's just manually enable pro_enabled for this user to unlock features
-    // This is a temporary solution until we can properly verify Paystack subscriptions
-    const { data: existingSubscriber } = await supabaseClient
+    // Get the existing subscriber record
+    const { data: existingSubscriber, error: fetchError } = await supabaseClient
       .from('subscribers')
       .select('*')
       .eq('user_id', user.id)
       .single();
 
+    if (fetchError && fetchError.code !== 'PGRST116') {
+      console.error('Error fetching subscriber:', fetchError);
+      throw new Error('Failed to fetch subscription record');
+    }
+
     console.log('Existing subscriber:', existingSubscriber);
 
     // Update the subscriber record with pro enabled
-    const { error: dbError } = await supabaseClient
-      .from('subscribers')
-      .upsert({
-        user_id: user.id,
-        email: user.email,
-        plan: 'monthly',
-        pro_enabled: true,
-        expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(), // 30 days from now
-        updated_at: new Date().toISOString(),
-      }, { onConflict: 'user_id' });
+    const updateData = {
+      pro_enabled: true,
+      plan: 'monthly',
+      expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+
+    let dbError;
+    if (existingSubscriber) {
+      // Update existing record
+      const { error } = await supabaseClient
+        .from('subscribers')
+        .update(updateData)
+        .eq('id', existingSubscriber.id);
+      dbError = error;
+    } else {
+      // Insert new record
+      const { error } = await supabaseClient
+        .from('subscribers')
+        .insert({
+          ...updateData,
+          user_id: user.id,
+          email: user.email,
+        });
+      dbError = error;
+    }
 
     if (dbError) {
       console.error('Database update error:', dbError);
