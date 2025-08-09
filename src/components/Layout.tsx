@@ -15,7 +15,7 @@ import PageTransition from "./PageTransition";
 import { useSubscription } from "@/hooks/useSubscription";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 import { Badge } from "@/components/ui/badge";
-import { BottomBannerAd } from "@/components/ads/BottomBannerAd";
+
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import React from "react";
@@ -129,14 +129,11 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </div>
       </header>
       
-      <main className={`flex-grow ${!subscriptionStatus.isPro ? 'pb-20' : ''}`}>
+      <main className="flex-grow">
         <PageTransition>
           {children}
         </PageTransition>
       </main>
-      
-      {/* Bottom Banner Ad - only shows for non-Pro users */}
-      <BottomBannerAd />
       
       <footer className="bg-slate-900 text-white py-12 transition-all duration-300">
         <div className="container mx-auto px-4">

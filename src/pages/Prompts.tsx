@@ -2,8 +2,6 @@
 import React, { useState } from "react";
 import Layout from "@/components/Layout";
 import { PromptPackCard } from "@/components/PromptPackCard";
-import { InContentAd } from "@/components/ads/InContentAd";
-import { useAdPlacement } from "@/hooks/useAdPlacement";
 import { dataManager } from "@/data/dataManager";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 import { useProGate } from "@/hooks/useProGate";
@@ -48,7 +46,7 @@ const Prompts = () => {
   
   const filteredPromptPacks = getFilteredPromptPacks();
   
-  const { shouldShowInContentAd } = useAdPlacement();
+  
 
   const handleCopyPrompt = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -224,11 +222,6 @@ const Prompts = () => {
                 onCopyPrompt={handleCopyPrompt}
                 isPreviewMode={!isPro}
               />
-              {shouldShowInContentAd(index) && (
-                <div className="col-span-full">
-                  <InContentAd />
-                </div>
-              )}
             </React.Fragment>
           ))}
         </div>
