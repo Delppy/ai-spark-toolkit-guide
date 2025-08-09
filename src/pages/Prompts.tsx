@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Layout from "@/components/Layout";
 import { PromptPackCard } from "@/components/PromptPackCard";
+import { NewAd } from "@/components/ads/NewAd";
 import { dataManager } from "@/data/dataManager";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 import { useProGate } from "@/hooks/useProGate";
@@ -45,8 +46,6 @@ const Prompts = () => {
   };
   
   const filteredPromptPacks = getFilteredPromptPacks();
-  
-  
 
   const handleCopyPrompt = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -222,6 +221,11 @@ const Prompts = () => {
                 onCopyPrompt={handleCopyPrompt}
                 isPreviewMode={!isPro}
               />
+              {(index + 1) % 6 === 0 && (
+                <div className="col-span-full">
+                  <NewAd />
+                </div>
+              )}
             </React.Fragment>
           ))}
         </div>
