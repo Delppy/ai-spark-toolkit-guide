@@ -5,6 +5,7 @@ import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { SubscriptionRefreshButton } from "@/components/SubscriptionRefreshButton";
 
 import PricingHeader from "@/components/pricing/PricingHeader";
 import BillingToggle from "@/components/pricing/BillingToggle";
@@ -118,6 +119,16 @@ const Pricing: React.FC = () => {
           yearlyDiscountPercent={YEARLY_DISCOUNT_PERCENT}
         />
       </div>
+
+      {/* Subscription Refresh Button */}
+      {user && (
+        <div className="mt-6 text-center">
+          <p className="text-sm text-muted-foreground mb-2">
+            Just completed a payment? Refresh your subscription status:
+          </p>
+          <SubscriptionRefreshButton />
+        </div>
+      )}
 
       <div className="mt-10">
         <Link to="/">
