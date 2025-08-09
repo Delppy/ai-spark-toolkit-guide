@@ -16,6 +16,7 @@ import { useSubscription } from "@/hooks/useSubscription";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 import { Badge } from "@/components/ui/badge";
 import { NewAd } from "@/components/ads/NewAd";
+import { ProfitableRateAd } from "@/components/ads/ProfitableRateAd";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import React from "react";
@@ -137,6 +138,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       
       {/* Bottom Ad - only shows for non-Pro users */}
       <NewAd />
+      <ProfitableRateAd />
       
       <footer className="bg-slate-900 text-white py-12 transition-all duration-300">
         <div className="container mx-auto px-4">

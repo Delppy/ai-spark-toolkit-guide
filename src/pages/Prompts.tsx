@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Layout from "@/components/Layout";
 import { PromptPackCard } from "@/components/PromptPackCard";
 import { NewAd } from "@/components/ads/NewAd";
+import { ProfitableRateAd } from "@/components/ads/ProfitableRateAd";
 import { dataManager } from "@/data/dataManager";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 import { useProGate } from "@/hooks/useProGate";
@@ -222,8 +223,9 @@ const Prompts = () => {
                 isPreviewMode={!isPro}
               />
               {(index + 1) % 6 === 0 && (
-                <div className="col-span-full">
+                <div className="col-span-full space-y-4">
                   <NewAd />
+                  <ProfitableRateAd />
                 </div>
               )}
             </React.Fragment>
