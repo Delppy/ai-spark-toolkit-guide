@@ -101,3 +101,194 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Morphing animations for loading screen */
+@keyframes morph-circle {
+  0%, 100% { 
+    border-radius: 50%; 
+    transform: rotate(0deg) scale(1);
+  }
+  25% { 
+    border-radius: 0%; 
+    transform: rotate(90deg) scale(1.1);
+  }
+  50% { 
+    border-radius: 20px; 
+    transform: rotate(180deg) scale(0.9);
+  }
+  75% { 
+    border-radius: 50% 0 50% 0; 
+    transform: rotate(270deg) scale(1.2);
+  }
+}
+
+@keyframes morph-square {
+  0%, 100% { 
+    border-radius: 0%; 
+    transform: rotate(45deg) scale(1);
+  }
+  25% { 
+    border-radius: 50%; 
+    transform: rotate(135deg) scale(1.1);
+  }
+  50% { 
+    border-radius: 20px; 
+    transform: rotate(225deg) scale(0.8);
+  }
+  75% { 
+    border-radius: 0 50% 0 50%; 
+    transform: rotate(315deg) scale(1.3);
+  }
+}
+
+@keyframes morph-triangle {
+  0%, 100% { 
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    transform: rotate(0deg) scale(1);
+  }
+  25% { 
+    clip-path: polygon(50% 50%, 0% 0%, 100% 0%);
+    transform: rotate(120deg) scale(1.2);
+  }
+  50% { 
+    clip-path: polygon(0% 50%, 50% 0%, 100% 50%);
+    transform: rotate(240deg) scale(0.9);
+  }
+  75% { 
+    clip-path: polygon(25% 25%, 75% 25%, 50% 75%);
+    transform: rotate(360deg) scale(1.1);
+  }
+}
+
+@keyframes morph-hexagon {
+  0%, 100% { 
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    transform: rotate(0deg) scale(1);
+  }
+  25% { 
+    clip-path: polygon(30% 0%, 70% 0%, 100% 50%, 70% 100%, 30% 100%, 0% 50%);
+    transform: rotate(60deg) scale(1.1);
+  }
+  50% { 
+    clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%, 50% 50%);
+    border-radius: 50%;
+    transform: rotate(120deg) scale(0.8);
+  }
+  75% { 
+    clip-path: polygon(20% 20%, 80% 20%, 80% 80%, 20% 80%);
+    transform: rotate(180deg) scale(1.2);
+  }
+}
+
+@keyframes morph-to-logo {
+  0% { 
+    border-radius: 50%; 
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% { 
+    border-radius: 20px; 
+    transform: scale(1.5) rotate(180deg);
+    opacity: 0.7;
+  }
+  80% { 
+    border-radius: 30%; 
+    transform: scale(0.8) rotate(300deg);
+    opacity: 0.3;
+  }
+  100% { 
+    border-radius: 15px; 
+    transform: scale(0) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes logo-reveal {
+  0% { 
+    opacity: 0; 
+    transform: scale(0) rotate(-180deg);
+  }
+  50% { 
+    opacity: 0; 
+    transform: scale(0.5) rotate(-90deg);
+  }
+  80% { 
+    opacity: 0.7; 
+    transform: scale(1.2) rotate(0deg);
+  }
+  100% { 
+    opacity: 1; 
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes morph-line-1 {
+  0%, 100% { 
+    transform: rotate(12deg) scaleX(1);
+    height: 2px;
+  }
+  25% { 
+    transform: rotate(45deg) scaleX(0.5);
+    height: 4px;
+  }
+  50% { 
+    transform: rotate(-12deg) scaleX(1.5);
+    height: 1px;
+  }
+  75% { 
+    transform: rotate(90deg) scaleX(0.8);
+    height: 6px;
+  }
+}
+
+@keyframes morph-line-2 {
+  0%, 100% { 
+    transform: rotate(-12deg) scaleY(1);
+    width: 200px;
+  }
+  25% { 
+    transform: rotate(30deg) scaleY(0.5);
+    width: 150px;
+  }
+  50% { 
+    transform: rotate(-45deg) scaleY(2);
+    width: 300px;
+  }
+  75% { 
+    transform: rotate(15deg) scaleY(0.8);
+    width: 100px;
+  }
+}
+
+.animate-morph-circle {
+  animation: morph-circle 4s ease-in-out infinite;
+}
+
+.animate-morph-square {
+  animation: morph-square 3.5s ease-in-out infinite;
+}
+
+.animate-morph-triangle {
+  animation: morph-triangle 5s ease-in-out infinite;
+}
+
+.animate-morph-hexagon {
+  animation: morph-hexagon 4.5s ease-in-out infinite;
+}
+
+.animate-morph-to-logo {
+  animation: morph-to-logo 3s ease-in-out infinite;
+}
+
+.animate-logo-reveal {
+  animation: logo-reveal 3s ease-in-out infinite;
+  animation-delay: 1.5s;
+}
+
+.animate-morph-line-1 {
+  animation: morph-line-1 3s ease-in-out infinite;
+}
+
+.animate-morph-line-2 {
+  animation: morph-line-2 4s ease-in-out infinite;
+}

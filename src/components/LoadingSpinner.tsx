@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Sparkles } from 'lucide-react';
 
 interface LoadingSpinnerProps {
   size?: 'sm' | 'md' | 'lg';
@@ -48,15 +49,27 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
       {/* Animated background vectors for fullscreen */}
       {fullScreen && (
         <div className="absolute inset-0 overflow-hidden">
-          {/* Floating geometric shapes */}
-          <div className="absolute top-20 left-20 w-32 h-32 bg-white/10 rounded-full animate-pulse"></div>
-          <div className="absolute top-40 right-32 w-24 h-24 bg-purple-300/20 rotate-45 animate-bounce" style={{animationDelay: '0.5s'}}></div>
-          <div className="absolute bottom-32 left-40 w-20 h-20 bg-blue-300/15 rounded-lg animate-spin" style={{animationDuration: '3s'}}></div>
-          <div className="absolute bottom-20 right-20 w-28 h-28 bg-white/5 rounded-full animate-ping" style={{animationDelay: '1s'}}></div>
+          {/* Morphing geometric shapes */}
+          <div className="absolute top-20 left-20 w-32 h-32 bg-white/10 animate-morph-circle"></div>
+          <div className="absolute top-40 right-32 w-24 h-24 bg-purple-300/20 animate-morph-square" style={{animationDelay: '0.5s'}}></div>
+          <div className="absolute bottom-32 left-40 w-20 h-20 bg-blue-300/15 animate-morph-triangle" style={{animationDelay: '1s'}}></div>
+          <div className="absolute bottom-20 right-20 w-28 h-28 bg-white/5 animate-morph-hexagon" style={{animationDelay: '1.5s'}}></div>
           
-          {/* Floating lines */}
-          <div className="absolute top-1/4 left-1/4 w-64 h-0.5 bg-gradient-to-r from-transparent via-white/30 to-transparent rotate-12 animate-pulse"></div>
-          <div className="absolute bottom-1/3 right-1/4 w-48 h-0.5 bg-gradient-to-r from-transparent via-purple-300/40 to-transparent -rotate-12 animate-pulse" style={{animationDelay: '1.5s'}}></div>
+          {/* AiToUse logo morphing animation */}
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            <div className="relative w-24 h-24">
+              {/* Circle that morphs into logo */}
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-blue-400 rounded-full animate-morph-to-logo"></div>
+              {/* AiToUse logo that fades in */}
+              <div className="absolute inset-0 flex items-center justify-center animate-logo-reveal">
+                <Sparkles className="w-12 h-12 text-white animate-pulse" />
+              </div>
+            </div>
+          </div>
+          
+          {/* Floating lines that morph */}
+          <div className="absolute top-1/4 left-1/4 w-64 h-0.5 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-morph-line-1"></div>
+          <div className="absolute bottom-1/3 right-1/4 w-48 h-0.5 bg-gradient-to-r from-transparent via-purple-300/40 to-transparent animate-morph-line-2" style={{animationDelay: '1.5s'}}></div>
         </div>
       )}
       
