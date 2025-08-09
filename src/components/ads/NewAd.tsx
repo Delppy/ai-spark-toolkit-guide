@@ -15,9 +15,12 @@ declare global {
 export const NewAd: React.FC<NewAdProps> = ({ className = "" }) => {
   const { user } = useUserPreferences();
   const { isPro } = useSubscription(user?.id);
+  
+  // Show ads for non-logged-in users or logged-in users who are not Pro
+  const shouldShowAd = !user || !isPro;
 
   useEffect(() => {
-    if (isPro) return; // Don't load ads for Pro users
+    if (!shouldShowAd) return; // Don't load ads for Pro users or if shouldShowAd is false
 
     // Set up the ad options
     window.atOptions = {
@@ -45,10 +48,10 @@ export const NewAd: React.FC<NewAdProps> = ({ className = "" }) => {
         adContainer.removeChild(script);
       }
     };
-  }, [isPro]);
+  }, [shouldShowAd]);
 
-  // Don't render anything for Pro users
-  if (isPro) {
+  // Don't render anything if shouldn't show ad
+  if (!shouldShowAd) {
     return null;
   }
 
