@@ -97,13 +97,6 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
         <div className={`${sizeClasses[size].text} font-medium ${fullScreen ? 'text-white' : 'text-muted-foreground'} tabular-nums`}>
           {Math.round(percentage)}%
         </div>
-
-        {/* Loading text */}
-        {text && (
-          <p className={`${sizeClasses[size].text} ${fullScreen ? 'text-white' : 'text-muted-foreground'} font-medium animate-pulse text-center`}>
-            {text}
-          </p>
-        )}
       </div>
     </div>
   );
