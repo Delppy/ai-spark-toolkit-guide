@@ -20,7 +20,21 @@ export const NewAd: React.FC<NewAdProps> = ({ className = "" }) => {
   const shouldShowAd = !user || !isPro;
 
   useEffect(() => {
-    if (!shouldShowAd) return; // Don't load ads for Pro users or if shouldShowAd is false
+    if (!shouldShowAd) return;
+
+    console.log('[NewAd] Loading ad script...');
+
+    // Create a unique container for this ad instance
+    const adContainerId = `new-ad-container-${Date.now()}`;
+    const adContainer = document.getElementById(adContainerId);
+    
+    if (!adContainer) {
+      console.log('[NewAd] Container not found yet, will wait...');
+      return;
+    }
+
+    // Clear any existing content
+    adContainer.innerHTML = '';
 
     // Set up the ad options
     window.atOptions = {
@@ -36,16 +50,22 @@ export const NewAd: React.FC<NewAdProps> = ({ className = "" }) => {
     script.type = 'text/javascript';
     script.src = '//www.highperformanceformat.com/36e9f38cd9b4a6eb7839d66b237b5878/invoke.js';
     script.async = true;
+    
+    script.onload = () => {
+      console.log('[NewAd] Script loaded successfully');
+    };
+    
+    script.onerror = () => {
+      console.error('[NewAd] Failed to load ad script');
+    };
 
-    const adContainer = document.getElementById('new-ad-container');
-    if (adContainer) {
-      adContainer.appendChild(script);
-    }
+    // Append script to document head instead of container
+    document.head.appendChild(script);
 
     return () => {
       // Cleanup script on unmount
-      if (adContainer && script.parentNode) {
-        adContainer.removeChild(script);
+      if (script.parentNode) {
+        document.head.removeChild(script);
       }
     };
   }, [shouldShowAd]);
@@ -58,10 +78,13 @@ export const NewAd: React.FC<NewAdProps> = ({ className = "" }) => {
   return (
     <div className={`flex justify-center items-center p-4 ${className}`}>
       <div 
-        id="new-ad-container" 
-        className="w-[300px] h-[250px] bg-muted/20 border border-border rounded-lg flex items-center justify-center"
+        id={`new-ad-container-${Date.now()}`}
+        className="w-[300px] h-[250px] bg-muted/10 border border-border/50 rounded-lg flex items-center justify-center overflow-hidden"
       >
-        <span className="text-muted-foreground text-sm">Advertisement</span>
+        <div className="text-center">
+          <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+          <span className="text-muted-foreground text-xs">Loading Ad...</span>
+        </div>
       </div>
     </div>
   );
