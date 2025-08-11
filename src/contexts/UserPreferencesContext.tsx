@@ -66,7 +66,7 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
             .from('profiles')
             .select('*')
             .eq('id', newSession.user.id)
-            .single();
+            .maybeSingle();
 
           if (profileData) {
             setProfile(profileData as ProfileRow);
