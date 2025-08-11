@@ -71,15 +71,15 @@ const Pricing: React.FC = () => {
     ? (
       <>
         <span className="text-4xl font-extrabold">GHS {MONTHLY_PRICE.toFixed(2)}</span>
-        <span className="text-base font-normal text-gray-400">/month</span>
+        <span className="text-base font-normal text-muted-foreground">/month</span>
       </>
     ) : (
       <>
         <span className="text-4xl font-extrabold">GHS {YEARLY_PRICE.toFixed(2)}</span>
-        <span className="text-base font-normal text-gray-400">/year</span>
-        <div className="text-sm text-gray-500 mt-1">
+        <span className="text-base font-normal text-muted-foreground">/year</span>
+        <div className="text-sm text-muted-foreground mt-1">
           <span className="line-through">GHS {(MONTHLY_PRICE * 12).toFixed(2)}</span>
-          <span className="ml-2 text-green-600 font-semibold">
+          <span className="ml-2 text-accent font-semibold">
             Save GHS {((MONTHLY_PRICE * 12) - YEARLY_PRICE).toFixed(2)}
           </span>
         </div>
@@ -87,11 +87,11 @@ const Pricing: React.FC = () => {
     );
     
   const freePriceDisplay = (
-    <p className="text-3xl font-bold">GHS 0<span className="text-base font-normal text-gray-400">/month</span></p>
+    <p className="text-3xl font-bold">GHS 0<span className="text-base font-normal text-muted-foreground">/month</span></p>
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-blue-50 flex flex-col items-center justify-start py-10 px-2">
+    <div className="min-h-screen bg-gradient-to-br from-background to-secondary/20 flex flex-col items-center justify-start py-10 px-2">
       <PricingHeader />
       
       <BillingToggle 

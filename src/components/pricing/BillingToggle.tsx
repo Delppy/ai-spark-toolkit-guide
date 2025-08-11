@@ -10,7 +10,7 @@ interface BillingToggleProps {
 }
 
 const BillingToggle = ({ billing, setBilling, yearlyDiscountPercent }: BillingToggleProps) => (
-  <div className="flex items-center justify-center gap-3 mb-6 bg-white rounded-full p-1 border shadow-sm">
+  <div className="flex items-center justify-center gap-3 mb-6 bg-card rounded-full p-1 border shadow-sm">
     <Button
       variant={billing === "monthly" ? "default" : "ghost"}
       className={`rounded-full px-6 py-2 ${billing === "monthly" ? "font-bold" : ""}`}
@@ -24,7 +24,7 @@ const BillingToggle = ({ billing, setBilling, yearlyDiscountPercent }: BillingTo
       onClick={() => setBilling("yearly")}
     >
       Yearly
-      <Badge className="ml-2 bg-amber-100 text-amber-700 border-amber-300 px-2 py-0.5 flex items-center gap-1">
+      <Badge className="ml-2 bg-accent/10 text-accent border-accent px-2 py-0.5 flex items-center gap-1">
         <Percent className="w-3 h-3" />
         Save {yearlyDiscountPercent}%
       </Badge>

@@ -31,14 +31,14 @@ const PlanCard: React.FC<PlanCardProps> = ({
   const isPro = planType === "Pro";
 
   return (
-    <Card className={`w-full ${isPro ? "md:w-96 shadow-lg border-2 border-purple-400 bg-white/90" : "md:w-80 border-2 border-gray-200 bg-white/70 shadow-sm"}`}>
+    <Card className={`w-full ${isPro ? "md:w-96 shadow-lg border-2 border-primary bg-card" : "md:w-80 border-2 border-border bg-card/70 shadow-sm"}`}>
       <CardHeader>
         <div className="flex items-center gap-2">
-          <CardTitle className={`text-xl ${isPro ? "text-2xl text-purple-700 flex items-center" : ""}`}>
+          <CardTitle className={`text-xl ${isPro ? "text-2xl text-primary flex items-center" : ""}`}>
             {planType}
-            {isCurrentPlan && !isPro && <Badge variant="outline" className="ml-2 text-green-600 border-green-400">Current Plan</Badge>}
+            {isCurrentPlan && !isPro && <Badge variant="outline" className="ml-2 text-accent border-accent">Current Plan</Badge>}
             {isPopular && (
-              <Badge className="ml-2 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-semibold">
+              <Badge variant="premium" className="ml-2 text-xs font-semibold">
                 Most Popular
               </Badge>
             )}
@@ -54,12 +54,12 @@ const PlanCard: React.FC<PlanCardProps> = ({
         </div>
         {isPro && (
           <>
-            <span className="inline-block mb-4 text-purple-700 font-semibold text-center w-full">
+            <span className="inline-block mb-4 text-primary font-semibold text-center w-full">
               {billing === "yearly" ? "Best value – billed once a year" : "Cancel anytime"}
             </span>
             {billing === "yearly" && yearlyDiscountPercent && (
               <div className="mb-2 flex items-center justify-center gap-2">
-                <Badge className="bg-amber-100 text-amber-700 border-amber-300 px-2 py-0.5 flex items-center gap-1">
+                <Badge className="bg-accent/10 text-accent border-accent px-2 py-0.5 flex items-center gap-1">
                   <Percent className="w-3 h-3" />
                   Save {yearlyDiscountPercent}% compared to monthly
                 </Badge>
@@ -69,12 +69,12 @@ const PlanCard: React.FC<PlanCardProps> = ({
         )}
         <ul className="mb-6 space-y-2">
           {features.map((feature) => (
-            <li className={`flex items-center gap-2 ${isPro ? 'text-base' : 'text-sm text-slate-700'}`} key={feature}>
-              <Check className={`w-4 h-4 ${isPro ? 'w-5 h-5 text-purple-700' : 'text-green-600'}`} /> {feature}
+            <li className={`flex items-center gap-2 ${isPro ? 'text-base' : 'text-sm text-muted-foreground'}`} key={feature}>
+              <Check className={`w-4 h-4 ${isPro ? 'w-5 h-5 text-primary' : 'text-accent'}`} /> {feature}
             </li>
           ))}
           {!isPro && (
-            <li className="flex items-center gap-2 text-sm text-slate-400 line-through">
+            <li className="flex items-center gap-2 text-sm text-muted line-through">
               <XCircle className="w-4 h-4" /> Remove ads & premium tools
             </li>
           )}
@@ -82,7 +82,7 @@ const PlanCard: React.FC<PlanCardProps> = ({
         {isPro ? (
           <>
             <Button
-              className="w-full bg-gradient-to-r from-purple-600 to-amber-500 text-white text-lg font-bold py-6 shadow-lg"
+              className="w-full bg-gradient-to-r from-primary to-primary/80 text-primary-foreground text-lg font-bold py-6 shadow-lg"
               onClick={onUpgrade}
               disabled={loading}
             >
@@ -92,7 +92,7 @@ const PlanCard: React.FC<PlanCardProps> = ({
                 ? "Get Pro Yearly"
                 : "Get Pro Monthly"}
             </Button>
-            <p className="text-xs text-center text-slate-500 mt-4">
+            <p className="text-xs text-center text-muted-foreground mt-4">
               Payments processed securely by Paystack.
             </p>
           </>
