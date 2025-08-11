@@ -46,15 +46,37 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
 
   return (
     <div className={`flex flex-col items-center justify-center ${containerClasses} ${className}`}>
-      <div className="relative z-10 flex flex-col items-center space-y-6">
-        {/* Simple logo */}
-        <div className={`flex items-center justify-center ${sizeClasses[size].spinner}`}>
-          <Sparkles className={`${fullScreen ? 'text-white' : 'text-primary'}`} />
-        </div>
-
-        {/* Percentage Text */}
-        <div className={`${sizeClasses[size].text} font-medium ${fullScreen ? 'text-white' : 'text-muted-foreground'} tabular-nums`}>
-          {Math.round(percentage)}%
+      <div className="relative z-10 flex items-center justify-center">
+        {/* Logo with circular progress */}
+        <div className={`relative flex items-center justify-center ${sizeClasses[size].spinner}`}>
+          {/* Circular progress ring */}
+          <svg className="absolute inset-0 w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+            {/* Background circle */}
+            <circle
+              cx="50"
+              cy="50"
+              r="45"
+              fill="none"
+              stroke={fullScreen ? "rgba(255,255,255,0.2)" : "hsl(var(--muted))"}
+              strokeWidth="4"
+            />
+            {/* Progress circle */}
+            <circle
+              cx="50"
+              cy="50"
+              r="45"
+              fill="none"
+              stroke={fullScreen ? "white" : "hsl(var(--primary))"}
+              strokeWidth="4"
+              strokeLinecap="round"
+              strokeDasharray={`${2 * Math.PI * 45}`}
+              strokeDashoffset={`${2 * Math.PI * 45 * (1 - percentage / 100)}`}
+              className="transition-all duration-300 ease-out animate-pulse"
+            />
+          </svg>
+          
+          {/* Logo in center */}
+          <Sparkles className={`${fullScreen ? 'text-white' : 'text-primary'} animate-pulse`} />
         </div>
       </div>
     </div>
