@@ -64,7 +64,7 @@ export const TrendingToolCard: React.FC<TrendingToolCardProps> = ({
       <CardHeader className="pb-4 pt-12">
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            <CardTitle className="text-lg group-hover:text-blue-600 transition-colors flex items-center">
+            <CardTitle className="text-lg group-hover:text-primary transition-colors flex items-center">
               {tool.name}
               {tool.is_pro && (
                 <Badge className="ml-2 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs">
@@ -102,9 +102,9 @@ export const TrendingToolCard: React.FC<TrendingToolCardProps> = ({
         </div>
 
         <div className="mt-auto">
-          <div className="flex items-center justify-center p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-200 hover:from-blue-100 hover:to-purple-100 transition-colors">
-            <ExternalLink className="w-4 h-4 mr-2 text-blue-600" />
-            <span className="text-sm font-medium text-blue-700">Try Now</span>
+          <div className="flex items-center justify-center p-3 bg-primary/5 rounded-lg border border-primary/20 hover:bg-primary/10 transition-colors">
+            <ExternalLink className="w-4 h-4 mr-2 text-primary" />
+            <span className="text-sm font-medium text-primary">Try Now</span>
           </div>
         </div>
       </CardContent>

@@ -204,7 +204,7 @@ const Signup = () => {
               Already have an account?{" "}
               <Link
                 to="/login"
-                className="text-blue-600 font-semibold hover:underline inline-flex items-center gap-1 focus-visible:outline focus-visible:ring-2 focus-visible:ring-blue-500"
+                className="text-accent font-semibold hover:underline inline-flex items-center gap-1 focus-visible:outline focus-visible:ring-2 focus-visible:ring-accent"
               >
                 <LogIn className="w-4 h-4" /> Login
               </Link>

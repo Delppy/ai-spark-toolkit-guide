@@ -53,7 +53,7 @@ export const ToolCard: React.FC<ToolCardProps> = ({
       case 'free':
         return <Gift className="w-3 h-3 text-green-600" />;
       case 'free_trial':
-        return <Gift className="w-3 h-3 text-blue-600" />;
+        return <Gift className="w-3 h-3 text-primary" />;
       case 'free_credits':
         return <Gift className="w-3 h-3 text-purple-600" />;
       case 'freemium':
@@ -68,13 +68,13 @@ export const ToolCard: React.FC<ToolCardProps> = ({
       case 'free':
         return 'bg-green-100 text-green-800';
       case 'free_trial':
-        return 'bg-blue-100 text-blue-800';
+        return 'bg-primary/10 text-primary';
       case 'free_credits':
         return 'bg-purple-100 text-purple-800';
       case 'freemium':
         return 'bg-orange-100 text-orange-800';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-muted text-muted-foreground';
     }
   };
 
@@ -94,7 +94,7 @@ export const ToolCard: React.FC<ToolCardProps> = ({
           <CardHeader className="pb-4">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <CardTitle className="text-lg group-hover:text-blue-600 transition-colors flex items-center">
+                <CardTitle className="text-lg group-hover:text-primary transition-colors flex items-center">
                   {tool.name}
                   {tool.isPro && (
                     <Badge className="ml-2 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs">
@@ -141,7 +141,7 @@ export const ToolCard: React.FC<ToolCardProps> = ({
                     onClick={(e) => { stopPropagation(e); onFavoriteClick(tool.id, e); }}
                   >
                     {isFavorite(tool.id) ? (
-                      <Bookmark className="w-4 h-4 fill-current text-blue-600" />
+                      <Bookmark className="w-4 h-4 fill-current text-primary" />
                     ) : (
                       <Heart className="w-4 h-4" />
                     )}

@@ -39,7 +39,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex flex-col">
-      <header className="bg-white/80 backdrop-blur-sm border-b border-slate-200 sticky top-0 z-50 transition-all duration-300">
+      <header className="bg-background/80 backdrop-blur-sm border-b border-border sticky top-0 z-50 transition-all duration-300">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <Link 
@@ -67,7 +67,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               {!!user && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" className="p-1 hover:bg-gray-100">
+                    <Button variant="ghost" size="sm" className="p-1">
                       <Avatar className="w-8 h-8">
                         <AvatarImage 
                           src={profile?.photo_url || ""} 
@@ -82,7 +82,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                       </Avatar>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56 bg-white border border-gray-200 shadow-lg">
+                  <DropdownMenuContent align="end" className="w-56">
                     <DropdownMenuItem asChild>
                       <Link to="/profile" className="flex items-center space-x-2 cursor-pointer">
                         <User className="w-4 h-4" />
@@ -140,7 +140,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <NewAd />
       <ProfitableRateAd />
       
-      <footer className="bg-slate-900 text-white py-12 transition-all duration-300">
+      <footer className="bg-foreground text-background py-12 transition-all duration-300">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="transition-all duration-200 hover:translate-y-[-2px]">
@@ -150,13 +150,13 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 </div>
                 <span className="text-xl font-bold">AiToUse</span>
               </div>
-              <p className="text-slate-400">
+              <p className="text-muted-foreground">
                 Discover and master AI tools for every aspect of your life.
               </p>
             </div>
             <div>
               <h5 className="font-semibold mb-4">Categories</h5>
-              <ul className="space-y-2 text-slate-400">
+              <ul className="space-y-2 text-muted-foreground">
                 <li><Link to="/school" className="hover:text-white transition-all duration-200 hover:translate-x-1">School & Education</Link></li>
                 <li><Link to="/business" className="hover:text-white transition-all duration-200 hover:translate-x-1">Business & Work</Link></li>
                 <li><Link to="/content" className="hover:text-white transition-all duration-200 hover:translate-x-1">Content Creation</Link></li>
@@ -165,7 +165,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             </div>
             <div>
               <h5 className="font-semibold mb-4">Features</h5>
-              <ul className="space-y-2 text-slate-400">
+              <ul className="space-y-2 text-muted-foreground">
                 <li><Link to="/tools" className="hover:text-white transition-all duration-200 hover:translate-x-1">AI Tools</Link></li>
                 <li><Link to="/favorites" className="hover:text-white transition-all duration-200 hover:translate-x-1">Favorites</Link></li>
                 <li><Link to="/prompts" className="hover:text-white transition-all duration-200 hover:translate-x-1">Prompt Packs</Link></li>
@@ -174,7 +174,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             </div>
             <div>
               <h5 className="font-semibold mb-4">Support</h5>
-              <ul className="space-y-2 text-slate-400">
+              <ul className="space-y-2 text-muted-foreground">
                 <li><Link to="/help" className="hover:text-white transition-all duration-200 hover:translate-x-1">Help Center</Link></li>
                 <li><Link to="/contact" className="hover:text-white transition-all duration-200 hover:translate-x-1">Contact Us</Link></li>
                 <li><Link to="/about" className="hover:text-white transition-all duration-200 hover:translate-x-1">About</Link></li>
@@ -182,7 +182,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               </ul>
             </div>
           </div>
-          <div className="border-t border-slate-800 mt-12 pt-8 text-center text-slate-400">
+          <div className="border-t border-border mt-12 pt-8 text-center text-muted-foreground">
             <p>&copy; 2024 AiToUse. All rights reserved.</p>
           </div>
         </div>

@@ -132,7 +132,7 @@ const Pricing: React.FC = () => {
 
       <div className="mt-10">
         <Link to="/">
-          <Button variant="ghost" className="text-blue-600 underline">← Back to Home</Button>
+          <Button variant="ghost" className="text-accent underline">← Back to Home</Button>
         </Link>
       </div>
     </div>
