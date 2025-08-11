@@ -46,10 +46,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               to="/" 
               className="flex items-center space-x-2 transition-all duration-200 hover:scale-105 active:scale-95"
             >
-              <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-blue-600 rounded-lg flex items-center justify-center transition-all duration-200 hover:shadow-lg">
+              <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center transition-all duration-200 hover:shadow-lg">
                 <Sparkles className="w-5 h-5 text-white" />
               </div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                 AiToUse
               </h1>
             </Link>
@@ -73,7 +73,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                           src={profile?.photo_url || ""} 
                           alt={profile?.name || user?.email || "Profile"} 
                         />
-                        <AvatarFallback className="bg-gradient-to-br from-purple-500 to-blue-600 text-white text-sm">
+                        <AvatarFallback className="bg-gradient-to-br from-primary to-secondary text-white text-sm">
                           {profile?.name 
                             ? profile.name.charAt(0).toUpperCase()
                             : user?.email?.charAt(0).toUpperCase() || "U"
@@ -145,7 +145,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="transition-all duration-200 hover:translate-y-[-2px]">
               <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-blue-600 rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-lg flex items-center justify-center">
                   <Sparkles className="w-5 h-5 text-white" />
                 </div>
                 <span className="text-xl font-bold">AiToUse</span>
