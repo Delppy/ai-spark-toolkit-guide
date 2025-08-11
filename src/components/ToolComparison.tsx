@@ -99,10 +99,10 @@ export const ToolComparison: React.FC<ToolComparisonProps> = ({
                 <TableCell className="font-medium">Rating</TableCell>
                 {selectedTools.map(tool => (
                   <TableCell key={tool.id} className="text-center">
-                    <div className="flex items-center justify-center space-x-1">
-                      <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                      <span>{tool.rating}</span>
-                    </div>
+                  <div className="flex items-center justify-center space-x-1">
+                    <Star className="w-4 h-4 fill-accent text-accent" />
+                    <span>{tool.rating}</span>
+                  </div>
                   </TableCell>
                 ))}
               </TableRow>
@@ -150,9 +150,9 @@ export const ToolComparison: React.FC<ToolComparisonProps> = ({
                   {selectedTools.map(tool => (
                     <TableCell key={tool.id} className="text-center">
                       {tool.features.includes(feature) ? (
-                        <Check className="w-5 h-5 text-green-500 mx-auto" />
+                        <Check className="w-5 h-5 text-secondary mx-auto" />
                       ) : (
-                        <X className="w-5 h-5 text-red-500 mx-auto" />
+                        <X className="w-5 h-5 text-destructive mx-auto" />
                       )}
                     </TableCell>
                   ))}
@@ -180,10 +180,10 @@ export const ToolComparison: React.FC<ToolComparisonProps> = ({
       {/* Comparison Floating Bar */}
       {selectedTools.length > 0 && (
         <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50">
-          <Card className="p-4 shadow-lg border-2 border-purple-500">
+          <Card className="p-4 shadow-lg border-2 border-primary">
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
-                <Scale className="w-5 h-5 text-purple-600" />
+                <Scale className="w-5 h-5 text-primary" />
                 <span className="font-medium">
                   {selectedTools.length} tool{selectedTools.length !== 1 ? 's' : ''} selected
                 </span>
@@ -199,7 +199,7 @@ export const ToolComparison: React.FC<ToolComparisonProps> = ({
                     <span>{tool.name}</span>
                     <button
                       onClick={() => removeFromComparison(tool.id)}
-                      className="ml-1 hover:text-red-500"
+                      className="ml-1 hover:text-destructive"
                     >
                       <X className="w-3 h-3" />
                     </button>

@@ -20,9 +20,9 @@ const Dashboard = () => {
       <Layout>
         <div className="container mx-auto px-4 py-12">
           <div className="text-center">
-            <Activity className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-slate-800 mb-4">Sign in to view your dashboard</h2>
-            <p className="text-slate-600 mb-6">Track your AI tool usage and discover new tools tailored to your needs.</p>
+            <Activity className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+            <h2 className="text-2xl font-bold text-primary mb-4">Sign in to view your dashboard</h2>
+            <p className="text-muted-foreground mb-6">Track your AI tool usage and discover new tools tailored to your needs.</p>
             <Link to="/login">
               <Button>Sign In</Button>
             </Link>
@@ -37,8 +37,8 @@ const Dashboard = () => {
       <Layout>
         <div className="container mx-auto px-4 py-8">
           <div className="flex items-center justify-center min-h-[400px]">
-            <div className="animate-spin w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full"></div>
-            <span className="ml-3 text-slate-600">Loading your dashboard...</span>
+            <div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full"></div>
+            <span className="ml-3 text-muted-foreground">Loading your dashboard...</span>
           </div>
         </div>
       </Layout>
@@ -49,8 +49,8 @@ const Dashboard = () => {
     <Layout>
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">Your AI Dashboard</h1>
-          <p className="text-slate-600">Track your AI tool usage and discover insights</p>
+          <h1 className="text-3xl font-bold text-primary mb-2">Your AI Dashboard</h1>
+          <p className="text-muted-foreground">Track your AI tool usage and discover insights</p>
         </div>
 
         <div className="space-y-8">

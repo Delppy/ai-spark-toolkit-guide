@@ -53,7 +53,7 @@ const Contact = () => {
 
   return (
     <Layout>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 p-4">
+      <div className="min-h-screen bg-gradient-to-br from-muted to-secondary/10 p-4">
         <div className="max-w-2xl mx-auto">
           {/* Header */}
           <div className="flex items-center mb-6">
@@ -62,7 +62,7 @@ const Contact = () => {
                 <ArrowLeft className="w-4 h-4" />
               </Link>
             </AnimatedButton>
-            <h1 className="text-2xl font-bold text-slate-900">Contact Us</h1>
+            <h1 className="text-2xl font-bold text-primary">Contact Us</h1>
           </div>
 
           {/* Contact Options */}
@@ -74,12 +74,12 @@ const Contact = () => {
               {/* Email */}
               <button
                 onClick={handleEmailClick}
-                className="w-full flex items-center p-4 bg-slate-50 rounded-lg border border-slate-200 hover:bg-slate-100 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+                className="w-full flex items-center p-4 bg-muted rounded-lg border border-border hover:bg-muted/80 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
               >
-                <Mail className="w-5 h-5 mr-3 text-blue-500" />
+                <Mail className="w-5 h-5 mr-3 text-accent" />
                 <div className="text-left">
-                  <div className="font-medium text-slate-900">📧 Email Us</div>
-                  <div className="text-sm text-slate-600">support@aitouse.app</div>
+                  <div className="font-medium text-foreground">📧 Email Us</div>
+                  <div className="text-sm text-muted-foreground">support@aitouse.app</div>
                 </div>
               </button>
             </CardContent>

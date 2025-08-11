@@ -109,7 +109,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
       <Star
         key={i}
         className={`w-4 h-4 ${
-          i < rating ? 'text-yellow-400 fill-current' : 'text-gray-300'
+          i < rating ? 'text-accent fill-current' : 'text-muted-foreground'
         }`}
       />
     ));
@@ -171,7 +171,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
               disabled={isVoting || user?.id === review.user_id}
               className={`h-8 px-2 ${
                 userVote?.is_helpful === true 
-                  ? 'bg-green-100 text-green-700 hover:bg-green-100' 
+                  ? 'bg-secondary/20 text-secondary hover:bg-secondary/20' 
                   : ''
               }`}
             >
@@ -185,7 +185,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
               disabled={isVoting || user?.id === review.user_id}
               className={`h-8 px-2 ${
                 userVote?.is_helpful === false 
-                  ? 'bg-red-100 text-red-700 hover:bg-red-100' 
+                  ? 'bg-destructive/20 text-destructive hover:bg-destructive/20' 
                   : ''
               }`}
             >

@@ -97,9 +97,9 @@ const Favorites = () => {
       <Layout>
         <div className="container mx-auto px-4 py-12">
           <div className="text-center">
-            <Heart className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-slate-800 mb-4">Sign in to view favorites</h2>
-            <p className="text-slate-600 mb-6">Create an account to save and organize your favorite AI tools.</p>
+            <Heart className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+            <h2 className="text-2xl font-bold text-primary mb-4">Sign in to view favorites</h2>
+            <p className="text-muted-foreground mb-6">Create an account to save and organize your favorite AI tools.</p>
             <Link to="/login">
               <Button>Sign In</Button>
             </Link>
@@ -114,8 +114,8 @@ const Favorites = () => {
       <Layout>
         <div className="container mx-auto px-4 py-12">
           <div className="text-center">
-            <div className="animate-spin w-8 h-8 border-2 border-purple-500 border-t-transparent rounded-full mx-auto"></div>
-            <p className="mt-4 text-slate-600">Loading your favorites...</p>
+            <div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full mx-auto"></div>
+            <p className="mt-4 text-muted-foreground">Loading your favorites...</p>
           </div>
         </div>
       </Layout>
@@ -126,19 +126,19 @@ const Favorites = () => {
     <Layout>
       <div className="container mx-auto px-4 py-12">
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-slate-900 via-purple-900 to-blue-900 bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
             Your Favorite Tools
           </h2>
-          <p className="text-xl text-slate-600 mt-4 max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground mt-4 max-w-2xl mx-auto">
             Quick access to the AI tools you've saved for later.
           </p>
         </div>
 
         {favoriteTools.length === 0 ? (
           <div className="text-center py-12">
-            <Heart className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-slate-600 mb-2">No favorites yet</h3>
-            <p className="text-slate-500 mb-6">Start exploring and save tools you love!</p>
+            <Heart className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-primary mb-2">No favorites yet</h3>
+            <p className="text-muted-foreground mb-6">Start exploring and save tools you love!</p>
             <Link to="/tools">
               <Button>
                 <Star className="w-4 h-4 mr-2" />
@@ -149,7 +149,7 @@ const Favorites = () => {
         ) : (
           <>
             <div className="mb-6">
-              <p className="text-slate-600">
+              <p className="text-muted-foreground">
                 You have {favoriteTools.length} favorite tool{favoriteTools.length !== 1 ? 's' : ''}
               </p>
             </div>

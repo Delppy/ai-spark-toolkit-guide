@@ -12,11 +12,11 @@ export const TrendingToolsSection: React.FC = () => {
     return (
       <section className="container mx-auto px-4 py-12">
         <div className="text-center mb-12">
-          <h3 className="text-3xl font-bold mb-4 text-slate-900 flex items-center justify-center">
-            <TrendingUp className="w-8 h-8 mr-3 text-orange-500" />
+          <h3 className="text-3xl font-bold mb-4 text-primary flex items-center justify-center">
+            <TrendingUp className="w-8 h-8 mr-3 text-accent" />
             Trending AI Tools This Week
           </h3>
-          <p className="text-slate-600 max-w-2xl mx-auto">
+          <p className="text-muted-foreground max-w-2xl mx-auto">
             Based on real-time Google search trends and user activity
           </p>
         </div>
@@ -36,8 +36,8 @@ export const TrendingToolsSection: React.FC = () => {
       <section className="container mx-auto px-4 py-12">
         <div className="text-center">
           <AlertCircle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-slate-900 mb-2">Unable to Load Trending Tools</h3>
-          <p className="text-slate-600">{error}</p>
+          <h3 className="text-xl font-semibold text-primary mb-2">Unable to Load Trending Tools</h3>
+          <p className="text-muted-foreground">{error}</p>
         </div>
       </section>
     );
@@ -46,11 +46,11 @@ export const TrendingToolsSection: React.FC = () => {
   return (
     <section className="container mx-auto px-4 py-12">
       <div className="text-center mb-12">
-        <h3 className="text-3xl font-bold mb-4 text-slate-900 flex items-center justify-center">
-          <TrendingUp className="w-8 h-8 mr-3 text-orange-500" />
+        <h3 className="text-3xl font-bold mb-4 text-primary flex items-center justify-center">
+          <TrendingUp className="w-8 h-8 mr-3 text-accent" />
           Trending AI Tools This Week
         </h3>
-        <p className="text-slate-600 max-w-2xl mx-auto">
+        <p className="text-muted-foreground max-w-2xl mx-auto">
           Based on real-time Google search trends and user activity. Updated weekly.
         </p>
       </div>
@@ -65,7 +65,7 @@ export const TrendingToolsSection: React.FC = () => {
         ))}
       </div>
       <div className="text-center mt-8">
-        <p className="text-sm text-slate-500">
+        <p className="text-sm text-muted-foreground">
           🔥 Trends update every Monday • Last updated: {new Date().toLocaleDateString()}
         </p>
       </div>

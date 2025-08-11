@@ -27,14 +27,14 @@ const About = () => {
               {/* Header */}
               <div className="text-center space-y-4">
                 <div className="flex justify-center items-center space-x-3">
-                  <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-blue-600 rounded-xl flex items-center justify-center">
+                  <div className="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center">
                     <Sparkles className="w-8 h-8 text-white" />
                   </div>
                   <div>
-                    <h1 className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+                    <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                       About AiToUse
                     </h1>
-                    <p className="text-lg text-slate-600">Your shortcut to AI mastery</p>
+                    <p className="text-lg text-muted-foreground">Your shortcut to AI mastery</p>
                   </div>
                 </div>
               </div>
@@ -44,11 +44,11 @@ const About = () => {
               {/* What is AiToUse */}
               <div className="space-y-4">
                 <div className="flex items-center space-x-2">
-                  <Sparkles className="w-6 h-6 text-purple-500" />
-                  <h2 className="text-2xl font-bold text-slate-800">What is AiToUse?</h2>
+                  <Sparkles className="w-6 h-6 text-primary" />
+                  <h2 className="text-2xl font-bold text-primary">What is AiToUse?</h2>
                 </div>
-                <div className="bg-gradient-to-r from-purple-50 to-blue-50 p-6 rounded-lg">
-                  <p className="text-slate-700 leading-relaxed">
+                <div className="bg-gradient-to-r from-muted to-muted/50 p-6 rounded-lg">
+                  <p className="text-foreground leading-relaxed">
                     AiToUse is your shortcut to getting value from AI fast.
                     Whether you're a student, content creator, freelancer, or professional, 
                     AiToUse gives you ready-made, actionable AI prompts that help you do more, 

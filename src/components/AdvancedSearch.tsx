@@ -104,7 +104,7 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
             type: 'trending',
             value: trending,
             label: trending,
-            icon: <TrendingUp className="w-4 h-4 text-orange-500" />
+            icon: <TrendingUp className="w-4 h-4 text-accent" />
           });
         }
       });
@@ -143,7 +143,7 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
   return (
     <div ref={searchRef} className="relative w-full max-w-2xl mx-auto">
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
         <Input
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -153,12 +153,12 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
             }
           }}
           placeholder={placeholder}
-          className="pl-10 pr-12 py-4 text-lg border-2 border-slate-200 focus:border-purple-500 rounded-xl"
+          className="pl-10 pr-12 py-4 text-lg border-2 border-input focus:border-primary rounded-xl"
         />
         {searchTerm && (
           <button
             onClick={clearSearch}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-600"
+            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
           >
             <X className="w-5 h-5" />
           </button>
@@ -167,18 +167,18 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
 
       {/* Search Suggestions Dropdown */}
       {showSuggestions && (suggestions.length > 0 || recentSearches.length > 0) && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white border border-slate-200 rounded-xl shadow-lg z-50 max-h-96 overflow-y-auto">
+        <div className="absolute top-full left-0 right-0 mt-2 bg-background border border-border rounded-xl shadow-lg z-50 max-h-96 overflow-y-auto">
           {suggestions.length > 0 && (
             <div className="p-2">
-              <div className="text-xs font-semibold text-slate-500 px-2 py-1 mb-1">Suggestions</div>
+              <div className="text-xs font-semibold text-muted-foreground px-2 py-1 mb-1">Suggestions</div>
               {suggestions.map((suggestion, index) => (
                 <button
                   key={index}
                   onClick={() => handleSuggestionClick(suggestion)}
-                  className="w-full flex items-center space-x-3 px-3 py-2 hover:bg-slate-50 rounded-lg text-left"
+                  className="w-full flex items-center space-x-3 px-3 py-2 hover:bg-muted rounded-lg text-left"
                 >
-                  {suggestion.icon || <Search className="w-4 h-4 text-slate-400" />}
-                  <span className="text-slate-700">{suggestion.label}</span>
+                  {suggestion.icon || <Search className="w-4 h-4 text-muted-foreground" />}
+                  <span className="text-foreground">{suggestion.label}</span>
                   <Badge variant="outline" className="ml-auto text-xs">
                     {suggestion.type}
                   </Badge>
@@ -188,16 +188,16 @@ export const AdvancedSearch: React.FC<AdvancedSearchProps> = ({
           )}
 
           {recentSearches.length > 0 && searchTerm.length === 0 && (
-            <div className="p-2 border-t border-slate-100">
-              <div className="text-xs font-semibold text-slate-500 px-2 py-1 mb-1">Recent Searches</div>
+            <div className="p-2 border-t border-border">
+              <div className="text-xs font-semibold text-muted-foreground px-2 py-1 mb-1">Recent Searches</div>
               {recentSearches.map((recent, index) => (
                 <button
                   key={index}
                   onClick={() => handleSearch(recent)}
-                  className="w-full flex items-center space-x-3 px-3 py-2 hover:bg-slate-50 rounded-lg text-left"
+                  className="w-full flex items-center space-x-3 px-3 py-2 hover:bg-muted rounded-lg text-left"
                 >
-                  <Clock className="w-4 h-4 text-slate-400" />
-                  <span className="text-slate-700">{recent}</span>
+                  <Clock className="w-4 h-4 text-muted-foreground" />
+                  <span className="text-foreground">{recent}</span>
                 </button>
               ))}
             </div>

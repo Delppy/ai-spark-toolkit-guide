@@ -74,15 +74,15 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
           <CardHeader>
             <div className="flex items-start justify-between">
               <div>
-                <CardTitle className="text-lg group-hover:text-purple-600 transition-colors">
+                <CardTitle className="text-lg group-hover:text-primary transition-colors">
                   <Link 
                     to={`/prompts/${pack.id}`}
-                    className="hover:text-purple-600 transition-colors"
+                    className="hover:text-primary transition-colors"
                   >
                     {pack.title}
                   </Link>
                   {pack.isPro && (
-                    <Badge className="ml-2 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs">
+                    <Badge variant="premium" className="ml-2 text-xs">
                       Pro
                     </Badge>
                   )}
@@ -91,9 +91,9 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
                   <Badge variant="secondary" className="text-xs">
                     {pack.category}
                   </Badge>
-                  <span className="text-sm text-slate-500">{pack.examples?.length || pack.prompts || 0} prompts</span>
+                  <span className="text-sm text-muted-foreground">{pack.examples?.length || pack.prompts || 0} prompts</span>
                   {!isPro && hasLimitedAccess && (
-                    <Badge className="bg-green-100 text-green-800 text-xs">
+                    <Badge variant="secondary" className="text-xs">
                       <Zap className="w-3 h-3 mr-1" />
                       {credits} credits
                     </Badge>
@@ -110,12 +110,12 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
             <div className="space-y-3">
               {examplesList.length > 0 ? (
                 <>
-                  <p className="text-sm font-medium text-slate-700">Example prompts:</p>
+                  <p className="text-sm font-medium text-foreground">Example prompts:</p>
                   
                   {/* Show visible prompts */}
                   {visiblePrompts.map((example, idx) => (
-                    <div key={idx} className="bg-slate-50 p-3 rounded-lg border">
-                      <p className="text-sm text-slate-700 mb-2">{example}</p>
+                    <div key={idx} className="bg-muted p-3 rounded-lg border">
+                      <p className="text-sm text-foreground mb-2">{example}</p>
                       <Tooltip>
                         <TooltipTrigger asChild>
                           <Button
@@ -158,7 +158,7 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
                   )}
                 </>
               ) : (
-                <p className="text-sm text-slate-500 italic">Examples coming soon...</p>
+                <p className="text-sm text-muted-foreground italic">Examples coming soon...</p>
               )}
             </div>
 
