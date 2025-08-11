@@ -107,7 +107,7 @@ const Index = () => {
       title: "School & Education",
       icon: BookOpen,
       description: "AI tools for students and learners",
-      color: "bg-gradient-to-br from-blue-500 to-purple-600",
+      color: "bg-gradient-to-br from-primary to-secondary",
       tools: ["ChatGPT for Essays", "Quillbot Summarizer", "Grammarly AI"],
       route: "/school"
     },
@@ -116,7 +116,7 @@ const Index = () => {
       title: "Business & Work",
       icon: Briefcase,
       description: "Professional AI tools for productivity",
-      color: "bg-gradient-to-br from-green-500 to-emerald-600",
+      color: "bg-gradient-to-br from-secondary to-accent",
       tools: ["Jasper AI", "Copy.ai", "Notion AI"],
       route: "/business"
     },
@@ -125,7 +125,7 @@ const Index = () => {
       title: "Content Creation",
       icon: Camera,
       description: "AI for social media and content",
-      color: "bg-gradient-to-br from-pink-500 to-rose-600",
+      color: "bg-gradient-to-br from-accent to-primary",
       tools: ["Canva AI", "Midjourney", "Runway ML"],
       route: "/content"
     },
@@ -134,7 +134,7 @@ const Index = () => {
       title: "Career & Jobs",
       icon: UserCheck,
       description: "AI tools for job search and CV writing",
-      color: "bg-gradient-to-br from-orange-500 to-amber-600",
+      color: "bg-gradient-to-br from-primary to-accent",
       tools: ["Resume.io", "LinkedIn AI", "InterviewBuddy"],
       route: "/career"
     },
@@ -143,7 +143,7 @@ const Index = () => {
       title: "PDF Tools",
       icon: FileText,
       description: "AI-powered PDF editing and analysis",
-      color: "bg-gradient-to-br from-red-500 to-pink-600",
+      color: "bg-gradient-to-br from-secondary to-primary",
       tools: ["ChatPDF", "TinyWOW", "DocuSign"],
       route: "/pdf"
     }
@@ -164,13 +164,13 @@ const Index = () => {
       {showResults && (
         <section className="container mx-auto px-4 pb-12">
           <div className="max-w-6xl mx-auto">
-            <h3 className="text-2xl font-bold mb-6 text-slate-900">
+            <h3 className="text-2xl font-bold mb-6 text-primary">
               Search Results ({filteredAndSortedTools.length} found)
             </h3>
             {filteredAndSortedTools.length === 0 ? (
               <div className="text-center py-12">
-                <h4 className="text-xl font-semibold text-slate-600 mb-2">No tools found</h4>
-                <p className="text-slate-500">Try adjusting your search terms</p>
+                <h4 className="text-xl font-semibold text-primary mb-2">No tools found</h4>
+                <p className="text-muted-foreground">Try adjusting your search terms</p>
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -200,15 +200,15 @@ const Index = () => {
       {!showResults && (
         <section className="container mx-auto px-4 py-12 text-center">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-slate-900 via-purple-900 to-blue-900 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
               Discover AI Tools for
-              <span className="block text-purple-600">Everything You Do</span>
+              <span className="block text-accent">Everything You Do</span>
             </h2>
-            <p className="text-xl text-slate-600 mb-8 leading-relaxed">
+            <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
               From school projects to business tasks, find the perfect AI tools and prompts to boost your productivity.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-              <Button asChild size="lg" className="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 text-lg px-8 py-6">
+              <Button asChild size="lg" className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-lg px-8 py-6">
                 <Link to="/tools">Explore AI Tools</Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6 border-2">
@@ -222,7 +222,7 @@ const Index = () => {
       {/* Categories Grid - Only show when not searching */}
       {!showResults && (
         <section className="container mx-auto px-4 py-12">
-          <h3 className="text-3xl font-bold text-center mb-12 text-slate-900">
+          <h3 className="text-3xl font-bold text-center mb-12 text-primary">
             Find AI Tools by Category
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
@@ -239,11 +239,11 @@ const Index = () => {
                     </div>
                     <CardContent className="p-6">
                       <div className="space-y-2">
-                        <p className="text-sm text-slate-600 mb-3">Popular tools:</p>
+                        <p className="text-sm text-muted-foreground mb-3">Popular tools:</p>
                         {category.tools.slice(0, 2).map((tool, index) => (
                           <div key={index} className="flex items-center justify-between">
-                            <span className="text-sm text-slate-700">{tool}</span>
-                            <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-purple-500 transition-colors" />
+                            <span className="text-sm text-foreground">{tool}</span>
+                            <ChevronRight className="w-4 h-4 text-muted-foreground group-hover:text-accent transition-colors" />
                           </div>
                         ))}
                       </div>
@@ -260,19 +260,19 @@ const Index = () => {
       {!showResults && (
         <section className="container mx-auto px-4 py-12">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center p-2 bg-gradient-to-r from-purple-100 to-blue-100 rounded-full mb-4">
-              <Sparkles className="w-6 h-6 text-purple-600" />
+            <div className="inline-flex items-center justify-center p-2 bg-gradient-to-r from-primary/10 to-secondary/10 rounded-full mb-4">
+              <Sparkles className="w-6 h-6 text-primary" />
             </div>
-            <h3 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+            <h3 className="text-3xl md:text-4xl font-bold text-primary mb-4">
               Professional AI Prompt Packs
             </h3>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto mb-6">
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
               Access curated collections of high-converting prompts designed by experts to boost your productivity.
             </p>
             {!isPro && (
-              <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-green-50 to-emerald-50 px-4 py-2 rounded-full border border-green-200">
-                <Zap className="w-4 h-4 text-green-600" />
-                <span className="text-sm font-medium text-green-800">Try 3 prompts free • Upgrade for unlimited access</span>
+              <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-secondary/10 to-accent/10 px-4 py-2 rounded-full border border-secondary/20">
+                <Zap className="w-4 h-4 text-secondary" />
+                <span className="text-sm font-medium text-secondary">Try 3 prompts free • Upgrade for unlimited access</span>
               </div>
             )}
           </div>
@@ -283,7 +283,7 @@ const Index = () => {
               <Button 
                 asChild
                 size="lg" 
-                className="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 text-lg px-8 py-6"
+                className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-lg px-8 py-6"
               >
                 <Link to="/prompts">
                   <Crown className="w-5 h-5 mr-2" />
@@ -306,7 +306,7 @@ const Index = () => {
 
       {/* CTA Section - Only show if user is not signed in and not searching */}
       {!session && !showResults && (
-        <section className="bg-gradient-to-r from-purple-600 to-blue-600 text-white py-16">
+        <section className="bg-gradient-to-r from-primary to-secondary text-white py-16">
           <div className="container mx-auto px-4 text-center">
             <h3 className="text-3xl md:text-4xl font-bold mb-6">
               Ready to Supercharge Your Work with AI?
@@ -315,7 +315,7 @@ const Index = () => {
               Join thousands of users who are already using AI to boost their productivity and creativity.
             </p>
             <div className="flex justify-center">
-              <Button asChild size="lg" variant="secondary" className="bg-white text-purple-600 hover:bg-gray-100 text-lg px-8 py-6">
+              <Button asChild size="lg" variant="secondary" className="bg-white text-primary hover:bg-muted text-lg px-8 py-6">
                 <Link to="/signup">Get Started Free</Link>
               </Button>
             </div>
