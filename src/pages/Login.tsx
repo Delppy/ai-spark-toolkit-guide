@@ -131,7 +131,7 @@ const Login = () => {
 
   return (
     <Layout>
-      <div className="flex items-center justify-center w-full min-h-[80vh] py-12 bg-gradient-to-br from-slate-50 to-blue-50">
+      <div className="flex items-center justify-center w-full min-h-[80vh] py-12 bg-gradient-to-br from-background to-secondary/10">
         <Card className="mx-auto w-full max-w-md animate-fade-in">
           <CardHeader>
             <CardTitle className="text-2xl md:text-3xl text-center font-bold">Login to AiToUse</CardTitle>
@@ -143,7 +143,7 @@ const Login = () => {
                   Email
                 </label>
                 <div className="flex items-center gap-2">
-                  <Mail className="w-5 h-5 text-slate-400" aria-hidden="true" />
+                  <Mail className="w-5 h-5 text-muted-foreground" aria-hidden="true" />
                   <Input
                     id="email"
                     type="email"
@@ -167,7 +167,7 @@ const Login = () => {
                   Password
                 </label>
                 <div className="flex items-center gap-2">
-                  <Lock className="w-5 h-5 text-slate-400" aria-hidden="true" />
+                  <Lock className="w-5 h-5 text-muted-foreground" aria-hidden="true" />
                   <Input
                     id="password"
                     type="password"
@@ -189,14 +189,14 @@ const Login = () => {
               
               {/* General error display */}
               {error && !error.toLowerCase().includes("email") && !error.toLowerCase().includes("password") && (
-                <div className="text-sm text-red-600 mt-1 p-2 bg-red-50 rounded" role="alert">
+                <div className="text-sm text-destructive mt-1 p-2 bg-destructive/10 rounded" role="alert">
                   {error}
                 </div>
               )}
               
               <Button
                 type="submit"
-                className="w-full bg-gradient-to-r from-purple-500 to-blue-600 text-lg focus-visible:ring-2 focus-visible:ring-blue-500"
+                className="w-full bg-gradient-to-r from-primary to-secondary text-lg focus-visible:ring-2 focus-visible:ring-primary"
                 disabled={loading}
               >
                 {loading ? "Logging in..." : "Login"}
@@ -212,11 +212,11 @@ const Login = () => {
               </Link>
             </div>
             
-            <div className="mt-6 text-center text-sm text-slate-500">
+            <div className="mt-6 text-center text-sm text-muted-foreground">
               Don't have an account?{" "}
               <Link
                 to="/signup"
-                className="text-purple-600 font-semibold hover:underline inline-flex items-center gap-1 focus-visible:outline focus-visible:ring-2 focus-visible:ring-purple-500"
+                className="text-primary font-semibold hover:underline inline-flex items-center gap-1 focus-visible:outline focus-visible:ring-2 focus-visible:ring-primary"
               >
                 <UserPlus className="w-4 h-4" /> Sign up
               </Link>
