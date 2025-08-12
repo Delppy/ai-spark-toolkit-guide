@@ -28,22 +28,34 @@ const Prompts = () => {
   const businessPromptPacks = dataManager.getCategoryData('business').promptPacks;
   const careerPromptPacks = dataManager.getCategoryData('career').promptPacks;
   
-  // Filter categories
+  // Filter categories with access level filtering
   const categories = [
     { id: 'all', name: 'All Categories', icon: Grid, count: schoolPromptPacks.length + contentPromptPacks.length + businessPromptPacks.length + careerPromptPacks.length },
     { id: 'school', name: 'School & Education', icon: BookOpen, count: schoolPromptPacks.length, packs: schoolPromptPacks },
     { id: 'content', name: 'Content Creation', icon: Video, count: contentPromptPacks.length, packs: contentPromptPacks },
     { id: 'business', name: 'Business & Work', icon: Briefcase, count: businessPromptPacks.length, packs: businessPromptPacks },
-    { id: 'career', name: 'Career & Jobs', icon: User, count: careerPromptPacks.length, packs: careerPromptPacks }
+    { id: 'career', name: 'Career & Jobs', icon: User, count: careerPromptPacks.length, packs: careerPromptPacks },
+    { id: 'free', name: 'Free Packs', icon: BookOpen, count: [...schoolPromptPacks, ...contentPromptPacks, ...businessPromptPacks, ...careerPromptPacks].filter(pack => !pack.isPro).length },
+    { id: 'premium', name: 'Premium Only', icon: Crown, count: [...schoolPromptPacks, ...contentPromptPacks, ...businessPromptPacks, ...careerPromptPacks].filter(pack => pack.isPro).length }
   ];
   
-  // Get filtered prompt packs based on selected category
+  // Get filtered prompt packs based on selected category with precise filtering
   const getFilteredPromptPacks = () => {
+    let allPacks = [...schoolPromptPacks, ...contentPromptPacks, ...businessPromptPacks, ...careerPromptPacks];
+    
     if (selectedCategory === 'all') {
-      return [...schoolPromptPacks, ...contentPromptPacks, ...businessPromptPacks, ...careerPromptPacks];
+      return allPacks;
+    } else if (selectedCategory === 'free') {
+      // Show only packs that are completely free (isPro: false)
+      return allPacks.filter(pack => !pack.isPro);
+    } else if (selectedCategory === 'premium') {
+      // Show only premium packs (isPro: true)
+      return allPacks.filter(pack => pack.isPro);
+    } else {
+      // Show packs from specific category
+      const category = categories.find(cat => cat.id === selectedCategory);
+      return category?.packs || [];
     }
-    const category = categories.find(cat => cat.id === selectedCategory);
-    return category?.packs || [];
   };
   
   const filteredPromptPacks = getFilteredPromptPacks();

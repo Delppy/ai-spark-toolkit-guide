@@ -48,9 +48,18 @@ export const useToolFiltering = (tools: AITool[]) => {
         return false;
       }
 
-      // Free offering filter
-      if (filters.freeOfferings.length > 0 && !filters.freeOfferings.includes(tool.freeOffering)) {
-        return false;
+      // Free offering filter - precise filtering
+      if (filters.freeOfferings.length > 0) {
+        const hasMatchingFilter = filters.freeOfferings.some(filter => {
+          switch (filter) {
+            case 'Completely Free': return tool.freeOffering === 'free';
+            case 'Free with Limits': return tool.freeOffering === 'freemium';
+            case 'Free Trial': return tool.freeOffering === 'free_trial';
+            case 'Free Credits': return tool.freeOffering === 'free_credits';
+            default: return false;
+          }
+        });
+        if (!hasMatchingFilter) return false;
       }
 
       // Rating filter
@@ -120,7 +129,8 @@ export const useToolFiltering = (tools: AITool[]) => {
   };
 
   const getUniqueFreeOfferings = () => {
-    return Array.from(new Set(tools.map(tool => tool.freeOffering))).sort();
+    // Return user-friendly labels instead of raw data values
+    return ['Completely Free', 'Free with Limits', 'Free Trial', 'Free Credits'];
   };
 
   return {
