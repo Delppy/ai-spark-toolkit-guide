@@ -59,10 +59,10 @@ const Prompts = () => {
       <Layout>
         <div className="container mx-auto px-4 py-12">
           <div className="text-center mb-12">
-            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-slate-900 via-purple-900 to-blue-900 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-foreground via-primary to-primary/80 bg-clip-text text-transparent">
               Premium Prompt Packs
             </h2>
-            <p className="text-xl text-slate-600 mt-4 max-w-2xl mx-auto">
+            <p className="text-xl text-muted-foreground mt-4 max-w-2xl mx-auto">
               Unlock professional AI prompt collections with your Premium subscription.
             </p>
           </div>
@@ -146,11 +146,11 @@ const Prompts = () => {
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Crown className="w-8 h-8 text-amber-500" />
-            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-slate-900 via-purple-900 to-blue-900 bg-clip-text text-transparent">
+            <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-foreground via-primary to-primary/80 bg-clip-text text-transparent">
               Premium Prompt Packs
             </h2>
           </div>
-          <p className="text-xl text-slate-600 mt-4 max-w-2xl mx-auto">
+          <p className="text-xl text-muted-foreground mt-4 max-w-2xl mx-auto">
             Access 200+ expertly crafted AI prompts organized by category to supercharge your productivity.
           </p>
           {!isPro && (
@@ -163,10 +163,10 @@ const Prompts = () => {
         </div>
 
         {/* Filter Section */}
-        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 mb-8">
+        <div className="bg-card rounded-xl border shadow-sm p-6 mb-8">
           <div className="flex items-center gap-2 mb-4">
-            <Filter className="w-5 h-5 text-gray-600" />
-            <h3 className="text-lg font-semibold text-gray-900">Filter by Category</h3>
+            <Filter className="w-5 h-5 text-muted-foreground" />
+            <h3 className="text-lg font-semibold text-foreground">Filter by Category</h3>
           </div>
           <div className="flex flex-wrap gap-3">
             {categories.map((category) => {
@@ -179,8 +179,8 @@ const Prompts = () => {
                   onClick={() => setSelectedCategory(category.id)}
                   className={`flex items-center gap-2 h-auto py-3 px-4 rounded-lg transition-all duration-200 ${
                     isSelected 
-                      ? "bg-gradient-to-r from-purple-500 to-blue-600 text-white shadow-md hover:from-purple-600 hover:to-blue-700" 
-                      : "border-gray-200 text-gray-700 hover:border-purple-300 hover:text-purple-700 hover:bg-purple-50"
+                      ? "bg-primary text-primary-foreground shadow-md hover:bg-primary/90" 
+                      : "border-border text-foreground hover:border-primary/50 hover:text-primary hover:bg-primary/5"
                   }`}
                 >
                   <IconComponent className="w-4 h-4" />
@@ -189,8 +189,8 @@ const Prompts = () => {
                     variant={isSelected ? "secondary" : "outline"}
                     className={`ml-1 ${
                       isSelected 
-                        ? "bg-white/20 text-white border-white/30" 
-                        : "bg-gray-100 text-gray-600 border-gray-300"
+                        ? "bg-primary-foreground/20 text-primary-foreground border-primary-foreground/30" 
+                        : "bg-muted text-muted-foreground border-border"
                     }`}
                   >
                     {category.count}
@@ -203,13 +203,13 @@ const Prompts = () => {
 
         {/* Prompt Packs Grid */}
         <div className="mb-4">
-          <h3 className="text-2xl font-bold text-slate-900 mb-2">
+          <h3 className="text-2xl font-bold text-foreground mb-2">
             {selectedCategory === 'all' 
               ? 'All Prompt Packs' 
               : categories.find(cat => cat.id === selectedCategory)?.name
             }
           </h3>
-          <p className="text-slate-600">
+          <p className="text-muted-foreground">
             {filteredPromptPacks.length} prompt pack{filteredPromptPacks.length !== 1 ? 's' : ''} available
           </p>
         </div>
