@@ -8,11 +8,11 @@ import {
   pdfAITools
 } from './aiTools';
 import {
-  expandedSchoolAITools,
-  expandedContentAITools,
-  expandedBusinessAITools,
-  expandedCareerAITools
-} from './expandedAIToolsCollection';
+  uniqueSchoolAITools,
+  uniqueContentAITools,
+  uniqueBusinessAITools,
+  uniqueCareerAITools
+} from './uniqueAIToolsCollection';
 import {
   enhancedSchoolPromptPacks,
   contentPromptPacks, 
@@ -34,19 +34,19 @@ export class DataManager {
   private constructor() {
     this.data = {
       school: {
-        aiTools: [...schoolAITools, ...expandedSchoolAITools],
+        aiTools: uniqueSchoolAITools,
         promptPacks: enhancedSchoolPromptPacks
       },
       content: {
-        aiTools: [...contentAITools, ...expandedContentAITools],
+        aiTools: uniqueContentAITools,
         promptPacks: contentPromptPacks
       },
       business: {
-        aiTools: [...businessAITools, ...expandedBusinessAITools],
+        aiTools: uniqueBusinessAITools,
         promptPacks: businessPromptPacks
       },
       career: {
-        aiTools: [...careerAITools, ...expandedCareerAITools],
+        aiTools: uniqueCareerAITools,
         promptPacks: careerPromptPacks
       },
       pdf: {
