@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Copy, Sparkles, Wand2 } from 'lucide-react';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 
 interface PromptRefineryForm {
   user_thought: string;
@@ -26,16 +26,18 @@ interface PromptRefineryForm {
   tools_or_context?: string;
 }
 
-interface RefinedPrompt {
-  title: string;
-  prompt: string;
-  notes?: string;
-}
-
-interface PromptRefineryResult {
-  assumptions: string;
-  primary_prompt: RefinedPrompt;
-  alternate_prompts: RefinedPrompt[];
+// Define the structure of the JSON returned by Lovable
+export interface AiToUsePromptResponse {
+  assumptions: string; // 1–3 bullet points of assumptions made
+  primary_prompt: {
+    title: string;   // short descriptive title
+    prompt: string;  // the refined, copy-ready prompt
+    notes?: string;  // optional execution notes (max 3 bullets)
+  };
+  alternate_prompts: {
+    title: string;   // short title for alternate angle
+    prompt: string;  // concise alternate prompt
+  }[];
 }
 
 const categoryDefaults = {
@@ -68,7 +70,7 @@ export default function PromptRefinery() {
     category: '',
     language: 'English'
   });
-  const [result, setResult] = useState<PromptRefineryResult | null>(null);
+  const [result, setResult] = useState<AiToUsePromptResponse | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
   const handleInputChange = (field: keyof PromptRefineryForm, value: string) => {
@@ -141,7 +143,7 @@ export default function PromptRefinery() {
     return assumptions.join('\n') || '• No assumptions needed - all key details provided.';
   };
 
-  const generatePrimaryPrompt = (data: PromptRefineryForm): RefinedPrompt => {
+  const generatePrimaryPrompt = (data: PromptRefineryForm): AiToUsePromptResponse['primary_prompt'] => {
     const defaults = categoryDefaults[data.category as keyof typeof categoryDefaults];
     const tone = data.tone || defaults?.tone || 'professional';
     const audience = data.audience || defaults?.audience || 'general audience';
@@ -216,7 +218,7 @@ ${context}`;
     };
   };
 
-  const generateAlternatePrompts = (data: PromptRefineryForm): RefinedPrompt[] => {
+  const generateAlternatePrompts = (data: PromptRefineryForm): AiToUsePromptResponse['alternate_prompts'] => {
     const baseThought = data.user_thought;
     
     return [
