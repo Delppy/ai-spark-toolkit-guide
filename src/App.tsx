@@ -35,6 +35,7 @@ const ToolsWithFilters = lazy(() => import('@/pages/ToolsWithFilters'));
 const Favorites = lazy(() => import('@/pages/Favorites'));
 const Prompts = lazy(() => import('@/pages/Prompts'));
 const PromptPack = lazy(() => import('@/pages/PromptPack'));
+const PromptRefinery = lazy(() => import('@/pages/PromptRefinery'));
 
 import { UserPreferencesProvider } from "@/contexts/UserPreferencesContext";
 import { TransitionProvider } from "@/contexts/TransitionContext";
@@ -82,6 +83,7 @@ function App() {
                     <Route path="/favorites" element={<Favorites />} />
                     <Route path="/prompts" element={<Prompts />} />
                     <Route path="/prompts/:packId" element={<PromptPack />} />
+                    <Route path="/prompt-refinery" element={<PromptRefinery />} />
                     
                     {/* Category Routes */}
                     <Route path="/school" element={<School />} />
