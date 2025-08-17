@@ -10,6 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Copy, Sparkles, Wand2 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { AiToUsePromptResponse } from '@/types/promptRefinery';
 
 interface PromptRefineryForm {
   user_thought: string;
@@ -24,20 +25,6 @@ interface PromptRefineryForm {
   output_format?: string;
   brand_voice?: string;
   tools_or_context?: string;
-}
-
-// Define the structure of the JSON returned by Lovable
-export interface AiToUsePromptResponse {
-  assumptions: string; // 1–3 bullet points of assumptions made
-  primary_prompt: {
-    title: string;   // short descriptive title
-    prompt: string;  // the refined, copy-ready prompt
-    notes?: string;  // optional execution notes (max 3 bullets)
-  };
-  alternate_prompts: {
-    title: string;   // short title for alternate angle
-    prompt: string;  // concise alternate prompt
-  }[];
 }
 
 const categoryDefaults = {
