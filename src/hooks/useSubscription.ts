@@ -53,6 +53,7 @@ export const useSubscription = (userIdOrEmail?: string): SubscriptionStatus => {
   const trialUsed = !!subscriber?.trial_used;
   const trialStart = subscriber?.trial_start ?? null;
   const trialExpiration = subscriber?.trial_expiration ?? null;
+  const expiresAt = subscriber?.expires_at ?? null;
 
   let trialActive = false;
   if (trialStart && trialExpiration && !trialUsed) {
@@ -66,7 +67,22 @@ export const useSubscription = (userIdOrEmail?: string): SubscriptionStatus => {
     }
   }
 
-  const isPro = proEnabled || trialActive;
+  // Check if subscription has expired
+  let subscriptionActive = false;
+  if (proEnabled && expiresAt) {
+    const now = new Date();
+    try {
+      const expiry = new Date(expiresAt);
+      subscriptionActive = now <= expiry;
+    } catch (e) {
+      /* ignore invalid date */
+    }
+  } else if (proEnabled && !expiresAt) {
+    // If pro_enabled is true but no expiry date, consider it active (lifetime subscription)
+    subscriptionActive = true;
+  }
+
+  const isPro = subscriptionActive || trialActive;
 
   const refresh = async () => {
     await queryClient.invalidateQueries({ queryKey: ['subscription', userIdOrEmail] });
