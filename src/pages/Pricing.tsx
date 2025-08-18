@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -13,17 +13,28 @@ import PlanCard from "@/components/pricing/PlanCard";
 import { 
   proFeatures, 
   freeFeatures, 
-  MONTHLY_PRICE, 
-  YEARLY_PRICE, 
+  getUserRegion,
+  getPricingForRegion,
   YEARLY_DISCOUNT_PERCENT 
 } from "@/data/pricing";
 
 const Pricing: React.FC = () => {
   const [billing, setBilling] = useState<"monthly" | "yearly">("monthly");
   const [loading, setLoading] = useState<boolean>(false);
+  const [regionData, setRegionData] = useState<{ country: string; isAfrica: boolean } | null>(null);
+  const [pricing, setPricing] = useState<{ currency: string; monthly: number; yearly: number; symbol: string } | null>(null);
   const { user } = useUserPreferences();
   const navigate = useNavigate();
   const location = useLocation();
+
+  useEffect(() => {
+    const detectRegion = async () => {
+      const region = await getUserRegion();
+      setRegionData(region);
+      setPricing(getPricingForRegion(region.isAfrica));
+    };
+    detectRegion();
+  }, []);
 
   const handleUpgrade = async () => {
     if (!user || !user.email) {
@@ -33,9 +44,14 @@ const Pricing: React.FC = () => {
       return;
     }
 
+    if (!pricing) {
+      toast.error("Pricing information not loaded. Please try again.");
+      return;
+    }
+
     setLoading(true);
 
-    const price = billing === "monthly" ? MONTHLY_PRICE : YEARLY_PRICE;
+    const price = billing === "monthly" ? pricing.monthly : pricing.yearly;
     const callback_url = `${window.location.origin}/payment/verify`;
 
     try {
@@ -45,7 +61,7 @@ const Pricing: React.FC = () => {
           amount: price,
           plan: billing,
           callback_url: callback_url,
-          currency: 'GHS'
+          currency: pricing.currency
         },
       });
 
@@ -67,32 +83,43 @@ const Pricing: React.FC = () => {
     }
   };
 
-  const proPriceDisplay = billing === "monthly"
-    ? (
-      <>
-        <span className="text-4xl font-extrabold">GHS {MONTHLY_PRICE.toFixed(2)}</span>
-        <span className="text-base font-normal text-muted-foreground">/month</span>
-      </>
-    ) : (
-      <>
-        <span className="text-4xl font-extrabold">GHS {YEARLY_PRICE.toFixed(2)}</span>
-        <span className="text-base font-normal text-muted-foreground">/year</span>
-        <div className="text-sm text-muted-foreground mt-1">
-          <span className="line-through">GHS {(MONTHLY_PRICE * 12).toFixed(2)}</span>
-          <span className="ml-2 text-accent font-semibold">
-            Save GHS {((MONTHLY_PRICE * 12) - YEARLY_PRICE).toFixed(2)}
-          </span>
-        </div>
-      </>
-    );
+  const proPriceDisplay = !pricing ? (
+    <span className="text-2xl">Loading...</span>
+  ) : billing === "monthly" ? (
+    <>
+      <span className="text-4xl font-extrabold">{pricing.symbol}{pricing.monthly.toFixed(2)}</span>
+      <span className="text-base font-normal text-muted-foreground">/month</span>
+    </>
+  ) : (
+    <>
+      <span className="text-4xl font-extrabold">{pricing.symbol}{pricing.yearly.toFixed(2)}</span>
+      <span className="text-base font-normal text-muted-foreground">/year</span>
+      <div className="text-sm text-muted-foreground mt-1">
+        <span className="line-through">{pricing.symbol}{(pricing.monthly * 12).toFixed(2)}</span>
+        <span className="ml-2 text-accent font-semibold">
+          Save {pricing.symbol}{((pricing.monthly * 12) - pricing.yearly).toFixed(2)}
+        </span>
+      </div>
+    </>
+  );
     
-  const freePriceDisplay = (
-    <p className="text-3xl font-bold">GHS 0<span className="text-base font-normal text-muted-foreground">/month</span></p>
+  const freePriceDisplay = !pricing ? (
+    <span className="text-2xl">Loading...</span>
+  ) : (
+    <p className="text-3xl font-bold">{pricing.symbol}0<span className="text-base font-normal text-muted-foreground">/month</span></p>
   );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-secondary/20 flex flex-col items-center justify-start py-10 px-2">
       <PricingHeader />
+      
+      {regionData && (
+        <div className="text-center mb-4">
+          <p className="text-sm text-muted-foreground">
+            Detected location: {regionData.country} | Currency: {pricing?.currency}
+          </p>
+        </div>
+      )}
       
       <BillingToggle 
         billing={billing} 
@@ -115,7 +142,7 @@ const Pricing: React.FC = () => {
           features={proFeatures}
           isPopular={true}
           onUpgrade={handleUpgrade}
-          loading={loading}
+          loading={loading || !pricing}
           yearlyDiscountPercent={YEARLY_DISCOUNT_PERCENT}
         />
       </div>
