@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import Layout from "@/components/Layout";
 import { PromptPackCard } from "@/components/PromptPackCard";
+import { PromptRefinerySection } from "@/components/PromptRefinerySection";
 import { NewAd } from "@/components/ads/NewAd";
 import { ProfitableRateAd } from "@/components/ads/ProfitableRateAd";
 import { dataManager } from "@/data/dataManager";
@@ -211,6 +212,11 @@ const Prompts = () => {
               );
             })}
           </div>
+        </div>
+
+        {/* AI Prompt Refinery Section */}
+        <div className="mb-8">
+          <PromptRefinerySection />
         </div>
 
         {/* Prompt Packs Grid */}
