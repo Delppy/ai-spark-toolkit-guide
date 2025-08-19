@@ -17,6 +17,7 @@ import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 import { Badge } from "@/components/ui/badge";
 import { NewAd } from "@/components/ads/NewAd";
 import { ProfitableRateAd } from "@/components/ads/ProfitableRateAd";
+import { SubscriptionRefreshButton } from "@/components/SubscriptionRefreshButton";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import React from "react";
@@ -26,7 +27,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const { user, profile } = useUserPreferences();
   // Force reactivity on user?.id
   const subscriptionStatus = useSubscription(user?.id);
-  console.log("[Layout] user:", user, "profile:", profile, "isPro:", subscriptionStatus.isPro);
+  console.log("[Layout] user:", user, "profile:", profile, "isPro:", subscriptionStatus.isPro, "userIdForSub:", user?.id);
 
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
@@ -109,7 +110,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               
               {/* Premium Badge - Show for all logged in users */}
               {user && (
-                <div className="ml-2">
+                <div className="ml-2 flex items-center gap-2">
                   {subscriptionStatus.isPro ? (
                     <Badge variant="premium" className="flex items-center gap-1.5 py-1.5 px-3">
                       <Star className="w-4 h-4" />
@@ -123,6 +124,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                       </Badge>
                     </Link>
                   )}
+                  <SubscriptionRefreshButton />
                 </div>
               )}
             </div>

@@ -1,7 +1,20 @@
 import { AITool } from './aiTools';
 
-// SCHOOL & EDUCATION - 70 Unique AI Tools
+// SCHOOL & EDUCATION - 71 Unique AI Tools
 export const uniqueSchoolAITools: AITool[] = [
+  {
+    id: "agt-compasai",
+    name: "CompasAI",
+    category: "School & Education",
+    description: "AI-powered educational compass for personalized learning paths and academic guidance.",
+    rating: 4.5,
+    users: "25K+",
+    isPro: false,
+    url: "https://agt.compasai.com",
+    features: ["Learning Paths", "Academic Guidance", "Personalized AI Tutoring"],
+    freeOffering: "freemium",
+    freeDetails: "Free basic features with premium advanced learning analytics"
+  },
   {
     id: "askbcs",
     name: "AskBCS",
