@@ -12,10 +12,13 @@ import { Search, Filter } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
+import { useToolAnalytics } from "@/hooks/useToolAnalytics";
+import { HighlightsSection } from "@/components/HighlightsSection";
 
 const Content = () => {
   const { user } = useUserPreferences();
   const allTools = dataManager.getAllAITools();
+  const { trackToolClick, getHighlightedTools, isLoading: analyticsLoading } = useToolAnalytics();
   
   const {
     filteredAndSortedTools,
@@ -115,6 +118,10 @@ const Content = () => {
   };
 
   const handleToolClick = (toolId: string, url: string) => {
+    const tool = allTools.find(t => t.id === toolId);
+    if (tool) {
+      trackToolClick(toolId, tool.category);
+    }
     console.log(`Navigating to ${url} for tool ${toolId}`);
     window.open(url, "_blank");
   };
@@ -125,6 +132,18 @@ const Content = () => {
     setSearchTerm(value);
     updateFilter({ searchTerm: value });
   };
+
+  // Get content creation related tools for highlights
+  const contentTools = allTools.filter(tool => 
+    tool.category.toLowerCase().includes('content') ||
+    tool.category.toLowerCase().includes('writing') ||
+    tool.category.toLowerCase().includes('video') ||
+    tool.category.toLowerCase().includes('design') ||
+    tool.category.toLowerCase().includes('art') ||
+    tool.category.toLowerCase().includes('creative')
+  );
+  
+  const highlightedTools = getHighlightedTools(contentTools, 3);
 
   return (
     <>
@@ -156,6 +175,15 @@ const Content = () => {
               />
             </div>
           </div>
+
+          {/* Highlights Section */}
+          <HighlightsSection
+            highlightedTools={highlightedTools}
+            isLoading={analyticsLoading}
+            onToolClick={handleToolClick}
+            onFavoriteClick={handleFavoriteClick}
+            isFavorite={isFavorite}
+          />
 
           <ToolFilters
             filters={filters}

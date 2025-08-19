@@ -12,10 +12,13 @@ import { Search, Filter } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
+import { useToolAnalytics } from "@/hooks/useToolAnalytics";
+import { HighlightsSection } from "@/components/HighlightsSection";
 
 const Career = () => {
   const { user } = useUserPreferences();
   const allTools = dataManager.getAllAITools();
+  const { trackToolClick, getHighlightedTools, isLoading: analyticsLoading } = useToolAnalytics();
   
   const {
     filteredAndSortedTools,
@@ -114,6 +117,10 @@ const Career = () => {
   };
 
   const handleToolClick = (toolId: string, url: string) => {
+    const tool = allTools.find(t => t.id === toolId);
+    if (tool) {
+      trackToolClick(toolId, tool.category);
+    }
     console.log(`Navigating to ${url} for tool ${toolId}`);
     window.open(url, "_blank");
   };
@@ -124,6 +131,17 @@ const Career = () => {
     setSearchTerm(value);
     updateFilter({ searchTerm: value });
   };
+
+  // Get career related tools for highlights
+  const careerTools = allTools.filter(tool => 
+    tool.category.toLowerCase().includes('career') ||
+    tool.category.toLowerCase().includes('job') ||
+    tool.category.toLowerCase().includes('resume') ||
+    tool.category.toLowerCase().includes('interview') ||
+    tool.category.toLowerCase().includes('professional')
+  );
+  
+  const highlightedTools = getHighlightedTools(careerTools, 3);
 
   return (
     <>
@@ -155,6 +173,15 @@ const Career = () => {
               />
             </div>
           </div>
+
+          {/* Highlights Section */}
+          <HighlightsSection
+            highlightedTools={highlightedTools}
+            isLoading={analyticsLoading}
+            onToolClick={handleToolClick}
+            onFavoriteClick={handleFavoriteClick}
+            isFavorite={isFavorite}
+          />
 
           <ToolFilters
             filters={filters}

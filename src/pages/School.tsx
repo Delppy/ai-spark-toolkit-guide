@@ -12,12 +12,15 @@ import { Search, Filter } from "lucide-react";
 import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
+import { useToolAnalytics } from "@/hooks/useToolAnalytics";
+import { HighlightsSection } from "@/components/HighlightsSection";
 
 import { useState, useEffect } from 'react';
 
 const School = () => {
   const { user } = useUserPreferences();
   const allTools = dataManager.getAllAITools();
+  const { trackToolClick, getHighlightedTools, isLoading: analyticsLoading } = useToolAnalytics();
   
   const {
     filteredAndSortedTools,
@@ -116,6 +119,10 @@ const School = () => {
   };
 
   const handleToolClick = (toolId: string, url: string) => {
+    const tool = allTools.find(t => t.id === toolId);
+    if (tool) {
+      trackToolClick(toolId, tool.category);
+    }
     console.log(`Navigating to ${url} for tool ${toolId}`);
     window.open(url, "_blank");
   };
@@ -126,6 +133,17 @@ const School = () => {
     setSearchTerm(value);
     updateFilter({ searchTerm: value });
   };
+
+  // Get school/education related tools for highlights
+  const schoolTools = allTools.filter(tool => 
+    tool.category.toLowerCase().includes('education') || 
+    tool.category.toLowerCase().includes('essay') ||
+    tool.category.toLowerCase().includes('research') ||
+    tool.category.toLowerCase().includes('learning') ||
+    tool.category.toLowerCase().includes('school')
+  );
+  
+  const highlightedTools = getHighlightedTools(schoolTools, 3);
 
   return (
     <>
@@ -158,6 +176,15 @@ const School = () => {
               />
             </div>
           </div>
+
+          {/* Highlights Section */}
+          <HighlightsSection
+            highlightedTools={highlightedTools}
+            isLoading={analyticsLoading}
+            onToolClick={handleToolClick}
+            onFavoriteClick={handleFavoriteClick}
+            isFavorite={isFavorite}
+          />
 
           {/* Filters */}
           <ToolFilters
