@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 
 export const SubscriptionRefreshButton: React.FC = () => {
   const { user } = useUserPreferences();
-  const { refresh, loading } = useSubscription(user?.id);
+  const { refresh, checkStatus, loading } = useSubscription(user?.id);
   const [isRefreshing, setIsRefreshing] = React.useState(false);
 
   const handleRefresh = async () => {
@@ -16,18 +16,16 @@ export const SubscriptionRefreshButton: React.FC = () => {
     
     setIsRefreshing(true);
     try {
-      // Call the refresh-subscription edge function
-      const { data, error } = await supabase.functions.invoke('refresh-subscription');
-      
-      if (error) throw error;
+      // Check server-side subscription status
+      const status = await checkStatus();
       
       // Refresh the local subscription state
       await refresh();
       
-      if (data.pro_enabled) {
-        toast.success('🎉 Pro subscription activated! You now have access to all premium features.');
+      if (status?.premium_badge) {
+        toast.success('🎉 Premium subscription activated! You now have access to all premium features.');
       } else {
-        toast.info('No active subscription found. Please complete your payment to activate Pro features.');
+        toast.info('No active subscription found. Please complete your payment to activate Premium features.');
       }
     } catch (error) {
       toast.error('Failed to refresh subscription status');

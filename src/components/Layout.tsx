@@ -27,7 +27,12 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
   const { user, profile } = useUserPreferences();
   // Force reactivity on user?.id
   const subscriptionStatus = useSubscription(user?.id);
-  console.log("[Layout] user:", user, "profile:", profile, "isPro:", subscriptionStatus.isPro, "userIdForSub:", user?.id);
+  console.log("[Layout] user:", user, "profile:", profile, "subscription:", {
+    isPro: subscriptionStatus.isPro,
+    premiumBadge: subscriptionStatus.premiumBadge,
+    showRemoveAds: subscriptionStatus.showRemoveAds,
+    status: subscriptionStatus.subscriptionStatus
+  });
 
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
@@ -111,7 +116,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               {/* Premium Badge - Show for all logged in users */}
               {user && (
                 <div className="ml-2 flex items-center gap-2">
-                  {subscriptionStatus.isPro ? (
+                  {subscriptionStatus.premiumBadge ? (
                     <Badge variant="premium" className="flex items-center gap-1.5 py-1.5 px-3">
                       <Star className="w-4 h-4" />
                       Premium
@@ -132,7 +137,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         </div>
       </header>
       
-      <main className={`flex-grow ${!subscriptionStatus.isPro ? 'pb-4' : ''}`}>
+      <main className={`flex-grow ${subscriptionStatus.showRemoveAds ? 'pb-4' : ''}`}>
         <PageTransition>
           {children}
         </PageTransition>

@@ -14,6 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
+      billing_reminders: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          reminder_type: string
+          scheduled_at: string
+          sent_at: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          reminder_type: string
+          scheduled_at: string
+          sent_at?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          reminder_type?: string
+          scheduled_at?: string
+          sent_at?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       favorites: {
         Row: {
           created_at: string
@@ -210,9 +240,15 @@ export type Database = {
           email: string
           expires_at: string | null
           id: string
+          last_payment_ref: string | null
           plan: string | null
+          premium_badge: boolean | null
           pro_enabled: boolean
+          provider_customer_id: string | null
           started_at: string
+          subscription_ends_at: string | null
+          subscription_started_at: string | null
+          subscription_status: string | null
           subscription_tier: string | null
           trial_expiration: string | null
           trial_start: string | null
@@ -224,9 +260,15 @@ export type Database = {
           email: string
           expires_at?: string | null
           id?: string
+          last_payment_ref?: string | null
           plan?: string | null
+          premium_badge?: boolean | null
           pro_enabled?: boolean
+          provider_customer_id?: string | null
           started_at?: string
+          subscription_ends_at?: string | null
+          subscription_started_at?: string | null
+          subscription_status?: string | null
           subscription_tier?: string | null
           trial_expiration?: string | null
           trial_start?: string | null
@@ -238,9 +280,15 @@ export type Database = {
           email?: string
           expires_at?: string | null
           id?: string
+          last_payment_ref?: string | null
           plan?: string | null
+          premium_badge?: boolean | null
           pro_enabled?: boolean
+          provider_customer_id?: string | null
           started_at?: string
+          subscription_ends_at?: string | null
+          subscription_started_at?: string | null
+          subscription_status?: string | null
           subscription_tier?: string | null
           trial_expiration?: string | null
           trial_start?: string | null
@@ -310,6 +358,39 @@ export type Database = {
           updated_at?: string
           upgraded_at?: string | null
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      webhook_events: {
+        Row: {
+          created_at: string
+          event_type: string
+          id: string
+          processed: boolean | null
+          processed_at: string | null
+          provider: string
+          provider_event_id: string
+          raw_payload: Json
+        }
+        Insert: {
+          created_at?: string
+          event_type: string
+          id?: string
+          processed?: boolean | null
+          processed_at?: string | null
+          provider: string
+          provider_event_id: string
+          raw_payload: Json
+        }
+        Update: {
+          created_at?: string
+          event_type?: string
+          id?: string
+          processed?: boolean | null
+          processed_at?: string | null
+          provider?: string
+          provider_event_id?: string
+          raw_payload?: Json
         }
         Relationships: []
       }
