@@ -4,6 +4,9 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2.45.0";
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0",
+  "Pragma": "no-cache", 
+  "Expires": "0"
 };
 
 interface WebhookPayload {
@@ -39,7 +42,7 @@ serve(async (req) => {
     );
 
     const payload: WebhookPayload = await req.json();
-    const eventId = `${payload.event}_${payload.data.reference}_${Date.now()}`;
+    const eventId = payload.data.reference || `${payload.event}_${payload.data.customer?.email}_${payload.data.amount}`;
     
     logStep("Processing event", { eventType: payload.event, eventId });
 

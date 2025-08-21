@@ -104,6 +104,14 @@ export const useSubscription = (userIdOrEmail?: string): SubscriptionStatus => {
   };
 
   React.useEffect(() => {
+    // Sync subscription status on app launch and route changes
+    if (userIdOrEmail) {
+      // Force refresh on mount to ensure fresh data
+      refresh();
+    }
+  }, [userIdOrEmail, refresh]);
+
+  React.useEffect(() => {
     console.log("[useSubscription] State:", {
       userIdOrEmail,
       isPro,

@@ -6,6 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { SubscriptionRefreshButton } from "@/components/SubscriptionRefreshButton";
+import { useSubscription } from "@/hooks/useSubscription";
 
 import PricingHeader from "@/components/pricing/PricingHeader";
 import BillingToggle from "@/components/pricing/BillingToggle";
@@ -26,6 +27,7 @@ const Pricing: React.FC = () => {
   const { user } = useUserPreferences();
   const navigate = useNavigate();
   const location = useLocation();
+  const { checkStatus, isPro, subscriptionStatus } = useSubscription(user?.id);
 
   useEffect(() => {
     const detectRegion = async () => {
@@ -42,6 +44,17 @@ const Pricing: React.FC = () => {
       toast.error("Please sign in to upgrade.");
       navigate("/login");
       return;
+    }
+
+    // Pre-payment guard: Check if already premium
+    try {
+      const status = await checkStatus();
+      if (status?.subscription_status === 'active' || status?.subscription_status === 'lifetime') {
+        toast.info("You're already Premium—no payment needed.");
+        return;
+      }
+    } catch (error) {
+      console.error('Failed to check subscription status:', error);
     }
 
     if (!pricing) {
@@ -70,7 +83,9 @@ const Pricing: React.FC = () => {
       }
       
       if (data && data.authorization_url) {
-        window.location.href = data.authorization_url;
+        // Redirect to payment with success callback
+        const redirectUrl = `${data.authorization_url}&callback_url=${encodeURIComponent(`${window.location.origin}/payment/verify?upgraded=true`)}`;
+        window.location.href = redirectUrl;
       } else {
         toast.error("Could not initiate payment. Please try again.");
         setLoading(false);
