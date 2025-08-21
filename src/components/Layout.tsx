@@ -18,6 +18,7 @@ import { Badge } from "@/components/ui/badge";
 import { NewAd } from "@/components/ads/NewAd";
 import { ProfitableRateAd } from "@/components/ads/ProfitableRateAd";
 import { SubscriptionRefreshButton } from "@/components/SubscriptionRefreshButton";
+import { RemoveAdsButton } from '@/components/ads/RemoveAdsButton';
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import React from "react";
@@ -147,6 +148,20 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       <NewAd />
       <ProfitableRateAd />
       
+      {/* Sticky "Remove Ads" Banner - Only show based on server status */}
+      {subscriptionStatus.showRemoveAds && (
+        <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-purple-600 to-blue-600 text-white p-3 shadow-lg z-50">
+          <div className="container mx-auto flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <span className="text-sm font-medium">
+                Get Premium to remove ads and unlock all features
+              </span>
+            </div>
+            <RemoveAdsButton />
+          </div>
+        </div>
+      )}
+
       <footer className="bg-foreground text-background py-12 transition-all duration-300">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">

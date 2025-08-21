@@ -399,7 +399,19 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      process_billing_webhook: {
+        Args: {
+          p_amount?: number
+          p_customer_email: string
+          p_customer_id?: string
+          p_event_id?: string
+          p_event_type: string
+          p_payment_ref?: string
+          p_plan_code?: string
+          p_status?: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never

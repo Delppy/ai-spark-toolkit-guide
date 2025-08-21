@@ -34,3 +34,33 @@ inspector_port = 8083
 [storage]
 enabled = true
 file_size_limit = "50MiB"
+
+[functions.billing-webhook]
+verify_jwt = false
+
+[functions.subscription-status]
+verify_jwt = true
+
+[functions.billing-reconciliation]
+verify_jwt = false
+
+[functions.billing-cron]
+verify_jwt = false
+
+[functions.paystack-initialize]
+verify_jwt = true
+
+[functions.paystack-verify]
+verify_jwt = true
+
+[functions.paystack-cancel-subscription]
+verify_jwt = true
+
+[functions.refresh-subscription]
+verify_jwt = true
+
+[functions.send-password-reset]  
+verify_jwt = false
+
+[functions.send-welcome-email]
+verify_jwt = false
