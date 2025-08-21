@@ -84,7 +84,7 @@ export const useSubscription = (userIdOrEmail?: string): SubscriptionStatus => {
   // Determine UI state based on server-driven status
   const isPro = premiumBadge && (subscriptionStatus === 'active' || subscriptionStatus === 'lifetime');
   const canUpgrade = !isPro && subscriptionStatus !== 'active' && subscriptionStatus !== 'lifetime';
-  const showRemoveAds = !isPro; // Only show remove ads if not premium
+  const showRemoveAds = !(subscriptionStatus === 'active' || subscriptionStatus === 'lifetime'); // Hide CTA when active or lifetime regardless of badge
 
   const refresh = async () => {
     await queryClient.invalidateQueries({ queryKey: ['subscription', userIdOrEmail] });
