@@ -19,6 +19,7 @@ const PaymentVerify: React.FC = () => {
   useEffect(() => {
     const verifyPayment = async () => {
       const reference = searchParams.get('reference');
+      const provider = searchParams.get('provider') || 'paystack';
       const upgraded = searchParams.get('upgraded');
       
       if (!reference) {
@@ -49,14 +50,13 @@ const PaymentVerify: React.FC = () => {
             
             // Redirect to account with upgraded flag
             setTimeout(() => {
-              navigate('/dashboard?upgraded=true');
+              navigate('/account?upgraded=true');
             }, 3000);
           } else {
             setSuccess(true);
             setMessage('Payment processed. Premium activation in progress...');
-            
             setTimeout(() => {
-              navigate('/dashboard');
+              navigate('/account');
             }, 3000);
           }
         } else {
@@ -101,11 +101,11 @@ const PaymentVerify: React.FC = () => {
         {!verifying && (
           <div className="space-y-3">
             <Button 
-              onClick={() => navigate('/dashboard')} 
+              onClick={() => navigate('/account')} 
               className="w-full"
               variant={success ? "default" : "outline"}
             >
-              Go to Dashboard
+              Go to Account
             </Button>
             
             {success === false && (

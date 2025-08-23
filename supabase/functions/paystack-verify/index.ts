@@ -58,12 +58,25 @@ Deno.serve(async (req) => {
         Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
       );
 
-      const expires_at = new Date();
+      // Determine subscription details
+      const now = new Date();
+      let ends_at: Date | null = new Date(now);
+      let subscription_status = 'active';
+      let subscription_tier = 'monthly';
       if (plan === 'yearly') {
-        expires_at.setFullYear(expires_at.getFullYear() + 1);
+        ends_at!.setFullYear(ends_at!.getFullYear() + 1);
+        subscription_tier = 'annual';
+      } else if (plan === 'lifetime') {
+        subscription_status = 'lifetime';
+        subscription_tier = 'lifetime';
+        ends_at = null;
       } else {
-        expires_at.setMonth(expires_at.getMonth() + 1);
+        ends_at!.setMonth(ends_at!.getMonth() + 1);
+        subscription_tier = 'monthly';
       }
+
+      const last_payment_ref = verificationData.reference;
+      const provider_customer_id = verificationData.customer?.customer_code || null;
 
       const { error: dbError } = await supabaseAdmin
         .from('subscribers')
@@ -73,7 +86,14 @@ Deno.serve(async (req) => {
             email: email,
             plan: plan,
             pro_enabled: true,
-            expires_at: expires_at.toISOString(),
+            premium_badge: true,
+            subscription_status: subscription_status,
+            subscription_tier: subscription_tier,
+            subscription_started_at: now.toISOString(),
+            subscription_ends_at: ends_at ? ends_at.toISOString() : null,
+            expires_at: ends_at ? ends_at.toISOString() : null,
+            last_payment_ref: last_payment_ref,
+            provider_customer_id: provider_customer_id,
             updated_at: new Date().toISOString(),
           },
           { onConflict: 'user_id' }

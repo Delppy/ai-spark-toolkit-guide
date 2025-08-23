@@ -30,6 +30,7 @@ Deno.serve(async (req) => {
     }
 
     const { amount, email, plan, callback_url, currency } = await req.json()
+    const reference = crypto.randomUUID()
 
     if (!amount || !email || !plan || !currency) {
       return new Response(JSON.stringify({ error: 'Missing required fields: amount, email, plan, currency' }), {
@@ -57,10 +58,11 @@ Deno.serve(async (req) => {
         email,
         amount: amount * 100, // Paystack expects amount in kobo/pesewas
         currency,
-        callback_url: callback_url,
+        callback_url,
+        reference,
         metadata: {
           user_id: user.id,
-          plan: plan,
+          plan,
         },
       }),
     })

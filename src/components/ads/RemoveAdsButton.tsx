@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { PaymentGuard } from '@/components/billing/PaymentGuard';
 import { useNavigate } from 'react-router-dom';
 import { useUserPreferences } from '@/contexts/UserPreferencesContext';
@@ -9,15 +10,15 @@ import { useSubscription } from '@/hooks/useSubscription';
 export const RemoveAdsButton: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useUserPreferences();
-  const { showRemoveAds, loading } = useSubscription(user?.id);
+  const { showRemoveAds, loading, isPro } = useSubscription(user?.id);
 
   const handleUpgrade = () => {
     navigate('/pricing');
   };
 
-  // Hide the CTA entirely when the server reports active or lifetime
-  if (user && !showRemoveAds) {
-    return null;
+  // Show Premium badge when subscription is active
+  if (user && (isPro || !showRemoveAds)) {
+    return <Badge variant="secondary">Premium Active</Badge>;
   }
 
   return (
