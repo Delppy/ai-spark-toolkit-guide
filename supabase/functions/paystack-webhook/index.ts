@@ -72,6 +72,46 @@ Deno.serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     )
 
+    // Idempotency: store and check processed events
+    const provider_event_id = String(event.data?.id ?? event.data?.reference ?? crypto.randomUUID())
+    const event_type = String(event.event ?? 'unknown')
+
+    const { data: existingEvent, error: checkErr } = await supabaseAdmin
+      .from('webhook_events')
+      .select('id, processed')
+      .eq('provider', 'paystack')
+      .eq('provider_event_id', provider_event_id)
+      .maybeSingle()
+
+    if (checkErr) {
+      console.error('Error checking webhook_events:', checkErr)
+    }
+
+    if (existingEvent?.processed) {
+      console.log('Webhook already processed, skipping:', provider_event_id)
+      return new Response(JSON.stringify({ received: true, idempotent: true }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 200,
+      })
+    }
+
+    // Insert event row if it does not exist yet
+    if (!existingEvent) {
+      const { error: insertErr } = await supabaseAdmin
+        .from('webhook_events')
+        .insert({
+          raw_payload: event,
+          processed: false,
+          provider: 'paystack',
+          event_type,
+          provider_event_id,
+        })
+
+      if (insertErr) {
+        console.error('Failed to insert webhook_events row:', insertErr)
+      }
+    }
+
     // Handle different event types
     switch (event.event) {
       case 'charge.success':
@@ -83,14 +123,22 @@ Deno.serve(async (req) => {
       case 'subscription.disable':
         await handleSubscriptionDisabled(supabaseAdmin, event.data)
         break
-      case 'invoice.create':
-        await handleInvoiceCreated(supabaseAdmin, event.data)
-        break
       case 'invoice.payment_failed':
         await handlePaymentFailed(supabaseAdmin, event.data)
         break
       default:
         console.log('Unhandled event type:', event.event)
+    }
+
+    // Mark event as processed
+    const { error: markErr } = await supabaseAdmin
+      .from('webhook_events')
+      .update({ processed: true, processed_at: new Date().toISOString() })
+      .eq('provider', 'paystack')
+      .eq('provider_event_id', provider_event_id)
+
+    if (markErr) {
+      console.error('Failed to mark webhook as processed:', markErr)
     }
 
     return new Response(JSON.stringify({ received: true }), {
@@ -111,63 +159,57 @@ async function handleSuccessfulPayment(supabase: any, data: any) {
   console.log('Processing successful payment:', data.reference)
   
   const { user_id, plan } = data.metadata || {}
-  const email = data.customer.email
+  const email = data.customer?.email
+  const provider_customer_id = data.customer?.customer_code || null
+  const last_payment_ref = data.reference
 
-  if (!user_id) {
-    console.error('No user_id in metadata')
+  if (!user_id || !email) {
+    console.error('Missing user_id or email in webhook payload')
     return
   }
 
-  const expires_at = new Date()
+  // Determine subscription fields
+  const now = new Date()
+  let ends_at: Date | null = new Date(now)
+  let subscription_status = 'active'
+  let subscription_tier = 'monthly'
+
   if (plan === 'yearly') {
-    expires_at.setFullYear(expires_at.getFullYear() + 1)
+    ends_at!.setFullYear(ends_at!.getFullYear() + 1)
+    subscription_tier = 'annual'
+  } else if (plan === 'lifetime') {
+    subscription_status = 'lifetime'
+    subscription_tier = 'lifetime'
+    ends_at = null
   } else {
-    expires_at.setMonth(expires_at.getMonth() + 1)
+    ends_at!.setMonth(ends_at!.getMonth() + 1)
+    subscription_tier = 'monthly'
   }
 
-  // First check if subscriber exists
-  const { data: existingSubscriber } = await supabase
-    .from('subscribers')
-    .select('id')
-    .eq('user_id', user_id)
-    .single()
+  const upsertPayload = {
+    user_id,
+    email,
+    plan: plan ?? 'monthly',
+    pro_enabled: true,
+    premium_badge: true,
+    subscription_status,
+    subscription_tier,
+    subscription_started_at: now.toISOString(),
+    subscription_ends_at: ends_at ? ends_at.toISOString() : null,
+    expires_at: ends_at ? ends_at.toISOString() : null,
+    last_payment_ref,
+    provider_customer_id,
+    updated_at: now.toISOString(),
+  }
 
-  if (existingSubscriber) {
-    // Update existing subscriber
-    const { error } = await supabase
-      .from('subscribers')
-      .update({
-        email: email,
-        plan: plan,
-        pro_enabled: true,
-        expires_at: expires_at.toISOString(),
-        updated_at: new Date().toISOString(),
-      })
-      .eq('user_id', user_id)
-    
-    if (error) {
-      console.error('Error updating subscriber record:', error)
-    } else {
-      console.log('Subscriber record updated successfully')
-    }
+  const { error } = await supabase
+    .from('subscribers')
+    .upsert(upsertPayload, { onConflict: 'user_id' })
+
+  if (error) {
+    console.error('Error upserting subscriber record from webhook:', error)
   } else {
-    // Insert new subscriber
-    const { error } = await supabase
-      .from('subscribers')
-      .insert({
-        user_id: user_id,
-        email: email,
-        plan: plan,
-        pro_enabled: true,
-        expires_at: expires_at.toISOString(),
-        updated_at: new Date().toISOString(),
-      })
-    
-    if (error) {
-      console.error('Error creating subscriber record:', error)
-    } else {
-      console.log('Subscriber record created successfully')
-    }
+    console.log('Subscriber upserted from webhook successfully')
   }
 }
 

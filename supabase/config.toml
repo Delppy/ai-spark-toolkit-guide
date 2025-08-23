@@ -64,3 +64,6 @@ verify_jwt = false
 
 [functions.send-welcome-email]
 verify_jwt = false
+
+[functions.me]
+verify_jwt = true
