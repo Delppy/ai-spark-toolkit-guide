@@ -83,9 +83,8 @@ const Pricing: React.FC = () => {
       }
       
       if (data && data.authorization_url) {
-        // Redirect to payment with success callback
-        const redirectUrl = `${data.authorization_url}&callback_url=${encodeURIComponent(`${window.location.origin}/payment/verify?upgraded=true`)}`;
-        window.location.href = redirectUrl;
+        // Redirect to the exact authorization URL returned by Paystack
+        window.location.href = data.authorization_url;
       } else {
         toast.error("Could not initiate payment. Please try again.");
         setLoading(false);
