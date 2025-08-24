@@ -65,7 +65,6 @@ const Pricing: React.FC = () => {
     setLoading(true);
 
     const price = billing === "monthly" ? pricing.monthly : pricing.yearly;
-    const callback_url = `${window.location.origin}/payment/verify?provider=paystack`;
 
     try {
       const { data, error } = await supabase.functions.invoke('paystack-initialize', {
@@ -73,8 +72,7 @@ const Pricing: React.FC = () => {
           email: user.email,
           amount: price,
           plan: billing,
-          callback_url: callback_url,
-          currency: pricing.currency
+          currency: pricing.currency.toUpperCase()
         },
       });
 

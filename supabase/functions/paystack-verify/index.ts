@@ -6,6 +6,7 @@ console.log('Paystack verify function starting up')
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Cache-Control': 'no-store',
 }
 
 Deno.serve(async (req) => {
@@ -14,7 +15,17 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { reference } = await req.json()
+    // Support both GET and POST
+    let reference: string | null = null;
+    
+    if (req.method === 'GET') {
+      const url = new URL(req.url);
+      reference = url.searchParams.get('reference');
+    } else {
+      const body = await req.json();
+      reference = body.reference;
+    }
+    
     if (!reference) {
       return new Response(JSON.stringify({ error: 'Missing reference' }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -22,9 +33,24 @@ Deno.serve(async (req) => {
       })
     }
     
-    const paystackSecretKey = Deno.env.get('PAYSTACK_SECRET_KEY');
+    console.log(`Verifying payment with reference: ${reference}`);
+    
+    // Determine which key to use based on environment
+    const origin = req.headers.get('origin') || '';
+    const referer = req.headers.get('referer') || '';
+    const isProduction = origin.includes('aitouse.app') || referer.includes('aitouse.app');
+    
+    let paystackSecretKey = Deno.env.get('PAYSTACK_SECRET_KEY');
+    if (isProduction && Deno.env.get('PAYSTACK_SECRET_KEY_LIVE')) {
+      paystackSecretKey = Deno.env.get('PAYSTACK_SECRET_KEY_LIVE');
+      console.log('Using LIVE Paystack key for verification');
+    } else if (!isProduction && Deno.env.get('PAYSTACK_SECRET_KEY_TEST')) {
+      paystackSecretKey = Deno.env.get('PAYSTACK_SECRET_KEY_TEST');
+      console.log('Using TEST Paystack key for verification');
+    }
+    
     if (!paystackSecretKey) {
-      console.error('PAYSTACK_SECRET_KEY is not set');
+      console.error('No Paystack secret key found');
       return new Response(JSON.stringify({ error: 'Payment processor not configured' }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 500,
@@ -48,6 +74,8 @@ Deno.serve(async (req) => {
     }
 
     const { data: verificationData } = await verificationResponse.json()
+    
+    console.log(`Payment verification result: ${verificationData.status} for reference: ${reference}`);
 
     if (verificationData.status === 'success') {
       const { user_id, plan } = verificationData.metadata;
@@ -63,7 +91,7 @@ Deno.serve(async (req) => {
       let ends_at: Date | null = new Date(now);
       let subscription_status = 'active';
       let subscription_tier = 'monthly';
-      if (plan === 'yearly') {
+      if (plan === 'yearly' || plan === 'annual') {
         ends_at!.setFullYear(ends_at!.getFullYear() + 1);
         subscription_tier = 'annual';
       } else if (plan === 'lifetime') {
@@ -78,6 +106,9 @@ Deno.serve(async (req) => {
       const last_payment_ref = verificationData.reference;
       const provider_customer_id = verificationData.customer?.customer_code || null;
 
+      console.log(`Upserting subscriber record for email: ${email}, user_id: ${user_id}`);
+
+      // Use email as the conflict key since it's unique in the schema
       const { error: dbError } = await supabaseAdmin
         .from('subscribers')
         .upsert(
@@ -96,18 +127,42 @@ Deno.serve(async (req) => {
             provider_customer_id: provider_customer_id,
             updated_at: new Date().toISOString(),
           },
-          { onConflict: 'user_id' }
+          { onConflict: 'email' } // Changed from 'user_id' to 'email'
         );
       
       if (dbError) {
         console.error('Error updating subscriber record:', dbError);
+        // Don't fail the verification, proceed with redirect
+      } else {
+        console.log('Successfully updated subscriber record');
       }
+
+      // Return a 302 redirect to the success page
+      const redirectUrl = isProduction 
+        ? 'https://aitouse.app/account?upgraded=true'
+        : `${origin}/account?upgraded=true`;
+      
+      return new Response(null, {
+        status: 302,
+        headers: {
+          ...corsHeaders,
+          'Location': redirectUrl,
+        },
+      });
+    } else {
+      // Payment failed - redirect to retry page
+      const redirectUrl = isProduction 
+        ? 'https://aitouse.app/pricing?payment_status=failed&reason=verify_failed'
+        : `${origin}/pricing?payment_status=failed&reason=verify_failed`;
+      
+      return new Response(null, {
+        status: 302,
+        headers: {
+          ...corsHeaders,
+          'Location': redirectUrl,
+        },
+      });
     }
-    
-    return new Response(JSON.stringify(verificationData), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      status: 200,
-    })
 
   } catch (error) {
     console.error(error)

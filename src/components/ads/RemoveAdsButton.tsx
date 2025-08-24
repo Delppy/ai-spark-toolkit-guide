@@ -10,15 +10,22 @@ import { useSubscription } from '@/hooks/useSubscription';
 export const RemoveAdsButton: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useUserPreferences();
-  const { showRemoveAds, loading, isPro } = useSubscription(user?.id);
+  const { showRemoveAds, loading, isPro, premiumBadge, subscriptionStatus } = useSubscription(user?.id);
 
   const handleUpgrade = () => {
     navigate('/pricing');
   };
 
   // Show Premium badge when subscription is active
-  if (user && (isPro || !showRemoveAds)) {
-    return <Badge variant="secondary">Premium Active</Badge>;
+  if (user && (isPro || premiumBadge || subscriptionStatus === 'active' || subscriptionStatus === 'lifetime' || !showRemoveAds)) {
+    return (
+      <div className="flex items-center gap-2">
+        <Badge variant="secondary" className="bg-gradient-to-r from-purple-600/10 to-blue-600/10 text-primary border-primary/20">
+          ✨ Premium Active
+        </Badge>
+        <span className="text-xs text-muted-foreground hidden sm:inline">Thanks for supporting AIToUse</span>
+      </div>
+    );
   }
 
   return (

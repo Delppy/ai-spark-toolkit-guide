@@ -6,6 +6,7 @@ console.log('Paystack initialize function starting up')
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Cache-Control': 'no-store',
 }
 
 Deno.serve(async (req) => {
@@ -29,8 +30,29 @@ Deno.serve(async (req) => {
       })
     }
 
-    const { amount, email, plan, callback_url, currency } = await req.json()
+    // Check if user is already premium
+    const supabaseAdmin = createClient(
+      Deno.env.get('SUPABASE_URL') ?? '',
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
+    );
+
+    const { data: subscriber } = await supabaseAdmin
+      .from('subscribers')
+      .select('subscription_status, premium_badge, pro_enabled')
+      .eq('email', user.email)
+      .maybeSingle();
+
+    if (subscriber && (subscriber.subscription_status === 'active' || subscriber.subscription_status === 'lifetime' || subscriber.premium_badge || subscriber.pro_enabled)) {
+      return new Response(JSON.stringify({ error: 'You already have an active premium subscription' }), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        status: 409,
+      })
+    }
+
+    const { amount, email, plan, currency } = await req.json()
     const reference = crypto.randomUUID()
+
+    console.log(`Initializing payment for user ${user.id}, email: ${email}, plan: ${plan}, reference: ${reference}`)
 
     if (!amount || !email || !plan || !currency) {
       return new Response(JSON.stringify({ error: 'Missing required fields: amount, email, plan, currency' }), {
@@ -38,15 +60,30 @@ Deno.serve(async (req) => {
         status: 400,
       })
     }
+
+    // Determine which key to use based on environment
+    const origin = req.headers.get('origin') || '';
+    const isProduction = origin.includes('aitouse.app');
     
-    const paystackSecretKey = Deno.env.get('PAYSTACK_SECRET_KEY');
+    let paystackSecretKey = Deno.env.get('PAYSTACK_SECRET_KEY');
+    if (isProduction && Deno.env.get('PAYSTACK_SECRET_KEY_LIVE')) {
+      paystackSecretKey = Deno.env.get('PAYSTACK_SECRET_KEY_LIVE');
+      console.log('Using LIVE Paystack key for production environment');
+    } else if (!isProduction && Deno.env.get('PAYSTACK_SECRET_KEY_TEST')) {
+      paystackSecretKey = Deno.env.get('PAYSTACK_SECRET_KEY_TEST');
+      console.log('Using TEST Paystack key for development environment');
+    }
+    
     if (!paystackSecretKey) {
-      console.error('PAYSTACK_SECRET_KEY is not set in environment variables');
+      console.error('No Paystack secret key found in environment variables');
       return new Response(JSON.stringify({ error: 'Payment processor not configured.' }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
         status: 500,
       })
     }
+
+    // Use server-side callback URL to avoid SPA 404s
+    const callback_url = `${Deno.env.get('SUPABASE_URL')}/functions/v1/paystack-verify`;
 
     const paystackResponse = await fetch('https://api.paystack.co/transaction/initialize', {
       method: 'POST',

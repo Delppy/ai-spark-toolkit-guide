@@ -56,30 +56,75 @@ const checkSubscriptionStatus = async (): Promise<any> => {
 
 export const useSubscription = (userIdOrEmail?: string): SubscriptionStatus => {
   const queryClient = useQueryClient();
-  const { data: subscriber, isLoading: loading, error } = useQuery({
+  
+  // Fetch both local and server data
+  const { data, isLoading: loading, error } = useQuery({
     queryKey: ['subscription', userIdOrEmail],
-    queryFn: () => fetchSubscription(userIdOrEmail),
+    queryFn: async () => {
+      if (!userIdOrEmail) return null;
+      
+      // First try to get server status from /me endpoint
+      try {
+        const { data: session } = await supabase.auth.getSession();
+        if (session?.session) {
+          const { data: meData, error } = await supabase.functions.invoke('me', {
+            headers: {
+              Authorization: `Bearer ${session.session.access_token}`,
+            },
+          });
+          
+          if (!error && meData) {
+            // Fetch full subscription data from database if we have the email
+            let fullSubscription = null;
+            if (meData.email) {
+              try {
+                fullSubscription = await fetchSubscription(meData.email);
+              } catch (e) {
+                console.error('Error fetching full subscription:', e);
+              }
+            }
+            
+            // Use server data as primary source
+            return {
+              subscription: fullSubscription || {
+                premium_badge: meData.is_premium,
+                pro_enabled: meData.is_premium,
+                subscription_status: meData.subscription_status,
+                subscription_tier: meData.subscription_tier,
+                expires_at: meData.expires_at,
+                subscription_ends_at: meData.expires_at,
+                plan: meData.plan,
+                // Add partial fields to satisfy type
+              } as any,
+              serverStatus: meData,
+            };
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching from /me endpoint:', error);
+      }
+      
+      // Fallback to direct database query
+      const subscription = await fetchSubscription(userIdOrEmail);
+      const serverStatus = await checkSubscriptionStatus();
+      return { subscription, serverStatus };
+    },
     enabled: !!userIdOrEmail,
     staleTime: 0, // Always fetch fresh data
     gcTime: 0, // Don't cache
-  });
-
-  // Server-driven status check
-  const { data: serverStatus } = useQuery({
-    queryKey: ['subscription-status', userIdOrEmail],
-    queryFn: checkSubscriptionStatus,
-    enabled: !!userIdOrEmail,
-    staleTime: 0,
-    gcTime: 0,
     refetchInterval: 10000, // Refetch every 10 seconds
   });
 
+  // Extract data from the query result
+  const subscriber = data?.subscription || null;
+  const serverStatus = data?.serverStatus || null;
+  
   // Use server status if available, fall back to local data
   const subscriptionStatus = serverStatus?.subscription_status || subscriber?.subscription_status || 'none';
   const subscriptionTier = serverStatus?.subscription_tier || subscriber?.subscription_tier || 'none';
-  const premiumBadge = serverStatus?.premium_badge ?? subscriber?.premium_badge ?? false;
-  const subscriptionEndsAt = serverStatus?.subscription_ends_at || subscriber?.subscription_ends_at;
-  const isActive = serverStatus?.is_active ?? false;
+  const premiumBadge = serverStatus?.is_premium ?? subscriber?.premium_badge ?? false;
+  const subscriptionEndsAt = serverStatus?.expires_at || subscriber?.subscription_ends_at;
+  const isActive = premiumBadge || subscriptionStatus === 'active' || subscriptionStatus === 'lifetime';
 
   // Determine UI state based on server-driven status
   const isPro = premiumBadge && (subscriptionStatus === 'active' || subscriptionStatus === 'lifetime');
@@ -88,12 +133,27 @@ export const useSubscription = (userIdOrEmail?: string): SubscriptionStatus => {
 
   const refresh = async () => {
     await queryClient.invalidateQueries({ queryKey: ['subscription', userIdOrEmail] });
-    await queryClient.invalidateQueries({ queryKey: ['subscription-status', userIdOrEmail] });
   };
 
   const checkStatus = async () => {
     try {
-      await queryClient.invalidateQueries({ queryKey: ['subscription-status', userIdOrEmail] });
+      // Call the /me endpoint directly for immediate status check
+      const { data: session } = await supabase.auth.getSession();
+      if (session?.session) {
+        const { data: meData, error } = await supabase.functions.invoke('me', {
+          headers: {
+            Authorization: `Bearer ${session.session.access_token}`,
+          },
+        });
+        
+        if (!error && meData) {
+          console.log("[useSubscription] Status check result:", meData);
+          await queryClient.invalidateQueries({ queryKey: ['subscription', userIdOrEmail] });
+          return meData;
+        }
+      }
+      
+      // Fallback to subscription-status endpoint
       const status = await checkSubscriptionStatus();
       console.log("[useSubscription] Status check result:", status);
       return status;
