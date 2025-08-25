@@ -51,7 +51,7 @@ verify_jwt = false
 verify_jwt = true
 
 [functions.paystack-verify]
-verify_jwt = true
+verify_jwt = false
 
 [functions.paystack-cancel-subscription]
 verify_jwt = true

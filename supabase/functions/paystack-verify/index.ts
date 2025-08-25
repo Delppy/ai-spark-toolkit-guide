@@ -138,9 +138,8 @@ Deno.serve(async (req) => {
       }
 
       // Return a 302 redirect to the success page
-      const redirectUrl = isProduction 
-        ? 'https://aitouse.app/account?upgraded=true'
-        : `${origin}/account?upgraded=true`;
+      const baseUrl = isProduction ? 'https://aitouse.app' : (origin || 'https://aitouse.app');
+      const redirectUrl = `${baseUrl}/account?upgraded=true`;
       
       return new Response(null, {
         status: 302,
