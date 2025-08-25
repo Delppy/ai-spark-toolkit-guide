@@ -39,60 +39,8 @@ const Pricing: React.FC = () => {
   }, []);
 
   const handleUpgrade = async () => {
-    if (!user || !user.email) {
-      localStorage.setItem("afterProRedirect", location.pathname);
-      toast.error("Please sign in to upgrade.");
-      navigate("/login");
-      return;
-    }
-
-    // Pre-payment guard: Check if already premium
-    try {
-      const status = await checkStatus();
-      if (status?.subscription_status === 'active' || status?.subscription_status === 'lifetime') {
-        toast.info("You're already Premium—no payment needed.");
-        return;
-      }
-    } catch (error) {
-      console.error('Failed to check subscription status:', error);
-    }
-
-    if (!pricing) {
-      toast.error("Pricing information not loaded. Please try again.");
-      return;
-    }
-
-    setLoading(true);
-
-    const price = billing === "monthly" ? pricing.monthly : pricing.yearly;
-
-    try {
-      const { data, error } = await supabase.functions.invoke('paystack-initialize', {
-        body: {
-          email: user.email,
-          amount: price,
-          plan: billing,
-          currency: pricing.currency.toUpperCase()
-        },
-      });
-
-      if (error) {
-        throw error;
-      }
-      
-      if (data && data.authorization_url) {
-        // Redirect to the exact authorization URL returned by Paystack
-        window.location.href = data.authorization_url;
-      } else {
-        toast.error("Could not initiate payment. Please try again.");
-        setLoading(false);
-      }
-
-    } catch (error: any) {
-      console.error("Payment initialization error:", error);
-      toast.error(error.message || "An unexpected error occurred during payment initiation.");
-      setLoading(false);
-    }
+    // Premium removed: Inform user and do nothing
+    toast.info('All features are now free — no upgrade needed.');
   };
 
   const proPriceDisplay = !pricing ? (
@@ -159,15 +107,8 @@ const Pricing: React.FC = () => {
         />
       </div>
 
-      {/* Subscription Refresh Button */}
-      {user && (
-        <div className="mt-6 text-center">
-          <p className="text-sm text-muted-foreground mb-2">
-            Just completed a payment? Refresh your subscription status:
-          </p>
-          <SubscriptionRefreshButton />
-        </div>
-      )}
+      {/* Subscription Refresh Button removed since everything is free */}
+      
 
       <div className="mt-10">
         <Link to="/">
