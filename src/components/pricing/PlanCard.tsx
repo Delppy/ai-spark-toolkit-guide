@@ -45,7 +45,7 @@ const PlanCard: React.FC<PlanCardProps> = ({
           </CardTitle>
         </div>
         <CardDescription>
-          {isPro ? "Remove ads & unlock premium tools" : "All the basics, free forever!"}
+          {isPro ? "All premium features included free" : "Everything included, free forever!"}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -55,13 +55,13 @@ const PlanCard: React.FC<PlanCardProps> = ({
         {isPro && (
           <>
             <span className="inline-block mb-4 text-primary font-semibold text-center w-full">
-              {billing === "yearly" ? "Best value – billed once a year" : "Cancel anytime"}
+              All features completely free
             </span>
             {billing === "yearly" && yearlyDiscountPercent && (
               <div className="mb-2 flex items-center justify-center gap-2">
                 <Badge className="bg-accent/10 text-accent border-accent px-2 py-0.5 flex items-center gap-1">
                   <Percent className="w-3 h-3" />
-                  Save {yearlyDiscountPercent}% compared to monthly
+                  All features free
                 </Badge>
               </div>
             )}
@@ -73,11 +73,6 @@ const PlanCard: React.FC<PlanCardProps> = ({
               <Check className={`w-4 h-4 ${isPro ? 'w-5 h-5 text-primary' : 'text-accent'}`} /> {feature}
             </li>
           ))}
-          {!isPro && (
-            <li className="flex items-center gap-2 text-sm text-muted line-through">
-              <XCircle className="w-4 h-4" /> Remove ads & premium tools
-            </li>
-          )}
         </ul>
         {isPro ? (
           <>
@@ -86,14 +81,10 @@ const PlanCard: React.FC<PlanCardProps> = ({
               onClick={onUpgrade}
               disabled={loading}
             >
-              {loading
-                ? "Redirecting to payment..."
-                : billing === "yearly"
-                ? "Get Pro Yearly"
-                : "Get Pro Monthly"}
+              Everything is Free!
             </Button>
             <p className="text-xs text-center text-muted-foreground mt-4">
-              Payments processed securely by Paystack.
+              No payment required - all features are free!
             </p>
           </>
         ) : (

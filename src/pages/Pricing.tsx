@@ -39,8 +39,7 @@ const Pricing: React.FC = () => {
   }, []);
 
   const handleUpgrade = async () => {
-    // Premium removed: Inform user and do nothing
-    toast.info('All features are now free — no upgrade needed.');
+    toast.info('All features are now free — no payment needed!');
   };
 
   const proPriceDisplay = !pricing ? (

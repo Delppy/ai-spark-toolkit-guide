@@ -26,7 +26,7 @@ const BillingToggle = ({ billing, setBilling, yearlyDiscountPercent }: BillingTo
       Yearly
       <Badge className="ml-2 bg-accent/10 text-accent border-accent px-2 py-0.5 flex items-center gap-1">
         <Percent className="w-3 h-3" />
-        Save {yearlyDiscountPercent}%
+        All Free
       </Badge>
     </Button>
   </div>

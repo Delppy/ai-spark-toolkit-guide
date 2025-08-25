@@ -77,14 +77,14 @@ const AvatarPanel: React.FC<AvatarPanelProps> = ({
           style={{ outline: "none" }}
         >
           <Badge
-            variant="premium"
+            variant="secondary"
             className={`flex items-center gap-1 text-xs px-3 py-1 pt-1 border-0 ${loading ? "opacity-70 pointer-events-none" : "hover:brightness-110"}`}
           >
             <Crown className="w-4 h-4 mr-1" />
             {loading ? (
               <span className="ml-1">Opening Portal...</span>
             ) : (
-              <span>Premium</span>
+              <span>Free</span>
             )}
           </Badge>
         </div>

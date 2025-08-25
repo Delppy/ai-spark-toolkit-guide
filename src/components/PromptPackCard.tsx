@@ -81,11 +81,6 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
                   >
                     {pack.title}
                   </Link>
-                  {pack.isPro && (
-                    <Badge variant="premium" className="ml-2 text-xs">
-                      Pro
-                    </Badge>
-                  )}
                 </CardTitle>
                 <div className="flex items-center space-x-2 mt-1">
                   <Badge variant="secondary" className="text-xs">
@@ -149,7 +144,7 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
                           </div>
                           <div className="absolute inset-0 flex items-center justify-center">
                             <div className="bg-white/90 px-3 py-1 rounded-full text-xs font-medium text-purple-600 border border-purple-200">
-                              🔒 Upgrade to unlock
+                              View Pack
                             </div>
                           </div>
                         </div>
@@ -171,15 +166,6 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
                 </Link>
               </Button>
               
-              {/* Show upgrade button for locked users */}
-              {isLocked && (
-                <Button
-                  className="w-full"
-                  onClick={() => proGate()}
-                >
-                  Unlock with Pro
-                </Button>
-              )}
             </div>
           </CardContent>
         </Card>

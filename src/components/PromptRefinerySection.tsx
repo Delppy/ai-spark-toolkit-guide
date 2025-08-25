@@ -91,7 +91,7 @@ export const PromptRefinerySection: React.FC = () => {
             <CardTitle className="text-2xl">AI Prompt Refinery</CardTitle>
             <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
               <Crown className="w-3 h-3 mr-1" />
-              Premium
+              Free
             </Badge>
           </div>
           {!isPro && (
@@ -151,14 +151,8 @@ export const PromptRefinerySection: React.FC = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-slate-700">No credits remaining</p>
-                <p className="text-xs text-slate-600">Upgrade to Pro for unlimited prompt generation</p>
+                <p className="text-xs text-slate-600">Unlimited prompt generation available</p>
               </div>
-              <Button asChild size="sm">
-                <Link to="/pricing">
-                  <Crown className="w-4 h-4 mr-1" />
-                  Upgrade
-                </Link>
-              </Button>
             </div>
           </div>
         )}

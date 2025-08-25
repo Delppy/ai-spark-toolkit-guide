@@ -39,7 +39,7 @@ const PromptRefinery = lazy(() => import('@/pages/PromptRefinery'));
 
 import { UserPreferencesProvider } from "@/contexts/UserPreferencesContext";
 import { TransitionProvider } from "@/contexts/TransitionContext";
-import { PremiumSyncGuard } from "@/components/billing/PremiumSyncGuard";
+
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -67,7 +67,7 @@ function App() {
             <Router>
               <PageTracker />
               <TransitionProvider>
-                <PremiumSyncGuard>
+                
                   <LazyWrapper fallback={
                     <div className="min-h-screen flex items-center justify-center">
                       <LoadingSpinner size="lg" text="Loading..." />
@@ -103,7 +103,7 @@ function App() {
                     <Route path="*" element={<NotFound />} />
                     </Routes>
                   </LazyWrapper>
-                </PremiumSyncGuard>
+                
                 <AnalyticsConsent />
               </TransitionProvider>
             </Router>

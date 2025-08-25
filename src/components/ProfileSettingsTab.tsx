@@ -73,9 +73,9 @@ const ProfileSettingsTab = ({ setActiveSheet }: ProfileSettingsTabProps) => {
         {subscriptionStatus.isPro ? (
           <div className="space-y-4">
             <div className="flex items-center justify-center p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg border border-yellow-200">
-              <Badge variant="premium" className="text-base py-2 px-4">
+              <Badge variant="secondary" className="text-base py-2 px-4">
                 <Crown className="w-5 h-5 mr-2" />
-                Premium Member
+                Free Member
               </Badge>
             </div>
             <p className="text-sm text-gray-600 text-center">
@@ -99,14 +99,8 @@ const ProfileSettingsTab = ({ setActiveSheet }: ProfileSettingsTabProps) => {
               </Badge>
             </div>
             <p className="text-sm text-gray-600 text-center">
-              Upgrade to unlock all Pro features
+              All features are now free!
             </p>
-            <Button asChild className="w-full bg-gradient-to-r from-purple-500 to-blue-600">
-              <Link to="/pricing">
-                <Star className="w-4 h-4 mr-2" />
-                Upgrade to Pro
-              </Link>
-            </Button>
           </div>
         )}
       </div>
