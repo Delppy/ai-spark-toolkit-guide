@@ -35,18 +35,22 @@ Deno.serve(async (req) => {
     
     console.log(`Verifying payment with reference: ${reference}`);
     
-    // Determine which key to use based on environment
+    // Determine which key to use based on environment and headers
     const origin = req.headers.get('origin') || '';
     const referer = req.headers.get('referer') || '';
-    const isProduction = origin.includes('aitouse.app') || referer.includes('aitouse.app');
+    const hasProdHint = origin.includes('aitouse.app') || referer.includes('aitouse.app');
     
     let paystackSecretKey = Deno.env.get('PAYSTACK_SECRET_KEY');
-    if (isProduction && Deno.env.get('PAYSTACK_SECRET_KEY_LIVE')) {
+    if (hasProdHint && Deno.env.get('PAYSTACK_SECRET_KEY_LIVE')) {
       paystackSecretKey = Deno.env.get('PAYSTACK_SECRET_KEY_LIVE');
-      console.log('Using LIVE Paystack key for verification');
-    } else if (!isProduction && Deno.env.get('PAYSTACK_SECRET_KEY_TEST')) {
+      console.log('Using LIVE Paystack key for verification (prod hint)');
+    } else if (!origin && !referer && Deno.env.get('PAYSTACK_SECRET_KEY_LIVE')) {
+      // No origin/referer (direct callback) – prefer LIVE key
+      paystackSecretKey = Deno.env.get('PAYSTACK_SECRET_KEY_LIVE');
+      console.log('Using LIVE Paystack key for verification (no origin)');
+    } else if (!hasProdHint && Deno.env.get('PAYSTACK_SECRET_KEY_TEST')) {
       paystackSecretKey = Deno.env.get('PAYSTACK_SECRET_KEY_TEST');
-      console.log('Using TEST Paystack key for verification');
+      console.log('Using TEST Paystack key for verification (non-prod)');
     }
     
     if (!paystackSecretKey) {
