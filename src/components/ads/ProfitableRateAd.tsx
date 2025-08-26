@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { useSubscription } from '@/hooks/useSubscription';
+import { useSubscription } from '@/hooks/useFreeAccess';
 import { useUserPreferences } from '@/contexts/UserPreferencesContext';
 
 interface ProfitableRateAdProps {

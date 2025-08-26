@@ -17,7 +17,7 @@ const PromptPack = () => {
   
   const { user } = useUserPreferences() as any;
   const userId = user?.id || null;
-  const { isPro, proGate } = useProGate(userId);
+  const { isPro, proGate } = useProGate();
 
   // Find the prompt pack by ID across all categories
   const allPromptPacks = dataManager.getAllPromptPacks();

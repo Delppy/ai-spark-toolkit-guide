@@ -5,8 +5,7 @@ import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { SubscriptionRefreshButton } from "@/components/SubscriptionRefreshButton";
-import { useSubscription } from "@/hooks/useSubscription";
+import { useSubscription } from "@/hooks/useFreeAccess";
 
 import PricingHeader from "@/components/pricing/PricingHeader";
 import BillingToggle from "@/components/pricing/BillingToggle";

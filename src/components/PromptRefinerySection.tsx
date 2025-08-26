@@ -4,9 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
-import { useProGate } from "@/hooks/useProGate";
-import { usePromptCredits } from "@/hooks/usePromptCredits";
-import { useSubscription } from "@/hooks/useSubscription";
+import { useProGate, usePromptCredits, useSubscription } from "@/hooks/useFreeAccess";
 import { Sparkles, Crown, Zap, Copy, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";

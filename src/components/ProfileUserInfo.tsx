@@ -6,7 +6,7 @@ import ProfilePhotoUploader from "@/components/ProfilePhotoUploader";
 import { countries } from "@/utils/countries";
 import React from "react";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
-import { useSubscription } from "@/hooks/useSubscription";
+import { useFreeAccess } from "@/hooks/useFreeAccess";
 import { Badge } from "@/components/ui/badge";
 import { Crown } from "lucide-react";
 import AvatarPanel from "@/components/AvatarPanel";
@@ -55,11 +55,11 @@ const ProfileUserInfo: React.FC<ProfileUserInfoProps> = ({
   setBio,
   setCountry,
 }) => {
-  // Get logged-in user id from user preferences if available (for correct id used by useSubscription)
+  // Get logged-in user id from user preferences if available
   const { user: prefUser } = useUserPreferences();
   // Prefer the user prop over prefUser if available, then fallback to profile.id
   const derivedUserId = user?.id || prefUser?.id || profile.id;
-  const { isPro } = useSubscription(derivedUserId);
+  const { isPro } = useFreeAccess();
   console.log("[ProfileUserInfo] user:", user, "prefUser:", prefUser, "derivedUserId:", derivedUserId, "isPro:", isPro);
 
   return (

@@ -25,7 +25,7 @@ const Index = () => {
 
   const { user } = useUserPreferences() as any;
   const userId = user?.id || null;
-  const { isPro, proGate } = useProGate(userId);
+  const { isPro, proGate } = useProGate();
 
   const allTools = dataManager.getAllAITools();
   const allPromptPacks = dataManager.getAllPromptPacks();

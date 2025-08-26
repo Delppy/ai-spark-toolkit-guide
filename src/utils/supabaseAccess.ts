@@ -115,86 +115,37 @@ export async function removeReviewVote(userId: string, reviewId: string) {
 }
 
 /**
- * PROMPT USAGE (prompt_usage table)
- * Uses (userId, category, usagePeriod) as unique key
+ * PROMPT USAGE - Stubbed since tables are removed
  */
 export async function getPromptUsage(userId: string, category: string, period: string) {
-  const { data, error } = await supabase
-    .from("prompt_usage")
-    .select("*")
-    .eq("user_id", userId)
-    .eq("category", category)
-    .eq("usage_period", period)
-    .maybeSingle();
-  if (error) throw error;
-  return data;
+  // No-op - everything is free
+  return null;
 }
 
 export async function incrementPromptUsage(userId: string, category: string, period: string) {
-  // Fetch existing usage row
-  const row = await getPromptUsage(userId, category, period);
-  if (!row) {
-    // Insert new usage
-    const { error } = await supabase.from("prompt_usage").insert([
-      { user_id: userId, category, usage_period: period, prompt_count: 1, last_used: new Date().toISOString() }
-    ]);
-    if (error) throw error;
-  } else {
-    // Update existing usage row (increment)
-    const { error } = await supabase
-      .from("prompt_usage")
-      .update({ 
-        prompt_count: row.prompt_count + 1, 
-        last_used: new Date().toISOString(),
-        updated_at: new Date().toISOString() 
-      })
-      .eq("id", row.id);
-    if (error) throw error;
-  }
+  // No-op - everything is free
+  return;
 }
 
 /**
- * PROMPT CREDITS (prompt_credits table)
+ * PROMPT CREDITS - Stubbed since tables are removed
  */
 export async function getPromptCredits(userId: string, period: string) {
-  const { data, error } = await supabase
-    .from("prompt_credits")
-    .select("*")
-    .eq("user_id", userId)
-    .eq("usage_period", period)
-    .maybeSingle();
-  if (error) throw error;
-  return data;
+  // No-op - everything is free
+  return null;
 }
 
 export async function updatePromptCredits(userId: string, period: string, newBalance: number) {
-  // Try to update, insert if not exists
-  const row = await getPromptCredits(userId, period);
-  if (!row) {
-    const { error } = await supabase.from("prompt_credits").insert([
-      { user_id: userId, usage_period: period, credit_balance: newBalance, updated_at: new Date().toISOString() }
-    ]);
-    if (error) throw error;
-  } else {
-    const { error } = await supabase
-      .from("prompt_credits")
-      .update({ credit_balance: newBalance, updated_at: new Date().toISOString() })
-      .eq("id", row.id);
-    if (error) throw error;
-  }
+  // No-op - everything is free
+  return;
 }
 
 /**
- * USER PLAN (user_plan table)
+ * USER PLAN - Stubbed since tables are removed
  */
 export async function getUserPlan(userId: string) {
-  const { data, error } = await supabase
-    .from("user_plan")
-    .select("*")
-    .eq("user_id", userId)
-    .maybeSingle();
-  if (error) throw error;
-  return data;
+  // No-op - everything is free
+  return null;
 }
 
 // Add, update plan, etc, can be implemented as needed

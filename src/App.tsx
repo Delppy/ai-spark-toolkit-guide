@@ -1,117 +1,89 @@
-
-import React, { lazy } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, { lazy, Suspense } from 'react';
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { HelmetProvider } from "react-helmet-async";
-import ErrorBoundary from '@/components/ErrorBoundary';
-import LazyWrapper from '@/components/LazyWrapper';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Layout from '@/components/Layout';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import ErrorBoundary from '@/components/ErrorBoundary';
+import { UserPreferencesProvider } from '@/contexts/UserPreferencesContext';
 import AnalyticsConsent from '@/components/AnalyticsConsent';
-import { usePageTracking } from '@/hooks/usePageTracking';
-// Lazy load pages for better performance
+
+// Lazy load all pages for better performance
 const Index = lazy(() => import('@/pages/Index'));
-const Login = lazy(() => import('@/pages/Login'));
-const Signup = lazy(() => import('@/pages/Signup'));
-const ForgotPassword = lazy(() => import('@/pages/ForgotPassword'));
-const ResetPassword = lazy(() => import('@/pages/ResetPassword'));
-const Profile = lazy(() => import('@/pages/Profile'));
-const Dashboard = lazy(() => import('@/pages/Dashboard'));
-const Pricing = lazy(() => import('@/pages/Pricing'));
-const PaymentVerify = lazy(() => import('@/pages/PaymentVerify'));
-const About = lazy(() => import('@/pages/About'));
-const Contact = lazy(() => import('@/pages/Contact'));
-const Help = lazy(() => import('@/pages/Help'));
-const PrivacyPolicy = lazy(() => import('@/pages/PrivacyPolicy'));
-const NotFound = lazy(() => import('@/pages/NotFound'));
-
-// Category pages
-const School = lazy(() => import('@/pages/School'));
-const Business = lazy(() => import('@/pages/Business'));
-const Content = lazy(() => import('@/pages/Content'));
-const Career = lazy(() => import('@/pages/Career'));
-const PDFTools = lazy(() => import('@/pages/PDFTools'));
-
+const Tools = lazy(() => import('@/pages/Tools'));
 const ToolsWithFilters = lazy(() => import('@/pages/ToolsWithFilters'));
-const Favorites = lazy(() => import('@/pages/Favorites'));
+const Pricing = lazy(() => import('@/pages/Pricing'));
+const PromptRefinery = lazy(() => import('@/pages/PromptRefinery'));
 const Prompts = lazy(() => import('@/pages/Prompts'));
 const PromptPack = lazy(() => import('@/pages/PromptPack'));
-const PromptRefinery = lazy(() => import('@/pages/PromptRefinery'));
-
-import { UserPreferencesProvider } from "@/contexts/UserPreferencesContext";
-import { TransitionProvider } from "@/contexts/TransitionContext";
-
+const Content = lazy(() => import('@/pages/Content'));
+const Business = lazy(() => import('@/pages/Business'));
+const School = lazy(() => import('@/pages/School'));
+const Career = lazy(() => import('@/pages/Career'));
+const PDFTools = lazy(() => import('@/pages/PDFTools'));
+const About = lazy(() => import('@/pages/About'));
+const Contact = lazy(() => import('@/pages/Contact'));
+const PrivacyPolicy = lazy(() => import('@/pages/PrivacyPolicy'));
+const Help = lazy(() => import('@/pages/Help'));
+const Profile = lazy(() => import('@/pages/Profile'));
+const Dashboard = lazy(() => import('@/pages/Dashboard'));
+const Favorites = lazy(() => import('@/pages/Favorites'));
+const NotFound = lazy(() => import('@/pages/NotFound'));
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: 3,
-      retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
+      retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+      refetchOnWindowFocus: false,
       staleTime: 5 * 60 * 1000, // 5 minutes
-      gcTime: 10 * 60 * 1000, // 10 minutes (replaces cacheTime)
     },
   },
 });
 
-// Page tracking component
-const PageTracker = () => {
-  usePageTracking();
-  return null;
-};
-
-function App() {
-  return (
-    <ErrorBoundary>
-      <HelmetProvider>
-        <QueryClientProvider client={queryClient}>
-          <UserPreferencesProvider>
-            <Router>
-              <PageTracker />
-              <TransitionProvider>
-                
-                  <LazyWrapper fallback={
-                    <div className="min-h-screen flex items-center justify-center">
-                      <LoadingSpinner size="lg" text="Loading..." />
-                    </div>
-                  }>
-                    <Routes>
-                    <Route path="/" element={<Index />} />
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/signup" element={<Signup />} />
-                    <Route path="/forgot-password" element={<ForgotPassword />} />
-                    <Route path="/reset-password" element={<ResetPassword />} />
-                    <Route path="/profile" element={<Profile />} />
-                    <Route path="/dashboard" element={<Dashboard />} />
-                    <Route path="/tools" element={<ToolsWithFilters />} />
-                    <Route path="/favorites" element={<Favorites />} />
-                    <Route path="/prompts" element={<Prompts />} />
-                    <Route path="/prompts/:packId" element={<PromptPack />} />
-                    <Route path="/prompt-refinery" element={<PromptRefinery />} />
-                    
-                    {/* Category Routes */}
-                    <Route path="/school" element={<School />} />
-                    <Route path="/business" element={<Business />} />
-                    <Route path="/content" element={<Content />} />
-                    <Route path="/career" element={<Career />} />
-                    <Route path="/pdf" element={<PDFTools />} />
-                    
-                    <Route path="/pricing" element={<Pricing />} />
-                    <Route path="/payment/verify" element={<PaymentVerify />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/contact" element={<Contact />} />
-                    <Route path="/help" element={<Help />} />
-                    <Route path="/privacy" element={<PrivacyPolicy />} />
-                    <Route path="*" element={<NotFound />} />
-                    </Routes>
-                  </LazyWrapper>
-                
-                <AnalyticsConsent />
-              </TransitionProvider>
-            </Router>
-          </UserPreferencesProvider>
-        </QueryClientProvider>
-      </HelmetProvider>
-    </ErrorBoundary>
-  );
-}
+const App = () => (
+  <ErrorBoundary>
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <UserPreferencesProvider>
+          <Toaster />
+          <Sonner />
+          <BrowserRouter>
+            <AnalyticsConsent />
+            <Suspense fallback={<LoadingSpinner />}>
+              <Routes>
+                <Route path="/" element={<Layout />}>
+                  <Route index element={<Index />} />
+                  <Route path="tools" element={<Tools />} />
+                  <Route path="tools-with-filters" element={<ToolsWithFilters />} />
+                  <Route path="content" element={<Content />} />
+                  <Route path="business" element={<Business />} />
+                  <Route path="school" element={<School />} />
+                  <Route path="career" element={<Career />} />
+                  <Route path="pdf-tools" element={<PDFTools />} />
+                  <Route path="pricing" element={<Pricing />} />
+                  <Route path="about" element={<About />} />
+                  <Route path="contact" element={<Contact />} />
+                  <Route path="privacy-policy" element={<PrivacyPolicy />} />
+                  <Route path="help" element={<Help />} />
+                  <Route path="profile" element={<Profile />} />
+                  <Route path="account" element={<Profile />} />
+                  <Route path="prompt-refinery" element={<PromptRefinery />} />
+                  <Route path="prompts" element={<Prompts />} />
+                  <Route path="prompt/:id" element={<PromptPack />} />
+                  <Route path="dashboard" element={<Dashboard />} />
+                  <Route path="favorites" element={<Favorites />} />
+                  <Route path="*" element={<NotFound />} />
+                </Route>
+              </Routes>
+            </Suspense>
+          </BrowserRouter>
+        </UserPreferencesProvider>
+      </TooltipProvider>
+    </QueryClientProvider>
+  </ErrorBoundary>
+);
 
 export default App;

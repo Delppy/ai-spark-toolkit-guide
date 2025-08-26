@@ -24,9 +24,8 @@ import {
   DollarSign
 } from 'lucide-react';
 import { AITool } from '@/data/aiTools';
-import { useProGate } from '@/hooks/useProGate';
+import { useProGate } from '@/hooks/useFreeAccess';
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
-import { useSubscription } from "@/hooks/useSubscription";
 import { useNavigate } from "react-router-dom";
 
 interface ToolCardProps {

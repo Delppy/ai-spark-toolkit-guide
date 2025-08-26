@@ -16,9 +16,9 @@ import {
 } from '@/components/ui/popover';
 import { Copy, Eye, DollarSign, Zap } from 'lucide-react';
 import { PromptPack } from '@/data/aiTools';
-import { useProGate } from "@/hooks/useProGate";
+import { useProGate } from "@/hooks/useFreeAccess";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
-import { usePromptCredits } from "@/hooks/usePromptCredits";
+import { usePromptCredits } from "@/hooks/useFreeAccess";
 import { Link } from 'react-router-dom';
 
 interface PromptPackCardProps {
