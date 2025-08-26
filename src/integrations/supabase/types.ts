@@ -14,36 +14,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      billing_reminders: {
-        Row: {
-          created_at: string
-          email: string
-          id: string
-          reminder_type: string
-          scheduled_at: string
-          sent_at: string | null
-          user_id: string | null
-        }
-        Insert: {
-          created_at?: string
-          email: string
-          id?: string
-          reminder_type: string
-          scheduled_at: string
-          sent_at?: string | null
-          user_id?: string | null
-        }
-        Update: {
-          created_at?: string
-          email?: string
-          id?: string
-          reminder_type?: string
-          scheduled_at?: string
-          sent_at?: string | null
-          user_id?: string | null
-        }
-        Relationships: []
-      }
       favorites: {
         Row: {
           created_at: string
@@ -110,84 +80,27 @@ export type Database = {
         }
         Relationships: []
       }
-      prompt_credits: {
-        Row: {
-          credit_balance: number
-          id: string
-          updated_at: string
-          usage_period: string
-          user_id: string | null
-        }
-        Insert: {
-          credit_balance?: number
-          id?: string
-          updated_at?: string
-          usage_period: string
-          user_id?: string | null
-        }
-        Update: {
-          credit_balance?: number
-          id?: string
-          updated_at?: string
-          usage_period?: string
-          user_id?: string | null
-        }
-        Relationships: []
-      }
-      prompt_usage: {
-        Row: {
-          category: string
-          created_at: string
-          id: string
-          last_used: string | null
-          prompt_count: number
-          updated_at: string
-          usage_period: string
-          user_id: string | null
-        }
-        Insert: {
-          category: string
-          created_at?: string
-          id?: string
-          last_used?: string | null
-          prompt_count?: number
-          updated_at?: string
-          usage_period: string
-          user_id?: string | null
-        }
-        Update: {
-          category?: string
-          created_at?: string
-          id?: string
-          last_used?: string | null
-          prompt_count?: number
-          updated_at?: string
-          usage_period?: string
-          user_id?: string | null
-        }
-        Relationships: []
-      }
       review_votes: {
         Row: {
           created_at: string
           id: string
           is_helpful: boolean
           review_id: string
-          user_id: string
+          user_id: string | null
         }
         Insert: {
           created_at?: string
           id?: string
           is_helpful: boolean
           review_id: string
-          user_id: string
+          user_id?: string | null
         }
         Update: {
           created_at?: string
           id?: string
           is_helpful?: boolean
           review_id?: string
-          user_id?: string
+          user_id?: string | null
         }
         Relationships: [
           {
@@ -209,7 +122,7 @@ export type Database = {
           title: string | null
           tool_id: string
           updated_at: string
-          user_id: string
+          user_id: string | null
         }
         Insert: {
           content?: string | null
@@ -220,7 +133,7 @@ export type Database = {
           title?: string | null
           tool_id: string
           updated_at?: string
-          user_id: string
+          user_id?: string | null
         }
         Update: {
           content?: string | null
@@ -230,69 +143,6 @@ export type Database = {
           rating?: number
           title?: string | null
           tool_id?: string
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
-      subscribers: {
-        Row: {
-          email: string
-          expires_at: string | null
-          id: string
-          last_payment_ref: string | null
-          plan: string | null
-          premium_badge: boolean | null
-          pro_enabled: boolean
-          provider_customer_id: string | null
-          started_at: string
-          subscription_ends_at: string | null
-          subscription_started_at: string | null
-          subscription_status: string | null
-          subscription_tier: string | null
-          trial_expiration: string | null
-          trial_start: string | null
-          trial_used: boolean
-          updated_at: string
-          user_id: string | null
-        }
-        Insert: {
-          email: string
-          expires_at?: string | null
-          id?: string
-          last_payment_ref?: string | null
-          plan?: string | null
-          premium_badge?: boolean | null
-          pro_enabled?: boolean
-          provider_customer_id?: string | null
-          started_at?: string
-          subscription_ends_at?: string | null
-          subscription_started_at?: string | null
-          subscription_status?: string | null
-          subscription_tier?: string | null
-          trial_expiration?: string | null
-          trial_start?: string | null
-          trial_used?: boolean
-          updated_at?: string
-          user_id?: string | null
-        }
-        Update: {
-          email?: string
-          expires_at?: string | null
-          id?: string
-          last_payment_ref?: string | null
-          plan?: string | null
-          premium_badge?: boolean | null
-          pro_enabled?: boolean
-          provider_customer_id?: string | null
-          started_at?: string
-          subscription_ends_at?: string | null
-          subscription_started_at?: string | null
-          subscription_status?: string | null
-          subscription_tier?: string | null
-          trial_expiration?: string | null
-          trial_start?: string | null
-          trial_used?: boolean
           updated_at?: string
           user_id?: string | null
         }
@@ -328,90 +178,12 @@ export type Database = {
         }
         Relationships: []
       }
-      user_plan: {
-        Row: {
-          created_at: string
-          id: string
-          plan_type: string
-          trial_end: string | null
-          trial_start: string | null
-          updated_at: string
-          upgraded_at: string | null
-          user_id: string | null
-        }
-        Insert: {
-          created_at?: string
-          id?: string
-          plan_type?: string
-          trial_end?: string | null
-          trial_start?: string | null
-          updated_at?: string
-          upgraded_at?: string | null
-          user_id?: string | null
-        }
-        Update: {
-          created_at?: string
-          id?: string
-          plan_type?: string
-          trial_end?: string | null
-          trial_start?: string | null
-          updated_at?: string
-          upgraded_at?: string | null
-          user_id?: string | null
-        }
-        Relationships: []
-      }
-      webhook_events: {
-        Row: {
-          created_at: string
-          event_type: string
-          id: string
-          processed: boolean | null
-          processed_at: string | null
-          provider: string
-          provider_event_id: string
-          raw_payload: Json
-        }
-        Insert: {
-          created_at?: string
-          event_type: string
-          id?: string
-          processed?: boolean | null
-          processed_at?: string | null
-          provider: string
-          provider_event_id: string
-          raw_payload: Json
-        }
-        Update: {
-          created_at?: string
-          event_type?: string
-          id?: string
-          processed?: boolean | null
-          processed_at?: string | null
-          provider?: string
-          provider_event_id?: string
-          raw_payload?: Json
-        }
-        Relationships: []
-      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      process_billing_webhook: {
-        Args: {
-          p_amount?: number
-          p_customer_email: string
-          p_customer_id?: string
-          p_event_id?: string
-          p_event_type: string
-          p_payment_ref?: string
-          p_plan_code?: string
-          p_status?: string
-        }
-        Returns: undefined
-      }
+      [_ in never]: never
     }
     Enums: {
       [_ in never]: never
