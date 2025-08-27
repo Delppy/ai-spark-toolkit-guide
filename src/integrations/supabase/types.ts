@@ -180,33 +180,7 @@ export type Database = {
       }
     }
     Views: {
-      public_profiles: {
-        Row: {
-          bio: string | null
-          country: string | null
-          created_at: string | null
-          id: string | null
-          name: string | null
-          photo_url: string | null
-        }
-        Insert: {
-          bio?: string | null
-          country?: string | null
-          created_at?: string | null
-          id?: string | null
-          name?: string | null
-          photo_url?: string | null
-        }
-        Update: {
-          bio?: string | null
-          country?: string | null
-          created_at?: string | null
-          id?: string | null
-          name?: string | null
-          photo_url?: string | null
-        }
-        Relationships: []
-      }
+      [_ in never]: never
     }
     Functions: {
       [_ in never]: never
