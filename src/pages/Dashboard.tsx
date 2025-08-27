@@ -1,6 +1,5 @@
 
 import React from 'react';
-import Layout from '@/components/Layout';
 import { Activity } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useUserPreferences } from '@/contexts/UserPreferencesContext';
@@ -17,8 +16,7 @@ const Dashboard = () => {
 
   if (!user) {
     return (
-      <Layout>
-        <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-12">
           <div className="text-center">
             <Activity className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
             <h2 className="text-2xl font-bold text-primary mb-4">Sign in to view your dashboard</h2>
@@ -26,28 +24,24 @@ const Dashboard = () => {
             <Link to="/login">
               <Button>Sign In</Button>
             </Link>
-          </div>
         </div>
-      </Layout>
+      </div>
     );
   }
 
   if (dashboardData.loading) {
     return (
-      <Layout>
-        <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8">
           <div className="flex items-center justify-center min-h-[400px]">
             <div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full"></div>
             <span className="ml-3 text-muted-foreground">Loading your dashboard...</span>
-          </div>
         </div>
-      </Layout>
+      </div>
     );
   }
 
   return (
-    <Layout>
-      <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-primary mb-2">Your AI Dashboard</h1>
           <p className="text-muted-foreground">Track your AI tool usage and discover insights</p>
@@ -73,9 +67,8 @@ const Dashboard = () => {
               totalFavorites={dashboardData.favorites.length}
             />
           </div>
-        </div>
       </div>
-    </Layout>
+    </div>
   );
 };
 

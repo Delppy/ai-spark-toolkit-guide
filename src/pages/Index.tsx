@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { BookOpen, Briefcase, Camera, UserCheck, FileText, ChevronRight, Sparkles, Zap, Star, Crown } from "lucide-react";
 import { Link } from "react-router-dom";
-import Layout from "@/components/Layout";
+
 import { TrendingToolsSection } from "@/components/TrendingToolsSection";
 import { ToolCard } from "@/components/ToolCard";
 import { AdvancedSearch } from "@/components/AdvancedSearch";
@@ -150,7 +150,7 @@ const Index = () => {
   ];
 
   return (
-    <Layout>
+    <>
       {/* Advanced Search Section */}
       <section className="container mx-auto px-4 py-8">
         <AdvancedSearch
@@ -320,9 +320,9 @@ const Index = () => {
               </Button>
             </div>
           </div>
-        </section>
-      )}
-    </Layout>
+      </section>
+    )}
+  </>
   );
 };
 

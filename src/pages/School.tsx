@@ -152,8 +152,7 @@ const School = () => {
         keywords={["AI tools", "education", "students", "teachers", "school", "learning"]}
         canonicalUrl="https://aitouse.app/school"
       />
-      <Layout>
-        <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8">
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-foreground mb-4">
               AI Tools for School & Education
@@ -242,7 +241,6 @@ const School = () => {
             </div>
           )}
         </div>
-      </Layout>
     </>
   );
 };

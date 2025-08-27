@@ -1,12 +1,11 @@
 
-import Layout from "@/components/Layout";
+import React from 'react';
 
 const PrivacyPolicy = () => {
   const currentDate = "June 14, 2025";
 
   return (
-    <Layout>
-      <div className="bg-background text-foreground">
+    <div className="bg-background text-foreground">
         <div className="container mx-auto max-w-4xl py-16 px-4 sm:px-6 lg:px-8">
           <div className="space-y-12">
             <div className="text-center">
@@ -130,9 +129,8 @@ const PrivacyPolicy = () => {
               </section>
             </div>
           </div>
-        </div>
       </div>
-    </Layout>
+    </div>
   );
 };
 

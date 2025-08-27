@@ -1,6 +1,5 @@
 
 import React, { useState, useEffect } from "react";
-import Layout from "@/components/Layout";
 import { ToolCard } from "@/components/ToolCard";
 import { Button } from "@/components/ui/button";
 import { dataManager } from "@/data/dataManager";
@@ -94,8 +93,7 @@ const Favorites = () => {
 
   if (!user) {
     return (
-      <Layout>
-        <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-12">
           <div className="text-center">
             <Heart className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
             <h2 className="text-2xl font-bold text-primary mb-4">Sign in to view favorites</h2>
@@ -103,28 +101,24 @@ const Favorites = () => {
             <Link to="/login">
               <Button>Sign In</Button>
             </Link>
-          </div>
         </div>
-      </Layout>
+      </div>
     );
   }
 
   if (loading) {
     return (
-      <Layout>
-        <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-12">
           <div className="text-center">
             <div className="animate-spin w-8 h-8 border-2 border-primary border-t-transparent rounded-full mx-auto"></div>
             <p className="mt-4 text-muted-foreground">Loading your favorites...</p>
-          </div>
         </div>
-      </Layout>
+      </div>
     );
   }
 
   return (
-    <Layout>
-      <div className="container mx-auto px-4 py-12">
+    <div className="container mx-auto px-4 py-12">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
             Your Favorite Tools
@@ -165,9 +159,8 @@ const Favorites = () => {
               ))}
             </div>
           </>
-        )}
-      </div>
-    </Layout>
+      )}
+    </div>
   );
 };
 

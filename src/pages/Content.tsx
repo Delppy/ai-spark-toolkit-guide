@@ -152,8 +152,7 @@ const Content = () => {
         keywords={["AI tools", "content creation", "writing", "video", "design", "marketing"]}
         canonicalUrl="https://aitouse.app/content"
       />
-      <Layout>
-        <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8">
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-foreground mb-4">
               AI Tools for Content Creation
@@ -223,7 +222,6 @@ const Content = () => {
             </div>
           )}
         </div>
-      </Layout>
     </>
   );
 };
