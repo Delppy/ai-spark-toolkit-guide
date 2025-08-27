@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import Layout from "@/components/Layout";
+import React, { useState, useEffect } from "react";
 import { ToolCard } from "@/components/ToolCard";
 import { ToolFilters } from "@/components/ToolFilters";
 import { ToolSorting } from "@/components/ToolSorting";
@@ -113,8 +112,7 @@ const ToolsWithFilters = () => {
   };
   
   return (
-    <Layout>
-      <div className="container mx-auto px-4 py-12">
+    <div className="container mx-auto px-4 py-12">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-slate-900 via-purple-900 to-blue-900 bg-clip-text text-transparent">
             Explore AI Tools
@@ -191,9 +189,8 @@ const ToolsWithFilters = () => {
               />
             ))}
           </div>
-        )}
-      </div>
-    </Layout>
+      )}
+    </div>
   );
 };
 

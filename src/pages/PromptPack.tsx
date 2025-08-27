@@ -1,6 +1,5 @@
 import { useParams, Link } from 'react-router-dom';
-import { useState } from 'react';
-import Layout from '@/components/Layout';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -25,15 +24,13 @@ const PromptPack = () => {
 
   if (!pack) {
     return (
-      <Layout>
-        <div className="container mx-auto px-4 py-12 text-center">
+      <div className="container mx-auto px-4 py-12 text-center">
           <h1 className="text-2xl font-bold text-slate-900 mb-4">Prompt Pack Not Found</h1>
           <p className="text-slate-600 mb-8">The prompt pack you're looking for doesn't exist.</p>
           <Button asChild>
             <Link to="/prompts">Browse All Prompt Packs</Link>
-          </Button>
-        </div>
-      </Layout>
+        </Button>
+      </div>
     );
   }
 

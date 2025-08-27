@@ -1,5 +1,5 @@
 
-import Layout from "@/components/Layout";
+import React, { useState } from "react";
 import ProfileTabs from "@/components/ProfileTabs";
 import { useProfile } from "@/hooks/useProfile";
 import { useProfilePreferences } from "@/hooks/useProfilePreferences";
@@ -29,23 +29,18 @@ const Profile = () => {
 
   if (checkingProfile) {
     return (
-      <Layout>
-        <div className="flex items-center justify-center min-h-[80vh]">Loading...</div>
-      </Layout>
+      <div className="flex items-center justify-center min-h-[80vh]">Loading...</div>
     );
   }
 
   if (!user || !profile) {
     return (
-      <Layout>
-        <div className="flex items-center justify-center min-h-[80vh]">Couldn't find a profile for this user.</div>
-      </Layout>
+      <div className="flex items-center justify-center min-h-[80vh]">Couldn't find a profile for this user.</div>
     );
   }
 
   return (
-    <Layout>
-      <div className="w-full max-w-md mx-auto min-h-[80vh]">
+    <div className="w-full max-w-md mx-auto min-h-[80vh]">
         <ProfileTabs
           profile={profile}
           email={email}
@@ -65,9 +60,8 @@ const Profile = () => {
           setCountry={setCountry}
           prefs={prefs}
           handlePrefsChange={handlePrefsChange}
-        />
-      </div>
-    </Layout>
+      />
+    </div>
   );
 };
 

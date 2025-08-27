@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import Layout from '@/components/Layout';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -257,7 +256,7 @@ ${context}`;
   };
 
   return (
-    <Layout>
+    <>
       <Helmet>
         <title>Prompt Refinery - Transform Ideas into Perfect Prompts | AiToUse</title>
         <meta name="description" content="Transform your raw ideas into precise, context-rich prompts that generate better AI results. Specialized for education, business, content creation, and career development." />
@@ -515,8 +514,8 @@ ${context}`;
               )}
             </div>
           </div>
-        </div>
       </div>
-    </Layout>
+    </div>
+  </>
   );
 }

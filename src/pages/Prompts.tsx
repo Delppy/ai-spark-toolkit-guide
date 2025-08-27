@@ -1,6 +1,5 @@
 
 import React, { useState } from "react";
-import Layout from "@/components/Layout";
 import { PromptPackCard } from "@/components/PromptPackCard";
 import { PromptRefinerySection } from "@/components/PromptRefinerySection";
 import { NewAd } from "@/components/ads/NewAd";
@@ -69,8 +68,7 @@ const Prompts = () => {
   // If user is not logged in, show full paywall
   if (!user) {
     return (
-      <Layout>
-        <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-12">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-foreground via-primary to-primary/80 bg-clip-text text-transparent">
               Premium Prompt Packs
@@ -147,15 +145,13 @@ const Prompts = () => {
                 Already have Premium? {user ? "Your subscription may still be processing." : "Please log in to access your prompts."}
               </p>
             </div>
-          </div>
         </div>
-      </Layout>
+      </div>
     );
   }
 
   return (
-    <Layout>
-      <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Crown className="w-8 h-8 text-amber-500" />
@@ -254,9 +250,8 @@ const Prompts = () => {
           <div className="text-center py-12">
             <p className="text-slate-500 text-lg">No prompt packs found in this category.</p>
           </div>
-        )}
-      </div>
-    </Layout>
+      )}
+    </div>
   );
 };
 
