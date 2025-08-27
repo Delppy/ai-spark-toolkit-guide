@@ -112,22 +112,13 @@ const Layout = () => {
                 </DropdownMenu>
               )}
               
-              {/* Premium Badge - Show for all logged in users */}
+              {/* Free Access Badge - Non-clickable */}
               {user && (
-                <div className="ml-2 flex items-center gap-2">
-                  {subscriptionStatus.premiumBadge ? (
-                    <Badge variant="premium" className="flex items-center gap-1.5 py-1.5 px-3">
-                      <Star className="w-4 h-4" />
-                      Premium
-                    </Badge>
-                  ) : (
-                    <Link to="/pricing">
-                      <Badge variant="free_tier" className="py-1.5 px-3 flex items-center gap-1.5 transition-all hover:shadow-md">
-                        <Star className="w-4 h-4 text-amber-500" />
-                        Free Access
-                      </Badge>
-                    </Link>
-                  )}
+                <div className="ml-2">
+                  <Badge variant="secondary" className="py-1.5 px-3 flex items-center gap-1.5">
+                    <Star className="w-4 h-4 text-amber-500" />
+                    Free Access
+                  </Badge>
                 </div>
               )}
             </div>
