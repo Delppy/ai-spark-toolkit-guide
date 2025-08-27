@@ -8,6 +8,7 @@ import Layout from '@/components/Layout';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorBoundary from '@/components/ErrorBoundary';
 import { UserPreferencesProvider } from '@/contexts/UserPreferencesContext';
+import { TransitionProvider } from '@/contexts/TransitionContext';
 import AnalyticsConsent from '@/components/AnalyticsConsent';
 
 // Lazy load all pages for better performance
@@ -51,7 +52,8 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
-            <AnalyticsConsent />
+            <TransitionProvider>
+              <AnalyticsConsent />
             <Suspense fallback={<LoadingSpinner />}>
               <Routes>
                 <Route path="/" element={<Layout />}>
@@ -79,7 +81,8 @@ const App = () => (
                 </Route>
               </Routes>
             </Suspense>
-          </BrowserRouter>
+          </TransitionProvider>
+        </BrowserRouter>
         </UserPreferencesProvider>
       </TooltipProvider>
     </QueryClientProvider>

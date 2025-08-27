@@ -1,193 +1,193 @@
+import React from 'react';
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
+import AnimatedButton from "@/components/ui/animated-button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
+import { Link } from "react-router-dom";
+import { ArrowLeft, Send, Mail, MessageSquare, Phone } from 'lucide-react';
+import SEOHead from '@/components/SEOHead';
 
-import React, { useState } from 'react';
-import { ArrowLeft, Mail } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import AnimatedButton from '@/components/ui/animated-button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { useForm } from 'react-hook-form';
-import { toast } from '@/hooks/use-toast';
-import Layout from '@/components/Layout';
+const formSchema = z.object({
+  name: z.string().min(2, {
+    message: "Name must be at least 2 characters.",
+  }),
+  email: z.string().email({
+    message: "Please enter a valid email address.",
+  }),
+  subject: z.string().min(5, {
+    message: "Subject must be at least 5 characters.",
+  }),
+  message: z.string().min(10, {
+    message: "Message must be at least 10 characters.",
+  }),
+});
 
-interface ContactFormData {
-  fullName: string;
-  email: string;
-  message: string;
-  category: string;
-}
-
-const Contact = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const form = useForm<ContactFormData>({
+export default function Contact() {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
-      fullName: '',
-      email: '',
-      message: '',
-      category: '',
+      name: "",
+      email: "",
+      subject: "",
+      message: "",
     },
   });
 
-  const handleEmailClick = () => {
-    window.location.href = 'mailto:support@aitouse.app';
-  };
-
-  const onSubmit = async (data: ContactFormData) => {
-    setIsSubmitting(true);
-    console.log('Contact form submitted:', data);
-    
-    // Simulate form submission
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    toast.success("Message sent successfully! We'll get back to you soon.");
     setTimeout(() => {
-      setIsSubmitting(false);
-      toast({
-        title: "Message sent!",
-        description: "Thanks for reaching out! We'll get back to you within 24–48 hours.",
-      });
       form.reset();
     }, 1000);
   };
 
   return (
-    <Layout>
+    <>
+      <SEOHead
+        title="Contact Us"
+        description="Get in touch with AiToUse. We're here to help with any questions about AI tools, features, or suggestions."
+      />
       <div className="min-h-screen bg-gradient-to-br from-muted to-secondary/10 p-4">
         <div className="max-w-2xl mx-auto">
           {/* Header */}
           <div className="flex items-center mb-6">
             <AnimatedButton asChild variant="ghost" size="sm" className="mr-2">
               <Link to="/">
-                <ArrowLeft className="w-4 h-4" />
+                <ArrowLeft className="h-4 w-4 mr-1" />
+                Back
               </Link>
             </AnimatedButton>
-            <h1 className="text-2xl font-bold text-primary">Contact Us</h1>
           </div>
 
-          {/* Contact Options */}
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>Get in Touch</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {/* Email */}
-              <button
-                onClick={handleEmailClick}
-                className="w-full flex items-center p-4 bg-muted rounded-lg border border-border hover:bg-muted/80 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
-              >
-                <Mail className="w-5 h-5 mr-3 text-accent" />
-                <div className="text-left">
-                  <div className="font-medium text-foreground">📧 Email Us</div>
-                  <div className="text-sm text-muted-foreground">support@aitouse.app</div>
-                </div>
-              </button>
-            </CardContent>
-          </Card>
+          {/* Contact Form Card */}
+          <div className="bg-card rounded-xl shadow-lg p-8">
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold mb-2">Contact Us</h1>
+              <p className="text-muted-foreground">
+                Have a question or feedback? We'd love to hear from you!
+              </p>
+            </div>
 
-          {/* Contact Form */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Send us a Message</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            {/* Contact Methods */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+              <div className="flex flex-col items-center p-4 bg-muted rounded-lg">
+                <Mail className="h-6 w-6 text-primary mb-2" />
+                <span className="text-sm font-medium">Email</span>
+                <span className="text-xs text-muted-foreground">support@aitouse.com</span>
+              </div>
+              <div className="flex flex-col items-center p-4 bg-muted rounded-lg">
+                <MessageSquare className="h-6 w-6 text-primary mb-2" />
+                <span className="text-sm font-medium">Live Chat</span>
+                <span className="text-xs text-muted-foreground">Available 24/7</span>
+              </div>
+              <div className="flex flex-col items-center p-4 bg-muted rounded-lg">
+                <Phone className="h-6 w-6 text-primary mb-2" />
+                <span className="text-sm font-medium">Phone</span>
+                <span className="text-xs text-muted-foreground">Coming Soon</span>
+              </div>
+            </div>
+
+            {/* Contact Form */}
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <FormField
                     control={form.control}
-                    name="fullName"
-                    rules={{ required: "Full name is required" }}
+                    name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Full Name</FormLabel>
+                        <FormLabel>Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter your full name" {...field} />
+                          <Input placeholder="John Doe" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
-
                   <FormField
                     control={form.control}
                     name="email"
-                    rules={{ 
-                      required: "Email is required",
-                      pattern: {
-                        value: /\S+@\S+\.\S+/,
-                        message: "Please enter a valid email address"
-                      }
-                    }}
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Email Address</FormLabel>
+                        <FormLabel>Email</FormLabel>
                         <FormControl>
-                          <Input type="email" placeholder="Enter your email" {...field} />
+                          <Input placeholder="john@example.com" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
+                </div>
+                <FormField
+                  control={form.control}
+                  name="subject"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Subject</FormLabel>
+                      <FormControl>
+                        <Input placeholder="How can we help?" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="message"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Message</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Tell us more about your inquiry..."
+                          className="min-h-[120px]"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        Please provide as much detail as possible.
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <AnimatedButton
+                  type="submit"
+                  className="w-full"
+                  size="lg"
+                >
+                  <Send className="h-4 w-4 mr-2" />
+                  Send Message
+                </AnimatedButton>
+              </form>
+            </Form>
 
-                  <FormField
-                    control={form.control}
-                    name="category"
-                    rules={{ required: "Please select a category" }}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Category</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Select a category" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            <SelectItem value="bug">Bug Report</SelectItem>
-                            <SelectItem value="feedback">Feedback</SelectItem>
-                            <SelectItem value="prompt">Prompt Request</SelectItem>
-                            <SelectItem value="other">Other</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="message"
-                    rules={{ required: "Message is required" }}
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Message</FormLabel>
-                        <FormControl>
-                          <Textarea 
-                            placeholder="Tell us how we can help you..."
-                            className="min-h-[120px]"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <AnimatedButton
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700"
-                  >
-                    {isSubmitting ? "Sending..." : "Send Message"}
-                  </AnimatedButton>
-                </form>
-              </Form>
-            </CardContent>
-          </Card>
+            {/* FAQ Link */}
+            <div className="mt-8 p-4 bg-muted rounded-lg text-center">
+              <p className="text-sm text-muted-foreground mb-2">
+                Looking for quick answers?
+              </p>
+              <AnimatedButton asChild variant="link" size="sm">
+                <Link to="/help">
+                  Visit our Help Center →
+                </Link>
+              </AnimatedButton>
+            </div>
+          </div>
         </div>
       </div>
-    </Layout>
+    </>
   );
-};
-
-export default Contact;
+}

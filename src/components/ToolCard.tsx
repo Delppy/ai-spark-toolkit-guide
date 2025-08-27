@@ -44,7 +44,7 @@ export const ToolCard: React.FC<ToolCardProps> = ({
   // Needed to get userId for Pro gating
   const { user } = useUserPreferences() as any;
   const userId = user?.id || null;
-  const { isPro, proGate } = useProGate(userId);
+  const { isPro, proGate } = useProGate();
   const navigate = useNavigate();
 
   const getFreeOfferingIcon = (offering: string) => {

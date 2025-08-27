@@ -1,4 +1,4 @@
-import Layout from "@/components/Layout";
+import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -19,9 +19,8 @@ const About = () => {
   };
 
   return (
-    <Layout>
-      <div className="container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto">
+    <div className="container mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto">
           <ScrollArea className="h-[calc(100vh-200px)]">
             <div className="space-y-8">
               {/* Header */}
@@ -187,9 +186,8 @@ const About = () => {
               <div className="pb-8"></div>
             </div>
           </ScrollArea>
-        </div>
       </div>
-    </Layout>
+    </div>
   );
 };
 

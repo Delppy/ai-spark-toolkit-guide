@@ -35,8 +35,8 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
   // Pro gating and credits
   const { user } = useUserPreferences() as any;
   const userId = user?.id || null;
-  const { isPro, proGate } = useProGate(userId);
-  const { credits, useCredit, hasCredits } = usePromptCredits(userId);
+  const { isPro, proGate } = useProGate();
+  const { credits, hasCredits, useCredit } = usePromptCredits();
   
   // Determine access level
   const hasFullAccess = isPro;
