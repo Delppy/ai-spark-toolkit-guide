@@ -53,7 +53,7 @@ const PromptPack = () => {
   };
 
   return (
-    <Layout>
+    <>
       <SEOHead 
         title={`${pack.title} - AI Prompt Pack`}
         description={`${pack.description} Access ${pack.examples.length} professional AI prompts for ${pack.category.toLowerCase()}.`}
@@ -209,7 +209,7 @@ const PromptPack = () => {
           </Card>
         </div>
       </div>
-    </Layout>
+    </>
   );
 };
 

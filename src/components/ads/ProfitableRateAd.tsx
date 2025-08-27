@@ -8,7 +8,7 @@ interface ProfitableRateAdProps {
 
 export const ProfitableRateAd: React.FC<ProfitableRateAdProps> = ({ className = "" }) => {
   const { user } = useUserPreferences();
-  const { isPro } = useSubscription(user?.id);
+  const { isPro } = useSubscription(user?.id || null);
   const adRef = useRef<HTMLDivElement>(null);
   
   // Show ads for non-logged-in users or logged-in users who are not Pro

@@ -26,7 +26,7 @@ const Pricing: React.FC = () => {
   const { user } = useUserPreferences();
   const navigate = useNavigate();
   const location = useLocation();
-  const { checkStatus, isPro, subscriptionStatus } = useSubscription(user?.id);
+  const { checkStatus, isPro, subscriptionStatus } = useSubscription(user?.id || null);
 
   useEffect(() => {
     const detectRegion = async () => {

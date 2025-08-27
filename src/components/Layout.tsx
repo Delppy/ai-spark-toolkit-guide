@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import AnimatedButton from "@/components/ui/animated-button";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -10,24 +9,23 @@ import {
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
 import { Sparkles, Star, User, Settings, LogOut } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, Outlet } from "react-router-dom";
 import PageTransition from "./PageTransition";
-import { useSubscription } from "@/hooks/useSubscription";
+import { useSubscription } from "@/hooks/useFreeAccess";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 import { Badge } from "@/components/ui/badge";
 import { NewAd } from "@/components/ads/NewAd";
 import { ProfitableRateAd } from "@/components/ads/ProfitableRateAd";
-import { SubscriptionRefreshButton } from "@/components/SubscriptionRefreshButton";
 
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import React from "react";
 
-const Layout = ({ children }: { children: React.ReactNode }) => {
+const Layout = () => {
   const location = useLocation();
   const { user, profile } = useUserPreferences();
   // Force reactivity on user?.id
-  const subscriptionStatus = useSubscription(user?.id);
+  const subscriptionStatus = useSubscription(user?.id || null);
   console.log("[Layout] user:", user, "profile:", profile, "subscription:", {
     isPro: subscriptionStatus.isPro,
     premiumBadge: subscriptionStatus.premiumBadge,
@@ -126,11 +124,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                     <Link to="/pricing">
                       <Badge variant="free_tier" className="py-1.5 px-3 flex items-center gap-1.5 transition-all hover:shadow-md">
                         <Star className="w-4 h-4 text-amber-500" />
-                        Remove Ads
+                        Free Access
                       </Badge>
                     </Link>
                   )}
-                  <SubscriptionRefreshButton />
                 </div>
               )}
             </div>
@@ -140,7 +137,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
       
       <main className={`flex-grow ${subscriptionStatus.showRemoveAds ? 'pb-4' : ''}`}>
         <PageTransition>
-          {children}
+          <Outlet />
         </PageTransition>
       </main>
       

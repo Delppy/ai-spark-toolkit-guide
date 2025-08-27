@@ -1,5 +1,5 @@
 // Stub hook for free access - everything is free and available
-export function useFreeAccess() {
+export function useFreeAccess(_userId?: string | null) {
   return {
     isPro: true,
     hasCredits: true,
@@ -12,6 +12,7 @@ export function useFreeAccess() {
     subscriptionTier: 'free',
     refresh: async () => {},
     checkStatus: async () => null,
+    showRemoveAds: false,
   };
 }
 

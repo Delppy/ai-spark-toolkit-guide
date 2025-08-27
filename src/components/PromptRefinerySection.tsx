@@ -12,9 +12,9 @@ import type { AiToUsePromptResponse } from "@/types/promptRefinery";
 
 export const PromptRefinerySection: React.FC = () => {
   const { user } = useUserPreferences();
-  const { isPro } = useSubscription(user?.id);
-  const { proGate } = useProGate(user?.id);
-  const { credits, useCredit, hasCredits, loading: creditsLoading } = usePromptCredits(user?.id);
+  const { isPro } = useSubscription();
+  const { proGate } = useProGate();
+  const { credits, useCredit, hasCredits, loading: creditsLoading } = usePromptCredits();
   
   const [userInput, setUserInput] = useState("");
   const [generatedPrompts, setGeneratedPrompts] = useState<AiToUsePromptResponse | null>(null);

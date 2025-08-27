@@ -17,8 +17,8 @@ import { Badge } from "@/components/ui/badge";
 
 const Prompts = () => {
   const { user } = useUserPreferences();
-  const { isPro } = useSubscription(user?.id);
-  const { proGate } = useProGate(user?.id);
+  const { isPro } = useSubscription();
+  const { proGate } = useProGate();
   
   // State for filtering
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
