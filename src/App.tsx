@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HelmetProvider } from 'react-helmet-async';
 import Layout from '@/components/Layout';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import ErrorBoundary from '@/components/ErrorBoundary';
@@ -47,44 +48,46 @@ const queryClient = new QueryClient({
 const App = () => (
   <ErrorBoundary>
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <UserPreferencesProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <TransitionProvider>
-              <AnalyticsConsent />
-            <Suspense fallback={<LoadingSpinner />}>
-              <Routes>
-                <Route path="/" element={<Layout />}>
-                  <Route index element={<Index />} />
-                  <Route path="tools" element={<Tools />} />
-                  <Route path="tools-with-filters" element={<ToolsWithFilters />} />
-                  <Route path="content" element={<Content />} />
-                  <Route path="business" element={<Business />} />
-                  <Route path="school" element={<School />} />
-                  <Route path="career" element={<Career />} />
-                  <Route path="pdf-tools" element={<PDFTools />} />
-                  <Route path="pricing" element={<Pricing />} />
-                  <Route path="about" element={<About />} />
-                  <Route path="contact" element={<Contact />} />
-                  <Route path="privacy-policy" element={<PrivacyPolicy />} />
-                  <Route path="help" element={<Help />} />
-                  <Route path="profile" element={<Profile />} />
-                  <Route path="account" element={<Profile />} />
-                  <Route path="prompt-refinery" element={<PromptRefinery />} />
-                  <Route path="prompts" element={<Prompts />} />
-                  <Route path="prompt/:id" element={<PromptPack />} />
-                  <Route path="dashboard" element={<Dashboard />} />
-                  <Route path="favorites" element={<Favorites />} />
-                  <Route path="*" element={<NotFound />} />
-                </Route>
-              </Routes>
-            </Suspense>
-          </TransitionProvider>
-        </BrowserRouter>
-        </UserPreferencesProvider>
-      </TooltipProvider>
+      <HelmetProvider>
+        <TooltipProvider>
+          <UserPreferencesProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <TransitionProvider>
+                <AnalyticsConsent />
+                <Suspense fallback={<LoadingSpinner />}>
+                  <Routes>
+                    <Route path="/" element={<Layout />}>
+                      <Route index element={<Index />} />
+                      <Route path="tools" element={<Tools />} />
+                      <Route path="tools-with-filters" element={<ToolsWithFilters />} />
+                      <Route path="content" element={<Content />} />
+                      <Route path="business" element={<Business />} />
+                      <Route path="school" element={<School />} />
+                      <Route path="career" element={<Career />} />
+                      <Route path="pdf-tools" element={<PDFTools />} />
+                      <Route path="pricing" element={<Pricing />} />
+                      <Route path="about" element={<About />} />
+                      <Route path="contact" element={<Contact />} />
+                      <Route path="privacy-policy" element={<PrivacyPolicy />} />
+                      <Route path="help" element={<Help />} />
+                      <Route path="profile" element={<Profile />} />
+                      <Route path="account" element={<Profile />} />
+                      <Route path="prompt-refinery" element={<PromptRefinery />} />
+                      <Route path="prompts" element={<Prompts />} />
+                      <Route path="prompt/:id" element={<PromptPack />} />
+                      <Route path="dashboard" element={<Dashboard />} />
+                      <Route path="favorites" element={<Favorites />} />
+                      <Route path="*" element={<NotFound />} />
+                    </Route>
+                  </Routes>
+                </Suspense>
+              </TransitionProvider>
+            </BrowserRouter>
+          </UserPreferencesProvider>
+        </TooltipProvider>
+      </HelmetProvider>
     </QueryClientProvider>
   </ErrorBoundary>
 );
