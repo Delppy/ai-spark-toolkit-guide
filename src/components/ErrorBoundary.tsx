@@ -107,7 +107,7 @@ class ErrorBoundary extends Component<Props, State> {
                 </Button>
                 <Button 
                   onClick={this.handleReload}
-                  className="flex-1 bg-gradient-to-r from-purple-500 to-blue-600"
+                  className="flex-1 bg-gradient-to-r from-primary to-secondary"
                 >
                   <RefreshCw className="w-4 h-4 mr-2" />
                   Reload Page

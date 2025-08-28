@@ -31,7 +31,7 @@ const Tools = () => {
   return (
     <div className="container mx-auto px-4 py-12">
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-slate-900 via-purple-900 to-blue-900 bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
             Explore AI Tools
           </h2>
           <p className="text-xl text-slate-600 mt-4 max-w-2xl mx-auto">

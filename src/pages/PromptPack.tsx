@@ -116,7 +116,7 @@ const PromptPack = () => {
         {/* Prompts Grid */}
         <div className="grid gap-6">
           <h2 className="text-2xl font-semibold text-slate-900 flex items-center">
-            <Copy className="w-6 h-6 mr-2 text-purple-600" />
+            <Copy className="w-6 h-6 mr-2 text-primary" />
             All Prompts ({pack.examples.length})
           </h2>
           
@@ -142,7 +142,7 @@ const PromptPack = () => {
                           ? 'bg-green-100 text-green-700' 
                           : isLocked && index >= 2
                           ? 'opacity-50'
-                          : 'hover:bg-purple-50 hover:text-purple-700'
+                          : 'hover:bg-primary/5 hover:text-primary'
                       }`}
                       disabled={isLocked && index >= 2}
                     >
@@ -162,14 +162,14 @@ const PromptPack = () => {
                   {isLocked && index >= 2 && (
                     <div className="absolute inset-0 bg-white/80 flex items-center justify-center">
                       <div className="text-center">
-                        <div className="bg-purple-100 p-3 rounded-full inline-block mb-3">
-                          <Sparkles className="w-6 h-6 text-purple-600" />
+                        <div className="bg-primary/10 p-3 rounded-full inline-block mb-3">
+                          <Sparkles className="w-6 h-6 text-primary" />
                         </div>
-                        <p className="text-sm font-medium text-purple-900 mb-2">Pro Feature</p>
+                        <p className="text-sm font-medium text-foreground mb-2">Pro Feature</p>
                         <Button 
                           onClick={proGate}
                           size="sm"
-                          className="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700"
+                          className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90"
                         >
                           Unlock Now
                         </Button>
@@ -184,7 +184,7 @@ const PromptPack = () => {
 
         {/* CTA Section */}
         <div className="mt-12 text-center">
-          <Card className="bg-gradient-to-r from-purple-50 to-blue-50 border-purple-200">
+          <Card className="bg-gradient-to-r from-primary/5 to-secondary/5 border-primary/20">
             <CardContent className="p-8">
               <h3 className="text-2xl font-bold text-slate-900 mb-4">
                 Ready to boost your productivity?
@@ -193,14 +193,9 @@ const PromptPack = () => {
                 Explore more professional prompt packs designed to help you work smarter and faster.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button asChild className="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700">
+                <Button asChild className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90">
                   <Link to="/prompts">Browse All Prompt Packs</Link>
                 </Button>
-                {!isPro && (
-                  <Button onClick={proGate} variant="outline" className="border-purple-300 text-purple-700 hover:bg-purple-50">
-                    Upgrade to Pro
-                  </Button>
-                )}
               </div>
             </CardContent>
           </Card>

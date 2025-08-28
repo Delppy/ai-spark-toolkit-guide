@@ -50,7 +50,7 @@ const getHighlightColor = (type: string) => {
     case 'most_used':
       return 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white';
     case 'recommended':
-      return 'bg-gradient-to-r from-purple-500 to-pink-500 text-white';
+      return 'bg-gradient-to-r from-primary to-accent text-white';
     default:
       return 'bg-gradient-to-r from-green-500 to-emerald-500 text-white';
   }

@@ -61,7 +61,7 @@ const About = () => {
               {/* Who It's For */}
               <div className="space-y-4">
                 <div className="flex items-center space-x-2">
-                  <Users className="w-6 h-6 text-purple-500" />
+                  <Users className="w-6 h-6 text-primary" />
                   <h2 className="text-2xl font-bold text-slate-800">🎯 Who It's For</h2>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -85,7 +85,7 @@ const About = () => {
                   </div>
                   <div className="bg-white p-4 rounded-lg border border-slate-200 hover:shadow-md transition-shadow">
                     <div className="flex items-center space-x-2">
-                      <Laptop className="w-5 h-5 text-purple-500" />
+                      <Laptop className="w-5 h-5 text-primary" />
                       <span className="font-semibold">Professionals & job seekers 💻</span>
                     </div>
                   </div>
@@ -97,7 +97,7 @@ const About = () => {
               {/* What You Get */}
               <div className="space-y-4">
                 <div className="flex items-center space-x-2">
-                  <Rocket className="w-6 h-6 text-purple-500" />
+                  <Rocket className="w-6 h-6 text-primary" />
                   <h2 className="text-2xl font-bold text-slate-800">🚀 What You Get</h2>
                 </div>
                 <div className="bg-white p-6 rounded-lg border border-slate-200 space-y-4">
@@ -149,7 +149,7 @@ const About = () => {
               {/* Contact & Support */}
               <div className="space-y-4">
                 <div className="flex items-center space-x-2">
-                  <Mail className="w-6 h-6 text-purple-500" />
+                  <Mail className="w-6 h-6 text-primary" />
                   <h2 className="text-2xl font-bold text-slate-800">📩 Contact & Support</h2>
                 </div>
                 <div className="space-y-4">
@@ -158,7 +158,7 @@ const About = () => {
                     <p className="text-slate-700"><strong>Website:</strong> www.aitouse.app</p>
                   </div>
                   <div className="flex flex-col sm:flex-row gap-3">
-                    <Button onClick={handleWebsiteVisit} className="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700">
+                    <Button onClick={handleWebsiteVisit} className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90">
                       Visit Website
                     </Button>
                     <Button onClick={handleEmailContact} variant="outline">
@@ -176,7 +176,7 @@ const About = () => {
               {/* Built With Love */}
               <div className="space-y-4">
                 <h2 className="text-2xl font-bold text-slate-800">🤝 Built With Love</h2>
-                <div className="bg-gradient-to-r from-purple-50 to-blue-50 p-6 rounded-lg text-center">
+                <div className="bg-gradient-to-r from-primary/5 to-secondary/5 p-6 rounded-lg text-center">
                   <p className="text-slate-700 leading-relaxed">
                     Built by a team of creators who believe AI should work for you, not confuse you.
                   </p>
