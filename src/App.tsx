@@ -33,6 +33,8 @@ const Profile = lazy(() => import('@/pages/Profile'));
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
 const Favorites = lazy(() => import('@/pages/Favorites'));
 const NotFound = lazy(() => import('@/pages/NotFound'));
+const Login = lazy(() => import('@/pages/Login'));
+const SignUp = lazy(() => import('@/pages/SignUp'));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -60,6 +62,8 @@ const App = () => (
                   <Routes>
                     <Route path="/" element={<Layout />}>
                       <Route index element={<Index />} />
+                      <Route path="login" element={<Login />} />
+                      <Route path="signup" element={<SignUp />} />
                       <Route path="tools" element={<Tools />} />
                       <Route path="tools-with-filters" element={<ToolsWithFilters />} />
                       <Route path="content" element={<Content />} />
