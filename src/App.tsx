@@ -35,6 +35,8 @@ const Favorites = lazy(() => import('@/pages/Favorites'));
 const NotFound = lazy(() => import('@/pages/NotFound'));
 const Login = lazy(() => import('@/pages/Login'));
 const SignUp = lazy(() => import('@/pages/SignUp'));
+const ForgotPassword = lazy(() => import('@/pages/ForgotPassword'));
+const ResetPassword = lazy(() => import('@/pages/ResetPassword'));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -64,6 +66,8 @@ const App = () => (
                       <Route index element={<Index />} />
                       <Route path="login" element={<Login />} />
                       <Route path="signup" element={<SignUp />} />
+                      <Route path="forgot-password" element={<ForgotPassword />} />
+                      <Route path="reset-password" element={<ResetPassword />} />
                       <Route path="tools" element={<Tools />} />
                       <Route path="tools-with-filters" element={<ToolsWithFilters />} />
                       <Route path="content" element={<Content />} />
