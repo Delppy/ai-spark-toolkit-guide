@@ -18,14 +18,35 @@ export const useToolAnalytics = (category?: string) => {
   const [analytics, setAnalytics] = useState<ToolAnalytics[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
 
   useEffect(() => {
     fetchAnalytics();
-  }, [category]);
+  }, [category, isAuthenticated]);
+
+  const checkAuth = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    setIsAuthenticated(!!session);
+  };
 
   const fetchAnalytics = async () => {
     try {
       setIsLoading(true);
+      
+      // Check if user is authenticated before fetching analytics
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        // Not authenticated - use empty analytics (no error shown to user)
+        setAnalytics([]);
+        setError(null);
+        return;
+      }
+      
       let query = supabase
         .from('tool_analytics')
         .select('*')
@@ -37,12 +58,18 @@ export const useToolAnalytics = (category?: string) => {
       
       const { data, error } = await query;
       
-      if (error) throw error;
-      
-      setAnalytics(data || []);
+      if (error) {
+        console.error('Error fetching analytics:', error);
+        // Don't show error to user - analytics are optional for UX
+        setAnalytics([]);
+      } else {
+        setAnalytics(data || []);
+      }
+      setError(null);
     } catch (err) {
       console.error('Error fetching analytics:', err);
-      setError(err instanceof Error ? err.message : 'Failed to fetch analytics');
+      setAnalytics([]);
+      setError(null); // Don't expose errors to users
     } finally {
       setIsLoading(false);
     }
