@@ -22,20 +22,27 @@ const ForgotPassword = () => {
     setLoading(true);
 
     try {
+      console.log('Calling edge function with email:', email);
+      
       // Call our edge function to generate and send the reset email
       const { data, error } = await supabase.functions.invoke('send-password-reset', {
         body: { email }
       });
 
+      console.log('Edge function response:', { data, error });
+
       if (error) {
         console.error('Error sending reset email:', error);
         
         // Check for specific error types
-        if (error.message.includes('User not found') || error.message.includes('not found')) {
+        if (error.message?.includes('User not found') || error.message?.includes('not found')) {
           setError('No account found with this email address.');
           toast.error('Email not found');
+        } else if (error.message?.includes('Failed to fetch') || error.message?.includes('fetch')) {
+          setError('Unable to connect to email service. Please check your internet connection.');
+          toast.error('Connection error');
         } else {
-          setError('Failed to send reset email. Please try again later.');
+          setError(`Failed to send reset email: ${error.message || 'Please try again later.'}`);
           toast.error('Failed to send reset email');
         }
         return;
