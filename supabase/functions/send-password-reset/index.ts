@@ -63,7 +63,7 @@ const handler = async (req: Request): Promise<Response> => {
     const resetLink = linkData.properties.action_link;
     console.log("Reset link generated successfully");
 
-    const emailResponse = await resend.emails.send({
+    const { data: sent, error: sendError } = await resend.emails.send({
       from: "AiToUse <onboarding@resend.dev>",
       to: [email],
       subject: "Reset Your Password - AiToUse",
@@ -188,9 +188,17 @@ const handler = async (req: Request): Promise<Response> => {
       `,
     });
 
-    console.log("Password reset email sent successfully:", emailResponse);
+    if (sendError) {
+      console.error("Resend email error:", sendError);
+      return new Response(JSON.stringify({ error: sendError }), {
+        status: 401,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
+    }
 
-    return new Response(JSON.stringify(emailResponse), {
+    console.log("Password reset email sent successfully");
+
+    return new Response(JSON.stringify({ data: sent }), {
       status: 200,
       headers: {
         "Content-Type": "application/json",
