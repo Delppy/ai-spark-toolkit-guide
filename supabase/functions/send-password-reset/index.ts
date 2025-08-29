@@ -10,7 +10,7 @@ console.log("Initializing send-password-reset function v2...");
 console.log("Resend API Key present:", !!resendApiKey);
 
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
-const resend = new Resend(resendApiKey);
+// Resend client is initialized inside the handler after validating the API key
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -67,7 +67,17 @@ const handler = async (req: Request): Promise<Response> => {
     const resetLink = linkData.properties.action_link;
     console.log("Reset link generated successfully");
     console.log("Attempting to send email with Resend...");
-    console.log("Using API Key:", resendApiKey?.substring(0, 10) + "...");
+    
+    if (!resendApiKey) {
+      console.error("RESEND_API_KEY is not configured");
+      return new Response(
+        JSON.stringify({ error: "Email service not configured. Please try again later." }),
+        { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
+    const resend = new Resend(resendApiKey);
+    console.log("Resend initialized with key:", resendApiKey.substring(0, 6) + "******");
     
     try {
       const emailResponse = await resend.emails.send({
