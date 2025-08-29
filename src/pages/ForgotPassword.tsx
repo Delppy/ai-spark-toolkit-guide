@@ -25,39 +25,51 @@ const ForgotPassword = () => {
       // Get the current origin for the redirect URL
       const resetPasswordUrl = `${window.location.origin}/reset-password`;
       
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      // First, try to send the recovery email through Supabase Auth
+      const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: resetPasswordUrl,
       });
 
       if (error) {
-        if (error.message.includes('User not found')) {
+        // Check for common errors
+        if (error.message.includes('User not found') || error.message.includes('not found')) {
           setError('No account found with this email address.');
+          toast.error('Email not found');
+        } else if (error.message.includes('Error sending recovery email') || error.message.includes('535')) {
+          // SMTP not configured - show helpful message
+          console.error('SMTP configuration error:', error);
+          setError('Email service is currently unavailable. Please contact support or try again later.');
+          toast.error('Email service temporarily unavailable');
+          
+          // Provide alternative instructions
+          toast.info('Alternative: Please contact support@aitouse.com for password reset assistance.', {
+            duration: 10000,
+          });
         } else {
           setError(error.message);
+          toast.error('Failed to send reset email');
         }
-        toast.error('Failed to send reset email');
-      } else {
-        // Send custom email via edge function with better formatting
-        try {
-          const { data: { session } } = await supabase.auth.getSession();
-          
-          // Generate the reset link (Supabase will handle the actual token generation)
-          const resetLink = `${window.location.origin}/reset-password`;
-          
-          await supabase.functions.invoke('send-password-reset', {
-            body: { 
-              email,
-              resetLink: resetLink
-            }
-          });
-        } catch (emailError) {
-          console.error('Failed to send custom reset email:', emailError);
-          // Don't block the process if custom email fails, Supabase default email was sent
-        }
-        
-        setResetSent(true);
-        toast.success('Password reset instructions sent!');
+        return;
       }
+      
+      // If Supabase auth succeeded, also try to send our custom formatted email
+      // This is optional and won't block the process if it fails
+      try {
+        // Note: The actual reset link will be in the Supabase email
+        // Our custom email is just a nicely formatted notification
+        await supabase.functions.invoke('send-password-reset', {
+          body: { 
+            email,
+            resetLink: resetPasswordUrl
+          }
+        });
+      } catch (emailError) {
+        console.log('Custom email send attempted but not critical:', emailError);
+        // Don't show error - Supabase default email was sent
+      }
+      
+      setResetSent(true);
+      toast.success('If an account exists with this email, you will receive password reset instructions.');
     } catch (err) {
       setError('An unexpected error occurred. Please try again.');
       toast.error('Something went wrong');
