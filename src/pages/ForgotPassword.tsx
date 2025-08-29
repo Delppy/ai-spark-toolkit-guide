@@ -22,50 +22,23 @@ const ForgotPassword = () => {
     setLoading(true);
 
     try {
-      // Get the current origin for the redirect URL
-      const resetPasswordUrl = `${window.location.origin}/reset-password`;
-      
-      // First, try to send the recovery email through Supabase Auth
-      const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: resetPasswordUrl,
+      // Call our edge function to generate and send the reset email
+      const { data, error } = await supabase.functions.invoke('send-password-reset', {
+        body: { email }
       });
 
       if (error) {
-        // Check for common errors
+        console.error('Error sending reset email:', error);
+        
+        // Check for specific error types
         if (error.message.includes('User not found') || error.message.includes('not found')) {
           setError('No account found with this email address.');
           toast.error('Email not found');
-        } else if (error.message.includes('Error sending recovery email') || error.message.includes('535')) {
-          // SMTP not configured - show helpful message
-          console.error('SMTP configuration error:', error);
-          setError('Email service is currently unavailable. Please contact support or try again later.');
-          toast.error('Email service temporarily unavailable');
-          
-          // Provide alternative instructions
-          toast.info('Alternative: Please contact support@aitouse.com for password reset assistance.', {
-            duration: 10000,
-          });
         } else {
-          setError(error.message);
+          setError('Failed to send reset email. Please try again later.');
           toast.error('Failed to send reset email');
         }
         return;
-      }
-      
-      // If Supabase auth succeeded, also try to send our custom formatted email
-      // This is optional and won't block the process if it fails
-      try {
-        // Note: The actual reset link will be in the Supabase email
-        // Our custom email is just a nicely formatted notification
-        await supabase.functions.invoke('send-password-reset', {
-          body: { 
-            email,
-            resetLink: resetPasswordUrl
-          }
-        });
-      } catch (emailError) {
-        console.log('Custom email send attempted but not critical:', emailError);
-        // Don't show error - Supabase default email was sent
       }
       
       setResetSent(true);

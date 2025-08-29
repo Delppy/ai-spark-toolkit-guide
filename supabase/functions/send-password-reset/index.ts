@@ -1,7 +1,12 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.7";
 import { Resend } from "npm:resend@2.0.0";
 
+const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
+
+const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -11,7 +16,6 @@ const corsHeaders = {
 
 interface PasswordResetRequest {
   email: string;
-  resetLink: string;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -21,7 +25,43 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
-    const { email, resetLink }: PasswordResetRequest = await req.json();
+    const { email }: PasswordResetRequest = await req.json();
+    
+    console.log("Processing password reset for:", email);
+    
+    // Generate password reset link using Supabase Admin API
+    const { data: linkData, error: linkError } = await supabase.auth.admin.generateLink({
+      type: 'recovery',
+      email: email,
+      options: {
+        redirectTo: `${req.headers.get('origin') || 'https://aitouse.com'}/reset-password`,
+      }
+    });
+    
+    if (linkError) {
+      console.error("Error generating reset link:", linkError);
+      return new Response(
+        JSON.stringify({ error: linkError.message }),
+        {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+    
+    if (!linkData || !linkData.properties?.action_link) {
+      console.error("No reset link generated");
+      return new Response(
+        JSON.stringify({ error: "Failed to generate reset link" }),
+        {
+          status: 500,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        }
+      );
+    }
+    
+    const resetLink = linkData.properties.action_link;
+    console.log("Reset link generated successfully");
 
     const emailResponse = await resend.emails.send({
       from: "AiToUse <onboarding@resend.dev>",
