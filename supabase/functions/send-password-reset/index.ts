@@ -63,8 +63,10 @@ const handler = async (req: Request): Promise<Response> => {
     const resetLink = linkData.properties.action_link;
     console.log("Reset link generated successfully");
 
+    console.log("Attempting to send email with Resend...");
+    
     const { data: sent, error: sendError } = await resend.emails.send({
-      from: "AiToUse <onboarding@resend.dev>",
+      from: "AiToUse <noreply@resend.dev>",
       to: [email],
       subject: "Reset Your Password - AiToUse",
       html: `
