@@ -6,7 +6,7 @@ const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
 const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const resendApiKey = Deno.env.get("RESEND_API_KEY");
 
-console.log("Initializing send-password-reset function...");
+console.log("Initializing send-password-reset function v2...");
 console.log("Resend API Key present:", !!resendApiKey);
 
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
