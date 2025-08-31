@@ -5,6 +5,7 @@ import { Resend } from "npm:resend@2.0.0";
 const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
 const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const resendApiKey = Deno.env.get("RESEND_API_KEY");
+const resendFromEmail = Deno.env.get("RESEND_FROM_EMAIL") || "AiToUse <onboarding@resend.dev>";
 
 console.log("Initializing send-password-reset function v2...");
 console.log("Resend API Key present:", !!resendApiKey);
@@ -86,7 +87,7 @@ const handler = async (req: Request): Promise<Response> => {
     
     try {
       const emailResponse = await resend.emails.send({
-        from: Deno.env.get("RESEND_FROM_EMAIL") || "AiToUse <onboarding@resend.dev>",
+        from: resendFromEmail,
         to: [email],
         subject: "Reset Your Password - AiToUse",
         html: `
