@@ -33,16 +33,14 @@ const ForgotPassword = () => {
 
       if (error) {
         console.error('Error sending reset email:', error);
-        
-        // Check for specific error types
-        if (error.message?.includes('User not found') || error.message?.includes('not found')) {
-          setError('No account found with this email address.');
-          toast.error('Email not found');
-        } else if (error.message?.includes('Failed to fetch') || error.message?.includes('fetch')) {
-          setError('Unable to connect to email service. Please check your internet connection.');
-          toast.error('Connection error');
+        const status = (error as any).status;
+        const msg = (error as any).message || '';
+        // Treat not-found as success to avoid user enumeration
+        if (status === 400 || status === 404 || /not found/i.test(msg)) {
+          setResetSent(true);
+          toast.success('If an account exists with this email, you will receive password reset instructions.');
         } else {
-          setError(`Failed to send reset email: ${error.message || 'Please try again later.'}`);
+          setError('Failed to send reset email. Please try again later.');
           toast.error('Failed to send reset email');
         }
         return;

@@ -38,18 +38,23 @@ const handler = async (req: Request): Promise<Response> => {
       type: 'recovery',
       email: email,
       options: {
-        redirectTo: `${req.headers.get('origin') || 'https://aitouse.com'}/reset-password`,
+        redirectTo: `${req.headers.get('origin') || 'https://aitouse.app'}/reset-password`,
       }
     });
     
     if (linkError) {
       console.error("Error generating reset link:", linkError);
+      const msg = (linkError as any)?.message?.toLowerCase?.() || String(linkError.message || linkError);
+      if (msg.includes('user') && msg.includes('not')) {
+        // Neutral response to prevent user enumeration
+        return new Response(
+          JSON.stringify({ success: true, message: "If an account exists, a reset email has been sent." }),
+          { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
+        );
+      }
       return new Response(
         JSON.stringify({ error: linkError.message }),
-        {
-          status: 400,
-          headers: { "Content-Type": "application/json", ...corsHeaders },
-        }
+        { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
     
@@ -81,7 +86,7 @@ const handler = async (req: Request): Promise<Response> => {
     
     try {
       const emailResponse = await resend.emails.send({
-        from: "AiToUse <onboarding@resend.dev>",
+        from: Deno.env.get("RESEND_FROM_EMAIL") || "AiToUse <onboarding@resend.dev>",
         to: [email],
         subject: "Reset Your Password - AiToUse",
         html: `
@@ -192,10 +197,10 @@ const handler = async (req: Request): Promise<Response> => {
                   </div>
                   
                   <div class="footer">
-                    <p>Need help? <a href="${req.headers.get('origin') || 'https://aitouse.com'}/contact" style="color: #0099cc;">Contact our support team</a></p>
+                    <p>Need help? <a href="${req.headers.get('origin') || 'https://aitouse.app'}/contact" style="color: #0099cc;">Contact our support team</a></p>
                     <p style="font-size: 12px; color: #999;">
                       © 2024 AiToUse. All rights reserved.<br>
-                      <a href="${req.headers.get('origin') || 'https://aitouse.com'}/privacy-policy" style="color: #999;">Privacy Policy</a>
+                      <a href="${req.headers.get('origin') || 'https://aitouse.app'}/privacy-policy" style="color: #999;">Privacy Policy</a>
                     </p>
                   </div>
                 </div>
