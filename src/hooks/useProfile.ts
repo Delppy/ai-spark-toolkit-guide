@@ -28,13 +28,13 @@ export const useProfile = () => {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (ignore) return;
       if (!session) {
-        navigate("/login", { replace: true });
+        setCheckingProfile(false);
         return;
       }
       setUser(session.user);
       setEmail(session.user.email ?? "");
       // Try to get the profile
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from("profiles")
         .select("*")
         .eq("id", session.user.id)
@@ -44,7 +44,7 @@ export const useProfile = () => {
 
       if (!error && !data) {
         // Profile does not exist: create it
-        const { error: insertError } = await supabase.from("profiles").insert([
+        const { error: insertError } = await (supabase as any).from("profiles").insert([
           {
             id: session.user.id,
             email: session.user.email,
@@ -62,22 +62,22 @@ export const useProfile = () => {
           return;
         }
         // Fetch the newly created profile
-        const { data: newProfile, error: errorAfterInsert } = await supabase
+        const { data: newProfile, error: errorAfterInsert } = await (supabase as any)
           .from("profiles")
           .select("*")
           .eq("id", session.user.id)
           .maybeSingle();
         if (!errorAfterInsert && newProfile) {
-          setProfile(newProfile as ProfileRow);
-          setName(newProfile.name ?? "");
-          setBio(newProfile.bio ?? "");
-          setCountry(newProfile.country ?? "");
+          setProfile(newProfile as any);
+          setName((newProfile as any).name ?? "");
+          setBio((newProfile as any).bio ?? "");
+          setCountry((newProfile as any).country ?? "");
         }
       } else if (!error && data) {
-        setProfile(data as ProfileRow);
-        setName(data.name ?? "");
-        setBio(data.bio ?? "");
-        setCountry(data.country ?? "");
+        setProfile(data as any);
+        setName((data as any).name ?? "");
+        setBio((data as any).bio ?? "");
+        setCountry((data as any).country ?? "");
       }
       setCheckingProfile(false);
     });
@@ -88,16 +88,16 @@ export const useProfile = () => {
 
   const refreshProfile = async () => {
     if (!user) return;
-    const { data, error } = await supabase
+    const { data, error } = await (supabase as any)
       .from("profiles")
       .select("*")
       .eq("id", user.id)
       .maybeSingle();
     if (!error && data) {
-      setProfile(data as ProfileRow);
-      setName(data.name ?? "");
-      setBio(data.bio ?? "");
-      setCountry(data.country ?? "");
+      setProfile(data as any);
+      setName((data as any).name ?? "");
+      setBio((data as any).bio ?? "");
+      setCountry((data as any).country ?? "");
     }
   };
 
@@ -147,7 +147,7 @@ export const useProfile = () => {
       (profile?.country !== country) ||
       (profile?.email !== email)
     ) {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from("profiles")
         .update({
           name,
@@ -175,7 +175,7 @@ export const useProfile = () => {
 
   const handlePhotoUpload = async (publicUrl: string) => {
     if (!user) return;
-    const { error } = await supabase
+    const { error } = await (supabase as any)
       .from("profiles")
       .update({ photo_url: publicUrl, updated_at: new Date().toISOString() })
       .eq("id", user.id);

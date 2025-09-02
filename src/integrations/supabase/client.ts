@@ -19,7 +19,5 @@ export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABL
     debug: false,
     // Keep sessions for a very long time and reduce refresh frequency
     storageKey: 'aitouse-auth-token',
-    // Extend token refresh interval to reduce API calls
-    refreshTokenRefreshMargin: 300, // 5 minutes before expiry
   }
 });

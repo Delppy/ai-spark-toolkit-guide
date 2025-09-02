@@ -53,7 +53,7 @@ export const useToolAnalytics = (category?: string) => {
         .order('click_count', { ascending: false });
       
       if (category) {
-        query = query.eq('category', category);
+        query = (query as any).eq('category', category);
       }
       
       const { data, error } = await query;
@@ -63,7 +63,7 @@ export const useToolAnalytics = (category?: string) => {
         // Don't show error to user - analytics are optional for UX
         setAnalytics([]);
       } else {
-        setAnalytics(data || []);
+        setAnalytics((data as any) || []);
       }
       setError(null);
     } catch (err) {
@@ -78,7 +78,7 @@ export const useToolAnalytics = (category?: string) => {
   const trackToolClick = async (toolId: string, toolCategory: string) => {
     try {
       // Check if analytics record exists
-      const { data: existing } = await supabase
+      const { data: existing } = await (supabase as any)
         .from('tool_analytics')
         .select('*')
         .eq('tool_id', toolId)
@@ -86,16 +86,16 @@ export const useToolAnalytics = (category?: string) => {
 
       if (existing) {
         // Update existing record
-        await supabase
+        await (supabase as any)
           .from('tool_analytics')
           .update({
-            click_count: existing.click_count + 1,
+            click_count: (existing as any).click_count + 1,
             last_clicked: new Date().toISOString(),
           })
           .eq('tool_id', toolId);
       } else {
         // Create new record
-        await supabase
+        await (supabase as any)
           .from('tool_analytics')
           .insert({
             tool_id: toolId,

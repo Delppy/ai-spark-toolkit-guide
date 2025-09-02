@@ -57,14 +57,14 @@ const Business = () => {
     if (!user?.id) return;
     
     try {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('favorites')
         .select('item_id')
         .eq('user_id', user.id);
       
       if (error) throw error;
       
-      const favoriteIds = data?.map(fav => fav.item_id) || [];
+      const favoriteIds = (data as any)?.map((fav: any) => fav.item_id) || [];
       setFavorites(favoriteIds);
     } catch (error) {
       console.error('Error loading favorites:', error);
@@ -83,7 +83,7 @@ const Business = () => {
       const isFavorited = favorites.includes(toolId);
       
       if (isFavorited) {
-        const { error } = await supabase
+        const { error } = await (supabase as any)
           .from('favorites')
           .delete()
           .eq('user_id', user.id)
@@ -94,7 +94,7 @@ const Business = () => {
         setFavorites(prev => prev.filter(id => id !== toolId));
         toast.success("Removed from favorites");
       } else {
-        const { error } = await supabase
+        const { error } = await (supabase as any)
           .from('favorites')
           .insert({
             user_id: user.id,
