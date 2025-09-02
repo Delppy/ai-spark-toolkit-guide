@@ -38,22 +38,21 @@ const Pricing: React.FC = () => {
   }, []);
 
   const handleUpgrade = async () => {
-    if (!user) {
-      toast.error('Please log in to upgrade your account');
-      navigate('/login');
-      return;
-    }
-
-    // Check if user has a valid session
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
-      toast.error('Please log in to upgrade your account');
-      navigate('/login');
-      return;
-    }
-
     setLoading(true);
+    
     try {
+      // Get fresh session data
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      
+      if (sessionError || !session?.user) {
+        console.error('Session error:', sessionError);
+        toast.error('Please log in to upgrade your account');
+        navigate('/login');
+        return;
+      }
+
+      console.log('Initiating payment for user:', session.user.email);
+
       const { data, error } = await supabase.functions.invoke('paystack-initialize', {
         body: {
           planCode: 'pro',
@@ -61,10 +60,19 @@ const Pricing: React.FC = () => {
         }
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Payment initialization error:', error);
+        throw error;
+      }
 
+      console.log('Payment response:', data);
+      
       // Redirect to Paystack payment page
-      window.location.href = data.authorization_url;
+      if (data?.authorization_url) {
+        window.location.href = data.authorization_url;
+      } else {
+        throw new Error('No payment URL received');
+      }
     } catch (error) {
       console.error('Payment initialization error:', error);
       toast.error('Failed to initialize payment. Please try again.');
