@@ -76,7 +76,7 @@ const PlanCard: React.FC<PlanCardProps> = ({
             <Button
               className="w-full bg-gradient-to-r from-primary to-primary/80 text-primary-foreground text-lg font-bold py-6 shadow-lg"
               onClick={onUpgrade}
-              disabled={loading}
+              disabled={loading || isCurrentPlan}
             >
               {loading ? "Processing..." : isCurrentPlan ? "Current Plan" : "Upgrade to Pro"}
             </Button>

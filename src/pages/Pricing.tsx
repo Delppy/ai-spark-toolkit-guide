@@ -44,6 +44,14 @@ const Pricing: React.FC = () => {
       return;
     }
 
+    // Check if user has a valid session
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      toast.error('Please log in to upgrade your account');
+      navigate('/login');
+      return;
+    }
+
     setLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke('paystack-initialize', {
@@ -115,7 +123,7 @@ const Pricing: React.FC = () => {
           billing={billing}
           price={freePriceDisplay}
           features={freeFeatures}
-          isCurrentPlan={!isPro}
+          isCurrentPlan={!isPro && !!user}
         />
         <PlanCard
           planType="Pro"
@@ -123,7 +131,7 @@ const Pricing: React.FC = () => {
           price={proPriceDisplay}
           features={proFeatures}
           isPopular={true}
-          onUpgrade={handleUpgrade}
+          onUpgrade={user ? handleUpgrade : () => navigate('/login')}
           loading={loading || !pricing}
           yearlyDiscountPercent={YEARLY_DISCOUNT_PERCENT}
           isCurrentPlan={isPro}
