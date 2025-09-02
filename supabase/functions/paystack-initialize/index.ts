@@ -49,10 +49,10 @@ serve(async (req) => {
 
     const { planCode, billing } = await req.json();
     
-    // Get pricing based on plan and billing cycle - using NGN for Paystack
+    // Get pricing based on plan and billing cycle - using GHS for Ghana
     const amounts = {
-      monthly: { NGN: 499900 }, // ₦4,999 in kobo (NGN smallest unit)
-      yearly: { NGN: 4799000 }   // ₦47,990 in kobo
+      monthly: { GHS: 19999 }, // GH₵199.99 in pesewas (GHS smallest unit)
+      yearly: { GHS: 19199 }   // GH₵191.99 in pesewas (yearly discount)
     };
     
     const paystackSecretKey = Deno.env.get("PAYSTACK_SECRET_KEY");
@@ -60,11 +60,11 @@ serve(async (req) => {
       throw new Error("Paystack secret key not configured");
     }
 
-    // Use NGN currency (Paystack's primary supported currency)
-    const currency = "NGN";
+    // Use GHS currency (Ghana Cedis - supported by Paystack)
+    const currency = "GHS";
     const amount = amounts[billing as keyof typeof amounts][currency];
     
-    console.log(`Payment details: ${currency} ₦${amount/100} (${amount} kobo)`);
+    console.log(`Payment details: ${currency} GH₵${amount/100} (${amount} pesewas)`);
     
     // Generate unique reference
     const reference = `aitouse_${user.id}_${Date.now()}`;
