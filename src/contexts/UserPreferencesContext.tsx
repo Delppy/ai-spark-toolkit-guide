@@ -25,6 +25,7 @@ interface UserPreferencesContextType {
   user: UserContextType | null;
   profile: ProfileRow | null;
   session: Session | null;
+  loading: boolean;
   favoriteTools: string[];
   toggleFavorite: (toolId: string) => void;
   addFavorite: (toolId: string) => void;
@@ -48,6 +49,7 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
   const [user, setUser] = useState<UserContextType | null>(null);
   const [profile, setProfile] = useState<ProfileRow | null>(null);
   const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const updateUserState = (newSession: Session | null) => {
@@ -56,6 +58,7 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
       if (!newSession?.user) {
         setUser(null);
         setProfile(null);
+        setLoading(false);
         return;
       }
       
@@ -86,6 +89,8 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
             email: newSession.user.email,
             name: newSession.user.user_metadata?.name,
           });
+        } finally {
+          setLoading(false);
         }
       }, 0);
     };
@@ -168,6 +173,7 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
       user,
       profile,
       session,
+      loading,
       favoriteTools: preferences.favorites,
       toggleFavorite,
       addFavorite,

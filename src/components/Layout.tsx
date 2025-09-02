@@ -23,7 +23,7 @@ import React from "react";
 
 const Layout = () => {
   const location = useLocation();
-  const { user, profile } = useUserPreferences();
+  const { user, profile, loading } = useUserPreferences();
   // Force reactivity on user?.id
   const subscriptionStatus = useSubscription(user?.id || null);
   console.log("[Layout] user:", user, "profile:", profile, "subscription:", {
@@ -65,7 +65,7 @@ const Layout = () => {
               </h1>
             </Link>
             <div className="flex items-center space-x-2">
-              {!user && location.pathname !== "/login" && location.pathname !== "/signup" && (
+              {!loading && !user && location.pathname !== "/login" && location.pathname !== "/signup" && (
                 <div className="flex items-center space-x-2">
                   <AnimatedButton asChild variant="ghost" size="sm">
                     <Link to="/login">Login</Link>
