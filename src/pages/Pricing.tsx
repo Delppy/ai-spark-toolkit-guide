@@ -41,17 +41,46 @@ const Pricing: React.FC = () => {
     setLoading(true);
     
     try {
-      // Get fresh session data
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      // Debug the current user context state
+      console.log('User context:', { user, authLoading });
       
-      if (sessionError || !session?.user) {
-        console.error('Session error:', sessionError);
+      // If we're still loading auth, wait for it
+      if (authLoading) {
+        console.log('Auth still loading, please wait...');
+        toast.info('Loading user data...');
+        setLoading(false);
+        return;
+      }
+      
+      // Check user context first (faster than session call)
+      if (!user) {
+        console.log('No user in context, redirecting to login');
         toast.error('Please log in to upgrade your account');
         navigate('/login');
         return;
       }
+      
+      // Get fresh session data as backup check
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      console.log('Fresh session check:', { 
+        hasSession: !!session, 
+        hasUser: !!session?.user, 
+        userEmail: session?.user?.email,
+        error: sessionError 
+      });
+      
+      if (sessionError) {
+        console.error('Session error:', sessionError);
+        toast.error('Authentication error. Please try logging in again.');
+        navigate('/login');
+        return;
+      }
+      
+      if (!session?.user) {
+        console.warn('No session user found, but context user exists. Proceeding with context user.');
+      }
 
-      console.log('Initiating payment for user:', session.user.email);
+      console.log('Initiating payment for user:', user.email || session?.user?.email);
 
       const { data, error } = await supabase.functions.invoke('paystack-initialize', {
         body: {
