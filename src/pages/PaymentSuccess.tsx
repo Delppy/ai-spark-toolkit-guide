@@ -5,12 +5,14 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, ArrowRight, Home } from "lucide-react";
+import { useSubscription } from "@/hooks/useFreeAccess";
 
 const PaymentSuccess: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [verifying, setVerifying] = useState(true);
   const [verified, setVerified] = useState(false);
+  const { refresh: refreshSubscription } = useSubscription();
 
   const reference = searchParams.get('reference');
 
@@ -31,6 +33,13 @@ const PaymentSuccess: React.FC = () => {
 
         if (data.status === 'success') {
           setVerified(true);
+          
+          // Refresh subscription status to show Pro immediately
+          setTimeout(async () => {
+            await refreshSubscription();
+            console.log('Subscription status refreshed after payment');
+          }, 1000);
+          
           toast.success('Payment successful! Your account has been upgraded to Pro.');
         } else {
           toast.error('Payment verification failed. Please contact support.');
@@ -46,7 +55,7 @@ const PaymentSuccess: React.FC = () => {
     };
 
     verifyPayment();
-  }, [reference, navigate]);
+  }, [reference, navigate, refreshSubscription]);
 
   if (verifying) {
     return (

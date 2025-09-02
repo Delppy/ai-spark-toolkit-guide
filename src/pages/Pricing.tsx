@@ -26,7 +26,34 @@ const Pricing: React.FC = () => {
   const { user, loading: authLoading } = useUserPreferences();
   const navigate = useNavigate();
   const location = useLocation();
-  const { checkStatus, isPro, subscriptionStatus } = useSubscription(user?.id || null);
+  const { checkStatus, isPro, subscriptionStatus, refresh: refreshSubscription } = useSubscription(user?.id || null);
+
+  // Check for payment success parameters and refresh subscription
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    const paymentSuccess = urlParams.get('payment') === 'success';
+    
+    if (paymentSuccess && user) {
+      // Refresh subscription status after successful payment
+      setTimeout(async () => {
+        await refreshSubscription();
+        console.log('Subscription refreshed after payment success');
+      }, 1000);
+    }
+
+    // Also refresh when user comes back to the tab (after payment)
+    const handleVisibilityChange = () => {
+      if (!document.hidden && user) {
+        refreshSubscription();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [location, user, refreshSubscription]);
 
   useEffect(() => {
     const detectRegion = async () => {
