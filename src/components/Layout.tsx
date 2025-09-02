@@ -8,7 +8,7 @@ import {
   DropdownMenuSeparator, 
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
-import { Sparkles, Star, User, Settings, LogOut } from "lucide-react";
+import { Sparkles, Star, User, Settings, LogOut, Crown } from "lucide-react";
 import { Link, useLocation, Outlet } from "react-router-dom";
 import PageTransition from "./PageTransition";
 import { useSubscription } from "@/hooks/useFreeAccess";
@@ -112,13 +112,22 @@ const Layout = () => {
                 </DropdownMenu>
               )}
               
-              {/* Free Access Badge - Non-clickable */}
+              {/* Subscription Status Badge */}
               {user && (
                 <div className="ml-2">
-                  <Badge variant="secondary" className="py-1.5 px-3 flex items-center gap-1.5">
-                    <Star className="w-4 h-4 text-amber-500" />
-                    Free Access
-                  </Badge>
+                  {subscriptionStatus.isPro ? (
+                    <Badge variant="secondary" className="py-1.5 px-3 flex items-center gap-1.5 bg-amber-50 text-amber-700 border-amber-200">
+                      <Star className="w-4 h-4 text-amber-500" />
+                      Pro
+                    </Badge>
+                  ) : (
+                    <Link to="/pricing">
+                      <Badge variant="outline" className="py-1.5 px-3 flex items-center gap-1.5 hover:bg-primary/10 cursor-pointer">
+                        <Crown className="w-4 h-4 text-primary" />
+                        Upgrade to Pro
+                      </Badge>
+                    </Link>
+                  )}
                 </div>
               )}
             </div>

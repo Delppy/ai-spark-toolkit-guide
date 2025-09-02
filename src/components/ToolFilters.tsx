@@ -144,11 +144,11 @@ export const ToolFilters: React.FC<ToolFiltersProps> = ({
                 </DropdownMenuContent>
               </DropdownMenu>
 
-              {/* Free Access Dropdown */}
+              {/* Upgrade Dropdown */}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" className="min-w-32">
-                    Free Access
+                    Upgrade Options
                     {getActiveFilterCount('freeOfferings') > 0 && (
                       <Badge variant="secondary" className="ml-2 text-xs">
                         {getActiveFilterCount('freeOfferings')}
