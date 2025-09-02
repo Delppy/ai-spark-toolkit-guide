@@ -51,8 +51,8 @@ serve(async (req) => {
     
     // Get pricing based on plan and billing cycle - using GHS for Ghana
     const amounts = {
-      monthly: { GHS: 19999 }, // GH₵199.99 in pesewas (GHS smallest unit)
-      yearly: { GHS: 19199 }   // GH₵191.99 in pesewas (yearly discount)
+      monthly: { GHS: 3000 }, // GH₵30.00 in pesewas (GHS smallest unit)
+      yearly: { GHS: 30000 }   // GH₵300.00 in pesewas
     };
     
     const paystackSecretKey = Deno.env.get("PAYSTACK_SECRET_KEY");

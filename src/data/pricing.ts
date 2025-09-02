@@ -34,7 +34,7 @@ export const GHS_YEARLY_PRICE = 300;
 export const USD_MONTHLY_PRICE = 5.99;
 export const USD_YEARLY_PRICE = 59.99;
 
-export const YEARLY_DISCOUNT_PERCENT = Math.round(100 - (USD_YEARLY_PRICE / (USD_MONTHLY_PRICE * 12)) * 100);
+export const YEARLY_DISCOUNT_PERCENT = 0; // No discount - yearly is 10x monthly for simplified pricing
 
 // Utility function to detect user's region
 export const getUserRegion = async (): Promise<{ country: string; isAfrica: boolean }> => {
