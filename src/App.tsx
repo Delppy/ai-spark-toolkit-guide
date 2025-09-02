@@ -12,6 +12,7 @@ import { UserPreferencesProvider } from '@/contexts/UserPreferencesContext';
 import { TransitionProvider } from '@/contexts/TransitionContext';
 import AnalyticsConsent from '@/components/AnalyticsConsent';
 import { useAdRemoval } from '@/hooks/useAdRemoval';
+import { FixedBottomAd } from '@/components/ads/FixedBottomAd';
 
 // Lazy load all pages for better performance
 const Index = lazy(() => import('@/pages/Index'));
@@ -99,6 +100,7 @@ const App = () => {
                     </Routes>
                   </Suspense>
                 </TransitionProvider>
+                <FixedBottomAd />
               </BrowserRouter>
             </UserPreferencesProvider>
           </TooltipProvider>
