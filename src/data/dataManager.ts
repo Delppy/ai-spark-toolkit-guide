@@ -64,8 +64,13 @@ export class DataManager {
           pricing === 'Freemium' ? 'freemium' :
           (t.free_tier ? 'free_trial' : 'free_trial');
         const freeDetails = t.free_tier ? 'Free tier available' : 'Trial available';
+        
+        // Create truly unique ID by combining hostname with category and a hash of content
+        const contentHash = btoa(`${t.name}-${t.one_liner}-${dirLabel}-${JSON.stringify(features)}`).slice(0, 8);
+        const uniqueId = `${hostname}-${contentHash}`;
+        
         return {
-          id: hostname,
+          id: uniqueId,
           name: t.name,
           category: dirLabel,
           description: t.one_liner || '',
