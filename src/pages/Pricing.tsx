@@ -38,7 +38,31 @@ const Pricing: React.FC = () => {
   }, []);
 
   const handleUpgrade = async () => {
-    toast.info('All features are now free — no payment needed!');
+    if (!user) {
+      toast.error('Please log in to upgrade your account');
+      navigate('/login');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('paystack-initialize', {
+        body: {
+          planCode: 'pro',
+          billing: billing,
+        }
+      });
+
+      if (error) throw error;
+
+      // Redirect to Paystack payment page
+      window.location.href = data.authorization_url;
+    } catch (error) {
+      console.error('Payment initialization error:', error);
+      toast.error('Failed to initialize payment. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const proPriceDisplay = !pricing ? (
@@ -91,7 +115,7 @@ const Pricing: React.FC = () => {
           billing={billing}
           price={freePriceDisplay}
           features={freeFeatures}
-          isCurrentPlan={true}
+          isCurrentPlan={!isPro}
         />
         <PlanCard
           planType="Pro"
@@ -102,6 +126,7 @@ const Pricing: React.FC = () => {
           onUpgrade={handleUpgrade}
           loading={loading || !pricing}
           yearlyDiscountPercent={YEARLY_DISCOUNT_PERCENT}
+          isCurrentPlan={isPro}
         />
       </div>
 

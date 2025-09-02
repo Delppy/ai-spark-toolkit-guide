@@ -15,7 +15,7 @@ type ProfileSettingsTabProps = {
 const ProfileSettingsTab = ({ setActiveSheet }: ProfileSettingsTabProps) => {
   const { toast } = useToast();
   const { user } = useUserPreferences();
-  const subscriptionStatus = useFreeAccess();
+  const { isPro, subscriptionStatus } = useFreeAccess();
   const [cancelling, setCancelling] = useState(false);
 
   return (
@@ -36,17 +36,40 @@ const ProfileSettingsTab = ({ setActiveSheet }: ProfileSettingsTabProps) => {
       </Button>
       
       <div className="mt-8 border-t pt-6">
-        <div className="font-semibold mb-3">Access Status</div>
+        <div className="font-semibold mb-3">Subscription Status</div>
         <div className="space-y-4">
-          <div className="flex items-center justify-center p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-200">
+          <div className={`flex items-center justify-center p-4 rounded-lg border ${
+            isPro 
+              ? "bg-gradient-to-r from-amber-50 to-orange-50 border-amber-200" 
+              : "bg-gradient-to-r from-green-50 to-emerald-50 border-green-200"
+          }`}>
             <Badge variant="secondary" className="text-base py-2 px-4">
-              <Crown className="w-5 h-5 mr-2" />
-              Free Access
+              {isPro ? (
+                <>
+                  <Star className="w-5 h-5 mr-2" />
+                  Pro Plan
+                </>
+              ) : (
+                <>
+                  <Crown className="w-5 h-5 mr-2" />
+                  Free Plan
+                </>
+              )}
             </Badge>
           </div>
           <p className="text-sm text-gray-600 text-center">
-            All features are completely free!
+            {isPro 
+              ? "You have access to all Pro features!"
+              : "Upgrade to Pro for unlimited access to all features."
+            }
           </p>
+          {!isPro && (
+            <Link to="/pricing" className="block">
+              <Button className="w-full">
+                Upgrade to Pro
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
     </div>

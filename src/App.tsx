@@ -32,6 +32,7 @@ const Help = lazy(() => import('@/pages/Help'));
 const Profile = lazy(() => import('@/pages/Profile'));
 const Dashboard = lazy(() => import('@/pages/Dashboard'));
 const Favorites = lazy(() => import('@/pages/Favorites'));
+const PaymentSuccess = lazy(() => import('@/pages/PaymentSuccess'));
 const NotFound = lazy(() => import('@/pages/NotFound'));
 const Login = lazy(() => import('@/pages/Login'));
 const SignUp = lazy(() => import('@/pages/SignUp'));
@@ -87,6 +88,7 @@ const App = () => (
                       <Route path="prompt/:id" element={<PromptPack />} />
                       <Route path="dashboard" element={<Dashboard />} />
                       <Route path="favorites" element={<Favorites />} />
+                      <Route path="payment-success" element={<PaymentSuccess />} />
                       <Route path="*" element={<NotFound />} />
                     </Route>
                   </Routes>

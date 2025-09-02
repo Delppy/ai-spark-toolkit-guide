@@ -35,6 +35,56 @@ export type Database = {
         }
         Relationships: []
       }
+      payments: {
+        Row: {
+          amount: number
+          created_at: string
+          currency: string
+          id: string
+          paid_at: string | null
+          payment_method: string | null
+          paystack_reference: string
+          paystack_transaction_id: string | null
+          status: string
+          subscription_id: string | null
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          currency?: string
+          id?: string
+          paid_at?: string | null
+          payment_method?: string | null
+          paystack_reference: string
+          paystack_transaction_id?: string | null
+          status: string
+          subscription_id?: string | null
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          currency?: string
+          id?: string
+          paid_at?: string | null
+          payment_method?: string | null
+          paystack_reference?: string
+          paystack_transaction_id?: string | null
+          status?: string
+          subscription_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payments_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           bio: string | null
@@ -148,6 +198,48 @@ export type Database = {
         }
         Relationships: []
       }
+      subscriptions: {
+        Row: {
+          amount: number
+          created_at: string
+          currency: string
+          id: string
+          next_payment_date: string | null
+          paystack_customer_code: string | null
+          paystack_subscription_code: string | null
+          plan_code: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          currency?: string
+          id?: string
+          next_payment_date?: string | null
+          paystack_customer_code?: string | null
+          paystack_subscription_code?: string | null
+          plan_code: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          currency?: string
+          id?: string
+          next_payment_date?: string | null
+          paystack_customer_code?: string | null
+          paystack_subscription_code?: string | null
+          plan_code?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       tool_analytics: {
         Row: {
           category: string
@@ -193,6 +285,10 @@ export type Database = {
           name: string
           photo_url: string
         }[]
+      }
+      is_user_pro: {
+        Args: { user_uuid: string }
+        Returns: boolean
       }
     }
     Enums: {

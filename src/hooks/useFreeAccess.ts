@@ -1,31 +1,96 @@
+import { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import { IS_PREMIUM_FREE } from '@/config/flags';
 
-// Everything is free when IS_PREMIUM_FREE is true
 export function useFreeAccess(_userId?: string | null) {
-  return {
-    isPro: true, // Always true in free mode
-    hasCredits: true,
-    credits: Infinity,
-    useCredit: async () => true,
-    loading: false,
-    subscriptionStatus: 'free',
-    premiumBadge: false,
+  const [isPro, setIsPro] = useState(false);
+  const [subscriptionStatus, setSubscriptionStatus] = useState<"free" | "pro" | "loading">("loading");
+  const [loading, setLoading] = useState(true);
+
+  // If premium is free, return free mode
+  if (IS_PREMIUM_FREE) {
+    return {
+      isPro: true,
+      hasCredits: true,
+      credits: Infinity,
+      useCredit: async () => true,
+      loading: false,
+      subscriptionStatus: 'free',
+      premiumBadge: false,
+      subscriptionEndsAt: null,
+      subscriptionTier: 'free',
+      refresh: async () => {},
+      checkStatus: async () => null,
+      showRemoveAds: false,
+    };
+  }
+
+  const checkStatus = async () => {
+    try {
+      setLoading(true);
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) {
+        setIsPro(false);
+        setSubscriptionStatus("free");
+        return { isPro: false, subscriptionStatus: "free" as const };
+      }
+
+      const { data: subscription } = await supabase
+        .from("subscriptions")
+        .select("*")
+        .eq("user_id", user.id)
+        .eq("status", "active")
+        .maybeSingle();
+
+      const isProStatus = !!subscription;
+      setIsPro(isProStatus);
+      setSubscriptionStatus(isProStatus ? "pro" : "free");
+      
+      return { isPro: isProStatus, subscriptionStatus: isProStatus ? "pro" as const : "free" as const };
+    } catch (error) {
+      console.error("Error checking subscription status:", error);
+      setIsPro(false);
+      setSubscriptionStatus("free");
+      return { isPro: false, subscriptionStatus: "free" as const };
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    checkStatus();
+  }, []);
+
+  return { 
+    isPro, 
+    hasCredits: isPro,
+    credits: isPro ? Infinity : 0,
+    useCredit: async () => isPro,
+    loading,
+    subscriptionStatus, 
+    premiumBadge: isPro,
     subscriptionEndsAt: null,
-    subscriptionTier: 'free',
-    refresh: async () => {},
-    checkStatus: async () => null,
-    showRemoveAds: false, // Never show ads or payment prompts in free mode
+    subscriptionTier: isPro ? 'pro' : 'free',
+    refresh: checkStatus,
+    checkStatus,
+    showRemoveAds: !isPro,
   };
 }
 
 export function useProGate() {
-  // No gating in free mode - just execute the callback
+  const { isPro } = useFreeAccess();
+  
   const proGate = (event?: React.MouseEvent, cb?: () => void) => {
     if (event) event.stopPropagation();
-    if (cb) cb();
+    if (isPro && cb) {
+      cb();
+    } else if (!isPro) {
+      // Redirect to pricing page
+      window.location.href = '/pricing';
+    }
   };
   
-  return { isPro: true, proGate };
+  return { isPro, proGate };
 }
 
 export const useSubscription = useFreeAccess;
