@@ -3,6 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
@@ -16,6 +17,7 @@ const Login = () => {
   const { user } = useUserPreferences();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [rememberMe, setRememberMe] = useState(true);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [resetMode, setResetMode] = useState(false);
@@ -52,11 +54,18 @@ const Login = () => {
         }
         toast.error('Login failed');
       } else if (data?.user) {
-        // Store additional persistent session data
-        localStorage.setItem('aitouse-user-authenticated', 'true');
-        localStorage.setItem('aitouse-last-login', Date.now().toString());
+        // Store additional persistent session data only if remember me is checked
+        if (rememberMe) {
+          localStorage.setItem('aitouse-user-authenticated', 'true');
+          localStorage.setItem('aitouse-last-login', Date.now().toString());
+          toast.success('Welcome back! You\'ll stay signed in for 30 days.');
+        } else {
+          // Clear any existing persistent data if user doesn't want to be remembered
+          localStorage.removeItem('aitouse-user-authenticated');
+          localStorage.removeItem('aitouse-last-login');
+          toast.success('Welcome back!');
+        }
         
-        toast.success('Welcome back! You\'ll stay signed in.');
         // Navigate to the intended destination or home
         navigate(from, { replace: true });
       }
@@ -126,7 +135,22 @@ const Login = () => {
                 </div>
               </div>
 
-              <Button 
+              <div className="flex items-center space-x-2">
+                <Checkbox 
+                  id="remember-me" 
+                  checked={rememberMe}
+                  onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+                  disabled={loading}
+                />
+                <Label 
+                  htmlFor="remember-me" 
+                  className="text-sm font-normal cursor-pointer"
+                >
+                  Remember me for 30 days
+                </Label>
+              </div>
+
+              <Button
                 type="submit" 
                 className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90"
                 disabled={loading}
