@@ -35,7 +35,7 @@ export function useFreeAccess(_userId?: string | null) {
         return { isPro: false, subscriptionStatus: "free" as const };
       }
 
-      const { data: subscription } = await supabase
+      const { data: subscription } = await (supabase as any)
         .from("subscriptions")
         .select("*")
         .eq("user_id", user.id)

@@ -44,7 +44,7 @@ export const ReviewForm: React.FC<ReviewFormProps> = ({
 
     setIsSubmitting(true);
     try {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('reviews')
         .insert({
           user_id: user.id,

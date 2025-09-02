@@ -46,18 +46,18 @@ export const useDashboardData = (userId: string | null) => {
     
     try {
       // Load favorites from Supabase
-      const { data: favoritesData, error: favoritesError } = await supabase
+      const { data: favoritesData, error: favoritesError } = await (supabase as any)
         .from('favorites')
         .select('item_id')
         .eq('user_id', userId);
       
       if (favoritesError) throw favoritesError;
       
-      const favoriteIds = favoritesData?.map(fav => fav.item_id) || [];
+      const favoriteIds = (favoritesData as any)?.map((fav: any) => fav.item_id) || [];
       const favoriteTools = allTools.filter(tool => favoriteIds.includes(tool.id));
 
       // Load user reviews to calculate average rating
-      const { data: reviewsData, error: reviewsError } = await supabase
+      const { data: reviewsData, error: reviewsError } = await (supabase as any)
         .from('reviews')
         .select('rating')
         .eq('user_id', userId);
@@ -65,7 +65,7 @@ export const useDashboardData = (userId: string | null) => {
       if (reviewsError) throw reviewsError;
       
       const averageRating = reviewsData && reviewsData.length > 0
-        ? reviewsData.reduce((sum, review) => sum + review.rating, 0) / reviewsData.length
+        ? (reviewsData as any).reduce((sum: number, review: any) => sum + review.rating, 0) / reviewsData.length
         : 0;
 
       // Generate usage stats (mock data for now - replace with actual usage tracking)

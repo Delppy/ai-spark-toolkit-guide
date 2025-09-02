@@ -64,7 +64,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
       if (userVote) {
         if (userVote.is_helpful === isHelpful) {
           // Remove vote if clicking the same button
-          const { error } = await supabase
+          const { error } = await (supabase as any)
             .from('review_votes')
             .delete()
             .eq('user_id', user.id)
@@ -74,7 +74,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
           onVoteChange(review.id, !isHelpful); // Toggle for removal
         } else {
           // Update existing vote
-          const { error } = await supabase
+          const { error } = await (supabase as any)
             .from('review_votes')
             .update({ is_helpful: isHelpful })
             .eq('user_id', user.id)
@@ -85,7 +85,7 @@ export const ReviewCard: React.FC<ReviewCardProps> = ({
         }
       } else {
         // Create new vote
-        const { error } = await supabase
+        const { error } = await (supabase as any)
           .from('review_votes')
           .insert({
             user_id: user.id,

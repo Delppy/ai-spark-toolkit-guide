@@ -65,14 +65,14 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
       // Defer Supabase calls to prevent deadlocks, following best practices.
       setTimeout(async () => {
         try {
-          const { data: profileData } = await supabase
+          const { data: profileData } = await (supabase as any)
             .from('profiles')
             .select('*')
             .eq('id', newSession.user.id)
             .maybeSingle();
 
           if (profileData) {
-            setProfile(profileData as ProfileRow);
+            setProfile(profileData as any);
           }
 
           setUser({

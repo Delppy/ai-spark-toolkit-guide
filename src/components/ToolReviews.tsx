@@ -48,7 +48,7 @@ export const ToolReviews: React.FC<ToolReviewsProps> = ({ toolId, toolName }) =>
 
   const loadReviews = async () => {
     try {
-      let query = supabase
+      let query = (supabase as any)
         .from('reviews')
         .select('*')
         .eq('tool_id', toolId);
@@ -82,7 +82,7 @@ export const ToolReviews: React.FC<ToolReviewsProps> = ({ toolId, toolName }) =>
     if (!user?.id) return;
 
     try {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('review_votes')
         .select('*')
         .eq('user_id', user.id);
