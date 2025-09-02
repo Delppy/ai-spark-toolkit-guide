@@ -8,6 +8,22 @@ import { AlertCircle, TrendingUp } from 'lucide-react';
 export const TrendingToolsSection: React.FC = () => {
   const { trendingTools, isLoading, error, handleToolClick } = useTrendingTools();
 
+  const getTimeUntilNextRotation = () => {
+    const ROTATION_INTERVAL = 5 * 60 * 60 * 1000; // 5 hours
+    const now = Date.now();
+    const currentPeriod = Math.floor(now / ROTATION_INTERVAL);
+    const nextRotation = (currentPeriod + 1) * ROTATION_INTERVAL;
+    const timeLeft = nextRotation - now;
+    
+    const hours = Math.floor(timeLeft / (60 * 60 * 1000));
+    const minutes = Math.floor((timeLeft % (60 * 60 * 1000)) / (60 * 1000));
+    
+    if (hours > 0) {
+      return `${hours}h ${minutes}m`;
+    }
+    return `${minutes}m`;
+  };
+
   if (isLoading) {
     return (
       <section className="container mx-auto px-4 py-12">
@@ -66,7 +82,7 @@ export const TrendingToolsSection: React.FC = () => {
       </div>
       <div className="text-center mt-8">
         <p className="text-sm text-muted-foreground">
-          🔥 Trends update every Monday • Last updated: {new Date().toLocaleDateString()}
+          🔥 Trends rotate every 5 hours • Next update in {getTimeUntilNextRotation()}
         </p>
       </div>
     </section>
