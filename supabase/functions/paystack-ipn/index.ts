@@ -21,17 +21,19 @@ serve(async (req) => {
     const paystackSignature = req.headers.get("x-paystack-signature");
     const body = await req.text();
     
-    const crypto = await import("https://deno.land/std@0.190.0/crypto/mod.ts");
+    // Use Web Crypto API for HMAC verification
     const encoder = new TextEncoder();
-    const key = await crypto.importKey(
+    const keyData = encoder.encode(paystackSecretKey);
+    const key = await crypto.subtle.importKey(
       "raw",
-      encoder.encode(paystackSecretKey),
+      keyData,
       { name: "HMAC", hash: "SHA-512" },
       false,
-      ["sign"]
+      ["sign", "verify"]
     );
     
-    const signature = await crypto.sign("HMAC", key, encoder.encode(body));
+    const messageData = encoder.encode(body);
+    const signature = await crypto.subtle.sign("HMAC", key, messageData);
     const expectedSignature = Array.from(new Uint8Array(signature))
       .map(b => b.toString(16).padStart(2, '0'))
       .join('');
