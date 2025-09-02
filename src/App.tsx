@@ -11,6 +11,7 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 import { UserPreferencesProvider } from '@/contexts/UserPreferencesContext';
 import { TransitionProvider } from '@/contexts/TransitionContext';
 import AnalyticsConsent from '@/components/AnalyticsConsent';
+import { useAdRemoval } from '@/hooks/useAdRemoval';
 
 // Lazy load all pages for better performance
 const Index = lazy(() => import('@/pages/Index'));
@@ -50,56 +51,61 @@ const queryClient = new QueryClient({
   },
 });
 
-const App = () => (
-  <ErrorBoundary>
-    <QueryClientProvider client={queryClient}>
-      <HelmetProvider>
-        <TooltipProvider>
-          <UserPreferencesProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <TransitionProvider>
-                <AnalyticsConsent />
-                <Suspense fallback={<LoadingSpinner />}>
-                  <Routes>
-                    <Route path="/" element={<Layout />}>
-                      <Route index element={<Index />} />
-                      <Route path="login" element={<Login />} />
-                      <Route path="signup" element={<SignUp />} />
-                      <Route path="forgot-password" element={<ForgotPassword />} />
-                      <Route path="reset-password" element={<ResetPassword />} />
-                      <Route path="tools" element={<Tools />} />
-                      <Route path="tools-with-filters" element={<ToolsWithFilters />} />
-                      <Route path="content" element={<Content />} />
-                      <Route path="business" element={<Business />} />
-                      <Route path="school" element={<School />} />
-                      <Route path="career" element={<Career />} />
-                      <Route path="pdf-tools" element={<PDFTools />} />
-                      <Route path="pricing" element={<Pricing />} />
-                      <Route path="about" element={<About />} />
-                      <Route path="contact" element={<Contact />} />
-                      <Route path="privacy-policy" element={<PrivacyPolicy />} />
-                      <Route path="help" element={<Help />} />
-                      <Route path="profile" element={<Profile />} />
-                      <Route path="account" element={<Profile />} />
-                      <Route path="prompt-refinery" element={<PromptRefinery />} />
-                      <Route path="prompts" element={<Prompts />} />
-                      <Route path="prompt/:id" element={<PromptPack />} />
-                      <Route path="dashboard" element={<Dashboard />} />
-                      <Route path="favorites" element={<Favorites />} />
-                      <Route path="payment-success" element={<PaymentSuccess />} />
-                      <Route path="*" element={<NotFound />} />
-                    </Route>
-                  </Routes>
-                </Suspense>
-              </TransitionProvider>
-            </BrowserRouter>
-          </UserPreferencesProvider>
-        </TooltipProvider>
-      </HelmetProvider>
-    </QueryClientProvider>
-  </ErrorBoundary>
-);
+const App = () => {
+  // Remove ad scripts when user is upgraded to pro
+  useAdRemoval();
+
+  return (
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <HelmetProvider>
+          <TooltipProvider>
+            <UserPreferencesProvider>
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
+                <TransitionProvider>
+                  <AnalyticsConsent />
+                  <Suspense fallback={<LoadingSpinner />}>
+                    <Routes>
+                      <Route path="/" element={<Layout />}>
+                        <Route index element={<Index />} />
+                        <Route path="login" element={<Login />} />
+                        <Route path="signup" element={<SignUp />} />
+                        <Route path="forgot-password" element={<ForgotPassword />} />
+                        <Route path="reset-password" element={<ResetPassword />} />
+                        <Route path="tools" element={<Tools />} />
+                        <Route path="tools-with-filters" element={<ToolsWithFilters />} />
+                        <Route path="content" element={<Content />} />
+                        <Route path="business" element={<Business />} />
+                        <Route path="school" element={<School />} />
+                        <Route path="career" element={<Career />} />
+                        <Route path="pdf-tools" element={<PDFTools />} />
+                        <Route path="pricing" element={<Pricing />} />
+                        <Route path="about" element={<About />} />
+                        <Route path="contact" element={<Contact />} />
+                        <Route path="privacy-policy" element={<PrivacyPolicy />} />
+                        <Route path="help" element={<Help />} />
+                        <Route path="profile" element={<Profile />} />
+                        <Route path="account" element={<Profile />} />
+                        <Route path="prompt-refinery" element={<PromptRefinery />} />
+                        <Route path="prompts" element={<Prompts />} />
+                        <Route path="prompt/:id" element={<PromptPack />} />
+                        <Route path="dashboard" element={<Dashboard />} />
+                        <Route path="favorites" element={<Favorites />} />
+                        <Route path="payment-success" element={<PaymentSuccess />} />
+                        <Route path="*" element={<NotFound />} />
+                      </Route>
+                    </Routes>
+                  </Suspense>
+                </TransitionProvider>
+              </BrowserRouter>
+            </UserPreferencesProvider>
+          </TooltipProvider>
+        </HelmetProvider>
+      </QueryClientProvider>
+    </ErrorBoundary>
+  );
+};
 
 export default App;
