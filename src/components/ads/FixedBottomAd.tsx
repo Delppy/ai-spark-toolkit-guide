@@ -30,7 +30,7 @@ export function FixedBottomAd() {
       id="fixed-bottom-ad-container"
       className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t shadow-lg"
     >
-      <div className="relative max-w-7xl mx-auto p-2 flex justify-center items-center min-h-[120px]">
+      <div className="relative max-w-7xl mx-auto p-2 flex justify-center items-center min-h-[90px]">
         <button
           onClick={() => setIsVisible(false)}
           className="absolute top-2 right-2 p-1 hover:bg-muted rounded-full transition-colors"
