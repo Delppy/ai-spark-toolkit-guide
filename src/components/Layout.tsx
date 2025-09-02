@@ -35,10 +35,16 @@ const Layout = () => {
 
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
+    
+    // Clear all persistent session data
+    localStorage.removeItem('aitouse-user-authenticated');
+    localStorage.removeItem('aitouse-last-login');
+    localStorage.removeItem('aitouse-auth-token');
+    
     if (error) {
       toast.error("Error signing out");
     } else {
-      toast.success("Signed out successfully");
+      toast.success("Signed out successfully. You can sign back in anytime!");
     }
   };
 

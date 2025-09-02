@@ -52,7 +52,11 @@ const Login = () => {
         }
         toast.error('Login failed');
       } else if (data?.user) {
-        toast.success('Welcome back!');
+        // Store additional persistent session data
+        localStorage.setItem('aitouse-user-authenticated', 'true');
+        localStorage.setItem('aitouse-last-login', Date.now().toString());
+        
+        toast.success('Welcome back! You\'ll stay signed in.');
         // Navigate to the intended destination or home
         navigate(from, { replace: true });
       }

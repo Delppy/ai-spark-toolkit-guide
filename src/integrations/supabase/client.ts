@@ -14,5 +14,10 @@ export const supabase = createClient<Database>(SUPABASE_URL, SUPABASE_PUBLISHABL
     storage: localStorage,
     persistSession: true,
     autoRefreshToken: true,
+    detectSessionInUrl: true,
+    flowType: 'pkce',
+    debug: false,
+    // Keep sessions for a very long time
+    storageKey: 'aitouse-auth-token',
   }
 });
