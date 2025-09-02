@@ -275,17 +275,6 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      get_public_profile: {
-        Args: { profile_id: string }
-        Returns: {
-          bio: string
-          country: string
-          created_at: string
-          id: string
-          name: string
-          photo_url: string
-        }[]
-      }
       is_user_pro: {
         Args: { user_uuid: string }
         Returns: boolean
