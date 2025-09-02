@@ -45,7 +45,7 @@ const PlanCard: React.FC<PlanCardProps> = ({
           </CardTitle>
         </div>
         <CardDescription>
-          {isPro ? "All premium features included free" : "Everything included, free forever!"}
+          {isPro ? "Unlock unlimited access to all premium features" : "Perfect for getting started"}
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -54,14 +54,11 @@ const PlanCard: React.FC<PlanCardProps> = ({
         </div>
         {isPro && (
           <>
-            <span className="inline-block mb-4 text-primary font-semibold text-center w-full">
-              All features completely free
-            </span>
             {billing === "yearly" && yearlyDiscountPercent && (
               <div className="mb-2 flex items-center justify-center gap-2">
                 <Badge className="bg-accent/10 text-accent border-accent px-2 py-0.5 flex items-center gap-1">
                   <Percent className="w-3 h-3" />
-                  All features free
+                  Save {yearlyDiscountPercent}%
                 </Badge>
               </div>
             )}
@@ -81,15 +78,17 @@ const PlanCard: React.FC<PlanCardProps> = ({
               onClick={onUpgrade}
               disabled={loading}
             >
-              Everything is Free!
+              {loading ? "Processing..." : isCurrentPlan ? "Current Plan" : "Upgrade to Pro"}
             </Button>
-            <p className="text-xs text-center text-muted-foreground mt-4">
-              No payment required - all features are free!
-            </p>
+            {!isCurrentPlan && (
+              <p className="text-xs text-center text-muted-foreground mt-4">
+                Secure payment via Paystack
+              </p>
+            )}
           </>
         ) : (
-          <Button variant="outline" asChild className="w-full" disabled>
-            <span>Current Plan</span>
+          <Button variant="outline" asChild className="w-full" disabled={isCurrentPlan}>
+            <span>{isCurrentPlan ? "Current Plan" : "Get Started"}</span>
           </Button>
         )}
       </CardContent>
