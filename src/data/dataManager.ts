@@ -129,7 +129,24 @@ export class DataManager {
   }
 
   public getAllAITools(): AITool[] {
-    return Object.values(this.data).flatMap(categoryData => categoryData.aiTools);
+    const allTools = Object.values(this.data).flatMap(categoryData => categoryData.aiTools);
+    
+    // Global deduplication to prevent duplicate keys
+    const seenIds = new Set<string>();
+    const seenNames = new Set<string>();
+    
+    return allTools.filter(tool => {
+      const nameKey = tool.name.trim().toLowerCase();
+      
+      // If we've seen this ID or name before, skip it
+      if (seenIds.has(tool.id) || seenNames.has(nameKey)) {
+        return false;
+      }
+      
+      seenIds.add(tool.id);
+      seenNames.add(nameKey);
+      return true;
+    });
   }
 
   public getAllPromptPacks(): PromptPack[] {
