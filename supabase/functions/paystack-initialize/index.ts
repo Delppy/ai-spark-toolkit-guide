@@ -14,27 +14,38 @@ serve(async (req) => {
   try {
     // Get JWT token from Authorization header
     const authHeader = req.headers.get("Authorization");
+    console.log("Auth header received:", authHeader ? "Present" : "Missing");
+    
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      console.error("Invalid authorization header format");
       throw new Error("No valid authorization header");
     }
 
     const jwt = authHeader.replace("Bearer ", "");
+    console.log("JWT token extracted, length:", jwt.length);
     
-    // Create Supabase client for user authentication
+    // Create Supabase client for authentication
     const supabaseClient = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
       Deno.env.get("SUPABASE_ANON_KEY") ?? ""
     );
 
-    // Get user from JWT token
+    // Get user from JWT token  
     const { data: { user }, error: userError } = await supabaseClient.auth.getUser(jwt);
     
+    console.log("User authentication result:", { 
+      hasUser: !!user, 
+      userId: user?.id, 
+      email: user?.email,
+      error: userError?.message 
+    });
+    
     if (userError || !user?.email) {
-      console.error("User authentication error:", userError);
-      throw new Error("User not authenticated");
+      console.error("User authentication failed:", userError);
+      throw new Error(`Authentication failed: ${userError?.message || "Invalid user"}`);
     }
 
-    console.log(`Authenticated user: ${user.email} (${user.id})`);
+    console.log(`Successfully authenticated user: ${user.email} (${user.id})`);
 
     const { planCode, billing } = await req.json();
     
