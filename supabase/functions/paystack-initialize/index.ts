@@ -49,10 +49,10 @@ serve(async (req) => {
 
     const { planCode, billing } = await req.json();
     
-    // Get pricing based on plan and billing cycle
+    // Get pricing based on plan and billing cycle - using USD for compatibility
     const amounts = {
-      monthly: { NGN: 499900, USD: 4999 }, // ₦4,999 or $49.99
-      yearly: { NGN: 4799000, USD: 4799 }   // ₦47,990 or $47.99 
+      monthly: { USD: 4999 }, // $49.99 in kobo/cents
+      yearly: { USD: 4799 }   // $47.99 in kobo/cents 
     };
     
     const paystackSecretKey = Deno.env.get("PAYSTACK_SECRET_KEY");
@@ -60,9 +60,11 @@ serve(async (req) => {
       throw new Error("Paystack secret key not configured");
     }
 
-    // Determine currency and amount based on user location
-    const currency = "NGN"; // Default to NGN, you can add geo-detection later
+    // Use USD currency for broader compatibility
+    const currency = "USD";
     const amount = amounts[billing as keyof typeof amounts][currency];
+    
+    console.log(`Payment details: ${currency} ${amount/100} (${amount} kobo/cents)`);
     
     // Generate unique reference
     const reference = `aitouse_${user.id}_${Date.now()}`;
