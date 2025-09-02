@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { AITool, PromptPack } from '@/data/aiTools';
 import { supabase } from '@/integrations/supabase/client';
@@ -51,130 +50,202 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
+  // Single auth state listener to prevent multiple session checks
   useEffect(() => {
-    const updateUserState = (newSession: Session | null) => {
-      setSession(newSession);
-      
-      if (!newSession?.user) {
-        setUser(null);
-        setProfile(null);
-        setLoading(false);
-        return;
-      }
-      
-      // Defer Supabase calls to prevent deadlocks, following best practices.
-      setTimeout(async () => {
-        try {
-          const { data: profileData } = await (supabase as any)
-            .from('profiles')
-            .select('*')
-            .eq('id', newSession.user.id)
-            .maybeSingle();
-
-          if (profileData) {
-            setProfile(profileData as any);
-          }
-
+    let ignore = false;
+    
+    console.log('Setting up auth state listener...');
+    
+    // Set up auth state listener FIRST to catch all changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      async (event, session) => {
+        if (ignore) return;
+        
+        console.log('Auth state changed:', event, !!session);
+        
+        setSession(session);
+        setLoading(true);
+        
+        if (session?.user) {
           setUser({
-            id: newSession.user.id,
-            email: newSession.user.email,
-            name: profileData?.name || newSession.user.user_metadata?.name,
+            id: session.user.id,
+            email: session.user.email,
+            name: session.user.user_metadata?.name || session.user.email?.split('@')[0] || ''
           });
-        } catch (error) {
-          console.error("Error fetching user profile:", error);
-          // Fallback to user data without profile if the call fails
+          
+          // Only fetch profile if we have a session - use timeout to prevent auth loops
+          setTimeout(async () => {
+            if (ignore) return;
+            
+            try {
+              const { data: profileData } = await (supabase as any)
+                .from('profiles')
+                .select('*')
+                .eq('id', session.user.id)
+                .maybeSingle();
+              
+              if (profileData && !ignore) {
+                setProfile(profileData);
+              }
+            } catch (error) {
+              console.error('Error fetching profile:', error);
+            } finally {
+              if (!ignore) {
+                setLoading(false);
+              }
+            }
+          }, 100);
+        } else {
+          setUser(null);
           setProfile(null);
-          setUser({
-            id: newSession.user.id,
-            email: newSession.user.email,
-            name: newSession.user.user_metadata?.name,
-          });
-        } finally {
           setLoading(false);
         }
-      }, 0);
-    };
-
-    let isInitialized = false;
-
-    // Set up auth state listener FIRST
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      // Prevent duplicate calls during initialization
-      if (!isInitialized) {
-        isInitialized = true;
       }
-      updateUserState(session);
-    });
+    );
 
-    // THEN check for existing session - only once
+    // Get initial session only once
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!isInitialized) {
-        isInitialized = true;
-        updateUserState(session);
+      if (ignore) return;
+      
+      console.log('Initial session check:', !!session);
+      setSession(session);
+      
+      if (session?.user) {
+        setUser({
+          id: session.user.id,
+          email: session.user.email,
+          name: session.user.user_metadata?.name || session.user.email?.split('@')[0] || ''
+        });
+      } else {
+        setLoading(false);
+      }
+    }).catch(error => {
+      console.error('Error getting initial session:', error);
+      if (!ignore) {
+        setLoading(false);
       }
     });
 
     return () => {
-      subscription?.unsubscribe();
+      console.log('Cleaning up auth listener...');
+      ignore = true;
+      subscription.unsubscribe();
     };
   }, []);
 
-  // Load preferences from localStorage on mount
+  // Load preferences from localStorage
   useEffect(() => {
-    const savedPreferences = localStorage.getItem('userPreferences');
-    if (savedPreferences) {
-      setPreferences(JSON.parse(savedPreferences));
+    const stored = localStorage.getItem('userPreferences');
+    if (stored) {
+      try {
+        const parsedPrefs = JSON.parse(stored);
+        setPreferences(parsedPrefs);
+      } catch (error) {
+        console.error('Error parsing stored preferences:', error);
+      }
     }
   }, []);
 
-  // Save preferences to localStorage whenever they change
+  // Sync favorites to localStorage
   useEffect(() => {
     localStorage.setItem('userPreferences', JSON.stringify(preferences));
   }, [preferences]);
 
+  const favoriteTools = preferences.favorites;
+
+  const addFavorite = async (toolId: string) => {
+    if (!user?.id || favoriteTools.includes(toolId)) return;
+    
+    const newFavorites = [...favoriteTools, toolId];
+    setPreferences(prev => ({ ...prev, favorites: newFavorites }));
+    
+    try {
+      await (supabase as any)
+        .from('favorites')
+        .insert({ user_id: user.id, item_id: toolId });
+    } catch (error) {
+      console.error('Error adding favorite:', error);
+      // Revert on error
+      setPreferences(prev => ({ ...prev, favorites: favoriteTools.filter(id => id !== toolId) }));
+    }
+  };
+
+  const removeFavorite = async (toolId: string) => {
+    if (!user?.id || !favoriteTools.includes(toolId)) return;
+    
+    const newFavorites = favoriteTools.filter(id => id !== toolId);
+    setPreferences(prev => ({ ...prev, favorites: newFavorites }));
+    
+    try {
+      await (supabase as any)
+        .from('favorites')
+        .delete()
+        .eq('user_id', user.id)
+        .eq('item_id', toolId);
+    } catch (error) {
+      console.error('Error removing favorite:', error);
+      // Revert on error
+      setPreferences(prev => ({ ...prev, favorites: [...favoriteTools, toolId] }));
+    }
+  };
+
   const toggleFavorite = (toolId: string) => {
-    setPreferences(prev => ({
-      ...prev,
-      favorites: prev.favorites.includes(toolId)
-        ? prev.favorites.filter(id => id !== toolId)
-        : [...prev.favorites, toolId]
-    }));
+    if (favoriteTools.includes(toolId)) {
+      removeFavorite(toolId);
+    } else {
+      addFavorite(toolId);
+    }
   };
 
-  const addFavorite = (toolId: string) => {
-    setPreferences(prev => ({
-      ...prev,
-      favorites: prev.favorites.includes(toolId) 
-        ? prev.favorites 
-        : [...prev.favorites, toolId]
-    }));
-  };
-
-  const removeFavorite = (toolId: string) => {
-    setPreferences(prev => ({
-      ...prev,
-      favorites: prev.favorites.filter(id => id !== toolId)
-    }));
-  };
+  // Load favorites from database when user logs in
+  useEffect(() => {
+    if (!user?.id) return;
+    
+    const loadFavorites = async () => {
+      try {
+        const { data } = await (supabase as any)
+          .from('favorites')
+          .select('item_id')
+          .eq('user_id', user.id);
+          
+        if (data) {
+          const favoriteIds = data.map((fav: any) => fav.item_id);
+          setPreferences(prev => ({ ...prev, favorites: favoriteIds }));
+        }
+      } catch (error) {
+        console.error('Error loading favorites:', error);
+      }
+    };
+    
+    loadFavorites();
+  }, [user?.id]);
 
   const addToRecentlyViewed = (toolId: string) => {
-    setPreferences(prev => ({
-      ...prev,
-      recentlyViewed: [toolId, ...prev.recentlyViewed.filter(id => id !== toolId)].slice(0, 10)
-    }));
+    setPreferences(prev => {
+      const filtered = prev.recentlyViewed.filter(id => id !== toolId);
+      const newRecentlyViewed = [toolId, ...filtered].slice(0, 10); // Keep last 10
+      return {
+        ...prev,
+        recentlyViewed: newRecentlyViewed
+      };
+    });
   };
 
   const setPreferredFreeOffering = (offerings: string[]) => {
-    setPreferences(prev => ({ ...prev, preferredFreeOffering: offerings }));
+    setPreferences(prev => ({
+      ...prev,
+      preferredFreeOffering: offerings
+    }));
   };
 
   const setSortPreference = (sort: UserPreferences['sortPreference']) => {
-    setPreferences(prev => ({ ...prev, sortPreference: sort }));
+    setPreferences(prev => ({
+      ...prev,
+      sortPreference: sort
+    }));
   };
 
-  const isFavorite = (toolId: string) => {
-    return preferences.favorites.includes(toolId);
-  };
+  const isFavorite = (toolId: string) => favoriteTools.includes(toolId);
 
   return (
     <UserPreferencesContext.Provider value={{
@@ -183,7 +254,7 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
       profile,
       session,
       loading,
-      favoriteTools: preferences.favorites,
+      favoriteTools,
       toggleFavorite,
       addFavorite,
       removeFavorite,

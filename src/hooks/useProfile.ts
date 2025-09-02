@@ -1,6 +1,5 @@
 
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import type { Tables } from "@/integrations/supabase/types";
@@ -18,7 +17,6 @@ export const useProfile = () => {
   const [loading, setLoading] = useState(false);
   const [checkingProfile, setCheckingProfile] = useState(true);
   const { toast } = useToast();
-  const navigate = useNavigate();
 
   // Fetch user and profile, create profile if missing
   useEffect(() => {
@@ -28,6 +26,7 @@ export const useProfile = () => {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
       if (ignore) return;
       if (!session) {
+        // Don't redirect - just set state and let other components handle auth
         setCheckingProfile(false);
         return;
       }
@@ -84,7 +83,7 @@ export const useProfile = () => {
     return () => {
       ignore = true;
     };
-  }, [navigate]);
+  }, []);
 
   const refreshProfile = async () => {
     if (!user) return;
@@ -108,7 +107,6 @@ export const useProfile = () => {
       description: "You have been signed out.",
       variant: "default",
     });
-    navigate("/login");
   };
 
   const handleSave = async (e: React.FormEvent) => {

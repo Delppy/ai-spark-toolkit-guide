@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useUserPreferences } from '@/contexts/UserPreferencesContext';
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { IS_PREMIUM_FREE } from '@/config/flags';
-import { supabase } from '@/integrations/supabase/client';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -11,16 +10,8 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requireAuth = true }) => {
-  const { user } = useUserPreferences();
+  const { user, loading } = useUserPreferences();
   const location = useLocation();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Check auth status
-    supabase.auth.getSession().then(() => {
-      setLoading(false);
-    });
-  }, []);
 
   // If premium features are free, no authentication required
   if (IS_PREMIUM_FREE) {
