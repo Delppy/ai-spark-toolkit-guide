@@ -23,7 +23,7 @@ const Pricing: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [regionData, setRegionData] = useState<{ country: string; isAfrica: boolean } | null>(null);
   const [pricing, setPricing] = useState<{ currency: string; monthly: number; yearly: number; symbol: string } | null>(null);
-  const { user } = useUserPreferences();
+  const { user, loading: authLoading } = useUserPreferences();
   const navigate = useNavigate();
   const location = useLocation();
   const { checkStatus, isPro, subscriptionStatus } = useSubscription(user?.id || null);
@@ -139,8 +139,8 @@ const Pricing: React.FC = () => {
           price={proPriceDisplay}
           features={proFeatures}
           isPopular={true}
-          onUpgrade={user ? handleUpgrade : () => navigate('/login')}
-          loading={loading || !pricing}
+          onUpgrade={authLoading ? undefined : (user ? handleUpgrade : () => navigate('/login'))}
+          loading={loading || !pricing || authLoading}
           yearlyDiscountPercent={YEARLY_DISCOUNT_PERCENT}
           isCurrentPlan={isPro}
         />
