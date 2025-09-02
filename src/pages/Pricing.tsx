@@ -82,10 +82,25 @@ const Pricing: React.FC = () => {
 
       console.log('Initiating payment for user:', user.email || session?.user?.email);
 
+      // Ensure we have a fresh session and access token
+      const { data: { session: freshSession }, error: sessionRefreshError } = await supabase.auth.refreshSession();
+      
+      if (sessionRefreshError || !freshSession?.access_token) {
+        console.error('Failed to refresh session:', sessionRefreshError);
+        toast.error('Session expired. Please log in again.');
+        navigate('/login');
+        return;
+      }
+
+      console.log('Using fresh session token for payment');
+
       const { data, error } = await supabase.functions.invoke('paystack-initialize', {
         body: {
           planCode: 'pro',
           billing: billing,
+        },
+        headers: {
+          Authorization: `Bearer ${freshSession.access_token}`
         }
       });
 
