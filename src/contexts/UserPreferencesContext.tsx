@@ -95,14 +95,23 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
       }, 0);
     };
 
+    let isInitialized = false;
+
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      // Prevent duplicate calls during initialization
+      if (!isInitialized) {
+        isInitialized = true;
+      }
       updateUserState(session);
     });
 
-    // THEN check for existing session
+    // THEN check for existing session - only once
     supabase.auth.getSession().then(({ data: { session } }) => {
-      updateUserState(session);
+      if (!isInitialized) {
+        isInitialized = true;
+        updateUserState(session);
+      }
     });
 
     return () => {

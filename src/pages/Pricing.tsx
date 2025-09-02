@@ -34,25 +34,12 @@ const Pricing: React.FC = () => {
     const paymentSuccess = urlParams.get('payment') === 'success';
     
     if (paymentSuccess && user) {
-      // Refresh subscription status after successful payment
+      // Refresh subscription status after successful payment - only once
       setTimeout(async () => {
         await refreshSubscription();
         console.log('Subscription refreshed after payment success');
-      }, 1000);
+      }, 2000);
     }
-
-    // Also refresh when user comes back to the tab (after payment)
-    const handleVisibilityChange = () => {
-      if (!document.hidden && user) {
-        refreshSubscription();
-      }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
   }, [location, user, refreshSubscription]);
 
   useEffect(() => {
@@ -109,17 +96,17 @@ const Pricing: React.FC = () => {
 
       console.log('Initiating payment for user:', user.email || session?.user?.email);
 
-      // Ensure we have a fresh session and access token
-      const { data: { session: freshSession }, error: sessionRefreshError } = await supabase.auth.refreshSession();
+      // Use existing session instead of refreshing to avoid rate limits
+      const currentSession = session;
       
-      if (sessionRefreshError || !freshSession?.access_token) {
-        console.error('Failed to refresh session:', sessionRefreshError);
+      if (!currentSession?.access_token) {
+        console.error('No valid session token available');
         toast.error('Session expired. Please log in again.');
         navigate('/login');
         return;
       }
 
-      console.log('Using fresh session token for payment');
+      console.log('Using current session token for payment');
 
       const { data, error } = await supabase.functions.invoke('paystack-initialize', {
         body: {
@@ -127,7 +114,7 @@ const Pricing: React.FC = () => {
           billing: billing,
         },
         headers: {
-          Authorization: `Bearer ${freshSession.access_token}`
+          Authorization: `Bearer ${currentSession.access_token}`
         }
       });
 
