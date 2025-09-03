@@ -101,4 +101,67 @@ export function useProGate() {
 }
 
 export const useSubscription = useFreeAccess;
-export const usePromptCredits = useFreeAccess;
+
+// Separate hook for managing prompt credits with localStorage persistence
+export function usePromptCredits() {
+  const { isPro, loading: subscriptionLoading } = useFreeAccess();
+  const { user } = useUserPreferences();
+  const [credits, setCredits] = useState<number>(MAX_FREE_CREDITS);
+  const [initialized, setInitialized] = useState(false);
+  
+  // Create a unique storage key based on user ID or use 'anon' for non-logged in users
+  const storageKey = useMemo(() => {
+    return user?.id ? `aitouse-prompt-credits:${user.id}` : 'aitouse-prompt-credits:anon';
+  }, [user?.id]);
+
+  // Initialize credits from localStorage or set to MAX_FREE_CREDITS for new users
+  useEffect(() => {
+    // Pro users always have unlimited credits
+    if (isPro) {
+      setCredits(Infinity);
+      setInitialized(true);
+      return;
+    }
+
+    // Load credits from localStorage
+    const storedCredits = localStorage.getItem(storageKey);
+    
+    if (storedCredits === null) {
+      // New user - give them the initial credits
+      const initialCredits = MAX_FREE_CREDITS;
+      localStorage.setItem(storageKey, String(initialCredits));
+      setCredits(initialCredits);
+    } else {
+      // Existing user - load their remaining credits
+      const parsedCredits = parseInt(storedCredits, 10);
+      // Ensure valid number, default to MAX_FREE_CREDITS if invalid
+      const validCredits = !isNaN(parsedCredits) && parsedCredits >= 0 ? parsedCredits : MAX_FREE_CREDITS;
+      setCredits(validCredits);
+    }
+    
+    setInitialized(true);
+  }, [storageKey, isPro]);
+
+  // Function to use a credit
+  const useCredit = async () => {
+    if (isPro) return true; // Pro users have unlimited
+    
+    if (credits <= 0) {
+      return false; // No credits left
+    }
+    
+    const newCredits = credits - 1;
+    setCredits(newCredits);
+    localStorage.setItem(storageKey, String(newCredits));
+    return true;
+  };
+
+  return {
+    isPro,
+    credits: isPro ? Infinity : credits,
+    hasCredits: isPro || credits > 0,
+    useCredit,
+    loading: subscriptionLoading || !initialized,
+    maxFreeCredits: MAX_FREE_CREDITS,
+  };
+}

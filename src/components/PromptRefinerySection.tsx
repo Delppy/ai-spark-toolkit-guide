@@ -20,8 +20,8 @@ export const PromptRefinerySection: React.FC = () => {
   const [generatedPrompts, setGeneratedPrompts] = useState<AiToUsePromptResponse | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
 
-  const maxCredits = user ? 10 : 3;
-  const remainingCredits = isPro ? "unlimited" : (user ? credits : maxCredits);
+  // Free users always get 5 credits, regardless of auth status
+  const remainingCredits = isPro ? "unlimited" : credits;
 
   const handleGenerate = async () => {
     if (!userInput.trim()) {
