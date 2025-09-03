@@ -145,12 +145,18 @@ export const PromptRefinerySection: React.FC = () => {
         </div>
 
         {!isPro && !hasCredits && (
-          <div className="p-4 bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 rounded-lg">
+          <div className="p-4 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-slate-700">No credits remaining</p>
-                <p className="text-xs text-slate-600">Unlimited prompt generation available</p>
+                <p className="text-sm font-semibold text-amber-900">You've used all 5 free credits!</p>
+                <p className="text-xs text-amber-700 mt-1">Upgrade to Pro for unlimited prompt generation</p>
               </div>
+              <Link to="/pricing">
+                <Button size="sm" className="bg-gradient-to-r from-primary to-primary-foreground/90 hover:from-primary/90 hover:to-primary-foreground text-white">
+                  <Crown className="w-4 h-4 mr-1" />
+                  Upgrade Now
+                </Button>
+              </Link>
             </div>
           </div>
         )}
