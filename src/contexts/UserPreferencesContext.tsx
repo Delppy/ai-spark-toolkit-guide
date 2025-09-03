@@ -139,13 +139,12 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
       async (event, session) => {
         if (ignore) return;
         
-        console.log('Auth state changed:', event, !!session);
-        
-        // Only process significant auth events, ignore token refreshes
+        // Completely ignore token refresh events
         if (event === 'TOKEN_REFRESHED') {
-          setSession(session);
           return;
         }
+        
+        console.log('Auth state changed:', event, !!session);
         
         setSession(session);
         setLoading(true);
