@@ -130,14 +130,14 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
                     </div>
                   ))}
                   
-                  {/* Show blurred prompts for preview mode */}
+                  {/* Show blurred prompts only for users with no credits */}
                   {hiddenPrompts.length > 0 && (
                     <>
-                      {hiddenPrompts.map((_, idx) => (
+                      {hiddenPrompts.map((example, idx) => (
                         <div key={`hidden-${idx}`} className="relative bg-muted/50 p-3 rounded-lg border">
                           <div className="filter blur-sm pointer-events-none select-none">
                             <p className="text-sm text-muted-foreground mb-2">
-                              Lorem ipsum dolor sit amet, consectetur adipiscing elit...
+                              {example.substring(0, 50)}...
                             </p>
                             <Button variant="ghost" size="sm" className="text-xs opacity-50">
                               <Copy className="w-3 h-3 mr-1" />
@@ -145,15 +145,17 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
                             </Button>
                           </div>
                           <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="bg-background/95 px-4 py-2 rounded-lg text-sm font-medium text-primary border border-primary/20 shadow-sm">
-                              {hasCredits ? '🔓 Use 1 credit to unlock' : '🔒 Upgrade to Pro'}
-                            </div>
+                            <Link to="/pricing">
+                              <div className="bg-background/95 px-4 py-2 rounded-lg text-sm font-medium text-primary border border-primary/20 shadow-sm hover:bg-background">
+                                🔒 Upgrade to Pro
+                              </div>
+                            </Link>
                           </div>
                         </div>
                       ))}
-                      {examplesList.length > previewLimit + 2 && (
+                      {examplesList.length > 3 && (
                         <p className="text-xs text-muted-foreground text-center">
-                          + {examplesList.length - previewLimit - 2} more prompts available
+                          + {examplesList.length - 3} more prompts in Pro version
                         </p>
                       )}
                     </>
