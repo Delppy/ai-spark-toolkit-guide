@@ -30,17 +30,21 @@ export function FixedBottomAd() {
       id="fixed-bottom-ad-container"
       className="fixed bottom-0 left-0 right-0 z-50 bg-background border-t shadow-lg"
     >
-      <div className="relative max-w-7xl mx-auto p-2 flex justify-center items-center min-h-[10px]">
+      <div className="relative max-w-7xl mx-auto p-1 sm:p-2 flex justify-center items-center min-h-[60px] max-h-[120px] overflow-hidden">
         <button
           onClick={() => setIsVisible(false)}
-          className="absolute top-2 right-2 p-1 hover:bg-muted rounded-full transition-colors"
+          className="absolute top-1 right-1 sm:top-2 sm:right-2 p-1 hover:bg-muted rounded-full transition-colors z-10 bg-background/80 backdrop-blur-sm"
           aria-label="Close ad"
         >
-          <X size={16} />
+          <X size={14} className="sm:w-4 sm:h-4" />
         </button>
-        <div className="text-center">
-          <p className="text-xs text-muted-foreground mb-2">Advertisement</p>
-          <div id="container-30356e73d7c18e17a8ee9629abb2ee8c"></div>
+        <div className="text-center w-full px-6 sm:px-8">
+          <p className="text-xs text-muted-foreground mb-1 sm:mb-2">Advertisement</p>
+          <div 
+            id="container-30356e73d7c18e17a8ee9629abb2ee8c"
+            className="max-w-[320px] sm:max-w-full mx-auto overflow-hidden"
+            style={{ maxHeight: '80px' }}
+          ></div>
         </div>
       </div>
     </div>
