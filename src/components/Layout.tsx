@@ -15,6 +15,8 @@ import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 import { Badge } from "@/components/ui/badge";
 import { NewAd } from "@/components/ads/NewAd";
 import { ProfitableRateAd } from "@/components/ads/ProfitableRateAd";
+import { PopunderAd } from "@/components/ads/PopunderAd";
+import { InterstitialAd } from "@/components/ads/InterstitialAd";
 
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -145,9 +147,11 @@ const Layout = () => {
         </PageTransition>
       </main>
       
-      {/* Bottom Ad - only shows for non-Pro users */}
+      {/* Ad Components - only show for non-Pro users */}
       <NewAd />
       <ProfitableRateAd />
+      <PopunderAd />
+      <InterstitialAd />
       
 
       <footer className="bg-foreground text-background py-12 transition-all duration-300">

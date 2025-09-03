@@ -12,6 +12,7 @@ export function useAdRemoval() {
       const adScripts = [
         '//pl27380163.revenuecpmgate.com/9a/1f/07/9a1f075f29aa9045e554dfe6b3aa4154.js',
         '//pl27377371.revenuecpmgate.com/30356e73d7c18e17a8ee9629abb2ee8c/invoke.js',
+        '//pl27377385.revenuecpmgate.com/e8/0b/16/e80b168df17cd828ac576b784018b24a.js',
         '//www.highperformanceformat.com/36e9f38cd9b4a6eb7839d66b237b5878/invoke.js'
       ];
 
