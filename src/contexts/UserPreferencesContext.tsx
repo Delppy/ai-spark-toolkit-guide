@@ -3,6 +3,7 @@ import { AITool, PromptPack } from '@/data/aiTools';
 import { supabase } from '@/integrations/supabase/client';
 import type { Tables } from "@/integrations/supabase/types";
 import type { Session, User } from "@supabase/supabase-js";
+import { IS_PREMIUM_FREE } from '@/config/flags';
 
 type ProfileRow = Tables<"profiles">;
 
@@ -19,6 +20,18 @@ interface UserContextType {
   name?: string;
 }
 
+interface SubscriptionStatus {
+  isPro: boolean;
+  hasCredits: boolean;
+  credits: number;
+  loading: boolean;
+  subscriptionStatus: 'free' | 'pro' | 'loading';
+  premiumBadge: boolean;
+  subscriptionEndsAt: null;
+  subscriptionTier: 'free' | 'pro';
+  showRemoveAds: boolean;
+}
+
 interface UserPreferencesContextType {
   preferences: UserPreferences;
   user: UserContextType | null;
@@ -26,6 +39,7 @@ interface UserPreferencesContextType {
   session: Session | null;
   loading: boolean;
   favoriteTools: string[];
+  subscription: SubscriptionStatus;
   toggleFavorite: (toolId: string) => void;
   addFavorite: (toolId: string) => void;
   removeFavorite: (toolId: string) => void;
@@ -49,6 +63,69 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
   const [profile, setProfile] = useState<ProfileRow | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [subscriptionData, setSubscriptionData] = useState<any>(null);
+  const [subscriptionLoading, setSubscriptionLoading] = useState(false);
+
+  // Create subscription status object
+  const subscription: SubscriptionStatus = React.useMemo(() => {
+    if (IS_PREMIUM_FREE) {
+      return {
+        isPro: true,
+        hasCredits: true,
+        credits: Infinity,
+        loading: false,
+        subscriptionStatus: 'free',
+        premiumBadge: false,
+        subscriptionEndsAt: null,
+        subscriptionTier: 'free',
+        showRemoveAds: false,
+      };
+    }
+
+    const isPro = !!subscriptionData;
+    return {
+      isPro,
+      hasCredits: isPro,
+      credits: isPro ? Infinity : 0,
+      loading: loading || subscriptionLoading,
+      subscriptionStatus: isPro ? 'pro' as const : 'free' as const,
+      premiumBadge: isPro,
+      subscriptionEndsAt: null,
+      subscriptionTier: isPro ? 'pro' as const : 'free' as const,
+      showRemoveAds: !isPro,
+    };
+  }, [subscriptionData, loading, subscriptionLoading]);
+
+  // Check subscription status
+  const checkSubscriptionStatus = React.useCallback(async () => {
+    if (!user?.id || IS_PREMIUM_FREE) return;
+
+    setSubscriptionLoading(true);
+    try {
+      const { data: subscriptionResult } = await (supabase as any)
+        .from("subscriptions")
+        .select("*")
+        .eq("user_id", user.id)
+        .eq("status", "active")
+        .maybeSingle();
+
+      setSubscriptionData(subscriptionResult);
+    } catch (error) {
+      console.error("Error checking subscription status:", error);
+      setSubscriptionData(null);
+    } finally {
+      setSubscriptionLoading(false);
+    }
+  }, [user?.id]);
+
+  // Check subscription when user changes
+  useEffect(() => {
+    if (user?.id && !loading) {
+      checkSubscriptionStatus();
+    } else if (!user) {
+      setSubscriptionData(null);
+    }
+  }, [user?.id, loading, checkSubscriptionStatus]);
 
   // Single auth state listener to prevent multiple session checks
   useEffect(() => {
@@ -273,6 +350,7 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
       session,
       loading,
       favoriteTools,
+      subscription,
       toggleFavorite,
       addFavorite,
       removeFavorite,
