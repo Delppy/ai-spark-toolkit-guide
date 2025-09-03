@@ -133,22 +133,29 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
                   {/* Show blurred prompts for preview mode */}
                   {hiddenPrompts.length > 0 && (
                     <>
-                      {hiddenPrompts.map((example, idx) => (
-                        <div key={`hidden-${idx}`} className="relative bg-slate-50 p-3 rounded-lg border">
-                          <div className="filter blur-sm pointer-events-none">
-                            <p className="text-sm text-slate-700 mb-2">{example}</p>
-                            <Button variant="ghost" size="sm" className="text-xs">
+                      {hiddenPrompts.map((_, idx) => (
+                        <div key={`hidden-${idx}`} className="relative bg-muted/50 p-3 rounded-lg border">
+                          <div className="filter blur-sm pointer-events-none select-none">
+                            <p className="text-sm text-muted-foreground mb-2">
+                              Lorem ipsum dolor sit amet, consectetur adipiscing elit...
+                            </p>
+                            <Button variant="ghost" size="sm" className="text-xs opacity-50">
                               <Copy className="w-3 h-3 mr-1" />
                               Copy
                             </Button>
                           </div>
                           <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="bg-white/90 px-3 py-1 rounded-full text-xs font-medium text-purple-600 border border-purple-200">
-                              View Pack
+                            <div className="bg-background/95 px-4 py-2 rounded-lg text-sm font-medium text-primary border border-primary/20 shadow-sm">
+                              {hasCredits ? '🔓 Use 1 credit to unlock' : '🔒 Upgrade to Pro'}
                             </div>
                           </div>
                         </div>
                       ))}
+                      {examplesList.length > previewLimit + 2 && (
+                        <p className="text-xs text-muted-foreground text-center">
+                          + {examplesList.length - previewLimit - 2} more prompts available
+                        </p>
+                      )}
                     </>
                   )}
                 </>
