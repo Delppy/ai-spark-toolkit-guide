@@ -134,7 +134,7 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
     
     console.log('Setting up auth state listener...');
     
-    // Set up auth state listener
+    // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (ignore) return;
@@ -224,9 +224,41 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
       }
     );
 
-    // Don't make initial session calls - rely on auth state listener only
-    console.log('Auth listener setup complete. No initial session call to prevent token refresh.');
-    setLoading(false);
+    // THEN check for existing session to restore on page refresh
+    const checkExistingSession = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        
+        if (session && !ignore) {
+          console.log('Restored existing session on mount');
+          setSession(session);
+          setUser({
+            id: session.user.id,
+            email: session.user.email,
+            name: session.user.user_metadata?.name || session.user.email?.split('@')[0] || ''
+          });
+          
+          // Fetch profile for restored session
+          const { data: profileData } = await (supabase as any)
+            .from('profiles')
+            .select('*')
+            .eq('id', session.user.id)
+            .maybeSingle();
+          
+          if (profileData) {
+            setProfile(profileData);
+          }
+        }
+      } catch (error) {
+        console.error('Error checking existing session:', error);
+      } finally {
+        if (!ignore) {
+          setLoading(false);
+        }
+      }
+    };
+    
+    checkExistingSession();
 
     return () => {
       console.log('Cleaning up auth listener...');
