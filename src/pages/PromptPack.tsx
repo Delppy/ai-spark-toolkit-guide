@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import SEOHead from '@/components/SEOHead';
 
 const PromptPack = () => {
-  const { packId } = useParams<{ packId: string }>();
+  const { id } = useParams<{ id: string }>();
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   
   const { user } = useUserPreferences() as any;
@@ -20,7 +20,7 @@ const PromptPack = () => {
 
   // Find the prompt pack by ID across all categories
   const allPromptPacks = dataManager.getAllPromptPacks();
-  const pack = allPromptPacks.find(p => p.id === packId || p.title.toLowerCase().replace(/\s+/g, '-') === packId);
+  const pack = allPromptPacks.find(p => p.id === id || p.title.toLowerCase().replace(/\s+/g, '-') === id);
 
   if (!pack) {
     return (
