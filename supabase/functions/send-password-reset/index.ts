@@ -35,11 +35,14 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Processing password reset for:", email);
     
     // Generate password reset link using Supabase Admin API
+    const origin = req.headers.get('origin') || req.headers.get('referer')?.split('/').slice(0, 3).join('/') || 'https://b39cd442-a691-46a7-b62b-faf8c346904d.lovableproject.com';
+    console.log("Using origin for redirect:", origin);
+    
     const { data: linkData, error: linkError } = await supabase.auth.admin.generateLink({
       type: 'recovery',
       email: email,
       options: {
-        redirectTo: `${req.headers.get('origin') || 'https://aitouse.app'}/reset-password`,
+        redirectTo: `${origin}/reset-password`,
       }
     });
     
@@ -75,15 +78,29 @@ const handler = async (req: Request): Promise<Response> => {
     console.log("Attempting to send email with Resend...");
     
     if (!resendApiKey) {
-      console.error("RESEND_API_KEY is not configured");
+      console.error("RESEND_API_KEY is not configured - falling back to Supabase auth recovery");
+      // Fallback to Supabase's built-in recovery email
+      const { error: recoveryError } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${origin}/reset-password`,
+      });
+      
+      if (recoveryError) {
+        console.error("Supabase recovery error:", recoveryError);
+        return new Response(
+          JSON.stringify({ error: "Failed to send reset email" }),
+          { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
+        );
+      }
+      
+      console.log("Fallback recovery email sent via Supabase");
       return new Response(
-        JSON.stringify({ error: "Email service not configured. Please try again later." }),
-        { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
+        JSON.stringify({ success: true, message: "Reset email sent via Supabase" }),
+        { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
       );
     }
 
     const resend = new Resend(resendApiKey);
-    console.log("Resend initialized with key:", resendApiKey.substring(0, 6) + "******");
+    console.log("Resend initialized with key:", resendApiKey.substring(0, 8) + "******");
     
     try {
       const emailResponse = await resend.emails.send({
@@ -198,11 +215,11 @@ const handler = async (req: Request): Promise<Response> => {
                   </div>
                   
                   <div class="footer">
-                    <p>Need help? <a href="${req.headers.get('origin') || 'https://aitouse.app'}/contact" style="color: #0099cc;">Contact our support team</a></p>
-                    <p style="font-size: 12px; color: #999;">
-                      © 2024 AiToUse. All rights reserved.<br>
-                      <a href="${req.headers.get('origin') || 'https://aitouse.app'}/privacy-policy" style="color: #999;">Privacy Policy</a>
-                    </p>
+                     <p>Need help? <a href="${origin}/contact" style="color: #0099cc;">Contact our support team</a></p>
+                     <p style="font-size: 12px; color: #999;">
+                       © 2024 AiToUse. All rights reserved.<br>
+                       <a href="${origin}/privacy-policy" style="color: #999;">Privacy Policy</a>
+                     </p>
                   </div>
                 </div>
               </div>
@@ -222,16 +239,34 @@ const handler = async (req: Request): Promise<Response> => {
       });
     } catch (emailError: any) {
       console.error("Resend email error details:", emailError);
-      return new Response(
-        JSON.stringify({ 
-          error: "Failed to send email", 
-          details: emailError.message || emailError 
-        }),
-        {
-          status: 500,
-          headers: { "Content-Type": "application/json", ...corsHeaders },
+      console.log("Falling back to Supabase auth recovery due to Resend error");
+      
+      // Fallback to Supabase's built-in recovery email if Resend fails
+      try {
+        const { error: recoveryError } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: `${origin}/reset-password`,
+        });
+        
+        if (recoveryError) {
+          console.error("Supabase recovery fallback also failed:", recoveryError);
+          return new Response(
+            JSON.stringify({ error: "Failed to send reset email" }),
+            { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
+          );
         }
-      );
+        
+        console.log("Fallback recovery email sent successfully via Supabase");
+        return new Response(
+          JSON.stringify({ success: true, message: "Reset email sent via fallback" }),
+          { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
+        );
+      } catch (fallbackError) {
+        console.error("Complete failure - both Resend and Supabase failed:", fallbackError);
+        return new Response(
+          JSON.stringify({ error: "Email service unavailable" }),
+          { status: 500, headers: { "Content-Type": "application/json", ...corsHeaders } }
+        );
+      }
     }
   } catch (error: any) {
     console.error("Error in send-password-reset function:", error);
