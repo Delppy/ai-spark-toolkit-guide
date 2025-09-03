@@ -230,7 +230,7 @@ const Prompts = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredPromptPacks.map((pack, index) => (
-            <React.Fragment key={pack.id}>
+            <div key={pack.id} className="contents">
               <PromptPackCard 
                 pack={pack}
                 onCopyPrompt={handleCopyPrompt}
@@ -242,7 +242,7 @@ const Prompts = () => {
                   <ProfitableRateAd />
                 </div>
               )}
-            </React.Fragment>
+            </div>
           ))}
         </div>
 
