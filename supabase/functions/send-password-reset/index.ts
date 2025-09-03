@@ -228,9 +228,10 @@ const handler = async (req: Request): Promise<Response> => {
         `,
       });
 
-      console.log("Email sent successfully:", emailResponse);
+      console.log("Email sent successfully via Resend");
+      console.log("Resend response:", JSON.stringify(emailResponse));
 
-      return new Response(JSON.stringify({ success: true, data: emailResponse }), {
+      return new Response(JSON.stringify({ success: true, message: "Password reset email sent successfully" }), {
         status: 200,
         headers: {
           "Content-Type": "application/json",
@@ -238,8 +239,15 @@ const handler = async (req: Request): Promise<Response> => {
         },
       });
     } catch (emailError: any) {
-      console.error("Resend email error details:", emailError);
-      console.log("Falling back to Supabase auth recovery due to Resend error");
+      console.error("Resend email error:", emailError);
+      console.error("Error details:", JSON.stringify(emailError));
+      
+      // Check if it's an API key error
+      if (emailError?.message?.includes('API key') || emailError?.statusCode === 400) {
+        console.error("Invalid Resend API key - falling back to Supabase");
+      }
+      
+      console.log("Attempting fallback to Supabase auth recovery...");
       
       // Fallback to Supabase's built-in recovery email if Resend fails
       try {
