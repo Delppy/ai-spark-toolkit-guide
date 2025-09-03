@@ -10,20 +10,16 @@ import { TrendingToolsSection } from "@/components/TrendingToolsSection";
 import { ToolCard } from "@/components/ToolCard";
 import { AdvancedSearch } from "@/components/AdvancedSearch";
 import { ToolComparison } from "@/components/ToolComparison";
-import { supabase } from "@/integrations/supabase/client";
 import { dataManager } from "@/data/dataManager";
 import { useToolFiltering } from "@/hooks/useToolFiltering";
-import type { Session } from "@supabase/supabase-js";
 import { toast } from "sonner";
 import { useProGate } from "@/hooks/useProGate";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 
 const Index = () => {
-  const [session, setSession] = useState<Session | null>(null);
   const [showResults, setShowResults] = useState(false);
-  const [favorites, setFavorites] = useState<string[]>([]);
 
-  const { user } = useUserPreferences() as any;
+  const { user, session, toggleFavorite, isFavorite: isToolFavorite } = useUserPreferences();
   const userId = user?.id || null;
   const { isPro, proGate } = useProGate();
 
@@ -33,16 +29,6 @@ const Index = () => {
     filteredAndSortedTools,
     updateFilter,
   } = useToolFiltering(allTools);
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => setSession(session));
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-    return () => subscription.unsubscribe();
-  }, []);
 
   const handleSearch = (searchTerm: string) => {
     updateFilter({ searchTerm });
@@ -61,37 +47,7 @@ const Index = () => {
       return;
     }
 
-    try {
-      const isFavorited = favorites.includes(toolId);
-      
-      if (isFavorited) {
-        const { error } = await supabase
-          .from('favorites')
-          .delete()
-          .eq('user_id', session.user.id)
-          .eq('item_id', toolId);
-        
-        if (error) throw error;
-        
-        setFavorites(prev => prev.filter(id => id !== toolId));
-        toast.success("Removed from favorites");
-      } else {
-        const { error } = await supabase
-          .from('favorites')
-          .insert({
-            user_id: session.user.id,
-            item_id: toolId
-          });
-        
-        if (error) throw error;
-        
-        setFavorites(prev => [...prev, toolId]);
-        toast.success("Added to favorites");
-      }
-    } catch (error) {
-      console.error('Error updating favorites:', error);
-      toast.error("Failed to update favorites");
-    }
+    toggleFavorite(toolId);
   };
 
   const handleToolClick = (toolId: string, url: string) => {
@@ -99,7 +55,7 @@ const Index = () => {
     window.open(url, "_blank");
   };
 
-  const isFavorite = (toolId: string) => favorites.includes(toolId);
+  const isFavorite = (toolId: string) => isToolFavorite(toolId);
 
   const categories = [
     {
