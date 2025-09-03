@@ -5,7 +5,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Copy, Star, Sparkles } from 'lucide-react';
 import { dataManager } from '@/data/dataManager';
-import { useProGate } from "@/hooks/useProGate";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 import { toast } from "sonner";
 import SEOHead from '@/components/SEOHead';
@@ -14,9 +13,17 @@ const PromptPack = () => {
   const { id } = useParams<{ id: string }>();
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
   
-  const { user } = useUserPreferences() as any;
-  const userId = user?.id || null;
-  const { isPro, proGate } = useProGate();
+  // Get subscription status directly from UserPreferencesContext for immediate access
+  const { subscription, user } = useUserPreferences();
+  const isPro = subscription?.isPro || false;
+  
+  // ProGate function for redirecting to pricing
+  const proGate = (event?: React.MouseEvent) => {
+    if (event) event.stopPropagation();
+    if (!isPro) {
+      window.location.href = '/pricing';
+    }
+  };
 
   // Find the prompt pack by ID across all categories
   const allPromptPacks = dataManager.getAllPromptPacks();
