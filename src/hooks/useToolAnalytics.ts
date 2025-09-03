@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { AITool } from '@/data/aiTools';
+import { useUserPreferences } from '@/contexts/UserPreferencesContext';
 
 interface ToolAnalytics {
   tool_id: string;
@@ -18,29 +19,17 @@ export const useToolAnalytics = (category?: string) => {
   const [analytics, setAnalytics] = useState<ToolAnalytics[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    checkAuth();
-  }, []);
+  const { user, session } = useUserPreferences();
 
   useEffect(() => {
     fetchAnalytics();
-  }, [category, isAuthenticated]);
-
-  const checkAuth = async () => {
-    const { data: { session } } = await supabase.auth.getSession();
-    setIsAuthenticated(!!session);
-  };
+  }, [category, user?.id]);
 
   const fetchAnalytics = async () => {
     try {
       setIsLoading(true);
       
-      // Check if user is authenticated before fetching analytics
-      const { data: { session } } = await supabase.auth.getSession();
-      
-      if (!session) {
+      if (!session?.user) {
         // Not authenticated - use empty analytics (no error shown to user)
         setAnalytics([]);
         setError(null);

@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { IS_PREMIUM_FREE } from '@/config/flags';
+import { useUserPreferences } from '@/contexts/UserPreferencesContext';
 
 export function useFreeAccess(_userId?: string | null) {
   const [isPro, setIsPro] = useState(false);
   const [subscriptionStatus, setSubscriptionStatus] = useState<"free" | "pro" | "loading">("loading");
-  const [loading, setLoading] = useState(true);
+  const { user, loading: authLoading } = useUserPreferences();
 
   // If premium is free, return free mode
   if (IS_PREMIUM_FREE) {
@@ -27,9 +28,7 @@ export function useFreeAccess(_userId?: string | null) {
 
   const checkStatus = async () => {
     try {
-      setLoading(true);
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
+      if (!user?.id) {
         setIsPro(false);
         setSubscriptionStatus("free");
         return { isPro: false, subscriptionStatus: "free" as const };
@@ -52,21 +51,24 @@ export function useFreeAccess(_userId?: string | null) {
       setIsPro(false);
       setSubscriptionStatus("free");
       return { isPro: false, subscriptionStatus: "free" as const };
-    } finally {
-      setLoading(false);
     }
   };
 
   useEffect(() => {
-    checkStatus();
-  }, []);
+    if (!authLoading && user?.id) {
+      checkStatus();
+    } else if (!authLoading && !user) {
+      setIsPro(false);
+      setSubscriptionStatus("free");
+    }
+  }, [user?.id, authLoading]);
 
   return { 
     isPro, 
     hasCredits: isPro,
     credits: isPro ? Infinity : 0,
     useCredit: async () => isPro,
-    loading,
+    loading: authLoading || subscriptionStatus === "loading",
     subscriptionStatus, 
     premiumBadge: isPro,
     subscriptionEndsAt: null,
