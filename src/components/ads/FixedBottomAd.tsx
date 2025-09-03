@@ -39,7 +39,13 @@ export function FixedBottomAd() {
           <X size={14} className="sm:w-4 sm:h-4" />
         </button>
         <div className="text-center w-full px-6 sm:px-8">
-          <p className="text-xs text-muted-foreground mb-1 sm:mb-2">Advertisement</p>
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <div className="h-px bg-border flex-1"></div>
+            <span className="text-xs font-medium text-muted-foreground/80 bg-muted/50 px-2 py-1 rounded-full border border-border/50 backdrop-blur-sm">
+              Advertisement
+            </span>
+            <div className="h-px bg-border flex-1"></div>
+          </div>
           <div 
             id="container-30356e73d7c18e17a8ee9629abb2ee8c"
             className="max-w-[320px] sm:max-w-full mx-auto overflow-hidden"
