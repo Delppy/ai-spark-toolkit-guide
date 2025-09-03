@@ -144,6 +144,39 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
           return;
         }
         
+        // Handle SIGNED_OUT more gracefully - might be rate limiting, not actual signout
+        if (event === 'SIGNED_OUT') {
+          console.log('Auth state changed: SIGNED_OUT - checking if this is rate limiting...');
+          
+          // Don't immediately clear session if it might be rate limiting
+          // Give a short delay and check if we still have a valid session in storage
+          setTimeout(() => {
+            if (ignore) return;
+            
+            const storedSession = localStorage.getItem('aitouse-auth-token');
+            if (storedSession) {
+              try {
+                const parsedSession = JSON.parse(storedSession);
+                // If we have a stored session that's not expired, don't sign out
+                if (parsedSession && parsedSession.expires_at && new Date(parsedSession.expires_at * 1000) > new Date()) {
+                  console.log('Ignoring SIGNED_OUT - valid session still exists');
+                  return;
+                }
+              } catch (e) {
+                console.error('Error parsing stored session:', e);
+              }
+            }
+            
+            // Only clear state if we're sure it's a real signout
+            console.log('Confirmed real signout - clearing auth state');
+            setUser(null);
+            setProfile(null);
+            setSession(null);
+            setLoading(false);
+          }, 1000);
+          return;
+        }
+        
         console.log('Auth state changed:', event, !!session);
         
         setSession(session);
