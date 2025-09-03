@@ -94,7 +94,7 @@ export const PromptRefinerySection: React.FC = () => {
           </div>
           {!isPro && (
             <Badge variant="outline" className="text-sm">
-              {typeof remainingCredits === "number" ? `${remainingCredits} credits left` : remainingCredits}
+              {typeof remainingCredits === "number" ? `${remainingCredits}/5 credits` : remainingCredits}
             </Badge>
           )}
         </div>
