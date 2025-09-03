@@ -118,29 +118,49 @@ export function usePromptCredits() {
   useEffect(() => {
     // Pro users always have unlimited credits
     if (isPro) {
+      console.info('[usePromptCredits] Pro user: unlimited credits');
       setCredits(Infinity);
       setInitialized(true);
       return;
     }
 
+    // Versioned initialization to fix prior incorrect zero credits
+    const versionKey = user?.id ? `aitouse-prompt-credits-version:${user.id}` : 'aitouse-prompt-credits-version:anon';
+    const CURRENT_VERSION = '1';
+
+    const storedVersion = localStorage.getItem(versionKey);
+    console.info('[usePromptCredits] init', { storageKey, versionKey, storedVersion });
+    if (storedVersion !== CURRENT_VERSION) {
+      localStorage.setItem(versionKey, CURRENT_VERSION);
+      localStorage.setItem(storageKey, String(MAX_FREE_CREDITS));
+      setCredits(MAX_FREE_CREDITS);
+      setInitialized(true);
+      console.info('[usePromptCredits] version mismatch -> reset to', MAX_FREE_CREDITS);
+      return;
+    }
+
     // Load credits from localStorage
     const storedCredits = localStorage.getItem(storageKey);
+    console.info('[usePromptCredits] storedCredits raw =', storedCredits);
     
     if (storedCredits === null) {
       // New user - give them the initial credits
       const initialCredits = MAX_FREE_CREDITS;
       localStorage.setItem(storageKey, String(initialCredits));
       setCredits(initialCredits);
+      console.info('[usePromptCredits] no stored -> set to', initialCredits);
     } else {
       // Existing user - load their remaining credits
       const parsedCredits = parseInt(storedCredits, 10);
-      // Ensure valid number, default to MAX_FREE_CREDITS if invalid
-      const validCredits = !isNaN(parsedCredits) && parsedCredits >= 0 ? parsedCredits : MAX_FREE_CREDITS;
+      // Ensure valid number, clamp between 0 and MAX_FREE_CREDITS
+      let validCredits = !isNaN(parsedCredits) && parsedCredits >= 0 ? parsedCredits : MAX_FREE_CREDITS;
+      if (validCredits > MAX_FREE_CREDITS) validCredits = MAX_FREE_CREDITS;
       setCredits(validCredits);
+      console.info('[usePromptCredits] loaded credits =', validCredits);
     }
     
     setInitialized(true);
-  }, [storageKey, isPro]);
+  }, [storageKey, isPro, user?.id]);
 
   // Function to use a credit
   const useCredit = async () => {

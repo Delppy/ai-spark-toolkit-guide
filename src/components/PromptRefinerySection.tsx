@@ -144,7 +144,7 @@ export const PromptRefinerySection: React.FC = () => {
           )}
         </div>
 
-        {!isPro && !hasCredits && (
+        {!isPro && !creditsLoading && !hasCredits && (
           <div className="p-4 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-lg">
             <div className="flex items-center justify-between">
               <div>
