@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { IS_PREMIUM_FREE } from '@/config/flags';
+import { IS_PREMIUM_FREE, FREE_USER_CREDITS, MAX_FREE_CREDITS } from '@/config/flags';
 import { useUserPreferences } from '@/contexts/UserPreferencesContext';
 
 export function useFreeAccess(_userId?: string | null) {
