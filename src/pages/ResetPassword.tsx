@@ -19,23 +19,16 @@ const ResetPassword = () => {
   const [isValidToken, setIsValidToken] = useState<boolean | null>(null);
 
   useEffect(() => {
-    // Check if we have a valid recovery token
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        setIsValidToken(true);
-      } else {
-        // Check if we're coming from an email link
-        const hashParams = new URLSearchParams(window.location.hash.substring(1));
-        const accessToken = hashParams.get('access_token');
-        const type = hashParams.get('type');
-        
-        if (accessToken && type === 'recovery') {
-          setIsValidToken(true);
-        } else {
-          setIsValidToken(false);
-        }
-      }
-    });
+    // Check if we have a valid recovery token from URL hash
+    const hashParams = new URLSearchParams(window.location.hash.substring(1));
+    const accessToken = hashParams.get('access_token');
+    const type = hashParams.get('type');
+    
+    if (accessToken && type === 'recovery') {
+      setIsValidToken(true);
+    } else {
+      setIsValidToken(false);
+    }
   }, []);
 
   const handlePasswordReset = async (e: React.FormEvent) => {

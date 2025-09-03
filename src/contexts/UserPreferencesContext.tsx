@@ -224,31 +224,9 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
       }
     );
 
-    // Get initial session - don't call this if we're already authenticated
-    let initialSessionPromise: Promise<any> | null = null;
-    
-    // Only get initial session if we don't have one
-    if (!session) {
-      initialSessionPromise = supabase.auth.getSession().then(({ data: { session } }) => {
-        if (ignore) return;
-        
-        console.log('Initial session check:', !!session);
-        
-        if (session?.user) {
-          // This will trigger the auth state change listener above
-          setSession(session);
-        } else {
-          setLoading(false);
-        }
-      }).catch(error => {
-        console.error('Error getting initial session:', error);
-        if (!ignore) {
-          setLoading(false);
-        }
-      });
-    } else {
-      setLoading(false);
-    }
+    // Don't make initial session calls - rely on auth state listener only
+    console.log('Auth listener setup complete. No initial session call to prevent token refresh.');
+    setLoading(false);
 
     return () => {
       console.log('Cleaning up auth listener...');

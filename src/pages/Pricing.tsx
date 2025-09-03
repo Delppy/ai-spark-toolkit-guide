@@ -23,7 +23,7 @@ const Pricing: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [regionData, setRegionData] = useState<{ country: string; isAfrica: boolean } | null>(null);
   const [pricing, setPricing] = useState<{ currency: string; monthly: number; yearly: number; symbol: string } | null>(null);
-  const { user, loading: authLoading } = useUserPreferences();
+  const { user, loading: authLoading, session } = useUserPreferences();
   const navigate = useNavigate();
   const location = useLocation();
   const { checkStatus, isPro, subscriptionStatus, refresh: refreshSubscription } = useSubscription(user?.id || null);
@@ -74,39 +74,22 @@ const Pricing: React.FC = () => {
         return;
       }
       
-      // Get fresh session data as backup check
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-      console.log('Fresh session check:', { 
-        hasSession: !!session, 
-        hasUser: !!session?.user, 
-        userEmail: session?.user?.email,
-        error: sessionError 
+      // Use the user from context instead of making fresh session calls
+      console.log('Using user from context:', { 
+        hasUser: !!user, 
+        userEmail: user?.email 
       });
       
-      if (sessionError) {
-        console.error('Session error:', sessionError);
-        toast.error('Authentication error. Please try logging in again.');
-        navigate('/login');
-        return;
-      }
-      
-      if (!session?.user) {
-        console.warn('No session user found, but context user exists. Proceeding with context user.');
-      }
+      console.log('Initiating payment for user:', user.email);
 
-      console.log('Initiating payment for user:', user.email || session?.user?.email);
-
-      // Use existing session instead of refreshing to avoid rate limits
-      const currentSession = session;
-      
-      if (!currentSession?.access_token) {
+      if (!session?.access_token) {
         console.error('No valid session token available');
         toast.error('Session expired. Please log in again.');
         navigate('/login');
         return;
       }
 
-      console.log('Using current session token for payment');
+      console.log('Using session from context for payment');
 
       const { data, error } = await supabase.functions.invoke('paystack-initialize', {
         body: {
@@ -114,7 +97,7 @@ const Pricing: React.FC = () => {
           billing: billing,
         },
         headers: {
-          Authorization: `Bearer ${currentSession.access_token}`
+          Authorization: `Bearer ${session.access_token}`
         }
       });
 
