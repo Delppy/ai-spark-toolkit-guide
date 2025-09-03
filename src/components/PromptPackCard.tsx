@@ -169,7 +169,7 @@ export const PromptPackCard: React.FC<PromptPackCardProps> = ({
             {/* Action buttons */}
             <div className="flex flex-col gap-2 mt-4">
               <Button asChild variant="outline" className="w-full">
-                <Link to={`/prompts/${pack.id}`}>
+                <Link to={`/prompt/${pack.id}`}>
                   <Eye className="w-4 h-4 mr-2" />
                   View All Prompts ({examplesList.length})
                 </Link>
