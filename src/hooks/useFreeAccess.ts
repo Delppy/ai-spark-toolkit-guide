@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { IS_PREMIUM_FREE } from '@/config/flags';
 import { useUserPreferences } from '@/contexts/UserPreferencesContext';
 
 export function useFreeAccess(_userId?: string | null) {
-  const [isPro, setIsPro] = useState(false);
-  const [subscriptionStatus, setSubscriptionStatus] = useState<"free" | "pro" | "loading">("loading");
+  const [subscriptionData, setSubscriptionData] = useState<any>(null);
+  const [subscriptionLoading, setSubscriptionLoading] = useState(false);
   const { user, loading: authLoading } = useUserPreferences();
 
   // If premium is free, return free mode
@@ -29,11 +29,11 @@ export function useFreeAccess(_userId?: string | null) {
   const checkStatus = async () => {
     try {
       if (!user?.id) {
-        setIsPro(false);
-        setSubscriptionStatus("free");
+        setSubscriptionData(null);
         return { isPro: false, subscriptionStatus: "free" as const };
       }
 
+      setSubscriptionLoading(true);
       const { data: subscription } = await (supabase as any)
         .from("subscriptions")
         .select("*")
@@ -41,42 +41,47 @@ export function useFreeAccess(_userId?: string | null) {
         .eq("status", "active")
         .maybeSingle();
 
+      setSubscriptionData(subscription);
       const isProStatus = !!subscription;
-      setIsPro(isProStatus);
-      setSubscriptionStatus(isProStatus ? "pro" : "free");
       
       return { isPro: isProStatus, subscriptionStatus: isProStatus ? "pro" as const : "free" as const };
     } catch (error) {
       console.error("Error checking subscription status:", error);
-      setIsPro(false);
-      setSubscriptionStatus("free");
+      setSubscriptionData(null);
       return { isPro: false, subscriptionStatus: "free" as const };
+    } finally {
+      setSubscriptionLoading(false);
     }
   };
 
+  // Only check subscription when user changes, not on every render
   useEffect(() => {
     if (!authLoading && user?.id) {
       checkStatus();
     } else if (!authLoading && !user) {
-      setIsPro(false);
-      setSubscriptionStatus("free");
+      setSubscriptionData(null);
     }
   }, [user?.id, authLoading]);
 
-  return { 
-    isPro, 
-    hasCredits: isPro,
-    credits: isPro ? Infinity : 0,
-    useCredit: async () => isPro,
-    loading: authLoading || subscriptionStatus === "loading",
-    subscriptionStatus, 
-    premiumBadge: isPro,
-    subscriptionEndsAt: null,
-    subscriptionTier: isPro ? 'pro' : 'free',
-    refresh: checkStatus,
-    checkStatus,
-    showRemoveAds: !isPro,
-  };
+  // Memoize the return value to prevent unnecessary re-renders
+  return useMemo(() => {
+    const isPro = !!subscriptionData;
+    
+    return { 
+      isPro, 
+      hasCredits: isPro,
+      credits: isPro ? Infinity : 0,
+      useCredit: async () => isPro,
+      loading: authLoading || subscriptionLoading,
+      subscriptionStatus: isPro ? 'pro' as const : 'free' as const, 
+      premiumBadge: isPro,
+      subscriptionEndsAt: null,
+      subscriptionTier: isPro ? 'pro' : 'free',
+      refresh: checkStatus,
+      checkStatus,
+      showRemoveAds: !isPro,
+    };
+  }, [subscriptionData, authLoading, subscriptionLoading]);
 }
 
 export function useProGate() {

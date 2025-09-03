@@ -53,18 +53,30 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
   // Single auth state listener to prevent multiple session checks
   useEffect(() => {
     let ignore = false;
+    let profileFetchTimeout: NodeJS.Timeout;
     
     console.log('Setting up auth state listener...');
     
-    // Set up auth state listener FIRST to catch all changes
+    // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
         if (ignore) return;
         
         console.log('Auth state changed:', event, !!session);
         
+        // Only process significant auth events, ignore token refreshes
+        if (event === 'TOKEN_REFRESHED') {
+          setSession(session);
+          return;
+        }
+        
         setSession(session);
         setLoading(true);
+        
+        // Clear any pending profile fetch
+        if (profileFetchTimeout) {
+          clearTimeout(profileFetchTimeout);
+        }
         
         if (session?.user) {
           setUser({
@@ -73,8 +85,8 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
             name: session.user.user_metadata?.name || session.user.email?.split('@')[0] || ''
           });
           
-          // Only fetch profile if we have a session - use timeout to prevent auth loops
-          setTimeout(async () => {
+          // Fetch profile with debounce to prevent multiple calls
+          profileFetchTimeout = setTimeout(async () => {
             if (ignore) return;
             
             try {
@@ -94,7 +106,7 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
                 setLoading(false);
               }
             }
-          }, 100);
+          }, 300);
         } else {
           setUser(null);
           setProfile(null);
@@ -103,35 +115,41 @@ export const UserPreferencesProvider: React.FC<{ children: React.ReactNode }> = 
       }
     );
 
-    // Get initial session only once
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (ignore) return;
-      
-      console.log('Initial session check:', !!session);
-      setSession(session);
-      
-      if (session?.user) {
-        setUser({
-          id: session.user.id,
-          email: session.user.email,
-          name: session.user.user_metadata?.name || session.user.email?.split('@')[0] || ''
-        });
-      } else {
-        setLoading(false);
-      }
-    }).catch(error => {
-      console.error('Error getting initial session:', error);
-      if (!ignore) {
-        setLoading(false);
-      }
-    });
+    // Get initial session - don't call this if we're already authenticated
+    let initialSessionPromise: Promise<any> | null = null;
+    
+    // Only get initial session if we don't have one
+    if (!session) {
+      initialSessionPromise = supabase.auth.getSession().then(({ data: { session } }) => {
+        if (ignore) return;
+        
+        console.log('Initial session check:', !!session);
+        
+        if (session?.user) {
+          // This will trigger the auth state change listener above
+          setSession(session);
+        } else {
+          setLoading(false);
+        }
+      }).catch(error => {
+        console.error('Error getting initial session:', error);
+        if (!ignore) {
+          setLoading(false);
+        }
+      });
+    } else {
+      setLoading(false);
+    }
 
     return () => {
       console.log('Cleaning up auth listener...');
       ignore = true;
+      if (profileFetchTimeout) {
+        clearTimeout(profileFetchTimeout);
+      }
       subscription.unsubscribe();
     };
-  }, []);
+  }, []); // Remove session dependency to prevent loops
 
   // Load preferences from localStorage
   useEffect(() => {
