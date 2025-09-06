@@ -11,8 +11,6 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 import { UserPreferencesProvider } from '@/contexts/UserPreferencesContext';
 import { TransitionProvider } from '@/contexts/TransitionContext';
 import AnalyticsConsent from '@/components/AnalyticsConsent';
-import { useAdRemoval } from '@/hooks/useAdRemoval';
-import { FixedBottomAd } from '@/components/ads/FixedBottomAd';
 
 // Lazy load all pages for better performance
 const Index = lazy(() => import('@/pages/Index'));
@@ -53,8 +51,7 @@ const queryClient = new QueryClient({
 });
 
 const AppContent = () => {
-  // Remove ad scripts when user is upgraded to pro
-  useAdRemoval();
+  // Ad removal is now handled by useAdManager in Layout
 
   return (
     <>
@@ -96,7 +93,6 @@ const AppContent = () => {
             </Routes>
           </Suspense>
         </TransitionProvider>
-        <FixedBottomAd />
       </BrowserRouter>
     </>
   );

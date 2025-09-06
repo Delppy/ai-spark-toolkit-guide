@@ -279,6 +279,14 @@ export type Database = {
         Args: { user_uuid: string }
         Returns: boolean
       }
+      is_user_pro_comprehensive: {
+        Args: { user_uuid: string }
+        Returns: boolean
+      }
+      rpc_is_user_pro: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never

@@ -17,6 +17,7 @@ import { NewAd } from "@/components/ads/NewAd";
 import { ProfitableRateAd } from "@/components/ads/ProfitableRateAd";
 import { PopunderAd } from "@/components/ads/PopunderAd";
 import { InterstitialAd } from "@/components/ads/InterstitialAd";
+import { useAdManager } from "@/hooks/useAdManager";
 
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -25,6 +26,9 @@ import React from "react";
 const Layout = () => {
   const location = useLocation();
   const { user, profile, loading, subscription } = useUserPreferences();
+  
+  // Initialize ad manager - it will handle all ad blocking for PRO users
+  useAdManager();
   
   console.log("[Layout] user:", user, "profile:", profile, "subscription:", {
     isPro: subscription.isPro,
