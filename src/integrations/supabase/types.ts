@@ -130,6 +130,33 @@ export type Database = {
         }
         Relationships: []
       }
+      prompt_refinery_usage: {
+        Row: {
+          created_at: string | null
+          id: string
+          reset_at: string | null
+          updated_at: string | null
+          used_today: number | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          reset_at?: string | null
+          updated_at?: string | null
+          used_today?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          reset_at?: string | null
+          updated_at?: string | null
+          used_today?: number | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       review_votes: {
         Row: {
           created_at: string
@@ -275,6 +302,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      check_and_update_prompt_usage: {
+        Args: { daily_limit?: number; user_uuid: string }
+        Returns: Json
+      }
+      is_pro_paid: {
+        Args: { uid: string }
+        Returns: boolean
+      }
       is_user_pro: {
         Args: { user_uuid: string }
         Returns: boolean
@@ -283,9 +318,21 @@ export type Database = {
         Args: { user_uuid: string }
         Returns: boolean
       }
+      rpc_check_prompt_usage: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
+      }
+      rpc_is_pro_paid: {
+        Args: Record<PropertyKey, never>
+        Returns: boolean
+      }
       rpc_is_user_pro: {
         Args: Record<PropertyKey, never>
         Returns: boolean
+      }
+      rpc_use_prompt_credit: {
+        Args: Record<PropertyKey, never>
+        Returns: Json
       }
     }
     Enums: {

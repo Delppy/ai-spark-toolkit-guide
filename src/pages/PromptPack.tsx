@@ -1,26 +1,53 @@
 import { useParams, Link } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Copy, Star, Sparkles } from 'lucide-react';
+import { ArrowLeft, Copy, Star, Sparkles, Infinity } from 'lucide-react';
 import { dataManager } from '@/data/dataManager';
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 import { toast } from "sonner";
 import SEOHead from '@/components/SEOHead';
+import { supabase } from "@/integrations/supabase/client";
 
 const PromptPack = () => {
   const { id } = useParams<{ id: string }>();
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+  const [isPaidPro, setIsPaidPro] = useState(false);
+  const [checkingPro, setCheckingPro] = useState(true);
   
-  // Get subscription status directly from UserPreferencesContext for immediate access
+  // Get subscription status from UserPreferencesContext
   const { subscription, user } = useUserPreferences();
   const isPro = subscription?.isPro || false;
+  
+  // Check if user is paid pro (has full unlimited access)
+  useEffect(() => {
+    const checkPaidProStatus = async () => {
+      if (!user) {
+        setIsPaidPro(false);
+        setCheckingPro(false);
+        return;
+      }
+      
+      try {
+        const { data, error } = await supabase.rpc('rpc_is_pro_paid');
+        if (!error) {
+          setIsPaidPro(data || false);
+        }
+      } catch (err) {
+        console.error('Error checking paid pro status:', err);
+      } finally {
+        setCheckingPro(false);
+      }
+    };
+    
+    checkPaidProStatus();
+  }, [user]);
   
   // ProGate function for redirecting to pricing
   const proGate = (event?: React.MouseEvent) => {
     if (event) event.stopPropagation();
-    if (!isPro) {
+    if (!isPro && !isPaidPro) {
       window.location.href = '/pricing';
     }
   };
@@ -41,7 +68,8 @@ const PromptPack = () => {
     );
   }
 
-  const isLocked = pack.isPro && !isPro;
+  // Check if content is locked (only for non-paid users)
+  const isLocked = pack.isPro && !isPro && !isPaidPro;
 
   const handleCopyPrompt = (text: string, index: number) => {
     if (isLocked) {

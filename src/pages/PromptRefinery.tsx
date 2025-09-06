@@ -7,9 +7,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Copy, Sparkles, Wand2 } from 'lucide-react';
+import { Copy, Sparkles, Wand2, Infinity, Crown } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { AiToUsePromptResponse } from '@/types/promptRefinery';
+import { usePromptRefinery } from '@/hooks/usePromptRefinery';
+import { Link } from 'react-router-dom';
 
 interface PromptRefineryForm {
   user_thought: string;
@@ -51,6 +53,16 @@ const categoryDefaults = {
 
 export default function PromptRefinery() {
   const { toast } = useToast();
+  const { 
+    isPaidPro, 
+    isUnlimited, 
+    remaining, 
+    limit, 
+    allowed,
+    loading: creditsLoading,
+    useCredit
+  } = usePromptRefinery();
+  
   const [formData, setFormData] = useState<PromptRefineryForm>({
     user_thought: '',
     category: '',
@@ -86,6 +98,22 @@ export default function PromptRefinery() {
         variant: "destructive"
       });
       return;
+    }
+    
+    // Check credits for non-paid users
+    if (!isPaidPro) {
+      if (!allowed) {
+        toast({
+          title: "Daily Limit Reached",
+          description: `You've used ${limit} prompts today. Upgrade to PRO for unlimited access!`,
+          variant: "destructive"
+        });
+        return;
+      }
+      
+      // Use a credit
+      const success = await useCredit();
+      if (!success) return;
     }
 
     setIsGenerating(true);
@@ -267,9 +295,23 @@ ${context}`;
         <div className="container mx-auto px-4 py-8">
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-4">
-              <Sparkles className="h-4 w-4" />
-              Prompt Refinery
+            <div className="inline-flex items-center gap-4 flex-wrap justify-center mb-4">
+              <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">
+                <Sparkles className="h-4 w-4" />
+                Prompt Refinery
+              </div>
+              {isPaidPro ? (
+                <Badge variant="secondary" className="bg-gradient-to-r from-amber-500 to-amber-600 text-white border-0 px-4 py-2">
+                  <Infinity className="w-4 h-4 mr-1" />
+                  PRO • Unlimited Access
+                </Badge>
+              ) : (
+                !creditsLoading && (
+                  <Badge variant="outline" className="px-4 py-2">
+                    {remaining}/{limit} daily prompts
+                  </Badge>
+                )
+              )}
             </div>
             <h1 className="text-4xl font-bold text-foreground mb-4">
               Transform Ideas into Perfect Prompts

@@ -4,24 +4,28 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
-import { useProGate, usePromptCredits, useSubscription } from "@/hooks/useFreeAccess";
-import { Sparkles, Crown, Zap, Copy, RefreshCw } from "lucide-react";
+import { usePromptRefinery } from "@/hooks/usePromptRefinery";
+import { Sparkles, Crown, Zap, Copy, RefreshCw, Infinity } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import type { AiToUsePromptResponse } from "@/types/promptRefinery";
 
 export const PromptRefinerySection: React.FC = () => {
   const { user } = useUserPreferences();
-  const { isPro } = useSubscription();
-  const { proGate } = useProGate();
-  const { credits, useCredit, hasCredits, loading: creditsLoading } = usePromptCredits();
+  const { 
+    isPaidPro, 
+    isUnlimited, 
+    remaining, 
+    limit, 
+    usedToday,
+    allowed,
+    loading: creditsLoading,
+    useCredit
+  } = usePromptRefinery();
   
   const [userInput, setUserInput] = useState("");
   const [generatedPrompts, setGeneratedPrompts] = useState<AiToUsePromptResponse | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
-
-  // Free users always get 5 credits, regardless of auth status
-  const remainingCredits = isPro ? "unlimited" : credits;
 
   const handleGenerate = async () => {
     if (!userInput.trim()) {
@@ -29,12 +33,15 @@ export const PromptRefinerySection: React.FC = () => {
       return;
     }
 
-    if (!isPro && !hasCredits) {
-      proGate();
-      return;
-    }
-
-    if (!isPro) {
+    // For paid users, no credit check needed
+    if (!isPaidPro) {
+      // Check if free user has credits
+      if (!allowed) {
+        toast.error(`Daily limit reached (${limit}/day). Upgrade to PRO for unlimited access!`);
+        return;
+      }
+      
+      // Use a credit for free users
       const success = await useCredit();
       if (!success) return;
     }
@@ -87,19 +94,28 @@ export const PromptRefinerySection: React.FC = () => {
           <div className="flex items-center gap-2">
             <Sparkles className="w-6 h-6 text-primary" />
             <CardTitle className="text-2xl">AI Prompt Refinery</CardTitle>
-            <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
-              <Crown className="w-3 h-3 mr-1" />
-              Free
-            </Badge>
+            {isPaidPro ? (
+              <Badge variant="secondary" className="bg-gradient-to-r from-amber-500 to-amber-600 text-white border-0">
+                <Infinity className="w-3 h-3 mr-1" />
+                PRO • Unlimited
+              </Badge>
+            ) : (
+              <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
+                <Crown className="w-3 h-3 mr-1" />
+                Free
+              </Badge>
+            )}
           </div>
-          {!isPro && (
+          {!isPaidPro && !creditsLoading && (
             <Badge variant="outline" className="text-sm">
-              {typeof remainingCredits === "number" ? `${remainingCredits}/5 credits` : remainingCredits}
+              {remaining}/{limit} daily credits
             </Badge>
           )}
         </div>
         <CardDescription className="text-base">
-          Transform your rough ideas into polished, professional AI prompts. Get multiple variations and expert refinements.
+          {isPaidPro 
+            ? "Transform unlimited ideas into polished AI prompts with your PRO access."
+            : "Transform your rough ideas into polished, professional AI prompts. Get multiple variations and expert refinements."}
         </CardDescription>
       </CardHeader>
       
@@ -120,7 +136,7 @@ export const PromptRefinerySection: React.FC = () => {
         <div className="flex flex-wrap gap-3">
           <Button
             onClick={handleGenerate}
-            disabled={isGenerating || creditsLoading || (!isPro && !hasCredits)}
+            disabled={isGenerating || creditsLoading || (!isPaidPro && !allowed)}
             className="flex-1 min-w-[200px]"
           >
             {isGenerating ? (
@@ -144,12 +160,12 @@ export const PromptRefinerySection: React.FC = () => {
           )}
         </div>
 
-        {!isPro && !creditsLoading && !hasCredits && (
+        {!isPaidPro && !creditsLoading && !allowed && (
           <div className="p-4 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-semibold text-amber-900">You've used all 5 free credits!</p>
-                <p className="text-xs text-amber-700 mt-1">Upgrade to Pro for unlimited prompt generation</p>
+                <p className="text-sm font-semibold text-amber-900">Daily limit reached!</p>
+                <p className="text-xs text-amber-700 mt-1">You've used {usedToday}/{limit} prompts today. Upgrade to PRO for unlimited access!</p>
               </div>
               <Link to="/pricing">
                 <Button size="sm" className="bg-gradient-to-r from-primary to-primary-foreground/90 hover:from-primary/90 hover:to-primary-foreground text-white">
