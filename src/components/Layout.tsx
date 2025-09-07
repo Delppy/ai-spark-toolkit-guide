@@ -187,7 +187,6 @@ const Layout = () => {
                 <li><Link to="/tools" className="hover:text-white transition-all duration-200 hover:translate-x-1">AI Tools</Link></li>
                 <li><Link to="/favorites" className="hover:text-white transition-all duration-200 hover:translate-x-1">Favorites</Link></li>
                 <li><Link to="/prompts" className="hover:text-white transition-all duration-200 hover:translate-x-1">Prompt Packs</Link></li>
-                <li><Link to="/pricing" className="hover:text-white transition-all duration-200 hover:translate-x-1">Go Ad-Free</Link></li>
               </ul>
             </div>
             <div>
