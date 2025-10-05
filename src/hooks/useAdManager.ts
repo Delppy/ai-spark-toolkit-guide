@@ -2,17 +2,11 @@ import { useEffect, useRef } from "react";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 import { supabase } from "@/integrations/supabase/client";
 
-// Ad scripts configuration
+// Ad scripts configuration (popup ads removed)
 const AD_SCRIPTS = {
   banner: {
     src: '//pl27377371.revenuecpmgate.com/30356e73d7c18e17a8ee9629abb2ee8c/invoke.js',
     containerId: 'container-30356e73d7c18e17a8ee9629abb2ee8c',
-  },
-  popunder: {
-    src: '//pl27377385.revenuecpmgate.com/e8/0b/16/e80b168df17cd828ac576b784018b24a.js',
-  },
-  interstitial: {
-    src: '//pl27380163.revenuecpmgate.com/9a/1f/07/9a1f075f29aa9045e554dfe6b3aa4154.js',
   },
 };
 
