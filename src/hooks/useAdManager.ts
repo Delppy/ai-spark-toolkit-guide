@@ -65,10 +65,26 @@ class AdManager {
       this.blockAllAds();
       console.log('[AdManager] PRO user detected - all ads blocked');
     } else {
-      console.log('[AdManager] Free user - ads enabled');
+      // Load ads for free users
+      this.loadAds();
+      console.log('[AdManager] Free user - ads enabled and loaded');
     }
     
     this.initialized = true;
+  }
+
+  private loadAds() {
+    // Load all ad scripts for free users
+    Object.entries(AD_SCRIPTS).forEach(([type, config]) => {
+      if (config.src) {
+        const script = document.createElement('script');
+        script.src = config.src;
+        script.async = true;
+        script.setAttribute('data-ad-type', type);
+        document.head.appendChild(script);
+        console.log(`[AdManager] Loaded ${type} ad script`);
+      }
+    });
   }
 
   blockAllAds() {
