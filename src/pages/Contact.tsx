@@ -81,21 +81,11 @@ export default function Contact() {
             </div>
 
             {/* Contact Methods */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-              <div className="flex flex-col items-center p-4 bg-muted rounded-lg">
+            <div className="flex justify-center mb-8">
+              <div className="flex flex-col items-center p-4 bg-muted rounded-lg w-full max-w-xs">
                 <Mail className="h-6 w-6 text-primary mb-2" />
                 <span className="text-sm font-medium">Email</span>
                 <span className="text-xs text-muted-foreground">delppy@aitouse.app</span>
-              </div>
-              <div className="flex flex-col items-center p-4 bg-muted rounded-lg">
-                <MessageSquare className="h-6 w-6 text-primary mb-2" />
-                <span className="text-sm font-medium">Live Chat</span>
-                <span className="text-xs text-muted-foreground">Available 24/7</span>
-              </div>
-              <div className="flex flex-col items-center p-4 bg-muted rounded-lg">
-                <Phone className="h-6 w-6 text-primary mb-2" />
-                <span className="text-sm font-medium">Phone</span>
-                <span className="text-xs text-muted-foreground">Coming Soon</span>
               </div>
             </div>
 
