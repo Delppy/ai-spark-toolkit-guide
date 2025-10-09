@@ -10,6 +10,14 @@ const AD_SCRIPTS = {
   },
 };
 
+// Blocked popup/popunder scripts - these should NEVER load for any user
+const BLOCKED_POPUP_SCRIPTS = [
+  '//pl27377385.revenuecpmgate.com/e8/0b/16/e80b168df17cd828ac576b784018b24a.js',
+  '//pl27380163.revenuecpmgate.com/9a/1f/07/9a1f075f29aa9045e554dfe6b3aa4154.js',
+  'pl27377385.revenuecpmgate.com',
+  'pl27380163.revenuecpmgate.com',
+];
+
 // Global ad manager to prevent multiple initializations
 let adManagerInstance: AdManager | null = null;
 
@@ -25,6 +33,11 @@ class AdManager {
       return adManagerInstance;
     }
     adManagerInstance = this;
+    
+    // Always add popup scripts to blocked list
+    BLOCKED_POPUP_SCRIPTS.forEach(script => {
+      this.blockedScripts.add(script);
+    });
   }
 
   async checkProStatus(): Promise<boolean> {
@@ -54,14 +67,18 @@ class AdManager {
     // Check PRO status
     this.isPro = forcePro ?? await this.checkProStatus();
     
+    // ALWAYS block popups for everyone (free and PRO users)
+    this.blockPopups();
+    this.interceptScriptLoading();
+    
     if (this.isPro) {
       // Block all ads for PRO users
       this.blockAllAds();
       console.log('[AdManager] PRO user detected - all ads blocked');
     } else {
-      // Load ads for free users
+      // Load only banner ads for free users, but keep popups blocked
       this.loadAds();
-      console.log('[AdManager] Free user - ads enabled and loaded');
+      console.log('[AdManager] Free user - banner ads enabled, popups blocked');
     }
     
     this.initialized = true;
@@ -126,11 +143,18 @@ class AdManager {
     
     Element.prototype.appendChild = function(node: Node) {
       if (node instanceof HTMLScriptElement && node.src) {
+        // Check against blocked scripts
         for (const blockedSrc of blockedScripts) {
           if (node.src.includes(blockedSrc.replace('//', ''))) {
-            console.log('[AdManager] Blocked ad script:', node.src);
+            console.log('[AdManager] Blocked popup script:', node.src);
             return node;
           }
+        }
+        // Also check if it's any ad script with suspicious patterns
+        if (node.src.includes('popunder') || node.src.includes('interstitial') || 
+            node.src.includes('popup') || node.src.includes('highperformanceformat')) {
+          console.log('[AdManager] Blocked suspicious popup script:', node.src);
+          return node;
         }
       }
       return originalAppendChild.call(this, node);
