@@ -19,6 +19,7 @@ import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { ArrowLeft, Send, Mail, MessageSquare, Phone } from 'lucide-react';
 import SEOHead from '@/components/SEOHead';
+import { supabase } from "@/integrations/supabase/client";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -46,11 +47,26 @@ export default function Contact() {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    toast.success("Message sent successfully! We'll get back to you soon.");
-    setTimeout(() => {
-      form.reset();
-    }, 1000);
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const { data, error } = await supabase.functions.invoke('send-contact-email', {
+        body: values
+      });
+
+      if (error) {
+        console.error('Error sending email:', error);
+        toast.error("Failed to send message. Please try again or email us directly.");
+        return;
+      }
+
+      toast.success("Message sent successfully! We'll get back to you soon.");
+      setTimeout(() => {
+        form.reset();
+      }, 1000);
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error("Failed to send message. Please try again or email us directly.");
+    }
   };
 
   return (
