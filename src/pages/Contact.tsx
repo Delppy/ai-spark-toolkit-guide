@@ -85,7 +85,7 @@ export default function Contact() {
               <div className="flex flex-col items-center p-4 bg-muted rounded-lg">
                 <Mail className="h-6 w-6 text-primary mb-2" />
                 <span className="text-sm font-medium">Email</span>
-                <span className="text-xs text-muted-foreground">support@aitouse.com</span>
+                <span className="text-xs text-muted-foreground">delppy@aitouse.app</span>
               </div>
               <div className="flex flex-col items-center p-4 bg-muted rounded-lg">
                 <MessageSquare className="h-6 w-6 text-primary mb-2" />
