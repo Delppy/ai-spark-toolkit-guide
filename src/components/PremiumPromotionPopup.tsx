@@ -15,12 +15,13 @@ export const PremiumPromotionPopup = () => {
     const seenPopup = sessionStorage.getItem("premium-popup-seen");
     
     if (!seenPopup) {
-      // Show popup after 4 seconds
+      // Show popup after 3-5 seconds (randomly between 3000-5000ms)
+      const delay = Math.floor(Math.random() * 2000) + 3000;
       const timer = setTimeout(() => {
         setIsOpen(true);
         sessionStorage.setItem("premium-popup-seen", "true");
         setHasSeenPopup(true);
-      }, 4000);
+      }, delay);
 
       return () => clearTimeout(timer);
     }
