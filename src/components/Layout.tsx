@@ -22,6 +22,7 @@ import { useAdManager } from "@/hooks/useAdManager";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import React from "react";
+import { PremiumPromotionPopup } from "./PremiumPromotionPopup";
 
 const Layout = () => {
   const location = useLocation();
@@ -54,6 +55,9 @@ const Layout = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex flex-col">
+      {/* Premium Promotion Popup */}
+      <PremiumPromotionPopup />
+      
       <header className="bg-background/80 backdrop-blur-sm border-b border-border sticky top-0 z-50 transition-all duration-300">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
