@@ -154,20 +154,104 @@ const Index = () => {
 
       {/* Hero Section - Only show when not searching */}
       {!showResults && (
-        <section className="container mx-auto px-4 py-12 text-center">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-              Discover AI Tools for
-              <span className="block text-accent">Everything You Do</span>
-            </h2>
-            <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-              From school projects to business tasks, find the perfect AI tools and prompts to boost your productivity.
+        <section className="container mx-auto px-4 py-16 md:py-24">
+          <div className="max-w-5xl mx-auto">
+            {/* Premium Badge */}
+            <div className="flex justify-center mb-6">
+              <Badge className="bg-gradient-to-r from-primary to-secondary text-white border-0 px-4 py-2 text-sm font-medium">
+                <Crown className="w-4 h-4 mr-1.5" />
+                Premium Feature
+              </Badge>
+            </div>
+
+            {/* Main Headline */}
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 text-center bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent leading-tight">
+              Turn Your Ideas into Perfect AI Prompts — Instantly.
+            </h1>
+
+            {/* Subheadline */}
+            <p className="text-lg md:text-xl lg:text-2xl text-muted-foreground text-center mb-12 max-w-3xl mx-auto leading-relaxed">
+              Just type any rough thought and watch it transform into a professional, ready-to-use prompt for ChatGPT, Claude, Midjourney, and more.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-              <Button asChild size="lg" className="bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 text-lg px-8 py-6">
+
+            {/* Visual Transformation Example */}
+            <div className="bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5 rounded-2xl p-6 md:p-10 mb-10 border border-primary/10">
+              <div className="grid md:grid-cols-2 gap-6 md:gap-10 items-center">
+                {/* Before */}
+                <div className="space-y-3">
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center text-sm font-semibold">
+                      1
+                    </div>
+                    <span className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">Your Idea</span>
+                  </div>
+                  <Card className="bg-background/80 backdrop-blur border-primary/20">
+                    <CardContent className="p-5">
+                      <p className="text-muted-foreground italic text-sm md:text-base">
+                        "write me something about marketing"
+                      </p>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Arrow */}
+                <div className="flex justify-center md:justify-start">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center transform rotate-0 md:rotate-0">
+                    <Sparkles className="w-6 h-6 text-white" />
+                  </div>
+                </div>
+
+                {/* After */}
+                <div className="space-y-3 md:col-span-2 lg:col-span-1">
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-r from-primary to-secondary flex items-center justify-center text-sm font-semibold text-white">
+                      2
+                    </div>
+                    <span className="text-sm font-semibold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent uppercase tracking-wide">Premium Prompt</span>
+                  </div>
+                  <Card className="bg-gradient-to-br from-primary/10 to-secondary/10 border-primary/30 shadow-lg">
+                    <CardContent className="p-5">
+                      <p className="text-foreground font-medium text-sm md:text-base leading-relaxed">
+                        "Act as a senior digital marketing strategist. Create a comprehensive content marketing plan for a B2B SaaS company targeting mid-sized enterprises. Include channel strategy, content pillars, KPIs, and a 90-day execution timeline."
+                      </p>
+                    </CardContent>
+                  </Card>
+                </div>
+              </div>
+            </div>
+
+            {/* CTA Button */}
+            <div className="flex flex-col items-center gap-4">
+              <Button 
+                asChild 
+                size="lg" 
+                className="bg-gradient-to-r from-primary via-secondary to-accent hover:opacity-90 transition-opacity text-white text-lg px-10 py-7 rounded-xl shadow-xl hover:shadow-2xl"
+              >
+                <Link to="/prompt-refinery" className="flex items-center gap-2">
+                  <Zap className="w-5 h-5" />
+                  Try Premium
+                </Link>
+              </Button>
+              
+              {/* Social Proof */}
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <div className="flex -space-x-2">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-secondary border-2 border-background flex items-center justify-center">
+                      <Star className="w-4 h-4 text-white" />
+                    </div>
+                  ))}
+                </div>
+                <span className="font-medium">Join 5,700+ users saving hours of prompt writing</span>
+              </div>
+            </div>
+
+            {/* Secondary CTAs */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-12 pt-12 border-t border-border/50">
+              <Button asChild variant="outline" size="lg" className="text-base px-6 py-6">
                 <Link to="/tools">Explore AI Tools</Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6 border-2">
+              <Button asChild variant="outline" size="lg" className="text-base px-6 py-6">
                 <Link to="/prompts">Browse Prompt Packs</Link>
               </Button>
             </div>
