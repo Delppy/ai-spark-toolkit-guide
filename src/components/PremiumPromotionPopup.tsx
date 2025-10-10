@@ -5,12 +5,18 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Sparkles, ArrowRight, Crown, Users, X } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 
 export const PremiumPromotionPopup = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [hasSeenPopup, setHasSeenPopup] = useState(false);
+  const { subscription } = useUserPreferences();
 
   useEffect(() => {
+    // Don't show popup to PRO users
+    if (subscription.isPro) {
+      return;
+    }
+
     // Check if user has seen the popup in this session
     const seenPopup = sessionStorage.getItem("premium-popup-seen");
     
@@ -20,12 +26,11 @@ export const PremiumPromotionPopup = () => {
       const timer = setTimeout(() => {
         setIsOpen(true);
         sessionStorage.setItem("premium-popup-seen", "true");
-        setHasSeenPopup(true);
       }, delay);
 
       return () => clearTimeout(timer);
     }
-  }, []);
+  }, [subscription.isPro]);
 
   const handleClose = () => {
     setIsOpen(false);
