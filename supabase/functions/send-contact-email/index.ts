@@ -27,12 +27,11 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("Sending contact form email from:", email);
 
-    // Get the destination email from environment
-    const toEmail = Deno.env.get("RESEND_FROM_EMAIL") || "delppy@aitouse.app";
-    const fromEmail = Deno.env.get("RESEND_FROM_EMAIL") || "onboarding@resend.dev";
+    // Get the sender email from environment
+    const fromEmail = Deno.env.get("RESEND_FROM_EMAIL") || "noreply@aitouse.app";
 
     const emailResponse = await resend.emails.send({
-      from: `AiToUse Contact Form <${fromEmail}>`,
+      from: `AiToUse Contact <${fromEmail}>`,
       to: ["delppy@aitouse.app"],
       replyTo: email,
       subject: `Contact Form: ${subject}`,
