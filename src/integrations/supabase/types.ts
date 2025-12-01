@@ -306,34 +306,16 @@ export type Database = {
         Args: { daily_limit?: number; user_uuid: string }
         Returns: Json
       }
-      is_pro_paid: {
-        Args: { uid: string }
-        Returns: boolean
-      }
-      is_user_pro: {
-        Args: { user_uuid: string }
-        Returns: boolean
-      }
+      is_pro_paid: { Args: { uid: string }; Returns: boolean }
+      is_user_pro: { Args: { user_uuid: string }; Returns: boolean }
       is_user_pro_comprehensive: {
         Args: { user_uuid: string }
         Returns: boolean
       }
-      rpc_check_prompt_usage: {
-        Args: Record<PropertyKey, never>
-        Returns: Json
-      }
-      rpc_is_pro_paid: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
-      rpc_is_user_pro: {
-        Args: Record<PropertyKey, never>
-        Returns: boolean
-      }
-      rpc_use_prompt_credit: {
-        Args: Record<PropertyKey, never>
-        Returns: Json
-      }
+      rpc_check_prompt_usage: { Args: never; Returns: Json }
+      rpc_is_pro_paid: { Args: never; Returns: boolean }
+      rpc_is_user_pro: { Args: never; Returns: boolean }
+      rpc_use_prompt_credit: { Args: never; Returns: Json }
     }
     Enums: {
       [_ in never]: never
