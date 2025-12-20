@@ -3,26 +3,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { useUserPreferences } from "@/contexts/UserPreferencesContext";
-import { usePromptRefinery } from "@/hooks/usePromptRefinery";
-import { Star, Crown, Zap, Copy, RefreshCw, Infinity } from "lucide-react";
+import { Zap, Copy, RefreshCw, Infinity } from "lucide-react";
 import { toast } from "sonner";
-import { Link } from "react-router-dom";
 import type { AiToUsePromptResponse } from "@/types/promptRefinery";
 
 export const PromptRefinerySection: React.FC = () => {
-  const { user } = useUserPreferences();
-  const { 
-    isPaidPro, 
-    isUnlimited, 
-    remaining, 
-    limit, 
-    usedToday,
-    allowed,
-    loading: creditsLoading,
-    useCredit
-  } = usePromptRefinery();
-  
   const [userInput, setUserInput] = useState("");
   const [generatedPrompts, setGeneratedPrompts] = useState<AiToUsePromptResponse | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -31,19 +16,6 @@ export const PromptRefinerySection: React.FC = () => {
     if (!userInput.trim()) {
       toast.error("Please enter your prompt idea first");
       return;
-    }
-
-    // For paid users, no credit check needed
-    if (!isPaidPro) {
-      // Check if free user has credits
-      if (!allowed) {
-        toast.error(`Daily limit reached (${limit}/day). Upgrade to PRO for unlimited access!`);
-        return;
-      }
-      
-      // Use a credit for free users
-      const success = await useCredit();
-      if (!success) return;
     }
 
     setIsGenerating(true);
@@ -92,30 +64,15 @@ export const PromptRefinerySection: React.FC = () => {
       <CardHeader>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Star className="w-6 h-6 text-primary" />
             <CardTitle className="text-2xl">AI Prompt Refinery</CardTitle>
-            {isPaidPro ? (
-              <Badge variant="secondary" className="bg-primary text-primary-foreground border-0">
-                <Infinity className="w-3 h-3 mr-1" />
-                PRO • Unlimited
-              </Badge>
-            ) : (
-              <Badge variant="secondary" className="bg-muted text-muted-foreground border border-border">
-                <Crown className="w-3 h-3 mr-1" />
-                Free
-              </Badge>
-            )}
-          </div>
-          {!isPaidPro && !creditsLoading && (
-            <Badge variant="outline" className="text-sm">
-              {remaining}/{limit} daily credits
+            <Badge variant="secondary" className="bg-primary text-primary-foreground border-0">
+              <Infinity className="w-3 h-3 mr-1" />
+              Unlimited
             </Badge>
-          )}
+          </div>
         </div>
         <CardDescription className="text-base">
-          {isPaidPro 
-            ? "Transform unlimited ideas into polished AI prompts with your PRO access."
-            : "Transform your rough ideas into polished, professional AI prompts. Get multiple variations and expert refinements."}
+          Transform unlimited ideas into polished AI prompts.
         </CardDescription>
       </CardHeader>
       
@@ -136,7 +93,7 @@ export const PromptRefinerySection: React.FC = () => {
         <div className="flex flex-wrap gap-3">
           <Button
             onClick={handleGenerate}
-            disabled={isGenerating || creditsLoading || (!isPaidPro && !allowed)}
+            disabled={isGenerating}
             className="flex-1 min-w-[200px]"
           >
             {isGenerating ? (
@@ -160,22 +117,6 @@ export const PromptRefinerySection: React.FC = () => {
           )}
         </div>
 
-        {!isPaidPro && !creditsLoading && !allowed && (
-          <div className="p-4 bg-muted border border-border rounded-lg">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-semibold text-foreground">Daily limit reached!</p>
-                <p className="text-xs text-muted-foreground mt-1">You've used {usedToday}/{limit} prompts today. Upgrade to PRO for unlimited access!</p>
-              </div>
-              <Link to="/pricing">
-                <Button size="sm">
-                  <Crown className="w-4 h-4 mr-1" />
-                  Upgrade Now
-                </Button>
-              </Link>
-            </div>
-          </div>
-        )}
 
         {generatedPrompts && (
           <div className="space-y-4">
