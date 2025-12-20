@@ -46,13 +46,13 @@ const getHighlightLabel = (type: string) => {
 const getHighlightColor = (type: string) => {
   switch (type) {
     case 'trending':
-      return 'bg-gradient-to-r from-orange-500 to-red-500 text-white';
+      return 'bg-primary text-primary-foreground';
     case 'most_used':
-      return 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white';
+      return 'bg-secondary text-secondary-foreground';
     case 'recommended':
-      return 'bg-gradient-to-r from-primary to-accent text-white';
+      return 'bg-accent text-accent-foreground';
     default:
-      return 'bg-gradient-to-r from-green-500 to-emerald-500 text-white';
+      return 'bg-muted text-muted-foreground';
   }
 };
 
@@ -89,7 +89,7 @@ export const HighlightsSection: React.FC<HighlightsSectionProps> = ({
   return (
     <div className="mb-8">
       <div className="flex items-center gap-2 mb-4">
-        <Star className="w-6 h-6 text-yellow-500" />
+        <Star className="w-6 h-6 text-primary" />
         <h2 className="text-2xl font-bold text-foreground">Highlights</h2>
       </div>
       
@@ -97,7 +97,7 @@ export const HighlightsSection: React.FC<HighlightsSectionProps> = ({
         {highlightedTools.map((tool) => (
           <Card 
             key={tool.id} 
-            className="group hover:shadow-lg transition-all duration-300 cursor-pointer border-2 hover:border-primary/20"
+            className="group hover:shadow-md transition-all duration-300 cursor-pointer border border-border hover:border-primary/20"
             onClick={() => onToolClick(tool.id, tool.url)}
           >
             <CardContent className="p-4">
@@ -111,10 +111,10 @@ export const HighlightsSection: React.FC<HighlightsSectionProps> = ({
                 
                 <button
                   onClick={(e) => onFavoriteClick(tool.id, e)}
-                  className="text-muted-foreground hover:text-red-500 transition-colors p-1"
+                  className="text-muted-foreground hover:text-destructive transition-colors p-1"
                 >
                   <Star 
-                    className={`w-4 h-4 ${isFavorite(tool.id) ? 'fill-red-500 text-red-500' : ''}`} 
+                    className={`w-4 h-4 ${isFavorite(tool.id) ? 'fill-destructive text-destructive' : ''}`} 
                   />
                 </button>
               </div>
@@ -130,7 +130,7 @@ export const HighlightsSection: React.FC<HighlightsSectionProps> = ({
               <div className="flex items-center justify-between text-xs text-muted-foreground">
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1">
-                    <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
+                    <Star className="w-3 h-3 fill-primary text-primary" />
                     <span>{tool.rating}</span>
                   </div>
                   <span>•</span>

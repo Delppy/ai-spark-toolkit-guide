@@ -54,12 +54,11 @@ const FastPageLoader: React.FC<FastPageLoaderProps> = ({ isLoading, onComplete }
       <div className="flex flex-col items-center space-y-3">
         {/* Compact Percentage Bar */}
         <div className="flex flex-col items-center space-y-2">
-          <div className="w-28 h-1 bg-border rounded-full overflow-hidden shadow-sm">
+          <div className="w-28 h-1 bg-border rounded-lg overflow-hidden shadow-sm">
             <div 
-              className="h-full bg-gradient-to-r from-primary to-primary/80 rounded-full transition-all duration-100 ease-out"
+              className="h-full bg-primary rounded-lg transition-all duration-100 ease-out"
               style={{ 
-                width: `${percentage}%`,
-                boxShadow: percentage > 5 ? '0 0 6px hsl(var(--primary) / 0.3)' : 'none'
+                width: `${percentage}%`
               }}
             />
           </div>
@@ -71,7 +70,7 @@ const FastPageLoader: React.FC<FastPageLoaderProps> = ({ isLoading, onComplete }
         </div>
 
         {/* Optional subtle text */}
-        <div className="text-xs text-muted-foreground/60 animate-pulse">
+        <div className="text-xs text-muted-foreground/60">
           Loading...
         </div>
       </div>

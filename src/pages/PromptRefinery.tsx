@@ -7,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Copy, Sparkles, Wand2, Infinity, Crown } from 'lucide-react';
+import { Copy, Star, Wand2, Infinity, Crown } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { AiToUsePromptResponse } from '@/types/promptRefinery';
 import { usePromptRefinery } from '@/hooks/usePromptRefinery';
@@ -291,17 +291,17 @@ ${context}`;
         <meta name="keywords" content="prompt engineering, AI prompts, prompt optimization, AI tools, content creation, business prompts" />
       </Helmet>
 
-      <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-primary/5">
+      <div className="min-h-screen bg-background">
         <div className="container mx-auto px-4 py-8">
           {/* Header */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center gap-4 flex-wrap justify-center mb-4">
-              <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">
-                <Sparkles className="h-4 w-4" />
+              <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-lg text-sm font-medium">
+                <Star className="h-4 w-4" />
                 Prompt Refinery
               </div>
               {isPaidPro ? (
-                <Badge variant="secondary" className="bg-gradient-to-r from-amber-500 to-amber-600 text-white border-0 px-4 py-2">
+                <Badge variant="secondary" className="bg-primary text-primary-foreground border-0 px-4 py-2">
                   <Infinity className="w-4 h-4 mr-1" />
                   PRO • Unlimited Access
                 </Badge>

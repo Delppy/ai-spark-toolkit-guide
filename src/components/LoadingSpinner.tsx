@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles } from 'lucide-react';
+import { Grid3X3 } from 'lucide-react';
 
 interface LoadingSpinnerProps {
   size?: 'sm' | 'md' | 'lg';
@@ -41,7 +41,7 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   };
 
   const containerClasses = fullScreen 
-    ? 'fixed inset-0 z-50 bg-gradient-to-br from-primary via-secondary to-accent overflow-hidden' 
+    ? 'fixed inset-0 z-50 bg-primary overflow-hidden' 
     : '';
 
   return (
@@ -71,12 +71,12 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
               strokeLinecap="round"
               strokeDasharray={`${2 * Math.PI * 45}`}
               strokeDashoffset={`${2 * Math.PI * 45 * (1 - percentage / 100)}`}
-              className="transition-all duration-300 ease-out animate-pulse"
+              className="transition-all duration-300 ease-out"
             />
           </svg>
           
           {/* Logo in center */}
-          <Sparkles className={`${fullScreen ? 'text-white' : 'text-primary'} animate-pulse`} />
+          <Grid3X3 className={`${fullScreen ? 'text-primary-foreground' : 'text-primary'} animate-pulse`} />
         </div>
       </div>
     </div>
