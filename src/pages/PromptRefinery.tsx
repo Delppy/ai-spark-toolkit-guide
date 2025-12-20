@@ -547,7 +547,7 @@ ${context}`;
               {!result && (
                 <Card>
                   <CardContent className="py-12 text-center">
-                    <Sparkles className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                    <Star className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
                     <p className="text-muted-foreground">
                       Fill out the form and generate your refined prompts to see results here
                     </p>
