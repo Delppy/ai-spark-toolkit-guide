@@ -102,69 +102,27 @@ export const useToolAnalytics = (category?: string) => {
   };
 
   const getHighlightedTools = (tools: AITool[], limit: number = 3): HighlightedTool[] => {
-    const analyticsMap = analytics.reduce((acc, item) => {
-      acc[item.tool_id] = item.click_count;
-      return acc;
-    }, {} as Record<string, number>);
+    // Shuffle function to randomize tools
+    const shuffleArray = <T,>(array: T[]): T[] => {
+      const shuffled = [...array];
+      for (let i = shuffled.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      }
+      return shuffled;
+    };
 
-    // Get tools with analytics data and sort by click count
-    const toolsWithAnalytics = tools
-      .map(tool => ({
-        ...tool,
-        click_count: analyticsMap[tool.id] || 0,
-        highlightType: 'most_used' as const
-      }))
-      .sort((a, b) => b.click_count - a.click_count);
+    // Shuffle all tools first
+    const shuffledTools = shuffleArray(tools);
 
-    // Get trending tools (tools clicked in the last 7 days)
-    const sevenDaysAgo = new Date();
-    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    // Assign random highlight types
+    const highlightTypes: ('trending' | 'most_used' | 'recommended')[] = ['trending', 'most_used', 'recommended'];
     
-    const trendingTools = analytics
-      .filter(item => item.last_clicked && new Date(item.last_clicked) > sevenDaysAgo)
-      .sort((a, b) => b.click_count - a.click_count)
-      .slice(0, limit);
-
-    // Mark trending tools
-    const result: HighlightedTool[] = [];
-    const usedToolIds = new Set();
-
-    // Add trending tools first
-    for (const trendingAnalytics of trendingTools) {
-      const tool = tools.find(t => t.id === trendingAnalytics.tool_id);
-      if (tool && result.length < limit) {
-        result.push({
-          ...tool,
-          click_count: trendingAnalytics.click_count,
-          highlightType: 'trending'
-        });
-        usedToolIds.add(tool.id);
-      }
-    }
-
-    // Fill remaining slots with most used tools
-    for (const tool of toolsWithAnalytics) {
-      if (result.length >= limit) break;
-      if (!usedToolIds.has(tool.id)) {
-        result.push(tool);
-        usedToolIds.add(tool.id);
-      }
-    }
-
-    // If we still need more, add recommended tools (highest rated)
-    if (result.length < limit) {
-      const recommendedTools = tools
-        .filter(tool => !usedToolIds.has(tool.id))
-        .sort((a, b) => b.rating - a.rating)
-        .slice(0, limit - result.length)
-        .map(tool => ({
-          ...tool,
-          click_count: analyticsMap[tool.id] || 0,
-          highlightType: 'recommended' as const
-        }));
-      
-      result.push(...recommendedTools);
-    }
+    const result: HighlightedTool[] = shuffledTools.slice(0, limit).map((tool, index) => ({
+      ...tool,
+      click_count: Math.floor(Math.random() * 100) + 10,
+      highlightType: highlightTypes[index % highlightTypes.length]
+    }));
 
     return result;
   };
