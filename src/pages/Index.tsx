@@ -216,9 +216,6 @@ const Index = () => {
       {!showResults && (
         <section className="container mx-auto px-4 py-12">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center p-2 bg-primary/10 rounded-lg mb-4">
-              <Star className="w-6 h-6 text-primary" />
-            </div>
             <h3 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               Professional AI Prompt Packs
             </h3>
