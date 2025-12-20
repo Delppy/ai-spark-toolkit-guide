@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Briefcase, Camera, UserCheck, FileText, ChevronRight, Zap, Star, Crown } from "lucide-react";
+import { BookOpen, Briefcase, Camera, UserCheck, FileText, ChevronRight, Zap, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import { TrendingToolsSection } from "@/components/TrendingToolsSection";
@@ -236,8 +236,7 @@ const Index = () => {
                 className="text-lg px-8 py-6"
               >
                 <Link to="/prompts">
-                  <Crown className="w-5 h-5 mr-2" />
-                  {isPro ? "Browse All Prompt Packs" : "Explore Prompt Packs"}
+                  Browse All Prompt Packs
                 </Link>
               </Button>
               <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6 border-2">
