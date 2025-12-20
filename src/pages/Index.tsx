@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Briefcase, Camera, UserCheck, FileText, ChevronRight, Grid3X3, Zap, Star, Crown } from "lucide-react";
+import { BookOpen, Briefcase, Camera, UserCheck, FileText, ChevronRight, Zap, Star, Crown } from "lucide-react";
 import { Link } from "react-router-dom";
 
 import { TrendingToolsSection } from "@/components/TrendingToolsSection";
@@ -165,7 +165,6 @@ const Index = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild size="lg" className="text-lg px-8 py-6">
                 <Link to="/tools">
-                  <Grid3X3 className="w-5 h-5 mr-2" />
                   Explore All Tools
                 </Link>
               </Button>
