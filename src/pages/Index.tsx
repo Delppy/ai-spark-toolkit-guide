@@ -229,20 +229,15 @@ const Index = () => {
 
           {/* CTA */}
           <div className="text-center">
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                asChild
-                size="lg" 
-                className="text-lg px-8 py-6"
-              >
-                <Link to="/prompts">
-                  Browse All Prompt Packs
-                </Link>
-              </Button>
-              <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6 border-2">
-                <Link to="/prompts">View All Prompts</Link>
-              </Button>
-            </div>
+            <Button 
+              asChild
+              size="lg" 
+              className="text-lg px-8 py-6"
+            >
+              <Link to="/prompts">
+                Browse All Prompt Packs
+              </Link>
+            </Button>
           </div>
         </section>
       )}
