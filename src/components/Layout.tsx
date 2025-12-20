@@ -64,7 +64,7 @@ const Layout = () => {
               to="/" 
               className="flex items-center space-x-2 transition-all duration-200 hover:opacity-80"
             >
-              <img src={logoImage} alt="AiToUse Logo" className="h-10 w-auto" />
+              <img src={logoImage} alt="AiToUse Logo" className="h-14 w-auto" />
             </Link>
             <div className="flex items-center space-x-2">
               {!loading && !user && location.pathname !== "/login" && location.pathname !== "/signup" && (
@@ -161,7 +161,7 @@ const Layout = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="transition-all duration-200">
               <div className="flex items-center space-x-2 mb-4">
-                <img src={logoImage} alt="AiToUse Logo" className="h-10 w-auto" />
+                <img src={logoImage} alt="AiToUse Logo" className="h-14 w-auto" />
               </div>
               <p className="text-muted-foreground">
                 Discover and master AI tools for every aspect of your life.
