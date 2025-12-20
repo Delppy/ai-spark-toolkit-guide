@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo, useRef } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { AITool } from '@/data/aiTools';
 import { useUserPreferences } from '@/contexts/UserPreferencesContext';
@@ -101,8 +101,19 @@ export const useToolAnalytics = (category?: string) => {
     }
   };
 
+  // Cache for highlighted tools to prevent continuous shuffling
+  const highlightedToolsCache = useRef<Map<string, HighlightedTool[]>>(new Map());
+
   const getHighlightedTools = (tools: AITool[], limit: number = 3): HighlightedTool[] => {
-    // Shuffle function to randomize tools
+    // Create a cache key based on tool IDs
+    const cacheKey = tools.map(t => t.id).sort().join(',') + `-${limit}`;
+    
+    // Return cached result if available
+    if (highlightedToolsCache.current.has(cacheKey)) {
+      return highlightedToolsCache.current.get(cacheKey)!;
+    }
+
+    // Shuffle function - only runs once per unique tool set
     const shuffleArray = <T,>(array: T[]): T[] => {
       const shuffled = [...array];
       for (let i = shuffled.length - 1; i > 0; i--) {
@@ -112,10 +123,7 @@ export const useToolAnalytics = (category?: string) => {
       return shuffled;
     };
 
-    // Shuffle all tools first
     const shuffledTools = shuffleArray(tools);
-
-    // Assign random highlight types
     const highlightTypes: ('trending' | 'most_used' | 'recommended')[] = ['trending', 'most_used', 'recommended'];
     
     const result: HighlightedTool[] = shuffledTools.slice(0, limit).map((tool, index) => ({
@@ -123,6 +131,9 @@ export const useToolAnalytics = (category?: string) => {
       click_count: Math.floor(Math.random() * 100) + 10,
       highlightType: highlightTypes[index % highlightTypes.length]
     }));
+
+    // Cache the result
+    highlightedToolsCache.current.set(cacheKey, result);
 
     return result;
   };
