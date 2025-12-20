@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
 import { usePromptRefinery } from "@/hooks/usePromptRefinery";
-import { Sparkles, Crown, Zap, Copy, RefreshCw, Infinity } from "lucide-react";
+import { Star, Crown, Zap, Copy, RefreshCw, Infinity } from "lucide-react";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import type { AiToUsePromptResponse } from "@/types/promptRefinery";
@@ -88,19 +88,19 @@ export const PromptRefinerySection: React.FC = () => {
   };
 
   return (
-    <Card className="border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-primary/10">
+    <Card className="border border-primary/20 bg-primary/5">
       <CardHeader>
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-6 h-6 text-primary" />
+            <Star className="w-6 h-6 text-primary" />
             <CardTitle className="text-2xl">AI Prompt Refinery</CardTitle>
             {isPaidPro ? (
-              <Badge variant="secondary" className="bg-gradient-to-r from-amber-500 to-amber-600 text-white border-0">
+              <Badge variant="secondary" className="bg-primary text-primary-foreground border-0">
                 <Infinity className="w-3 h-3 mr-1" />
                 PRO • Unlimited
               </Badge>
             ) : (
-              <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20">
+              <Badge variant="secondary" className="bg-muted text-muted-foreground border border-border">
                 <Crown className="w-3 h-3 mr-1" />
                 Free
               </Badge>
@@ -161,14 +161,14 @@ export const PromptRefinerySection: React.FC = () => {
         </div>
 
         {!isPaidPro && !creditsLoading && !allowed && (
-          <div className="p-4 bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-lg">
+          <div className="p-4 bg-muted border border-border rounded-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-semibold text-amber-900">Daily limit reached!</p>
-                <p className="text-xs text-amber-700 mt-1">You've used {usedToday}/{limit} prompts today. Upgrade to PRO for unlimited access!</p>
+                <p className="text-sm font-semibold text-foreground">Daily limit reached!</p>
+                <p className="text-xs text-muted-foreground mt-1">You've used {usedToday}/{limit} prompts today. Upgrade to PRO for unlimited access!</p>
               </div>
               <Link to="/pricing">
-                <Button size="sm" className="bg-gradient-to-r from-primary to-primary-foreground/90 hover:from-primary/90 hover:to-primary-foreground text-white">
+                <Button size="sm">
                   <Crown className="w-4 h-4 mr-1" />
                   Upgrade Now
                 </Button>

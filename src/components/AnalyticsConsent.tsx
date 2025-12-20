@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { BarChart3, X, Cookie } from 'lucide-react';
@@ -7,7 +7,7 @@ import { analytics } from '@/utils/analytics';
 const AnalyticsConsent: React.FC = () => {
   const [showConsent, setShowConsent] = useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     // Check if user has already given consent
     const hasConsent = localStorage.getItem('analytics-consent');
     const hasDeclined = localStorage.getItem('analytics-declined');
@@ -37,14 +37,14 @@ const AnalyticsConsent: React.FC = () => {
 
   return (
     <div className="fixed bottom-4 left-4 right-4 z-50 md:left-auto md:right-4 md:max-w-md">
-      <Card className="border-primary/20 shadow-lg">
+      <Card className="border border-border shadow-lg bg-card">
         <CardContent className="p-4">
           <div className="flex items-start space-x-3">
-            <div className="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center flex-shrink-0">
+            <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
               <BarChart3 className="w-4 h-4 text-primary" />
             </div>
             <div className="flex-1 min-w-0">
-              <h4 className="font-semibold text-primary mb-2">
+              <h4 className="font-semibold text-foreground mb-2">
                 Help us improve your experience
               </h4>
               <p className="text-sm text-muted-foreground mb-4">
@@ -55,7 +55,7 @@ const AnalyticsConsent: React.FC = () => {
                 <Button 
                   onClick={handleAccept}
                   size="sm"
-                  className="bg-gradient-to-r from-primary to-secondary flex-1"
+                  className="flex-1"
                 >
                   <Cookie className="w-4 h-4 mr-2" />
                   Accept

@@ -47,7 +47,7 @@ export const TrendingToolCard: React.FC<TrendingToolCardProps> = ({
       <div className="absolute top-3 left-3 z-10">
         <Badge 
           variant="secondary" 
-          className="bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold text-xs px-2 py-1"
+          className="bg-primary text-primary-foreground font-bold text-xs px-2 py-1"
         >
           #{rank}
         </Badge>
@@ -55,7 +55,7 @@ export const TrendingToolCard: React.FC<TrendingToolCardProps> = ({
 
       {/* Trending indicator */}
       <div className="absolute top-3 right-3 z-10">
-        <div className="flex items-center space-x-1 bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">
+        <div className="flex items-center space-x-1 bg-muted text-foreground px-2 py-1 rounded-lg text-xs border border-border">
           <TrendingUp className="w-3 h-3" />
           <span className="font-medium">Trending</span>
         </div>
@@ -67,7 +67,7 @@ export const TrendingToolCard: React.FC<TrendingToolCardProps> = ({
             <CardTitle className="text-lg group-hover:text-primary transition-colors flex items-center">
               {tool.name}
               {tool.is_pro && (
-                <Badge className="ml-2 bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs">
+                <Badge className="ml-2 bg-primary text-primary-foreground text-xs">
                   Pro
                 </Badge>
               )}
@@ -76,7 +76,7 @@ export const TrendingToolCard: React.FC<TrendingToolCardProps> = ({
               <Badge variant="secondary" className="text-xs">
                 {tool.category}
               </Badge>
-              <div className="flex items-center space-x-1 text-xs text-gray-500">
+              <div className="flex items-center space-x-1 text-xs text-muted-foreground">
                 <TrendingUp className="w-3 h-3" />
                 <span>{formatSearchVolume(tool.search_volume)} searches</span>
               </div>
@@ -86,13 +86,13 @@ export const TrendingToolCard: React.FC<TrendingToolCardProps> = ({
       </CardHeader>
 
       <CardContent className="flex flex-col flex-grow">
-        <CardDescription className="mb-4 text-slate-600">
+        <CardDescription className="mb-4 text-muted-foreground">
           {tool.description}
         </CardDescription>
 
-        <div className="flex items-center justify-between text-sm text-slate-500 mb-4">
+        <div className="flex items-center justify-between text-sm text-muted-foreground mb-4">
           <div className="flex items-center space-x-1">
-            <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+            <Star className="w-4 h-4 fill-primary text-primary" />
             <span>{tool.rating}</span>
           </div>
           <div className="flex items-center space-x-1">

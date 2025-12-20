@@ -149,7 +149,7 @@ const Pricing: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-secondary/20 flex flex-col items-center justify-start py-10 px-2">
+    <div className="min-h-screen bg-background flex flex-col items-center justify-start py-10 px-2">
       <PricingHeader />
       
       {regionData && (
