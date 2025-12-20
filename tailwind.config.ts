@@ -65,6 +65,13 @@ export default {
 					DEFAULT: 'hsl(var(--premium))',
 					foreground: 'hsl(var(--premium-foreground))'
 				},
+				category: {
+					school: 'hsl(var(--category-school))',
+					business: 'hsl(var(--category-business))',
+					content: 'hsl(var(--category-content))',
+					career: 'hsl(var(--category-career))',
+					pdf: 'hsl(var(--category-pdf))'
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',

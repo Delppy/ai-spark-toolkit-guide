@@ -63,8 +63,8 @@ const Index = () => {
       title: "School & Education",
       icon: BookOpen,
       description: "AI tools for students and learners",
-      color: "bg-primary",
-      tools: ["ChatGPT for Essays", "Quillbot Summarizer", "Grammarly AI"],
+      color: "bg-category-school",
+      tools: ["ChatGPT for Essays", "Quillbot Summarizer"],
       route: "/school"
     },
     {
@@ -72,8 +72,8 @@ const Index = () => {
       title: "Business & Work",
       icon: Briefcase,
       description: "Professional AI tools for productivity",
-      color: "bg-secondary",
-      tools: ["Jasper AI", "Copy.ai", "Notion AI"],
+      color: "bg-category-business",
+      tools: ["Jasper AI", "Copy.ai"],
       route: "/business"
     },
     {
@@ -81,8 +81,8 @@ const Index = () => {
       title: "Content Creation",
       icon: Camera,
       description: "AI for social media and content",
-      color: "bg-accent",
-      tools: ["Canva AI", "Midjourney", "Runway ML"],
+      color: "bg-category-content",
+      tools: ["Canva AI", "Midjourney"],
       route: "/content"
     },
     {
@@ -90,8 +90,8 @@ const Index = () => {
       title: "Career & Jobs",
       icon: UserCheck,
       description: "AI tools for job search and CV writing",
-      color: "bg-primary",
-      tools: ["Resume.io", "LinkedIn AI", "InterviewBuddy"],
+      color: "bg-category-career",
+      tools: ["Resume.io", "LinkedIn AI"],
       route: "/career"
     },
     {
@@ -99,8 +99,8 @@ const Index = () => {
       title: "PDF Tools",
       icon: FileText,
       description: "AI-powered PDF editing and analysis",
-      color: "bg-secondary",
-      tools: ["ChatPDF", "TinyWOW", "DocuSign"],
+      color: "bg-category-pdf",
+      tools: ["ChatPDF", "TinyWOW"],
       route: "/pdf"
     }
   ];
