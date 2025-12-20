@@ -48,12 +48,12 @@
     --premium: 263 70% 58%;
     --premium-foreground: 0 0% 100%;
 
-    /* Category colors - Vibrant solid colors */
-    --category-school: 207 90% 54%;
-    --category-business: 174 72% 40%;
-    --category-content: 27 96% 61%;
-    --category-career: 187 69% 42%;
-    --category-pdf: 222 47% 25%;
+    /* Category colors - Navy Military Blue */
+    --category-school: 224 76% 40%;
+    --category-business: 224 76% 40%;
+    --category-content: 224 76% 40%;
+    --category-career: 224 76% 40%;
+    --category-pdf: 224 76% 40%;
 
     /* Borders and inputs */
     --border: 214 32% 91%;
@@ -109,12 +109,12 @@
     --premium: 263 70% 65%;
     --premium-foreground: 0 0% 100%;
 
-    /* Category colors - Same in dark mode */
-    --category-school: 207 90% 54%;
-    --category-business: 174 72% 40%;
-    --category-content: 27 96% 61%;
-    --category-career: 187 69% 42%;
-    --category-pdf: 222 47% 25%;
+    /* Category colors - Navy Military Blue */
+    --category-school: 224 76% 40%;
+    --category-business: 224 76% 40%;
+    --category-content: 224 76% 40%;
+    --category-career: 224 76% 40%;
+    --category-pdf: 224 76% 40%;
 
     --border: 217 33% 22%;
     --input: 217 33% 22%;
