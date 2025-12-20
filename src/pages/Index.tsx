@@ -163,7 +163,7 @@ const Index = () => {
               Explore thousands of AI-powered tools to boost your productivity, creativity, and efficiency.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button asChild size="lg" className="text-lg px-8 py-6">
+              <Button asChild size="lg" className="text-lg px-8 py-6 hover:bg-transparent hover:text-primary hover:border hover:border-primary">
                 <Link to="/tools">
                   Explore All Tools
                 </Link>
