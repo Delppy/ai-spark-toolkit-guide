@@ -168,7 +168,7 @@ const Index = () => {
                   Explore All Tools
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6">
+              <Button asChild variant="outline" size="lg" className="text-lg px-8 py-6 hover:bg-primary hover:text-primary-foreground hover:border-primary">
                 <Link to="/prompts">Browse Prompt Packs</Link>
               </Button>
             </div>
@@ -212,32 +212,6 @@ const Index = () => {
         </section>
       )}
 
-      {/* AI Prompt Packs Section - Only show when not searching */}
-      {!showResults && (
-        <section className="container mx-auto px-4 py-12">
-          <div className="text-center mb-12">
-            <h3 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              Professional AI Prompt Packs
-            </h3>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto mb-6">
-              Access curated collections of high-converting prompts designed by experts to boost your productivity.
-            </p>
-          </div>
-
-          {/* CTA */}
-          <div className="text-center">
-            <Button 
-              asChild
-              size="lg" 
-              className="text-lg px-8 py-6"
-            >
-              <Link to="/prompts">
-                Browse All Prompt Packs
-              </Link>
-            </Button>
-          </div>
-        </section>
-      )}
 
       {/* Trending Tools Section - Only show when not searching */}
       {!showResults && <TrendingToolsSection />}
