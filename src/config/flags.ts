@@ -6,8 +6,8 @@
  * without authentication or payment requirements.
  */
 
-// PREMIUM MODE: Users need to pay for premium features
-export const IS_PREMIUM_FREE = false;
+// FREE MODE: All premium features are available to everyone
+export const IS_PREMIUM_FREE = true;
 
 // Show ads: false when premium is free
 export const SHOW_ADS = !IS_PREMIUM_FREE;

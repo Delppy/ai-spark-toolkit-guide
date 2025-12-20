@@ -8,7 +8,8 @@ import {
   DropdownMenuSeparator, 
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
-import { Grid3X3, Star, User, Settings, LogOut, Crown } from "lucide-react";
+import { Star, User, Settings, LogOut, Crown } from "lucide-react";
+import logoImage from "@/assets/logo.png";
 import { Link, useLocation, Outlet } from "react-router-dom";
 import PageTransition from "./PageTransition";
 import { useUserPreferences } from "@/contexts/UserPreferencesContext";
@@ -22,7 +23,7 @@ import { useAdManager } from "@/hooks/useAdManager";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import React from "react";
-import { PremiumPromotionPopup } from "./PremiumPromotionPopup";
+
 
 const Layout = () => {
   const location = useLocation();
@@ -55,8 +56,6 @@ const Layout = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      {/* Premium Promotion Popup */}
-      <PremiumPromotionPopup />
       
       <header className="bg-background border-b border-border sticky top-0 z-50 transition-all duration-300">
         <div className="container mx-auto px-4 py-4">
@@ -65,12 +64,7 @@ const Layout = () => {
               to="/" 
               className="flex items-center space-x-2 transition-all duration-200 hover:opacity-80"
             >
-              <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                <Grid3X3 className="w-5 h-5 text-primary-foreground" />
-              </div>
-              <h1 className="text-2xl font-bold text-foreground">
-                AiToUse
-              </h1>
+              <img src={logoImage} alt="AiToUse Logo" className="h-10 w-auto" />
             </Link>
             <div className="flex items-center space-x-2">
               {!loading && !user && location.pathname !== "/login" && location.pathname !== "/signup" && (
@@ -167,10 +161,7 @@ const Layout = () => {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="transition-all duration-200">
               <div className="flex items-center space-x-2 mb-4">
-                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                  <Grid3X3 className="w-5 h-5 text-primary-foreground" />
-                </div>
-                <span className="text-xl font-bold">AiToUse</span>
+                <img src={logoImage} alt="AiToUse Logo" className="h-10 w-auto" />
               </div>
               <p className="text-muted-foreground">
                 Discover and master AI tools for every aspect of your life.
