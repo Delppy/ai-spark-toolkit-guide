@@ -103,7 +103,7 @@ export const HighlightsSection: React.FC<HighlightsSectionProps> = ({
             <CardContent className="p-4">
               <div className="flex items-start justify-between mb-3">
                 <Badge 
-                  className={`${getHighlightColor(tool.highlightType)} flex items-center gap-1 px-2 py-1 text-xs font-medium`}
+                  className={`${getHighlightColor(tool.highlightType)} flex items-center gap-1 px-2 py-1 text-xs font-medium group-hover:text-white transition-colors`}
                 >
                   {getHighlightIcon(tool.highlightType)}
                   {getHighlightLabel(tool.highlightType)}
