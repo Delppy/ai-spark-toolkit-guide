@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Grid3X3 } from 'lucide-react';
+import logoImage from "@/assets/logo.png";
 
 interface LoadingSpinnerProps {
   size?: 'sm' | 'md' | 'lg';
@@ -35,14 +35,14 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   }, [duration]);
 
   const sizeClasses = {
-    sm: { width: 'w-24', height: 'h-1', text: 'text-xs', spinner: 'w-8 h-8' },
-    md: { width: 'w-32', height: 'h-1.5', text: 'text-sm', spinner: 'w-12 h-12' },
-    lg: { width: 'w-40', height: 'h-2', text: 'text-base', spinner: 'w-16 h-16' }
+    sm: { spinner: 'w-16 h-16' },
+    md: { spinner: 'w-24 h-24' },
+    lg: { spinner: 'w-32 h-32' }
   };
 
   const containerClasses = fullScreen 
-    ? 'fixed inset-0 z-50 bg-primary overflow-hidden' 
-    : '';
+    ? 'fixed inset-0 z-50 bg-background overflow-hidden' 
+    : 'min-h-[200px]';
 
   return (
     <div className={`flex flex-col items-center justify-center ${containerClasses} ${className}`}>
@@ -57,7 +57,7 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
               cy="50"
               r="45"
               fill="none"
-              stroke={fullScreen ? "rgba(255,255,255,0.2)" : "hsl(var(--muted))"}
+              stroke="hsl(var(--muted))"
               strokeWidth="4"
             />
             {/* Progress circle */}
@@ -66,7 +66,7 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
               cy="50"
               r="45"
               fill="none"
-              stroke={fullScreen ? "white" : "hsl(var(--primary))"}
+              stroke="hsl(var(--primary))"
               strokeWidth="4"
               strokeLinecap="round"
               strokeDasharray={`${2 * Math.PI * 45}`}
@@ -76,7 +76,11 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
           </svg>
           
           {/* Logo in center */}
-          <Grid3X3 className={`${fullScreen ? 'text-primary-foreground' : 'text-primary'} animate-pulse`} />
+          <img 
+            src={logoImage} 
+            alt="Loading..." 
+            className="w-3/4 h-3/4 object-contain animate-pulse"
+          />
         </div>
       </div>
     </div>
