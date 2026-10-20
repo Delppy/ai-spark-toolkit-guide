@@ -11,7 +11,7 @@ import ErrorBoundary from '@/components/ErrorBoundary';
 import { UserPreferencesProvider } from '@/contexts/UserPreferencesContext';
 import { TransitionProvider } from '@/contexts/TransitionContext';
 import AnalyticsConsent from '@/components/AnalyticsConsent';
-
+const BookingDemo = lazy(() => import('@/booking-demo/BookingDemo'));
 // Lazy load all pages for better performance
 const Index = lazy(() => import('@/pages/Index'));
 const Tools = lazy(() => import('@/pages/Tools'));
@@ -88,6 +88,7 @@ const AppContent = () => {
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="favorites" element={<Favorites />} />
                 <Route path="payment-success" element={<PaymentSuccess />} />
+                <Route path="booking-demo" element={<BookingDemo />} />
                 <Route path="*" element={<NotFound />} />
               </Route>
             </Routes>
